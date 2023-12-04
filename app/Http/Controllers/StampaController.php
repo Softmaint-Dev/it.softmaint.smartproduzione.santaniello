@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\View;
 use Mpdf\Mpdf;
+use Mpdf\MpdfException;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Spatie\GoogleCalendar\Event;
 use PHPMailer\PHPMailer\PHPMailer;

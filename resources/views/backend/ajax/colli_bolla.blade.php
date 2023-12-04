@@ -69,6 +69,11 @@ foreach ($attivita_bolla->colli as $c){
             </select>
         </div>
 
+        <div class="col-md-12">
+            <label>xLotto</label>
+            <input class="form-control keyboard" type="text" name="xLotto" value="<?php echo $c->xLotto ?>">
+        </div>
+
 
         <div class="col-md-12" style="margin-top:10px;">
             <input type="hidden" name="Id_xWPCollo" value="<?php echo $c->Id_xWPCollo ?>">
