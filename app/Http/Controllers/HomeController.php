@@ -1291,18 +1291,13 @@ class HomeController extends Controller
                         where Nr_Pedana = \'' . $dati['Nr_Pedana_Collo'] . '\'');
                 }
 
-                $tipologia = 0;
+                $tipologia = 2;
                 $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                 if (sizeof($OLAttivita) > 0) {
                     $OLAttivita = $OLAttivita[0];
 
-                    if ($OLAttivita->Cd_PrAttivita == 'SALDATURA') {
-                        $tipologia = 2;
-                    } else if ($OLAttivita->Id_PrOLAttivita_Next != '') {
-                        $OLAttivitaNext = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $OLAttivita->Id_PrOLAttivita_Next);
-                        if ((sizeof($OLAttivitaNext) > 0 && $OLAttivitaNext[0]->Cd_PrAttivita == 'IMBALLAGGIO')) {
-                            $tipologia = 4;
-                        }
+                    if ($OLAttivita->Cd_PrAttivita == 'CONFEZIONAMENTO') {
+                        $tipologia = 0;
                     }
                 }
 
@@ -1540,18 +1535,13 @@ class HomeController extends Controller
                      * se la fase è quella prima dell'imballaggio stampa il collo anonimo tipologia 4
                      **/
 
-                    $tipologia = 0;
+                    $tipologia = 2;
                     $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                     if (sizeof($OLAttivita) > 0) {
                         $OLAttivita = $OLAttivita[0];
 
-                        if ($OLAttivita->Cd_PrAttivita == 'SALDATURA') {
-                            $tipologia = 2;
-                        } else if ($OLAttivita->Id_PrOLAttivita_Next != '') {
-                            $OLAttivitaNext = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $OLAttivita->Id_PrOLAttivita_Next);
-                            if ((sizeof($OLAttivitaNext) > 0 && $OLAttivitaNext[0]->Cd_PrAttivita == 'IMBALLAGGIO')) {
-                                $tipologia = 4;
-                            }
+                        if ($OLAttivita->Cd_PrAttivita == 'CONFEZIONAMENTO') {
+                            $tipologia = 0;
                         }
                     }
                     foreach ($colli as $c) {
@@ -1698,15 +1688,14 @@ class HomeController extends Controller
                  * se la fase è quella prima dell'imballaggio stampa il collo anonimo tipologia 4
                  **/
 
-                $tipologia = 0;
+                $tipologia = 2;
                 $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                 if (sizeof($OLAttivita) > 0) {
                     $OLAttivita = $OLAttivita[0];
-
-                    $tipologia = 2;
+                    if($OLAttivita->Cd_PrAttivita == 'CONFEZIONAMENTO')
+                        $tipologia = 0;
                 }
 
-                $tipologia = 0;
                 $nome_file = StampaController::motore_industry($id, $dati['Nr_Collo'], $tipologia);
                 if ($nome_file != '') {
                     $nomi_colli = array();
@@ -2046,17 +2035,15 @@ class HomeController extends Controller
                      * se la fase è quella prima dell'imballaggio stampa il collo anonimo tipologia 4
                      **/
 
-                    $tipologia = 0;
+                    $tipologia = 2;
                     $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                     if (sizeof($OLAttivita) > 0) {
                         $OLAttivita = $OLAttivita[0];
 
-                        if ($OLAttivita->Cd_PrAttivita == 'SALDATURA') {
-                            $tipologia = 2;
-                        } else if ($OLAttivita->Id_PrOLAttivita_Next != '') {
+                        if ($OLAttivita->Id_PrOLAttivita_Next != '') {
                             $OLAttivitaNext = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $OLAttivita->Id_PrOLAttivita_Next);
-                            if ((sizeof($OLAttivitaNext) > 0 && $OLAttivitaNext[0]->Cd_PrAttivita == 'IMBALLAGGIO')) {
-                                $tipologia = 4;
+                            if (($OLAttivitaNext[0]->Cd_PrAttivita == 'CONFEZIONAMENTO')) {
+                                $tipologia = 0;
                             }
                         }
                     }
@@ -2125,20 +2112,22 @@ class HomeController extends Controller
                         $ordini = DB::select('SELECT * from PrOLAttivita Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
-                            $xlotto = $dati['xLotto'];
+                            $xlotto = (isset($dati['xLotto']))?$dati['xLotto']:'';
 
                             /* $week = date('W', strtotime('today'));
                              $year = date('Y', strtotime('today'));
                              $xlotto = $week . $ordine[0]->Cd_AR . $year;*/
-                            $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
-                            if (sizeof($check) <= 0) {
-                                $data_scadenza = date('Y-m-d', strtotime('+2 year'));
-                                DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                            if($xlotto != ''){
+                                $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
+                                if (sizeof($check) <= 0) {
+                                    $data_scadenza = date('Y-m-d', strtotime('+2 year'));
+                                    DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                                }
+                                //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
+                                //if ($attivita->Id_PrOLAttivita_Next != null) {
+                                $insert['Cd_ARLotto'] = $xlotto;
+                                //}
                             }
-                            //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
-                            //if ($attivita->Id_PrOLAttivita_Next != null) {
-                            $insert['Cd_ARLotto'] = $xlotto;
-                            //}
                         }
                         $insert['Id_PrBLAttivita'] = $attivita_bolla->Id_PrBLAttivita;
                         $insert['Cd_PrRisorsa'] = $utente->Cd_PRRisorsa;
@@ -2257,6 +2246,12 @@ class HomeController extends Controller
                         JOIN PRRLAttivita ri ON ri.Id_PrRLAttivita = rf.Id_PrRLAttivita_Sibling and rf.Id_PrVRAttivita = ' . $id_attivita);
 
                         DB::update('
+                        update MGMov
+                        set MGMov.Valore = PrVRMateriale.ValoreUnitario
+                        from MGMov
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+
+                        DB::update('
                         update vr
                         set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMKS) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMKS / vr.FattoreMKS)
                         from PRVRAttivita vr
@@ -2268,22 +2263,23 @@ class HomeController extends Controller
                         $ordini = DB::select('SELECT * from PrOLAttivita Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
-                            $xlotto = $dati['xLotto'];
+                            $xlotto = (isset($dati['xLotto']))?$dati['xLotto']:'';
 
                             /* $week = date('W', strtotime('today'));
                              $year = date('Y', strtotime('today'));
                              $xlotto = $week . $ordine[0]->Cd_AR . $year;*/
-                            $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
-                            if (sizeof($check) <= 0) {
-                                $data_scadenza = date('Y-m-d', strtotime('+2 year'));
-                                DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                            if($xlotto != ''){
+                                $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
+                                if (sizeof($check) <= 0) {
+                                    $data_scadenza = date('Y-m-d', strtotime('+2 year'));
+                                    DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                                }
+                                //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
+                                //if ($attivita->Id_PrOLAttivita_Next != null) {
+                                $insert['Cd_ARLotto'] = $xlotto;
+                                //}
                             }
-                            //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
-                            //if ($attivita->Id_PrOLAttivita_Next != null) {
-                            $insert['Cd_ARLotto'] = $xlotto;
-                            //}
                         }
-
                         return Redirect::to('');
                     } else {
 
@@ -2335,20 +2331,22 @@ class HomeController extends Controller
                         $ordini = DB::select('SELECT * from PrOLAttivita Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
-                            $xlotto = $dati['xLotto'];
+                            $xlotto = (isset($dati['xLotto']))?$dati['xLotto']:'';
 
                             /* $week = date('W', strtotime('today'));
                              $year = date('Y', strtotime('today'));
                              $xlotto = $week . $ordine[0]->Cd_AR . $year;*/
-                            $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
-                            if (sizeof($check) <= 0) {
-                                $data_scadenza = date('Y-m-d', strtotime('+2 year'));
-                                DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                            if($xlotto != ''){
+                                $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
+                                if (sizeof($check) <= 0) {
+                                    $data_scadenza = date('Y-m-d', strtotime('+2 year'));
+                                    DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                                }
+                                //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
+                                //if ($attivita->Id_PrOLAttivita_Next != null) {
+                                $insert['Cd_ARLotto'] = $xlotto;
+                                //}
                             }
-                            //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
-                            //if ($attivita->Id_PrOLAttivita_Next != null) {
-                            $insert['Cd_ARLotto'] = $xlotto;
-                            //}
                         }
                         $consumo_tot = $dati['quantita_contatore'];
 
@@ -2426,6 +2424,12 @@ class HomeController extends Controller
                             JOIN PRRLAttivita ri ON ri.Id_PrRLAttivita = rf.Id_PrRLAttivita_Sibling and rf.Id_PrVRAttivita = ' . $id_attivita);
 
                         DB::update('
+                        update MGMov
+                        set MGMov.Valore = PrVRMateriale.ValoreUnitario
+                        from MGMov
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+
+                        DB::update('
                             update vr
                             set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMKS) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMKS / vr.FattoreMKS)
                             from PRVRAttivita vr
@@ -2433,23 +2437,26 @@ class HomeController extends Controller
                             JOIN PRRLAttivita rf ON rf.Id_PrVRAttivita = vr.Id_PrVRAttivita and rf.Id_PrVRAttivita = ' . $id_attivita);
                         DB::update('UPDATE  rl SET rl.Quantita = vr.Quantita FROM PRRLAttivita rl JOIN PRVRAttivita vr ON rl.Id_PrVRAttivita = vr.Id_PrVRAttivita and vr.Quantita != rl.Quantita and Rl.InizioFine = \'F\' and rl.TipoRilevazione = \'E\' and YEAR(DataOra) = YEAR(GETDATE()) and MONTH(DataOra) = MONTH(GETDATE())');
                         DB::update('UPDATE m set m.Consumo = -v.Quantita from PRVRMateriale m JOIN PRVRAttivita v ON v.Id_PrVRAttivita = m.Id_PrVRAttivita  Where m.Tipo = 0 and YEAR(v.Data) = YEAR(GETDATE()) and MONTH(v.Data) = MONTH(GETDATE()) and v.Quantita != -m.Consumo');
+
                         $ordini = DB::select('SELECT * from PrOLAttivita Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
-                            $xlotto = $dati['xLotto'];
+                            $xlotto = (isset($dati['xLotto']))?$dati['xLotto']:'';
 
                             /* $week = date('W', strtotime('today'));
                              $year = date('Y', strtotime('today'));
                              $xlotto = $week . $ordine[0]->Cd_AR . $year;*/
-                            $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
-                            if (sizeof($check) <= 0) {
-                                $data_scadenza = date('Y-m-d', strtotime('+2 year'));
-                                DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                            if($xlotto != ''){
+                                $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
+                                if (sizeof($check) <= 0) {
+                                    $data_scadenza = date('Y-m-d', strtotime('+2 year'));
+                                    DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                                }
+                                //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
+                                //if ($attivita->Id_PrOLAttivita_Next != null) {
+                                $insert['Cd_ARLotto'] = $xlotto;
+                                //}
                             }
-                            //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
-                            //if ($attivita->Id_PrOLAttivita_Next != null) {
-                            $insert['Cd_ARLotto'] = $xlotto;
-                            //}
                         }
 
                         return Redirect::to('');
@@ -3129,7 +3136,7 @@ class HomeController extends Controller
 
     function qualita()
     {
-        return View::make('qualita.M_IO 10_1');
+        return View::make('qualita.selezionatrice_controllo_prodotto');
     }
 
 }

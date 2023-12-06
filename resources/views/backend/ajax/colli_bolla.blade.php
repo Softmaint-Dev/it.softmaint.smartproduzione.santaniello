@@ -224,6 +224,9 @@ foreach ($attivita_bolla->colli as $c){
                                 </div>
 
                                 <div class="col-md-12" style="margin-top:10px;">
+                                    <input type="text" class="form-control" name="xLotto" id="xLotto">
+                                </div>
+                                <div class="col-md-12" style="margin-top:10px;">
                                     <h2>Vuoi Chiudere la Bolla ?</h2>
                                 </div>
 

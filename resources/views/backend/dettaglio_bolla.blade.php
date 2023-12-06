@@ -10,8 +10,8 @@
                     <h1 class="m-0">Attivita Bolla <?php echo $attivita_bolla->Id_PrBLAttivita ?>
                         (<small>Bolla <?php echo $bolla->Id_PrBL ?></small>
                         <small>OL <?php echo $OLAttivita->Id_PrOL ?></small>) <span
-                                style="font-size:18px;color:red"><?php echo $stato_attuale ?> <small
-                                    id="time"></small></span></h1>
+                            style="font-size:18px;color:red"><?php echo $stato_attuale ?> <small
+                                id="time"></small></span></h1>
 
                     <?php if (sizeof($attivita_bolla->CF) > 0) {
                         echo $attivita_bolla->CF[0]->Descrizione . ' - ';
@@ -159,7 +159,7 @@
                                     <label>U.M.</label>
                                     <select id="cd_armisura_top" name="Cd_ARMisura" class="form-control select2">
                                         <option
-                                                value="<?php echo $attivita_bolla->Cd_ARMisura ?>"><?php echo $attivita_bolla->Cd_ARMisura ?></option>
+                                            value="<?php echo $attivita_bolla->Cd_ARMisura ?>"><?php echo $attivita_bolla->Cd_ARMisura ?></option>
                                     </select>
                                 </div>
 
@@ -201,7 +201,7 @@
                                                    $i <= 100;
                                                    $i++){ ?>
                                         <option
-                                                value="<?php echo $i ?>"><?php echo $i ?></option>
+                                            value="<?php echo $i ?>"><?php echo $i ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -557,7 +557,7 @@
                                                 <div class="tab-pane fade" id="tab7" role="tabpanel"
                                                      aria-labelledby="custom-content-below-profile-tab">
 
-                                                    <a onclick="" class="btn btn-success"
+                                                    <a onclick="window.open('qualita');" class="btn btn-success"
                                                        style="float:right;margin-top:10px;margin-bottom:10px;">Aggiungi</a>
                                                     <table id="lista_moduli_qualita"
                                                            class="table table-bordered table-striped"
@@ -687,13 +687,13 @@
                                     <?php if (sizeof($ultima_rilevazione) > 0 && $ultima_rilevazione[0]->InizioFine == 'I'){ ?>
                                     <select name="Cd_PrRisorsa" class="form-control select2" readonly>
                                         <option
-                                                value="<?php echo $ultima_rilevazione[0]->Cd_PrRisorsa ?>"><?php echo $ultima_rilevazione[0]->Cd_PrRisorsa ?></option>
+                                            value="<?php echo $ultima_rilevazione[0]->Cd_PrRisorsa ?>"><?php echo $ultima_rilevazione[0]->Cd_PrRisorsa ?></option>
                                     </select>
                                     <?php } else { ?>
                                     <select name="Cd_PrRisorsa" class="form-control select2">
                                             <?php foreach ($risorse as $r){ ?>
                                         <option
-                                                value="<?php echo $r->Cd_PrRisorsa ?>" <?php echo ($attivita_bolla->Cd_PrRisorsa == $r->Cd_PrRisorsa) ? 'selected' : '' ?>><?php echo $r->Cd_PrRisorsa ?></option>
+                                            value="<?php echo $r->Cd_PrRisorsa ?>" <?php echo ($attivita_bolla->Cd_PrRisorsa == $r->Cd_PrRisorsa) ? 'selected' : '' ?>><?php echo $r->Cd_PrRisorsa ?></option>
                                         <?php } ?>
                                     </select>
                                     <?php } ?>
@@ -703,7 +703,7 @@
                                     <label>Terminale</label>
                                     <select name="Terminale" class="form-control select2" readonly>
                                         <option
-                                                value="<?php echo $utente->Cd_Terminale ?>"><?php echo $utente->Cd_Terminale ?></option>
+                                            value="<?php echo $utente->Cd_Terminale ?>"><?php echo $utente->Cd_Terminale ?></option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
@@ -1018,7 +1018,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Fine Attrezzaggio</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <?php /*
@@ -1081,7 +1081,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Collo Non Conforme <span id="testo_nr_collo_non_conforme"></span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1133,7 +1133,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Invia Segnalazione</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1186,7 +1186,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Inizio Fermo Macchina</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1218,7 +1218,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Fine Fermo Macchina</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1245,7 +1245,7 @@
                                     <option value="">Scegli una Causale</option>
                                     <?php foreach ($causali_fermo as $cf){ ?>
                                     <option
-                                            value="<?php echo $cf->Cd_PRCausaleFermo ?>"><?php echo $cf->Cd_PRCausaleFermo ?></option>
+                                        value="<?php echo $cf->Cd_PRCausaleFermo ?>"><?php echo $cf->Cd_PRCausaleFermo ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -1260,7 +1260,7 @@
                                     <option value="Scegli una Causale di Fermo">Scegli una Causale di Fermo</option>
                                     <?php foreach ($anomalie_fermo as $af){ ?>
                                     <option
-                                            value="<?php echo $af->Descrizione  ?>"><?php echo $af->Descrizione ?></option>
+                                        value="<?php echo $af->Descrizione  ?>"><?php echo $af->Descrizione ?></option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -1299,7 +1299,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Pedana</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -1347,7 +1347,7 @@
                                     <?php foreach ($operatori as $o){ ?>
                                         <?php if ($o->Cd_Operatore != $utente->Cd_Operatore){ ?>
                                     <option
-                                            value="<?php echo $o->Cd_Operatore ?>" <?php echo (trim($o->Cd_Operatore) == trim($utente->Cd_Operatore2)) ? 'selected' : '' ?>><?php echo $o->Descrizione ?></option>
+                                        value="<?php echo $o->Cd_Operatore ?>" <?php echo (trim($o->Cd_Operatore) == trim($utente->Cd_Operatore2)) ? 'selected' : '' ?>><?php echo $o->Descrizione ?></option>
                                     <?php } ?>
                                     <?php } ?>
                                 </select>
@@ -1389,7 +1389,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Modulo di Qualita</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1654,7 +1654,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1732,7 +1732,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Modifica Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1823,7 +1823,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Elimina Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1859,7 +1859,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Elimina Modulo di Qualita</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1897,7 +1897,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Azioni Pedana <?php echo $p->Nr_Pedana ?></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2027,7 +2027,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Stampe Libere</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2067,7 +2067,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Alert Segnalazione</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
