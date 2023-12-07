@@ -2109,7 +2109,7 @@ class HomeController extends Controller
 
 
                     if ($quantita > 0) {
-                        $ordini = DB::select('SELECT * from PrOLAttivita Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
+                        $ordini = DB::select('SELECT * from PrOL Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
                             $xlotto = (isset($dati['xLotto']))?$dati['xLotto']:'';
@@ -2260,7 +2260,7 @@ class HomeController extends Controller
 
                         DB::update('UPDATE  rl SET rl.Quantita = vr.Quantita FROM PRRLAttivita rl JOIN PRVRAttivita vr ON rl.Id_PrVRAttivita = vr.Id_PrVRAttivita and vr.Quantita != rl.Quantita and Rl.InizioFine = \'F\' and rl.TipoRilevazione = \'E\' and YEAR(DataOra) = YEAR(GETDATE()) and MONTH(DataOra) = MONTH(GETDATE())');
                         DB::update('UPDATE m set m.Consumo = -v.Quantita from PRVRMateriale m JOIN PRVRAttivita v ON v.Id_PrVRAttivita = m.Id_PrVRAttivita  Where m.Tipo = 0 and YEAR(v.Data) = YEAR(GETDATE()) and MONTH(v.Data) = MONTH(GETDATE()) and v.Quantita != -m.Consumo');
-                        $ordini = DB::select('SELECT * from PrOLAttivita Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
+                        $ordini = DB::select('SELECT * from PrOL Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
                             $xlotto = (isset($dati['xLotto']))?$dati['xLotto']:'';
@@ -2328,7 +2328,7 @@ class HomeController extends Controller
                         if ($dati['quantita_scarto_vr'] > 0) {
                             $insert['Quantita_Scar'] = abs($dati['quantita_scarto_vr']);
                         }
-                        $ordini = DB::select('SELECT * from PrOLAttivita Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
+                        $ordini = DB::select('SELECT * from PrOL Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
                             $xlotto = (isset($dati['xLotto']))?$dati['xLotto']:'';
@@ -2438,7 +2438,7 @@ class HomeController extends Controller
                         DB::update('UPDATE  rl SET rl.Quantita = vr.Quantita FROM PRRLAttivita rl JOIN PRVRAttivita vr ON rl.Id_PrVRAttivita = vr.Id_PrVRAttivita and vr.Quantita != rl.Quantita and Rl.InizioFine = \'F\' and rl.TipoRilevazione = \'E\' and YEAR(DataOra) = YEAR(GETDATE()) and MONTH(DataOra) = MONTH(GETDATE())');
                         DB::update('UPDATE m set m.Consumo = -v.Quantita from PRVRMateriale m JOIN PRVRAttivita v ON v.Id_PrVRAttivita = m.Id_PrVRAttivita  Where m.Tipo = 0 and YEAR(v.Data) = YEAR(GETDATE()) and MONTH(v.Data) = MONTH(GETDATE()) and v.Quantita != -m.Consumo');
 
-                        $ordini = DB::select('SELECT * from PrOLAttivita Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
+                        $ordini = DB::select('SELECT * from PrOL Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
                             $xlotto = (isset($dati['xLotto']))?$dati['xLotto']:'';
