@@ -416,13 +416,13 @@ class HomeController extends Controller
 
                     DB::update('
                         update rf
-                        set rf.DurataMKS = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
+                        set rf.DurataMks = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
                         from PRRLAttivita rf
                         JOIN PRRLAttivita ri ON ri.Id_PrRLAttivita = rf.Id_PrRLAttivita_Sibling and rf.Id_PrVRAttivita = ' . $id_attivita);
 
                     DB::update('
                         update vr
-                        set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMKS) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMKS / vr.FattoreMKS)
+                        set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMks) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMks / vr.FattoreMKS)
                         from PRVRAttivita vr
                         JOIN PRRisorsa pr ON pr.Cd_PrRisorsa = vr.Cd_PrRisorsa
                         JOIN PRRLAttivita rf ON rf.Id_PrVRAttivita = vr.Id_PrVRAttivita and rf.Id_PrVRAttivita = ' . $id_attivita);
@@ -681,13 +681,13 @@ class HomeController extends Controller
 
                     DB::update('
                         update rf
-                        set rf.DurataMKS = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
+                        set rf.DurataMks = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
                         from PRRLAttivita rf
                         JOIN PRRLAttivita ri ON ri.Id_PrRLAttivita = rf.Id_PrRLAttivita_Sibling and rf.Id_PrVRAttivita = ' . $id_attivita);
 
                     DB::update('
                         update vr
-                        set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMKS) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMKS / vr.FattoreMKS)
+                        set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMks) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMks / vr.FattoreMKS)
                         from PRVRAttivita vr
                         JOIN PRRisorsa pr ON pr.Cd_PrRisorsa = vr.Cd_PrRisorsa
                         JOIN PRRLAttivita rf ON rf.Id_PrVRAttivita = vr.Id_PrVRAttivita and rf.Id_PrVRAttivita = ' . $id_attivita);
@@ -1056,14 +1056,14 @@ class HomeController extends Controller
 
                     DB::update('
                         update rf
-                        set rf.DurataMKS = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
+                        set rf.DurataMks = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
                         from PRRLAttivita rf
                         JOIN PRRLAttivita ri ON ri.Id_PrRLAttivita = rf.Id_PrRLAttivita_Sibling and rf.Id_PrVRAttivita = ' . $id_attivita);
 
 
                     DB::update('
                         update vr
-                        set vr.Attrezzaggio = CONVERT(numeric(18,8),rf.DurataMKS) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMKS / vr.FattoreMKS)
+                        set vr.Attrezzaggio = CONVERT(numeric(18,8),rf.DurataMks) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMks / vr.FattoreMKS)
                         from PRVRAttivita vr
                         JOIN PRRisorsa pr ON pr.Cd_PrRisorsa = vr.Cd_PrRisorsa
                         JOIN PRRLAttivita rf ON rf.Id_PrVRAttivita = vr.Id_PrVRAttivita and rf.Id_PrVRAttivita = ' . $id_attivita);
@@ -2136,7 +2136,7 @@ class HomeController extends Controller
                         $insert['Fermo'] = 0;
                         $id_attivita = DB::table('PRVRAttivita')->insertGetId($insert);
 
-                        $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Cd_ARMisura,PrOLAttivita.Id_PrOLAttivita,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOL.Id_PrOL = ' . $attivita_bolla->Id_PrOL);
+                        $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Cd_ARMisura,PrOLAttivita.Id_PrOLAttivita,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOLAttivita.Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
                             $xlotto = (isset($dati['xLotto'])) ? $dati['xLotto'] : null;
@@ -2151,7 +2151,7 @@ class HomeController extends Controller
                                     DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
                                 }
                                 //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
-                                //if ($attivita->Id_PrOLAttivita_Next != null) {
+                                //if ($attivita->Id_PrOLAttivita_Next == null) {
                                 $consumo_tot = $dati['quantita_contatore'];
 
                                 if ($ordine->Id_PrOLAttivita_Next == null) {
@@ -2161,29 +2161,11 @@ class HomeController extends Controller
                         }
                     }
 
-                    /*// TODO INSERIRE SU PRVRMATERIALE DEL PF.
-                    if ($attivita->Id_PrOLAttivita_Next != null) {
-                        DB::SELECT('Update PrVRAttivita Set ValoreUnitario = dbo.xfn_PrVRAttivitaCostoLavorazione((Select Id_PrOLAttivita From PrBLAttivita OLB Where OLB.Id_PrBLAttivita = ' . $attivita_bolla->Id_PrBLAttivita . '))/' . $quantita . ' Where PrVRAttivita.Id_PrBLAttivita = ' . $attivita_bolla->Id_PrBLAttivita . '');
-                    }*/
                     $insert_contatore['Id_PRBLAttivita'] = $attivita_bolla->Id_PrBLAttivita;
                     $insert_contatore['Cd_Operatore'] = $utente->Cd_Operatore;
                     $insert_contatore['contatore'] = $dati['quantita_contatore'];
                     $consumo_tot = $dati['quantita_contatore'];
 
-                    /* $collo = DB::SELECT('SELECT * FROM xWPCollo WHERE Id_PrVRAttivita IS NULL and IdCodiceAttivita = ' . $attivita_bolla->Id_PrOLAttivita)[0]->Nr_Collo;
-                     if($collo != '') {
-                         $insert_contatore['xWPCollo'] = $collo;
-                         $controllo = DB::SELECT('SELECT * FROM xContatore WHERE Id_PRBLattivita = \''.$insert_contatore['Id_PRBLAttivita'].'\' and xWPCollo = \'\'');
-                         if(sizeof($controllo) > 0 ){
-                             foreach($controllo as $c) {
-                                 DB::update('update xContatore set xWPCollo = ' . $collo . ' Where Id_xContatore = \'' . $c->Id_xContatore . '\' ');
-                                 //$insert_contatore['contatore'] = intval($insert_contatore['contatore']) - intval($c->contatore);
-                             }
-                         }
-                     //}
-
-                     DB::table('xContatore')->insertGetId($insert_contatore);
-*/
                     $key = '';
 
                     foreach ($dati['QtaVersata'] as $key => $value) {
@@ -2260,19 +2242,19 @@ class HomeController extends Controller
 
                     DB::update('
                         update rf
-                        set rf.DurataMKS = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
+                        set rf.DurataMks = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
                         from PRRLAttivita rf
                         JOIN PRRLAttivita ri ON ri.Id_PrRLAttivita = rf.Id_PrRLAttivita_Sibling and rf.Id_PrVRAttivita = ' . $id_attivita);
                     DB::update('
                         update vr
-                        set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMKS) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMKS / vr.FattoreMKS)
+                        set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMks) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMks / vr.FattoreMKS)
                         from PRVRAttivita vr
                         JOIN PRRisorsa pr ON pr.Cd_PrRisorsa = vr.Cd_PrRisorsa
                         JOIN PRRLAttivita rf ON rf.Id_PrVRAttivita = vr.Id_PrVRAttivita and rf.Id_PrVRAttivita = ' . $id_attivita);
 
                     DB::update('UPDATE  rl SET rl.Quantita = vr.Quantita FROM PRRLAttivita rl JOIN PRVRAttivita vr ON rl.Id_PrVRAttivita = vr.Id_PrVRAttivita and vr.Quantita != rl.Quantita and Rl.InizioFine = \'F\' and rl.TipoRilevazione = \'E\' and YEAR(DataOra) = YEAR(GETDATE()) and MONTH(DataOra) = MONTH(GETDATE())');
                     DB::update('UPDATE m set m.Consumo = -v.Quantita from PRVRMateriale m JOIN PRVRAttivita v ON v.Id_PrVRAttivita = m.Id_PrVRAttivita  Where m.Tipo = 0 and YEAR(v.Data) = YEAR(GETDATE()) and MONTH(v.Data) = MONTH(GETDATE()) and v.Quantita != -m.Consumo');
-                    $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.Cd_ARMisura,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOL.Id_PrOL = ' . $attivita_bolla->Id_PrOL);
+                    $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.Cd_ARMisura,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOLAttivita.Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                     if (sizeof($ordini) > 0) {
                         $ordine = $ordini[0];
                         $xlotto = (isset($dati['xLotto'])) ? $dati['xLotto'] : null;
@@ -2287,23 +2269,39 @@ class HomeController extends Controller
                                 DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
                             }
                             //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
-                            //if ($attivita->Id_PrOLAttivita_Next != null) {
+                            //if ($attivita->Id_PrOLAttivita_Next == null) {
 
                             if ($ordine->Id_PrOLAttivita_Next == null) {
-                                DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => '00001', 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
+                                DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => (sizeof($max_lotto) > 0) ? $max_lotto[0]->max : $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => (isset($dati['cd_mg'])) ? $dati['cd_mg'] : '00009', 'Cd_MGUbicazione' => ((isset($dati['cd_mg_ubicazione']) && ($dati['cd_mg'] != '00009'))) ? $dati['cd_mg_ubicazione'] : null, 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
                             }
+
                         }
                         //}
-                    }
 
-                    DB::update('
+                        $durata = DB::SELECT('SELECT * FROM PrRLAttivita where Id_PrVRAttivita = ' . $id_attivita);
+                        if (sizeof($durata) > 0)
+                            $durata = $durata[0]->DurataMks;
+                        else
+                            $durata = 1;
+
+                        $OLAttivita = DB::select('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita = (SELECT Id_PrOLAttivita from PrBLAttivita WHERE Id_PrBLAttivita = ' . $id . ')');
+
+                        DB::update('DECLARE @RESULT Numeric(18, 6);
+                                      EXEC @RESULT = [dbo].[afn_PRVRCostoLavorazione] \'' . $OLAttivita[0]->Cd_PrRisorsa . '\', ' . $durata . ', null,\'' . $ordine->Cd_AR . '\', \'' . $OLAttivita[0]->Quantita . '\', NULL
+                                      UPDATE PrVRAttivita set CostoLavorazione = @RESULT where Id_PrVRAttivita = ' . $id_attivita);
+
+                        DB::update('DECLARE @result  Numeric(18, 6)
+                                      EXEC @result = [afn_PRVRCostoUnitario] ' . $OLAttivita[0]->Id_PrOLAttivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
+                                      UPDATE PrVRMateriale set ValoreUnitario = @result where Tipo = 0 and Id_PrVRAttivita = ' . $id_attivita);
+
+                        DB::update('
                         update MGMov
                         set MGMov.Valore = (PrVRMateriale.ValoreUnitario * PrVRMateriale.Consumo)
                         from MGMov
-                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Tipo != 0 and PrVRMateriale.Tipo != 3 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
 
-                    DB::SELECT('EXEC xCalcolaLavoroLorenzo ' . $id_attivita);
-
+                        //DB::SELECT('EXEC xCalcolaLavoroLorenzo ' . $id_attivita);
+                    }
 
                     return Redirect::to('');
                 } else {
@@ -2426,7 +2424,7 @@ class HomeController extends Controller
 
                         DB::update('
                             update rf
-                            set rf.DurataMKS = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
+                            set rf.DurataMks = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
                             from PRRLAttivita rf
                             JOIN PRRLAttivita ri ON ri.Id_PrRLAttivita = rf.Id_PrRLAttivita_Sibling and rf.Id_PrVRAttivita = ' . $id_attivita);
 
@@ -2456,18 +2454,17 @@ class HomeController extends Controller
                                                 PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Tipo = 0
                                                 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
                         */
-                        DB::SELECT('EXEC xCalcolaLavoroLorenzo ' . $id_attivita);
 
                         DB::update('
                             update vr
-                            set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMKS) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMKS / vr.FattoreMKS)
+                            set vr.Esecuzione = CONVERT(numeric(18,8),rf.DurataMks) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMks / vr.FattoreMKS)
                             from PRVRAttivita vr
                             JOIN PRRisorsa pr ON pr.Cd_PrRisorsa = vr.Cd_PrRisorsa
                             JOIN PRRLAttivita rf ON rf.Id_PrVRAttivita = vr.Id_PrVRAttivita and rf.Id_PrVRAttivita = ' . $id_attivita);
                         DB::update('UPDATE  rl SET rl.Quantita = vr.Quantita FROM PRRLAttivita rl JOIN PRVRAttivita vr ON rl.Id_PrVRAttivita = vr.Id_PrVRAttivita and vr.Quantita != rl.Quantita and Rl.InizioFine = \'F\' and rl.TipoRilevazione = \'E\' and YEAR(DataOra) = YEAR(GETDATE()) and MONTH(DataOra) = MONTH(GETDATE())');
                         DB::update('UPDATE m set m.Consumo = -v.Quantita from PRVRMateriale m JOIN PRVRAttivita v ON v.Id_PrVRAttivita = m.Id_PrVRAttivita  Where m.Tipo = 0 and YEAR(v.Data) = YEAR(GETDATE()) and MONTH(v.Data) = MONTH(GETDATE()) and v.Quantita != -m.Consumo');
 
-                        $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Cd_ARMisura,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOL.Id_PrOL = ' . $attivita_bolla->Id_PrOL);
+                        $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Cd_ARMisura,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOLAttivita.Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
                             $xlotto = (isset($dati['xLotto'])) ? $dati['xLotto'] : null;
@@ -2482,6 +2479,30 @@ class HomeController extends Controller
                                 }
 
                             }
+
+                            $durata = DB::SELECT('SELECT * FROM PrRLAttivita where Id_PrVRAttivita = ' . $id_attivita);
+                            if (sizeof($durata) > 0)
+                                $durata = $durata[0]->DurataMks;
+                            else
+                                $durata = 1;
+
+                            $OLAttivita = DB::select('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita = (SELECT Id_PrOLAttivita from PrBLAttivita WHERE Id_PrBLAttivita = ' . $id . ')');
+
+                            DB::update('DECLARE @RESULT Numeric(18, 6);
+                                      EXEC @RESULT = [dbo].[afn_PRVRCostoLavorazione] \'' . $OLAttivita[0]->Cd_PrRisorsa . '\', ' . $durata . ', null,\'' . $ordine->Cd_AR . '\', \'' . $OLAttivita[0]->Quantita . '\', NULL
+                                      UPDATE PrVRAttivita set CostoLavorazione = @RESULT where Id_PrVRAttivita = ' . $id_attivita);
+
+                            DB::update('DECLARE @result  Numeric(18, 6)
+                                      EXEC @result = [afn_PRVRCostoUnitario] ' . $OLAttivita[0]->Id_PrOLAttivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
+                                      UPDATE PrVRMateriale set ValoreUnitario = @result where Tipo = 0 and Id_PrVRAttivita = ' . $id_attivita);
+
+                            DB::update('
+                        update MGMov
+                        set MGMov.Valore = (PrVRMateriale.ValoreUnitario * PrVRMateriale.Consumo)
+                        from MGMov
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+
+                            //DB::SELECT('EXEC xCalcolaLavoroLorenzo ' . $id_attivita);
                         }
                         return Redirect::to('');
 
@@ -2554,14 +2575,14 @@ class HomeController extends Controller
 
                     DB::update('
                         update rf
-                        set rf.DurataMKS = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
+                        set rf.DurataMks = DATEDIFF(SECOND,ri.DataOra,rf.DataOra)
                         from PRRLAttivita rf
                         JOIN PRRLAttivita ri ON ri.Id_PrRLAttivita = rf.Id_PrRLAttivita_Sibling and rf.Id_PrRLAttivita_Sibling = ' . $id_ultima_rilevazione);
 
 
                     DB::update('
                         update vr
-                        set vr.Fermo = CONVERT(numeric(18,8),rf.DurataMKS) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMKS / vr.FattoreMKS)
+                        set vr.Fermo = CONVERT(numeric(18,8),rf.DurataMks) / vr.FattoreMKS, vr.CostoLavorazione = (pr.CostoOrario / vr.FattoreMks) * (rf.DurataMks / vr.FattoreMKS)
                         from PRVRAttivita vr
                         JOIN PRRisorsa pr ON pr.Cd_PrRisorsa = vr.Cd_PrRisorsa
                         JOIN PRRLAttivita rf ON rf.Id_PrVRAttivita = vr.Id_PrVRAttivita and rf.Id_PrRLAttivita_Sibling = ' . $id_ultima_rilevazione);
