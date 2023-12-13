@@ -2795,7 +2795,7 @@ class HomeController extends Controller
 
 
                     $attivita_bolla->versamenti = DB::select('SELECT * from PrVRAttivitaEx Where Id_PrBLAttivita=' . $id);
-                    $attivita_bolla->materiali = DB::select('SELECT * from PRBLMateriale Where Id_PrBLAttivita = ' . $id);
+                    $attivita_bolla->materiali = DB::select('SELECT *,(SELECT MG_LottoObbligatorio FROM AR WHERE AR.Cd_AR = PRBLMateriale.Cd_AR) as Obbligatorio from PRBLMateriale Where Id_PrBLAttivita = ' . $id);
                     $attivita_bolla->colli = DB::select('SELECT * from xWPCollo Where Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ' order by Id_xWPCollo DESC');
                     $attivita_bolla->pedane = DB::select('SELECT p.*,AR.PesoNetto as peso_pedana from xWPPD p LEFT JOIN AR ON AR.Cd_AR = p.Cd_xPD Where p.Id_PrOL = ' . $attivita_bolla->Id_PrOL . ' order by p.Id_xWPPD DESC');
                     $attivita_bolla->segnalazioni = DB::select('SELECT * from xWPSegnalazione Where Id_PrBLAttivita = ' . $id);

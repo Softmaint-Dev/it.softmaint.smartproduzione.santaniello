@@ -493,7 +493,7 @@
                                                         <?php $i = 0; ?>
                                                         <?php foreach ($attivita_bolla->materiali as $m) { ?>
 
-                                                        <tr>
+                                                        <tr <?php if($m->Obbligatorio == 1) echo 'style="background-color:lightblue;"'?>>
                                                             <td class="no-sort">
                                                                     <?php echo $m->Cd_AR ?><br>
                                                                 <small><?php echo $m->NotePrBLMateriale ?></small>
