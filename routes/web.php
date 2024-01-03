@@ -31,7 +31,7 @@ Route::any('lista_attivita', 'HomeController@lista_attivita');
 Route::any('valeria/tracciabilita', 'HomeController@login2');
 Route::any('lista_attivita/{cd_attivita}', 'HomeController@lista_attivita');
 Route::any('lista_bolle_attive/{cd_attivita}', 'HomeController@lista_bolle_attive');
-Route::any('dettaglio_bolla/{id}', 'HomeController@dettaglio_bolla');
+Route::get('dettaglio_bolla/{id}', 'HomeController@dettaglio_bolla')->name('dettaglio_bolla');
 Route::any('odl', 'HomeController@odl');
 Route::any('dettaglio_odl', 'HomeController@dettaglio_odl');
 Route::any('dettaglio_odl/{id_attivita}', 'HomeController@dettaglio_odl');
@@ -71,8 +71,18 @@ Route::any('ajax/cerca_pedana/{Nr_Pedana}', 'AjaxController@cerca_pedana');
 
 Route::any('stampa/qualita/{Id_xFormQualita}', 'StampaController@qualita');
 Route::any('qualita', 'HomeController@qualita');
+Route::get('qualita/{Id_Bolla}/{Id_qualita}', 'HomeController@QualitaBolla')->name('foglio_qualita');;
 
-
+Route::group(['prefix' => 'qualita'], function () {
+    Route::get('/confezionamento', 'QualitaController@confezionamento')->name('confezionamento');
+    Route::get('/confezionamento2', 'QualitaController@confezionamento2')->name('confezionamento2');
+    Route::get('/selezionatrice_accensione', 'QualitaController@selezionatriceAccensione')->name('selezionatrice_accensione');
+    Route::get('/selezionatrice_controllo', 'QualitaController@selezionatriceControlloProdotto')->name('selezionatrice_controllo');
+    Route::get('/tostatura', 'QualitaController@tostatura')->name('tostatura');
+    Route::get('/tostatura2', 'QualitaController@tostatura2')->name('tostatura2');
+    Route::get('/tritatura', 'QualitaController@tritatura')->name('tritatura');
+});
+Route::post('/generate-and-save-pdf', 'QualitaController@generateAndSavePdf');
 
 Route::any('logout', 'HomeController@logout');
 

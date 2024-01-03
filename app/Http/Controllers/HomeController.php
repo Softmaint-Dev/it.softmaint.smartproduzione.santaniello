@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Mpdf\Mpdf;
 use function Symfony\Component\String\s;
-
+use Predis; 
 /**
  * Controller principale del webticket
  * Class HomeController
@@ -828,6 +828,15 @@ class HomeController extends Controller
         // in xWpCollo dove IdOrdineLavoro = Id_prol e IdCodiceAttivita = id_prolattivita
         // cosi hai tutti i colli divisi dall'ol
 
+    }
+
+    public function  QualitaBolla($idBolla, $idQualita, Request $request) {
+        switch($idQualita) {
+            case '1':
+                return view("");
+            default:
+            return Redirect::to('dettaglio_bolla/' . $idBolla);
+        }
     }
 
     public function dettaglio_bolla($id, Request $request)

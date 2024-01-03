@@ -357,8 +357,11 @@
                                                                         data-toggle="pill" href="#tab7" role="tab"
                                                                         aria-controls="custom-content-below-profile"
                                                                         aria-selected="false">Moduli Qualit&agrave;
-                                                        (<?php echo sizeof($attivita_bolla->moduli_qualita) ?>)</a></li>
+                                                        (<?php echo sizeof($attivita_bolla->moduli_qualita) ?>)</a>
+                                                    </li>
                                             </ul>
+ 
+
                                             <div class="tab-content" id="custom-content-below-tabContent">
                                                 <div class="tab-pane fade show active" id="tab1" role="tabpanel"
                                                      aria-labelledby="custom-content-below-home-tab">
