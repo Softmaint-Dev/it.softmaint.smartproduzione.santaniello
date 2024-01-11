@@ -33,6 +33,19 @@ return [
     |
     */
 
+    // 'redis' => [
+    //     'client' => env('REDIS_CLIENT', 'predis'),
+    //     'options' => [
+    //         // Alcune opzioni qui...
+    //     ],
+    //     'default' => [
+    //         'host' => env('REDIS_HOST', '127.0.0.1'),
+    //         'password' => env('REDIS_PASSWORD', null),
+    //         'port' => env('REDIS_PORT', 6379),
+    //         'database' => env('REDIS_DB', 0),
+    //     ],
+    // ],
+
     'connections' => [
 
         'sqlite' => [
@@ -87,8 +100,13 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
+            'options'   => [
+                PDO::ATTR_EMULATE_PREPARES => true,
+                PDO::SQLSRV_ATTR_ENCODING   => PDO::SQLSRV_ENCODING_UTF8,
+            ],
         ],
 
     ],
