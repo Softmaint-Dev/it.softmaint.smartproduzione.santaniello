@@ -1,4 +1,4 @@
-<!-- <button type="button" class="btn btn-primary btn-lg">Large button</button> -->
+<button type="button" class="btn btn-primary btn-lg">Large button</button>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -7,6 +7,7 @@
 </body>
 
 <script>
+ 
     window.onbeforeprint = function convertiInParagrafo() {
 
         var inputTesto = document.querySelectorAll('input[type="text"]');
@@ -35,27 +36,41 @@
         });
 
         const domString = new XMLSerializer().serializeToString(document);
+        const regex = /<main\b[^>]*>([\s\S]*?)<\/main>/i;
+ 
+        const match = domString.match(regex);
+        var risultato = "<h1> vuoto </h1>"
+        if (match) {
+             risultato = match[1];
+         } else {
+            console.log('Tag <main> non trovato o vuoto.');
+        }
+       
 
+         
         const url = '/generate-and-save-pdf';
 
-
-        const axiosConfig = {
+        const fetchOptions = {
             method: 'POST',
-            url: url,
             headers: {
-                'Content-Type': 'text/html', // Tipo di contenuto del corpo della richiesta
+                'Content-Type': 'text/html',
             },
-            data: domString, // Stringa rappresentante l'intero DOM
+            body: risultato,
         };
 
-        // Effettua la richiesta Axios
-        axios(axiosConfig)
-            .then(response => {
-                console.log('Risposta dal server:', response.data);
-            })
-            .catch(error => {
-                console.error('Errore nella richiesta:', error);
-            });
+          fetch(url, fetchOptions)
+             .then(response => {
+                 if (!response.ok) {
+                     throw new Error(`Errore nella risposta del server: ${response.statusText}`);
+                 }
+                 return response.text();
+             })
+             .then(data => {
+                 console.log('Risposta dal server:', data);
+             })
+             .catch(error => {
+                 console.error('Errore nella richiesta:', error.message);
+             });
 
     }; 
 </script>

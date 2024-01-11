@@ -100,8 +100,13 @@ return [
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
+            'options'   => [
+                PDO::ATTR_EMULATE_PREPARES => true,
+                PDO::SQLSRV_ATTR_ENCODING   => PDO::SQLSRV_ENCODING_UTF8,
+            ],
         ],
 
     ],

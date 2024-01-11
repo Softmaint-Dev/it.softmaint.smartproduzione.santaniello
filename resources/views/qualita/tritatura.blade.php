@@ -4,7 +4,10 @@
     "review" => 0,
 ])
 
+<form action="/generate-and-save-pdf" method="POST">
+
 <div class="container-fluid">
+    <main>
         <div class="row ">
             <div class="col-6">
 
@@ -268,7 +271,8 @@
         </tbody>
     </table>
     <div class="container-fluid">
-
+    </main>
+<!-- 
         <div class="col">
             <div class="input-group m-1">
                 <span class="input-group-text">Osservazioni / Observations</span>
@@ -280,8 +284,10 @@
                 <span class="input-group-text">FIRMA CQ</span>
                 <input class="form-control" aria-label="With textarea"></input>
             </div>
-
-        </div>
+        </div> -->
     </div>
+<button type="submit"  class="btn btn-success">REGISTRA FOGLIO DI QUALITA</button>
+
+</form>
 
 @include('qualita.components.footer', [])

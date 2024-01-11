@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\moduli\CalibraturaController;
+use App\Http\Controllers\arca\CFController;
+use App\Http\Controllers\moduli\ModuloController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -86,3 +89,18 @@ Route::post('/generate-and-save-pdf', 'QualitaController@generateAndSavePdf');
 
 Route::any('logout', 'HomeController@logout');
 
+
+Route::group(['prefix' => 'moduli'], function() {
+    Route::get('{id}/dms', [ModuloController::class, 'getDMS']);
+    Route::get('show/{id}', [ModuloController::class, 'showDMS']);
+    Route::group(['prefix' => 'calibratura'], function() {
+        Route::get('/', [CalibraturaController::class, 'showAll']);
+        Route::get("/create/{id}", [CalibraturaController::class, 'createView'])->name("createCalibratura");
+        Route::post("/create/{id}", [CalibraturaController::class, 'create'])->name("createPostCalibratura");
+     });
+});
+
+Route::group(['prefix' => 'CF'], function() {
+    Route::get("/", [CFController::class, 'findAll']);
+    
+});

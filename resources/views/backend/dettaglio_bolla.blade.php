@@ -354,16 +354,14 @@
                                                         href="#tab2" role="tab"
                                                         aria-controls="custom-content-below-profile"
                                                         aria-selected="false">Colli
-                                                        (
-                                                        <?php echo sizeof($attivita_bolla->colli) ?>)
+                                                        (<?php echo sizeof($attivita_bolla->colli) ?>)
                                                     </a></li>
                                                 <li class="nav-item"><a class="nav-link"
                                                         id="custom-content-below-profile-tab" data-toggle="pill"
                                                         href="#tab3" role="tab"
                                                         aria-controls="custom-content-below-profile"
                                                         aria-selected="false">Pedane
-                                                        (
-                                                        <?php echo sizeof($attivita_bolla->pedane) ?>)
+                                                        (<?php echo sizeof($attivita_bolla->pedane) ?>)
                                                     </a></li>
                                                 <li class="nav-item"><a class="nav-link"
                                                         id="custom-content-below-profile-tab" data-toggle="pill"
@@ -375,8 +373,7 @@
                                                         href="#tab5" role="tab"
                                                         aria-controls="custom-content-below-profile"
                                                         aria-selected="false">Segnalazioni
-                                                        (
-                                                        <?php echo sizeof($attivita_bolla->segnalazioni) ?>)
+                                                        (<?php echo sizeof($attivita_bolla->segnalazioni) ?>)
                                                     </a></li>
 
                                                 <li class="nav-item"><a class="nav-link"
@@ -384,8 +381,7 @@
                                                         href="#tab7" role="tab"
                                                         aria-controls="custom-content-below-profile"
                                                         aria-selected="false">Moduli Qualit&agrave;
-                                                        (
-                                                        <?php echo sizeof($attivita_bolla->moduli_qualita) ?>)
+                                                        (<?php echo sizeof($attivita_bolla->moduli_qualita) ?>)
                                                     </a></li>
                                             </ul>
                                             <div class="tab-content" id="custom-content-below-tabContent">
@@ -626,15 +622,16 @@
                                                                 <div class="modal-body">
 
                                                                     <div class="container">
-                                                                        <select id="comboA"
-                                                                            class="form-select form-select-lg mb-3 p-6"
+                                                                        <select id="comboA" class="form-control select2"
                                                                             aria-label="Large select example"
                                                                             onchange="getComboA(this)">
-                                                                            <option selected>---</option>
+                                                                            <option selected>
+                                                                                ------------------------------------------------------
+                                                                            </option>
                                                                             <option
-                                                                                value="{{ route('confezionamento', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
-                                                                                Confezionamento</option>
-                                                                            <option
+                                                                                value="{{ route('createCalibratura', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                Calibratura</option>
+                                                                            <!--   <option
                                                                                 value="{{ route('confezionamento2', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Confezionamento2</option>
                                                                             <option
@@ -649,11 +646,11 @@
                                                                                 value="{{ route('tostatura', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Tostatura</option>
                                                                             <option
-                                                                                value="{{ route('tostatura2tostatura2', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('tostatura2', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Tostatura 2</option>
                                                                             <option
                                                                                 value="{{ route('tritatura', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
-                                                                                Tritatura</option>
+                                                                                Tritatura</option> -->
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -677,43 +674,57 @@
 
                                                         }
                                                     </script>
-                                                    <table id="lista_moduli_qualita"
-                                                        class="table table-bordered table-striped" style="width:100%">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Cd_Operatore</th>
-                                                                <th>Note</th>
-                                                                <th>Data</th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <?php foreach ($attivita_bolla->moduli_qualita as $q) { ?>
+                                                    <script>
+                                                        document.addEventListener('DOMContentLoaded', function () {
+                                                            fetch('/moduli/{{$attivita_bolla->Id_PrBLAttivita}}/dms')
+                                                                .then(response => {
+                                                                    if (!response.ok) {
+                                                                    throw new Error('Errore nella richiesta Fetch');
+                                                                    }
+                                                                    response.json().then((data) => {
+                                                                        const table = document.createElement('table');
+                                                                        table.classList.add('table', 'table-bordered', 'table-striped');
+                                                                        const headerRow = table.insertRow();
+                                                                        Object.keys(data[0]).forEach(key => {
+                                                                            const th = document.createElement('th');
+                                                                            th.textContent = key;
+                                                                            headerRow.appendChild(th);
+                                                                        });
 
-                                                            <tr>
-                                                                <td class="no-sort">
-                                                                    <?php echo $q->Cd_Operatore ?>
-                                                                </td>
-                                                                <td class="no-sort">
-                                                                    <?php echo $q->Note ?>
-                                                                </td>
-                                                                <td class="no-sort">
-                                                                    <?php echo date('d/m/Y', strtotime($q->TimeIns)) ?>
-                                                                </td>
-                                                                <td>
-                                                                    <a style="float:left;margin-left:5px;"
-                                                                        class="btn btn-primary btn-sm" target="_blank"
-                                                                        href="<?php echo URL::asset('stampa/qualita/'.$q->Id_xFormQualita) ?>">Stampa</a>
-                                                                    <a style="float:left;margin-left:5px;"
-                                                                        class="btn btn-danger btn-sm"
-                                                                        onclick="elimina_qualita(<?php echo $q->Id_xFormQualita ?>)">Elimina</a>
+                                                                        const th = document.createElement('th');
+                                                                        th.textContent = "Visualizza";
+                                                                        headerRow.appendChild(th); 
+                                                                        data.forEach(item => {
+                                                                            const row = table.insertRow();
+                                                                                Object.values(item).forEach(value => {
+                                                                                 const cell = row.insertCell();
+                                                                                cell.textContent = value;
+                                                                                
+                                                                            }); 
+                                                                            const visualizzaCell = row.insertCell();
+                                                                            const visualizzaInput = document.createElement('input');
+                                                                            visualizzaInput.type = 'button';
+                                                                            visualizzaInput.classList.add("btn", "btn-success")
+                                                                            visualizzaInput.value = 'VISUALIZZA';
+                                                                            visualizzaCell.appendChild(visualizzaInput);
+                                                                            visualizzaInput.onclick = function() {
+                                                                                 window.location.href = '/moduli/show/' + item.Id_DmsDocument
+                                                                            };             
+                                                                        });
+                                                                        const divDms = document.querySelector('.div-dms');
+                                                                        divDms.appendChild(table);
+                                                                    });
+                                                                })
+                                                                .then(data => {
+                                                                    console.log(data);
+                                                                })
+                                                                .catch(error => {
+                                                                    console.error('Errore nella richiesta Fetch', error);
+                                                                });
+                                                        });
+                                                    </script>
 
-                                                                </td>
-                                                            </tr>
-
-                                                            <?php } ?>
-                                                        </tbody>
-                                                    </table>
+                                                    <div class="div-dms"></div>
                                                 </div>
                                             </div>
                                             <div class="tab-custom-content">
@@ -2210,7 +2221,6 @@
 
 
 <script type="text/javascript">
-
     setInterval(function () {
         var timespan = countdown(new Date("<?php echo $ultima_rilevazione[0]->DataOra ?>"), new Date());
         var div = document.getElementById('time');
@@ -2310,7 +2320,6 @@
 <?php } ?>
 
 <script type="text/javascript">
-
     id_riga_scarto_attrezzaggio = 1;
     qta_ultimo_collo = 0;
     umfatt = 1;
@@ -2641,7 +2650,6 @@
 
 
 <script type="text/javascript">
-
     pdf = [];
     timer = '';
     <? php if (isset($_GET['stampa'])) { ?>
@@ -2703,8 +2711,8 @@
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+</script>
 
 <style>
     #search {

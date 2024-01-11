@@ -1,6 +1,3 @@
-
-
-
 <form method="post">
 
     <div class="modal fade" id="modal_lista_versamenti">
