@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ModuloController extends Controller
 {
     public function getDMS($id) {
-        $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', 6983);
+        $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $dotes = $prblAttivita;
         $prolAttivita =  $prblAttivita->prolAttivita;
         $prolDorig = $prolAttivita->prolDoRig;

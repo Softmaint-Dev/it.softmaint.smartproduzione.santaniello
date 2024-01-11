@@ -2324,18 +2324,18 @@
     qta_ultimo_collo = 0;
     umfatt = 1;
 
-    <? php foreach($articolo -> UM as $um){ ?>
-        <? php if ($um -> TipoARMisura == 'V') { ?>
-            umfatt = <? php echo $um -> UMFatt ?>
-                 <? php } ?>
-                 <? php } ?>
+    <?php foreach($articolo -> UM as $um){ ?>
+        <?php if ($um -> TipoARMisura == 'V') { ?>
+            umfatt = <?php echo $um -> UMFatt ?>
+                 <?php } ?>
+                 <?php } ?>
 
         $('#umfatt').html(umfatt);
 
 
-    <? php if (sizeof($attivita_bolla -> colli) > 0) { ?>
-        qta_ultimo_collo = <? php echo $attivita_bolla -> colli[0] -> QtaProdotta; ?>
-                           <? php } ?>
+    <?php if (sizeof($attivita_bolla -> colli) > 0) { ?>
+        qta_ultimo_collo = <?php echo $attivita_bolla -> colli[0] -> QtaProdotta; ?>
+                           <?php } ?>
 
 
         function stampe_libere() {
@@ -2445,7 +2445,7 @@
     }
 
     function fine_lavorazione() {
-        <? php if ($OLAttivita -> Cd_PrAttivita != 'STAMPA' && $OLAttivita -> Cd_PrAttivita != 'ESTRUSIONE') { ?>
+        <?php if ($OLAttivita -> Cd_PrAttivita != 'STAMPA' && $OLAttivita -> Cd_PrAttivita != 'ESTRUSIONE') { ?>
             $.ajax({
                 url: "<?php echo URL::asset('ajax/check_bolla') ?>/<?php echo $attivita_bolla->Id_PrBLAttivita ?>"
             }).done(function (result) {
@@ -2457,11 +2457,11 @@
                     $('#modal_check_bolla').modal('show');
                 }
             });
-        <? php } else { ?>
+        <?php } else { ?>
 
             $('#modal_fine_lavorazione').modal('show');
 
-        <? php } ?>
+        <?php } ?>
         // caricamento con ajax fine lavorazione
 
     }
@@ -2583,12 +2583,12 @@
         $(".nav-link[href*='" + window.location.hash + "']").click();
     }
 
-    <? php if ($OLAttivita -> Cd_PrAttivita == 'ESTRUSIONE' && sizeof($attivita_bolla -> gruppo_lavoro) == 0) { ?>
+    <?php if ($OLAttivita -> Cd_PrAttivita == 'ESTRUSIONE' && sizeof($attivita_bolla -> gruppo_lavoro) == 0) { ?>
         $('#modal_aggiungi_utente').modal('show');
-        <? php if ($utente -> Cd_Operatore2 > 0) { ?>
+        <?php if ($utente -> Cd_Operatore2 > 0) { ?>
             $('#bottone_aggiungi_utente_gruppo').click();
-    <? php } ?>
-    <? php } ?>
+    <?php } ?>
+    <?php } ?>
 
         function abilita_stampa() {
 
@@ -2652,12 +2652,12 @@
 <script type="text/javascript">
     pdf = [];
     timer = '';
-    <? php if (isset($_GET['stampa'])) { ?>
-        <? php $stampe = explode(',', $_GET['stampa']); ?>
+    <?php if (isset($_GET['stampa'])) { ?>
+        <?php $stampe = explode(',', $_GET['stampa']); ?>
             pdf =[
-            <? php foreach($stampe as $st) echo "'".URL:: asset('upload/'.$st. '.pdf'). "'," ?>
+            <?php foreach($stampe as $st) echo "'".URL:: asset('upload/'.$st. '.pdf'). "'," ?>
     ];
-    <? php } ?>
+    <?php } ?>
 
 
         function stampav2(pos) {
