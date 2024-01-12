@@ -631,6 +631,9 @@
                                                                             <option
                                                                                 value="{{ route('createCalibratura', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Calibratura</option>
+                                                                                <option
+                                                                                value="{{ route('createEfficienza', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                Efficienza</option>
                                                                             <!--   <option
                                                                                 value="{{ route('confezionamento2', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Confezionamento2</option>

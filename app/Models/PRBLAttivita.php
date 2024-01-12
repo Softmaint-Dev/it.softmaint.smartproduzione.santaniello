@@ -14,4 +14,9 @@ class PRBLAttivita extends Model
     {
         return $this->hasOne(PROLAttivita::class, 'Id_PrOLAttivita', 'Id_PrOLAttivita');
     }
+
+    public function xwpCollo()
+    {
+         return $this->hasMany(XWPCollo::class);
+    }
 }

@@ -2,21 +2,9 @@
 
 use App\Http\Controllers\moduli\CalibraturaController;
 use App\Http\Controllers\arca\CFController;
+use App\Http\Controllers\moduli\EfficienzaController;
 use App\Http\Controllers\moduli\ModuloController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::any('', 'HomeController@index');
 Route::any('login', 'HomeController@login');
@@ -34,7 +22,7 @@ Route::any('lista_attivita', 'HomeController@lista_attivita');
 Route::any('valeria/tracciabilita', 'HomeController@login2');
 Route::any('lista_attivita/{cd_attivita}', 'HomeController@lista_attivita');
 Route::any('lista_bolle_attive/{cd_attivita}', 'HomeController@lista_bolle_attive');
-Route::get('dettaglio_bolla/{id}', 'HomeController@dettaglio_bolla')->name('dettaglio_bolla');
+Route::any('dettaglio_bolla/{id}', 'HomeController@dettaglio_bolla')->name('dettaglio_bolla');
 Route::any('odl', 'HomeController@odl');
 Route::any('dettaglio_odl', 'HomeController@dettaglio_odl');
 Route::any('dettaglio_odl/{id_attivita}', 'HomeController@dettaglio_odl');
@@ -97,6 +85,11 @@ Route::group(['prefix' => 'moduli'], function() {
         Route::get('/', [CalibraturaController::class, 'showAll']);
         Route::get("/create/{id}", [CalibraturaController::class, 'createView'])->name("createCalibratura");
         Route::post("/create/{id}", [CalibraturaController::class, 'create'])->name("createPostCalibratura");
+     });
+     Route::group(['prefix' => 'efficienza'], function() {
+        Route::get('/', [EfficienzaController::class, 'showAll']);
+        Route::get("/create/{id}", [EfficienzaController::class, 'createView'])->name("createEfficienza");
+        Route::post("/create/{id}", [EfficienzaController::class, 'create'])->name("createPostEfficienza");
      });
 });
 
