@@ -104,7 +104,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'options'   => [
-                PDO::ATTR_EMULATE_PREPARES => true,
+              
                 PDO::SQLSRV_ATTR_ENCODING   => PDO::SQLSRV_ENCODING_UTF8,
             ],
         ],
