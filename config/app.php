@@ -13,6 +13,9 @@ return [
     |
     */
 
+    'charset' => 'UTF-8',
+    'timezone' => 'UTC',
+
     'name' => env('APP_NAME', 'Laravel'),
 
     /*

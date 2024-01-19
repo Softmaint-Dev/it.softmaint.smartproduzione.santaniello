@@ -1,9 +1,17 @@
 <?php
 
-use App\Http\Controllers\moduli\CalibraturaController;
+use App\Http\Controllers\arca\XWPColloController;
+use App\Http\Controllers\moduli\FarinaController;
 use App\Http\Controllers\arca\CFController;
 use App\Http\Controllers\moduli\EfficienzaController;
+use App\Http\Controllers\moduli\GranellaController;
+use App\Http\Controllers\moduli\MetalDetector;
+use App\Http\Controllers\moduli\MetalDetectorController;
 use App\Http\Controllers\moduli\ModuloController;
+use App\Http\Controllers\moduli\RaffinatriceController;
+use App\Http\Controllers\moduli\SortexController;
+use App\Http\Controllers\moduli\TostaturaController;
+use App\Http\Controllers\moduli\XRayController;
 use Illuminate\Support\Facades\Route;
 
 Route::any('', 'HomeController@index');
@@ -76,24 +84,70 @@ Route::group(['prefix' => 'qualita'], function () {
 Route::post('/generate-and-save-pdf', 'QualitaController@generateAndSavePdf');
 
 Route::any('logout', 'HomeController@logout');
-
-
+ 
 Route::group(['prefix' => 'moduli'], function() {
     Route::get('{id}/dms', [ModuloController::class, 'getDMS']);
     Route::get('show/{id}', [ModuloController::class, 'showDMS']);
-    Route::group(['prefix' => 'calibratura'], function() {
-        Route::get('/', [CalibraturaController::class, 'showAll']);
-        Route::get("/create/{id}", [CalibraturaController::class, 'createView'])->name("createCalibratura");
-        Route::post("/create/{id}", [CalibraturaController::class, 'create'])->name("createPostCalibratura");
+    Route::group(['prefix' => 'granella'], function() {
+        Route::get('/', [GranellaController::class, 'showAll']);
+        Route::get("/create/{id}", [GranellaController::class, 'createView'])->name("createGranella");
+        Route::post("/create/{id}", [GranellaController::class, 'create'])->name("createPostGranella");
      });
      Route::group(['prefix' => 'efficienza'], function() {
         Route::get('/', [EfficienzaController::class, 'showAll']);
         Route::get("/create/{id}", [EfficienzaController::class, 'createView'])->name("createEfficienza");
         Route::post("/create/{id}", [EfficienzaController::class, 'create'])->name("createPostEfficienza");
      });
+     Route::group(['prefix' => 'tostatura'], function() {
+        Route::get('/', [TostaturaController::class, 'showAll']);
+        Route::get("/create/{id}", [TostaturaController::class, 'createView'])->name("createTostatura");
+        Route::post("/create/{id}", [TostaturaController::class, 'create'])->name("createPostTostatura");
+     });
+     Route::group(['prefix' => 'raffinatrice'], function() {
+        Route::get('/', [RaffinatriceController::class, 'showAll']);
+        Route::get("/create/{id}", [RaffinatriceController::class, 'createView'])->name("createRaffinatrice");
+        Route::post("/create/{id}", [RaffinatriceController::class, 'create'])->name("createPostRaffinatrice");
+     });
+     Route::group(['prefix' => 'sortex'], function() {
+      Route::get('/', [SortexController::class, 'showAll']);
+      Route::get("/create/{id}", [SortexController::class, 'createView'])->name("createSortex");
+      Route::post("/create/{id}", [SortexController::class, 'create'])->name("createPostSortex");
+   });
+   Route::group(['prefix' => 'farina'], function() {
+      Route::get('/', [FarinaController::class, 'showAll']);
+      Route::get("/create/{id}", [FarinaController::class, 'createView'])->name("createFarina");
+      Route::post("/create/{id}", [FarinaController::class, 'create'])->name("createPostFarina");
+   });
+   Route::group(['prefix' => 'xray'], function() {
+      Route::group(['prefix' => 'BR6000'], function() {
+         Route::get('/', [XRayController::class, 'showAll']);
+         Route::get("/create/{id}", [XRayController::class, 'createViewBR6000'])->name("createXrayBR6000");
+         Route::post("/create/{id}", [XRayController::class, 'createPostXBR6000'])->name("createPostXBR6000");
+      });
+      Route::group(['prefix' => '400N'], function() {
+         Route::get('/', [XRayController::class, 'showAll']);
+         Route::get("/create/{id}", [XRayController::class, 'createView400N'])->name("createXray400N");
+         Route::post("/create/{id}", [XRayController::class, 'createPost400N'])->name("createPost400N");
+      });
+   });
+   Route::group(['prefix' => 'metal-detector'], function() {
+      Route::group(['prefix' => 'MBR1200'], function() {
+         Route::get('/', [MetalDetectorController::class, 'showAll']);
+         Route::get("/create/{id}", [MetalDetectorController::class, 'createViewMBR1200'])->name("createMDMBR1200");
+         Route::post("/create/{id}", [MetalDetectorController::class, 'createPostMBR1200'])->name("createPostMDMBR1200");
+      });
+      Route::group(['prefix' => 'PMO'], function() {
+         Route::get('/', [MetalDetectorController::class, 'showAll']);
+         Route::get("/create/{id}", [MetalDetectorController::class, 'createViewPMO'])->name("createMDPMO");
+         Route::post("/create/{id}", [MetalDetectorController::class, 'createPostPMO'])->name("createMDPMO");
+      });
+   });
 });
 
 Route::group(['prefix' => 'CF'], function() {
     Route::get("/", [CFController::class, 'findAll']);
-    
+});
+
+Route::group(['prefix' => 'XWPCollo'], function() {
+   Route::get("/{id}", [XWPColloController::class, 'xWPColloByAttivita']);
 });

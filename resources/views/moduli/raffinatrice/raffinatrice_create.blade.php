@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/clockpicker/dist/bootstrap-clockpicker.min.js"></script> --}}
 
   <!-- Include le librerie di Bootstrap -->
-  {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -19,13 +19,17 @@
   <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
+  <!-- Include il plugin datepicker per la data -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.it.min.js"></script>
 
- --}}
+  <!-- Include il plugin clockpicker per l'ora -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/css/bootstrap-timepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
 
 
- @include('moduli.components.header')
-
-<form class="mt-5" action="{{ route('createPostEfficienza', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
+<form class="mt-5" action="{{ route('createPostRaffinatrice', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
     onsubmit="return validateForm()">
     <div class="container mt-5">
         <h2>Testata</h2>
@@ -38,34 +42,22 @@
                         <span class="input-group-text"><i class="far fa-calendar"></i></span>
                     </div>
                 </div>
-            </div>                   
-           
-           
-            <div class="col-md-4 mb-3">
-                <label for="oraInizio">Seleziona Ora Inizio*:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control timepicker" id="oraInizio" name="oraInizio" readonly required>
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="far fa-clock"></i></span>
-                    </div>
-                </div>
             </div>
             <div class="col-md-4 mb-3">
-                <label for="oraFine">Seleziona Ora Fine*:</label>
-                <div class="input-group">
-                    <input type="text" class="form-control timepicker" id="oraFine" name="oraFine" readonly required>
-                    <div class="input-group-append">
-                        <span class="input-group-text"><i class="far fa-clock"></i></span>
-                    </div>
-                </div>
+            <div class="mb-3">
+                <label for="caliber" class="form-label">LOTTO MP</label>
+                <input required type="text"  name="lotto_mp" name="sampleCalibratura" class="form-control" id="caliberSample"
+                    aria-describedby="emailHelp">
             </div>
         </div>
-        
+        <div class="col-md-4 mb-3">
+            <div class="mb-3">
+                <label for="caliber" class="form-label">LOTTO PF</label>
+                <input required type="text"  name="lotto_pf" name="sampleCalibratura" class="form-control" id="caliberSample"
+                    aria-describedby="emailHelp">
+            </div>
+        </div>
     </div>
-
-    <div class="container">
-        @include('moduli.components.xwpcollo_select', ['attivita' => $attivity])
-
     </div>
 
     <div class="container mt-5">
@@ -81,54 +73,34 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Assenza di allarmi o visivi</td>
+                    <td>Integrità rete</td>
                     <td>
                         <div class="form-check form-switch">
-                            <input   name="allarme" class="form-check-input required" type="checkbox" role="switch"
+                            <input   name="integrita" class="form-check-input required" type="checkbox" role="switch"
                                 id="flexSwitchCheckChecked" checked>
                          </div>
                     </td>
-                    <td><textarea name="allarme_nota"  class="form-control"  rows="3"></textarea> </td>
+                    <td><textarea name="integrita_nota"  class="form-control"  rows="3"></textarea> </td>
                 </tr>
                 <tr>
-                    <td>“Ricetta” corretta su display</td>
+                    <td>Pulizia magneti carico raffinatrice</td>
                     <td>
                         <div class="form-check form-switch">
-                            <input   name="ricetta" class="form-check-input required" type="checkbox" role="switch"
+                            <input   name="pulizia_carico" class="form-check-input required" type="checkbox" role="switch"
                                 id="flexSwitchCheckChecked" checked>
                          </div>
                     </td>
-                    <td><textarea name="ricetta_nota" class="form-control" rows="3"></textarea></td>
+                    <td><textarea name="pulizia_carico_nota" class="form-control" rows="3"></textarea></td>
                 </tr>
                <tr>
-                    <td>Assenza acqua in filtro dell’aria</td>
+                    <td>Pulizia magneti uscita prodotto finito</td>
                     <td>
                         <div class="form-check form-switch">
-                            <input name="filtro_acqua" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                            <input name="pulizia_uscita" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
 
                          </div>
                     </td>
-                    <td><textarea class="form-control" name="filtro_acqua_note" rows="3"></textarea></td>
-                </tr>
-                <tr>
-                    <td>Controllo Elettrovalvole a buon fine</td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input   name="elettrovalvole" class="form-check-input required" type="checkbox" role="switch"
-                                id="flexSwitchCheckChecked" checked>
-                         </div>
-                    </td>
-                    <td><textarea class="form-control" name="elettrovalvole_note" rows="3"></textarea></td>
-                </tr>
-                <tr>
-                    <td>Controllo avvenuta calibrazione</td>
-                    <td>
-                        <div class="form-check form-switch">
-                            <input   name="calibrazione" class="form-check-input required" type="checkbox" role="switch"
-                                id="flexSwitchCheckChecked" checked>
-                         </div>
-                    </td>
-                    <td><textarea class="form-control" name="calibrazione_note" rows="3"></textarea></td>
+                    <td><textarea class="form-control" name="pulizia_uscita_note" rows="3"></textarea></td>
                 </tr>
             </tbody>
         </table>

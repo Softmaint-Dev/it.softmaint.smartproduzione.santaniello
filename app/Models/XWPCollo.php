@@ -9,8 +9,15 @@ class XWPCollo extends Model
 {
     use HasFactory;
 
+    //XLotto
+
+    protected $table = 'xWPCollo';
+
+
     public function prblattivita()
     {
-        return $this->belongsTo(PRBLAttivita::class);
+        return $this->hasMany(PROLAttivita::class, 'Id_PRBLAttivita', 'Id_PrBLAttivita');
     }
+
+    
 }

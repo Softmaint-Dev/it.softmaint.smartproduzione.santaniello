@@ -10,30 +10,23 @@ use App\Models\PRBLAttivita;
 use App\Models\PROLAttivita;
 use App\Models\PROLDoRig;
 use App\Models\PRRLAttivita;
-use App\Models\xCalibratura;
+use App\Models\XWPCollo;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
-class CalibraturaController extends Controller
+class FarinaController extends Controller
 {
-    public function showAll()
-    {
-
-        return view('moduli.calibratura.calibratura', [
-            'calibrature' => xCalibratura::all()
-        ]);
-    }
-
+ 
 
     public function createView($id)
     {
 
         $attivity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $id);
 
-        return view('moduli.calibratura.calibratura_create', [
+        return view('moduli.farina.farina_create', [
             'attivity' => $attivity
         ]);
     }
@@ -44,7 +37,9 @@ class CalibraturaController extends Controller
 
 
 
-        $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
+        $prblAttivita = PRBLAttivita::with(['materiale.ar', 'materiale.arlotto'])->firstWhere('id_prblattivita', $id);
+        $prblMateriale = $prblAttivita->materiale;
+        $ar = $prblMateriale[0]->ar;
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
         $prolDorig = $prolAttivita->prolDoRig;
@@ -52,41 +47,45 @@ class CalibraturaController extends Controller
         $dotes = $dorig->dotes;
         $cf = $dotes->cf;
         $dms = $dotes->dms();
-
         $data = $request->all();
-
-        $pdf = App::make('dompdf.wrapper');
-
-        $layout = file_get_contents(public_path('pdf/calibratura2.html'));
+        $qty = number_format($prblAttivita->Quantita, 2, '.', '');
 
 
-        $refactoring = array(
-            '[ID_REV]' => '1',
-            '[ID_DATE]' => 'Mio Id',
+
+ 
+       
+        $layout = file_get_contents(public_path('pdf/farina.html'));
+
+
+        $refactoring = array( 
             '[VARIETA]' => $data['variety'],
-            '[LOTTO]' => 'Da  Recuperare',
-            '[CALIBRO]' => $data['calibre'],
+            '[LOTTO]' => $data['xwpCollo'],
+            '[CALIBRO]' => $data['caliber'],
             '[CLIENTE]' => $cf->Descrizione,
-            '[TOTAL_KG]' => 'DA RECUPERARE',
-            '[DATE]' => $data['date'],
-            '[TIME]' => $data['analysis'],
+            '[TOTAL_KG]' => $prblAttivita->Quantita,
+            '[DATE]' => $data['simpleDate'],
+            '[TIME]' => $data['analysisTime'],
             '[SAMPLE]' => $data['sample'],
-            '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
             '[UMIDITA]' => $data['moisture'],
-            '[SKIN]' => $data['skin'],
-            '[TASTE]' => $data['tastAndSmell'],
-            '[COLOUR]' => $data['colour'],
-            '[OVERSIZE]' => $data['overSize'],
-            '[OVERSIZE_PERCENTAGE]' => $data['overSizePercentage'],
-            '[CALCULATION]' => $data['calculation'],
-            '[CALCULATION_PERCENTAGE]' => $data['calculationPercentage'],
-            '[UNDERSIZE]' => $data['underSize'],
-            '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
-            '[TOTAL]' => $data['total'],
+            '[COLOR_NATURAL]' => $data['colorNatural'],
+            '[COLOR_ROASTED]' => $data['colorRoasted'],
+            '[TAS_NATURAL]' => $data['tasNatural'],
+            '[TAS_ROASTED]' => $data['tasRoasted'],
+            '[ANALISYS_%]' => $data['sampleCalibratura'],
+            '[VALUE_1]' => $data['value1'],
+            '[VALUE_2]' => $data['value2'],
+            '[VALUE_3]' => $data['value3'],
+            '[VALUE_TOT]' => $data['valueTot'],
+            '[VALUE_1_PERCENTAGE]' => $data['value1Percentage'],
+            '[VALUE_2_PERCENTAGE]' => $data['value2Percentage'],
+            '[VALUE_3_PERCENTAGE]' => $data['value3Percentage'],
+            '[VALUE_TOT_PERCENTAGE]' => $data['valueTotPercentage'],
             '[OBSERVATIONS]' => $data['observations'],
         );
 
         $html = str_replace(array_keys($refactoring), $refactoring, $layout);
+
+        $pdf = App::make('dompdf.wrapper');
 
         $pdf->loadHtml($html);
 
@@ -95,17 +94,16 @@ class CalibraturaController extends Controller
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
             ->createDMS(
                 DB::raw("0x" . bin2hex($binaryPDF)),
-                'MODULO CALIBRATURA',
-                "Calibratura.pdf",
+                'MODULO FARINA',
+                "farina.pdf",
             
                 $dotes,
-                $data['date']
+                date("Y-m-d H:i:s")
             );
 
         if ($complete) {
             return Redirect::to('dettaglio_bolla/' . $id);
         }
         return response('errore!!');
-
     }
 }

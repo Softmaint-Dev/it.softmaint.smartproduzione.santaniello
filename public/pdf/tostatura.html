@@ -1,43 +1,86 @@
- 
-    <style>
-      
-        table {
-            width: 100%;
-            height: 50px;
-            border-style: solid;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: center;
-        }
+<!DOCTYPE html>
+<html lang="en">
 
-        td {
-            
-            padding: 8px
-        }
 
-        .x {
-            width: 50%;
-            height: 50px;
-            border-style: solid;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: start;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+            }
+    
+            table {
+                width: 100%;
+                border: 1px solid black;
+                border-collapse: collapse;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+    
+            td, th {
+                border: 1px solid black;
+                padding: 8px;
+            }
+    
+            td img {
+                width: 100px;
+                height: 50px;
+            }
+    
+            .x, .y {
+                border: 1px solid black;
+                border-collapse: collapse;
+                padding: 8px;
+                text-align: start;
+            }
+    
+            .x {
+                width: 50%;
+            }
+    
+            .y {
+                width: 90%;
+            }
+    
+            th[data-colspan]:after {
+                content: attr(data-colspan);
+                display: inline-block;
+                margin-left: 20px;
+            }
+    
+            tbody tr:nth-child(odd) {
+                background-color: #f2f2f2;
+            }
+    
+            @media print {
+                body {
+                    margin: 0;
+                }
+    
+                table, th, td {
+                    border: 1px solid black;
+                    border-collapse: collapse;
+                }
+    
+                th[data-colspan]:after {
+                    content: attr(data-colspan);
+                    display: inline-block;
+                    margin-left: 20px;
+                }
+    
+                td img {
+                    width: 100%;
+                    height: auto;
+                }
+            }
+        </style>
+    </head>
+<body>
 
-        .y {
-            width: 90%;
-            height: 50px;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: start;
-        }
-    </style>
     <table class="a" border="1">
         <tr>
             <td rowspan="2">
@@ -49,93 +92,50 @@
             <td>M_IO 17_1</td>
         </tr>
         <tr>
-            <td style="width: 50%">Monitoraggio efficienza Sea Hypersort</td>
+            <td style="width: 50%">CQ tostatura</td>
             <td>Rev. 0 del 22.05.2023</td>
         </tr>
         <!-- Aggiungi altre righe se necessario -->
     </table>
 
     <br>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>VERIFICA EFFETTUATA DA</th>
-                <th>GIORNO</th>
-                <th>MESE</th>
-                <th>ANNO</th>
-                <th>ORA INIZIO</th>
-               <th>ORA FINE </th>
-               <th>LOTTO</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>[USER]</td>
-                <td>[GIORNO]</td>
-                <td>[MESE]</td>
-                <td>[ANNO]</td>
-                <td>[ORA_INIZIO]</td>
-                <td>[ORA_FINE]</td>
-                <td>[LOTTO]</td> 
-            </tr>
-        </tbody>
-    </table>
-
-   
-
-    <h1>AREA PRODUZIONE</h1>
-
     <br>
 
     <table border="1">
         <thead>
             <tr>
-                <th style="width: 200px;">Funzionamento SEA HYPERSORT:  </th>
-                <th style="width: 100px;">CONFORME</th>
-                <th>DESCRIZIONE</th> 
+                <th style="width: 200px">DATA</th>
+                <th>[DATA]</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>Assenza di allarmi o visivi</td>
-                <td>[ALLARME]</td>
-                <td>[ALLARME_DESCRIZIONE]</td> 
-            </tr>
-            <tr>
-                <td>“Ricetta” corretta su display</td>
-                <td>[RICETTA]</td>
-                <td>[RICETTA_DESCRIZIONE]</td> 
-            </tr>
-            <tr>
-                <td>Assenza acqua in filtro dell’aria</td>
-                <td>[FILTRO_ACQUA]</td>
-                <td>[FILTRO_ACQUA_DESCRIZIONE]</td> 
-            </tr>
-            <tr>
-                <td>Controllo Elettrovalvole a buon fine</td>
-                <td>[ELETTROVALVOLE]</td>
-                <td>[ELETTROVALVOLE_DESCRIZIONE]</td> 
-            </tr>
-            <tr>
-                <td>Controllo avvenuta calibrazione</td>
-                <td>[CALIBRAZIONE]</td>
-                <td>[CALIBRAZIONE_DESCRIZIONE]</td> 
-            </tr>
-        </tbody>
+
     </table>
 
+
     <br>
+    <br>
+
+
 
     <table border="1">
         <thead>
             <tr>
-                <th>NOTE E INDICAZIONI PER RISOLUZIONE EVENTUALI NC RILEVATE </th>
+                <th colspan="3"></th>
+                <th colspan="2">RH</th>
+            </tr>
+            <tr>
+                <th style="width: 200px;">LOTTO </th>
+                <th style="width: 100px;">N CESTA</th>
+                <th>RICETTA CARICATA</th>
+                <th>RH IN</th>
+                <th>RH OUT</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>[NOTE]</td> 
-            </tr>
+           [DA COSTRUIRE]
         </tbody>
-    </table> 
+    </table>
+    <br>
+</body>
+
+</html>

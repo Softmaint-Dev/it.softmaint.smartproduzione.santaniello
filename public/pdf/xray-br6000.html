@@ -1,43 +1,44 @@
- 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <style>
-      
+       body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
         table {
             width: 100%;
-            height: 50px;
-            border-style: solid;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
             border: 1px solid black;
             border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        td, th {
+            border: 1px solid black;
+            padding: 10px;
             text-align: center;
         }
 
-        td {
-            
-            padding: 8px
+        th {
+            background-color: #f2f2f2;
         }
 
-        .x {
-            width: 50%;
-            height: 50px;
-            border-style: solid;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: start;
+        .x, .y {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
         }
 
-        .y {
-            width: 90%;
-            height: 50px;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: start;
+        p {
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
+</head>
+
+<body>
     <table class="a" border="1">
         <tr>
             <td rowspan="2">
@@ -46,96 +47,61 @@
                     alt="">
             </td>
             <td>Sistema di gestione integrato</td>
-            <td>M_IO 17_1</td>
+            <td>M_IO 17_3</td>
         </tr>
         <tr>
-            <td style="width: 50%">Monitoraggio efficienza Sea Hypersort</td>
+            <td style="width: 50%">Monitoraggio efficienza X. Ray</td>
             <td>Rev. 0 del 22.05.2023</td>
         </tr>
         <!-- Aggiungi altre righe se necessario -->
     </table>
+    <br>
+
+    <div>
+        <table border="1" class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col">Linea X-RAY XBR-6000</th>
+                    <th>FE 1,5 mm</th>
+                    <th>NON FE 1,5 mm</th>
+                    <th>STAINLESS 1,8mm</th>
+                    <th>CRYSTAL GLASS 3,0 mm</th>
+                    <th>CERAMIC 8,0 mm</th>
+                </tr>
+            </thead>
+               [BODY]
+        </table>
+
+    </div>
+
 
     <br>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>VERIFICA EFFETTUATA DA</th>
-                <th>GIORNO</th>
-                <th>MESE</th>
-                <th>ANNO</th>
-                <th>ORA INIZIO</th>
-               <th>ORA FINE </th>
-               <th>LOTTO</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>[USER]</td>
-                <td>[GIORNO]</td>
-                <td>[MESE]</td>
-                <td>[ANNO]</td>
-                <td>[ORA_INIZIO]</td>
-                <td>[ORA_FINE]</td>
-                <td>[LOTTO]</td> 
-            </tr>
-        </tbody>
-    </table>
-
-   
-
-    <h1>AREA PRODUZIONE</h1>
+    <br>
+    
+    <p>Visto giornaliero per verifica corretta compilazione e ritiro per archiviazione _______________________________________________________________</p>
 
     <br>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th style="width: 200px;">Funzionamento SEA HYPERSORT:  </th>
-                <th style="width: 100px;">CONFORME</th>
-                <th>DESCRIZIONE</th> 
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Assenza di allarmi o visivi</td>
-                <td>[ALLARME]</td>
-                <td>[ALLARME_DESCRIZIONE]</td> 
-            </tr>
-            <tr>
-                <td>“Ricetta” corretta su display</td>
-                <td>[RICETTA]</td>
-                <td>[RICETTA_DESCRIZIONE]</td> 
-            </tr>
-            <tr>
-                <td>Assenza acqua in filtro dell’aria</td>
-                <td>[FILTRO_ACQUA]</td>
-                <td>[FILTRO_ACQUA_DESCRIZIONE]</td> 
-            </tr>
-            <tr>
-                <td>Controllo Elettrovalvole a buon fine</td>
-                <td>[ELETTROVALVOLE]</td>
-                <td>[ELETTROVALVOLE_DESCRIZIONE]</td> 
-            </tr>
-            <tr>
-                <td>Controllo avvenuta calibrazione</td>
-                <td>[CALIBRAZIONE]</td>
-                <td>[CALIBRAZIONE_DESCRIZIONE]</td> 
-            </tr>
-        </tbody>
-    </table>
+    <div>
+        <table border="1" class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>Redatto da</th>
+                    <th>Verificato</th>
+                    <th>Approvato da</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>RSG</th>
+                    <th>PQM</th>
+                    <th>DA</th>
+                </tr>
+            </tbody>
+        </table>
 
-    <br>
+    </div>
+</body>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>NOTE E INDICAZIONI PER RISOLUZIONE EVENTUALI NC RILEVATE </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>[NOTE]</td> 
-            </tr>
-        </tbody>
-    </table> 
+</html>

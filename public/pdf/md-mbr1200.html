@@ -1,42 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <style>
-      
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
         table {
             width: 100%;
-            height: 50px;
-            border-style: solid;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
             border: 1px solid black;
             border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        td, th {
+            border: 1px solid black;
+            padding: 10px;
             text-align: center;
         }
 
-        td {
-            
-            padding: 8px
+        th {
+            background-color: #f2f2f2;
         }
 
-        .x {
-            width: 50%;
-            height: 50px;
-            border-style: solid;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: start;
+        .x, .y {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
         }
 
-        .y {
-            width: 90%;
-            height: 50px;
-            box-sizing: border-box;
-            /* Aggiunto per includere il bordo nella larghezza */
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: start;
+        p {
+            text-align: center;
+            margin-bottom: 20px;
         }
     </style>
+</head>
+
+<body>
     <table class="a" border="1">
         <tr>
             <td rowspan="2">
@@ -45,132 +47,58 @@
                     alt="">
             </td>
             <td>Sistema di gestione integrato</td>
-            <td>M_IO 10_2</td>
+            <td>M_IO 17_3</td>
         </tr>
         <tr>
-            <td style="width: 50%">CQ Granella</td>
-            <td>Rev [ID_REV] del [ID_DATE]</td>
+            <td style="width: 50%">Monitoraggio efficienza X. Ray</td>
+            <td>Rev. 0 del 22.05.2023</td>
         </tr>
         <!-- Aggiungi altre righe se necessario -->
     </table>
-
     <br>
 
-    <table class="x" border="1">
-        <tr>
-            <td>Varietà/ Variety</td>
-            <td>[VARIETA]</td>
-        </tr>
-        <tr>
-            <td>Lotto / Batch</td>
-            <td>[LOTTO]</td>
-        </tr>
-        <tr>
-            <td>Calibro / Caliber</td>
-            <td>[CALIBRO]</td>
-        </tr>
-        <tr>
-            <td>CLIENTE / CUSTOMER</td>
-            <td>[CLIENTE]</td>
-        </tr>
-        <tr>
-            <td>Kg Totale Ordine / Total Kg Order</td>
-            <td>[TOTAL_KG]</td>
-        </tr>
-    </table>
+    <div>
+        <table border="1" class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th scope="col">Linea Pentec MBR-1200</th>
+                    <th>FE 2,5 mm</th>
+                    <th>NON FE 2,5 mm</th>
+                    <th>STAINLESS 3,5mm</th>
+                    <th>Firma Addetto CQ</th>
+                </tr>
+            </thead>
+            <tbody>
+               [BODY]
+            </tbody>
+        </table>
+
+    </div>
 
     <br>
-
-    <table class="y" border="1">
-        <tr>
-            <td>Data / Date</td>
-            <td>[DATE]</td>
-        </tr>
-        <tr>
-            <td>Analysis Time</td>
-            <td>[TIME]</td>
-        </tr>
-        <tr>
-            <td>gr campione / Cample</td>
-            <td>[SAMPLE]</td>
-        </tr>
-        <tr>
-            <td>Umidità / Moisture</td>
-            <td>[UMIDITA]</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>CONFORMITA</td>
-        </tr>
-        <tr>
-            <td>Skin</td>
-            <td>[SKIN]</td>
-            <td>Target Max 5%</td>
-        </tr>
-        <tr>
-            <td>Taste And smell</td>
-            <td>[TASTE]</td>
-        </tr>
-        <tr>
-            <td>Colour</td>
-            <td>[COLOUR]</td>
-        </tr>
-    </table>
     <br>
-    <h1>Calibratura</h1>
-    
-    <table class="y" border="1">
-        <tr>
-            <td>gr campione / sample</td>
-            <td>[SAMPLE_CALIBRATURA]</td>
-        </tr>
-    </table>
-       <br>
-    <table class="y" border="1">
-        <thead>
-            <tr>
-                <th>Desc</th>
-                <th>gr</th>
-                <th>%</th>
-                <th>Target</th>
-            </tr>
-        </thead>
-        <tr>
-            <td>Over Size</td>
-            <td>[OVERSIZE]</td>
-            <td>[OVERSIZE_PERCENTAGE]</td>
-            <td  rowspan="4">Max 10%</td>
-        </tr>
-        <tr>
-            <td> >5/<10 </td>
-            <td>[CALCULATION]</td>
-            <td>[CALCULATION_PERCENTAGE]</td>
-           
-        </tr>
-        <tr>
-            <td>Under Size</td>
-            <td>[UNDERSIZE]</td>
-            <td>[UNDERSIZE_PERCENTAGE]</td>
-        </tr>
-        <tr> 
-            <td>TOTAL</td>
-            <td colspan="2" style="text-align: center;">[TOTAL]</td>
-        <tr> 
-    </table>
-
+    <p>Visto giornaliero per verifica corretta compilazione e ritiro per archiviazione _______________________________________________________________</p>
     <br>
 
-    <table class="y" border="1">
-        <thead>
-            <tr>
-                <th>Osservazioni / Observations</th> 
-            </tr>
-        </thead>
-        <tbody>
-            <tr> 
-                <td colspan="2" style="text-align: center;">[OBSERVATIONS]</td>
-            <tr> 
-        </tbody>
-    </table>
+    <div>
+        <table border="1" class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>Redatto da</th>
+                    <th>Verificato</th>
+                    <th>Approvato da</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>RSG</th>
+                    <th>PQM</th>
+                    <th>DA</th>
+                </tr>
+            </tbody>
+        </table>
 
-    <p>Compilato da [USER]</p>
+    </div>
+</body>
+
+</html>

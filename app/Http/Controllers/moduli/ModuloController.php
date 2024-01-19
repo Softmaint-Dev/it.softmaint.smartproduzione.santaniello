@@ -13,7 +13,7 @@ class ModuloController extends Controller
 {
     public function getDMS($id)
     {
-        $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', 6983);
+        $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
         $prolDorig = $prolAttivita->prolDoRig;
@@ -21,8 +21,13 @@ class ModuloController extends Controller
         $dotes = $dorig->dotes;
         $dms = $dotes->dms();
 
-
         return new JsonResponse($dms);
+    }
+
+    public function removeDMS($id) {
+        DmsDocument::where('column_name', '=', 'value')->delete();
+
+        return true;
     }
 
     public function showDMS($id)
@@ -31,12 +36,13 @@ class ModuloController extends Controller
 
         return response($dms->Content)
             ->header('Content-Type', 'application/pdf');
-        print_r($dms);
-        return response("");
+ 
     }
 
     public function createDMS($binaryPDF, $descrizione, $fileName, $dotes, $date)
-    {
+    {   
+        print_r("=====");
+        print_r($dotes);
         try {
             $dms = new DmsDocument();
             $dms->Descrizione = $descrizione;
