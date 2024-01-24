@@ -62,7 +62,7 @@ class FarinaController extends Controller
             '[LOTTO]' => $data['xwpCollo'],
             '[CALIBRO]' => $data['caliber'],
             '[CLIENTE]' => $cf->Descrizione,
-            '[TOTAL_KG]' => $prblAttivita->Quantita,
+            '[TOTAL_KG]' => number_format($prblAttivita->Quantita, 2),
             '[DATE]' => $data['simpleDate'],
             '[TIME]' => $data['analysisTime'],
             '[SAMPLE]' => $data['sample'],
@@ -71,7 +71,7 @@ class FarinaController extends Controller
             '[COLOR_ROASTED]' => $data['colorRoasted'],
             '[TAS_NATURAL]' => $data['tasNatural'],
             '[TAS_ROASTED]' => $data['tasRoasted'],
-            '[ANALISYS_%]' => $data['sampleCalibratura'],
+            '[ANALISYS_%]' => $data['analisys_calibratura'],
             '[VALUE_1]' => $data['value1'],
             '[VALUE_2]' => $data['value2'],
             '[VALUE_3]' => $data['value3'],
@@ -81,6 +81,8 @@ class FarinaController extends Controller
             '[VALUE_3_PERCENTAGE]' => $data['value3Percentage'],
             '[VALUE_TOT_PERCENTAGE]' => $data['valueTotPercentage'],
             '[OBSERVATIONS]' => $data['observations'],
+            '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
+            '[USER]' => ( $request->session()->get("utente")->Nome) . " " . ( $request->session()->get("utente")->Cognome)
         );
 
         $html = str_replace(array_keys($refactoring), $refactoring, $layout);
@@ -90,6 +92,10 @@ class FarinaController extends Controller
         $pdf->loadHtml($html);
 
         $binaryPDF = $pdf->output();
+
+
+
+ 
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
             ->createDMS(

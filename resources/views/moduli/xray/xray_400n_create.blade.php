@@ -96,6 +96,11 @@
                                     class="custom-checkbox form-check-input" value="true">
                              </div>
                         </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="confermaEliminazione(this)">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
 
                     </tr>
                 </tbody>
@@ -168,35 +173,35 @@
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="fe${counter}" value="false">
-                            <input name="fe1" type="checkbox" id="fe${counter}"
+                            <input name="fe${counter}" type="checkbox" id="fe${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="nofe${counter}" value="false">
-                            <input name="nofe1" type="checkbox" id="nofe${counter}"
+                            <input name="nofe${counter}" type="checkbox" id="nofe${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="stainless${counter}" value="false">
-                            <input name="stainless1" type="checkbox" id="stainless${counter}"
+                            <input name="stainless${counter}" type="checkbox" id="stainless${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="crystal${counter}" value="false">
-                            <input name="crystal1" type="checkbox" id="crystal${counter}"
+                            <input name="crystal${counter}" type="checkbox" id="crystal${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="ceramic${counter}" value="false">
-                            <input name="ceramic1" type="checkbox" id="ceramic${counter}"
+                            <input name="ceramic${counter}" type="checkbox" id="ceramic${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>

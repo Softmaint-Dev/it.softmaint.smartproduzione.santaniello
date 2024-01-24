@@ -46,6 +46,7 @@
             </div>
         </div>
         
+        
     </div>
 
     <div class="container mt-5">
@@ -59,6 +60,7 @@
                     <th>Ricetta</th>  
                     <th>RHIN</th>
                     <th>RHOUT</th> 
+                    <th>Azioni</th>
                 </tr>
             </thead>
             <tbody id="tabella-corpo">
@@ -72,10 +74,39 @@
             <input id="salva" required type="submit" class="btn btn-primary btn-block" value="SALVA" />
         </div>
 
+        <div class="modal fade" id="confermaEliminazioneModal" tabindex="-1" role="dialog" aria-labelledby="confermaEliminazioneModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confermaEliminazioneModalLabel">Conferma Eliminazione</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Sei sicuro di voler eliminare questa riga?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-danger" onclick="eliminaRiga()">Elimina</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
  
     <script>
 
  
+function eliminaRiga(button) {
+    // var row = button.closest('tr');
+    // row.remove();
+
+    $('#confermaEliminazioneModal').modal('hide');
+
+    // Rimuovi la riga salvata
+    rigaDaEliminare.remove();
+}
 
 function rigaStyle(name) {
     var tbody = document.getElementById('tabella-corpo');
@@ -88,6 +119,26 @@ function rigaStyle(name) {
     input.setAttribute("required", "required"); 
     return input;
 }
+ 
+function eliminaRiga(button) {
+    // var row = button.closest('tr');
+    // row.remove();
+
+    $('#confermaEliminazioneModal').modal('hide');
+
+    // Rimuovi la riga salvata
+    rigaDaEliminare.remove();
+}
+function confermaEliminazione(button) {
+    // Apri il modale di conferma
+    $('#confermaEliminazioneModal').modal('show');
+
+    // Salva la riga corrispondente
+    rigaDaEliminare = button.closest('tr');
+}
+
+
+
 
 function aggiungiRiga() {
         var tbody = document.getElementById('tabella-corpo');
@@ -115,6 +166,13 @@ function aggiungiRiga() {
         newRow.insertCell(2).appendChild(rigaStyle("ricetta")) 
         newRow.insertCell(3).appendChild(rigaStyle("rhin"))  
         newRow.insertCell(4).appendChild(rigaStyle("rhout")) 
+        newRow.insertCell(5).innerHTML = `
+        <td>
+            <button type="button" class="btn btn-danger btn-sm" onclick="confermaEliminazione(this)">
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>
+    `;
     }
 
          function validateForm() {

@@ -43,12 +43,9 @@ class GranellaController extends Controller
         $dorig = $prolDorig->dorig;
         $dotes = $dorig->dotes;
         $cf = $dotes->cf;
-        $dms = $dotes->dms();
-
-        $data = $request->all();
-
-        $pdf = App::make('dompdf.wrapper');
-
+        $dms = $dotes->dms(); 
+        $data = $request->all(); 
+        $pdf = App::make('dompdf.wrapper'); 
         $layout = file_get_contents(public_path('pdf/granella.html'));
         $utente = $request->session()->get("utente");
 
@@ -58,15 +55,15 @@ class GranellaController extends Controller
             '[LOTTO]' => $data['xwpCollo'],
             '[CALIBRO]' => $data['calibre'],
             '[CLIENTE]' => $cf->Descrizione,
-            '[TOTAL_KG]' => 'DA RECUPERARE',
+            '[TOTAL_KG]' => number_format($prblAttivita->Quantita, 2),
             '[DATE]' => $data['date'],
             '[TIME]' => $data['analysis'],
             '[SAMPLE]' => $data['sample'],
             '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
             '[UMIDITA]' => $data['moisture'],
-            '[SKIN]' => $data['skin'],
-            '[TASTE]' => $data['tastAndSmell'],
-            '[COLOUR]' => $data['colour'],
+            '[SKIN]' => (filter_var($data['skin'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
+            '[TASTE]' => (filter_var($data['tastAndSmell'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
+            '[COLOUR]' =>(filter_var($data['colour'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
             '[OVERSIZE]' => $data['overSize'],
             '[OVERSIZE_PERCENTAGE]' => $data['overSizePercentage'],
             '[CALCULATION]' => $data['calculation'],
@@ -75,7 +72,7 @@ class GranellaController extends Controller
             '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
             '[TOTAL]' => $data['total'],
             '[OBSERVATIONS]' => $data['observations'],
-            '[USER]' => ($utente->Nome) . " " . ($utente->Cognome)
+            '[USER]' => ( $request->session()->get("utente")->Nome) . " " . ( $request->session()->get("utente")->Cognome)
         );
 
         $html = str_replace(array_keys($refactoring), $refactoring, $layout);
@@ -83,7 +80,6 @@ class GranellaController extends Controller
         $pdf->loadHtml($html);
 
         $binaryPDF = $pdf->output();
-
 
 
 

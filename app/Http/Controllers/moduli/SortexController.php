@@ -92,7 +92,7 @@ class SortexController extends Controller
           $binaryPDF = $pdf->output();
           
           
- 
+
 
             $complete = App::make('App\Http\Controllers\moduli\ModuloController')
             ->createDMS(

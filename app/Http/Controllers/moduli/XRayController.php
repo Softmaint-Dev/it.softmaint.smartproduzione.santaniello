@@ -90,10 +90,10 @@ class XRayController extends Controller
             $htmlString .= '<td>' . (filter_var($element["crystal"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["ceramic"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '</tr>';
-            $htmlString .= '</tbody>';
             $index++;
 
         }
+        $htmlString .= '</tbody>';
 
 
         $layout = file_get_contents(public_path('pdf/xray-br6000.html'));

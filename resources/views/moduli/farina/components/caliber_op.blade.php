@@ -3,7 +3,7 @@
     <br />
     <div class="mb-3">
         <label for="caliber" class="form-label">gr campione / sample</label>
-        <input required oninput="updateCalculations()"  type="text"  name="sampleCalibratura" class="form-control" id="caliberSample"
+        <input required oninput="updateCalculations()"  type="text"  name="analisys_calibratura" class="form-control" id="caliberSample"
             aria-describedby="emailHelp">
     </div>
     <div class="mb-3">

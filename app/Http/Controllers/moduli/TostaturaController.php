@@ -36,7 +36,8 @@ class TostaturaController extends Controller
 
         $data = $request->all();
 
-        print_r($data);
+        // dd($data);
+        // return response("");
         $groupedData = [];
         
         foreach ($data as $key => $value) {

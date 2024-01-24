@@ -88,7 +88,38 @@
         <div class="container mt-5">
             <input id="salv" required type="submit" class="btn btn-primary btn-block" value="SALVA" />
         </div>
+        
+        <div class="modal fade" id="confermaEliminazioneModal" tabindex="-1" role="dialog" aria-labelledby="confermaEliminazioneModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confermaEliminazioneModalLabel">Conferma Eliminazione</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Sei sicuro di voler eliminare questa riga?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                        <button type="button" class="btn btn-danger" onclick="eliminaRiga()">Elimina</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     <script>
+
+function eliminaRiga(button) {
+    // var row = button.closest('tr');
+    // row.remove();
+
+    $('#confermaEliminazioneModal').modal('hide');
+
+    // Rimuovi la riga salvata
+    rigaDaEliminare.remove();
+}
+
 
 function rigaStyle(name, index) {
     var tbody = document.getElementById('tabella-corpo');
@@ -104,17 +135,31 @@ function rigaStyle(name, index) {
     return input;
 } 
 
+function confermaEliminazione(button) {
+    // Apri il modale di conferma
+    $('#confermaEliminazioneModal').modal('show');
+
+    // Salva la riga corrispondente
+    rigaDaEliminare = button.closest('tr');
+}
+
 function aggiungiRiga() {
  
         var tbody = document.getElementById('tabella-corpo');
         var newRow = tbody.insertRow();
         newRow.insertCell(0).innerHTML = `  
-                    <input type="date" class="form-control datepicker" id="data${(tbody.rows.length)}" name="data${(tbody.rows.length)}" required> 
+                    <input type="date" class="form-control datepicker"  id="data${(tbody.rows.length)}" name="data${(tbody.rows.length)}" required> 
                `;
         newRow.insertCell(1).appendChild(rigaStyle("ora", 2)) 
         newRow.insertCell(2).appendChild(rigaStyle("corpi", 2)) 
         newRow.insertCell(3).appendChild(rigaStyle("raggrizito", 2))
-        newRow.insertCell(3).appendChild(rigaStyle("ammuffito", 2))  
+        newRow.insertCell(4).appendChild(rigaStyle("ammuffito", 2))  
+          newRow.insertCell(5).innerHTML = `
+        <td>
+            <button type="button" class="btn btn-danger btn-sm" onclick="confermaEliminazione(this)">
+                <i class="fas fa-trash"></i>
+            </button>
+        </td>`;
          // for (var i = 0; i < 5; i++) {
         
         //     var cell = newRow.insertCell(i);

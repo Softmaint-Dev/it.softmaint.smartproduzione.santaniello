@@ -8,6 +8,7 @@ use App\Models\PRBLAttivita;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ModuloController extends Controller
 {
@@ -41,8 +42,8 @@ class ModuloController extends Controller
 
     public function createDMS($binaryPDF, $descrizione, $fileName, $dotes, $date)
     {   
-        print_r("=====");
-        print_r($dotes);
+        $dataAttuale = Carbon::now();
+
         try {
             $dms = new DmsDocument();
             $dms->Descrizione = $descrizione;
@@ -54,7 +55,7 @@ class ModuloController extends Controller
             $dms->Id_DmsClass2 = "4";
             $dms->DmsClass3 = "QLT";
             $dms->Cd_DmsType = "01";
-            $dms->DocumentDate = $date;
+            $dms->DocumentDate = $dataAttuale;
             $dms->LinkedToFS = "0";
             $dms->FileSize = strlen($binaryPDF);
             $dms->EntityDescription = "MODULO CALIBRATURA";
@@ -64,12 +65,7 @@ class ModuloController extends Controller
             $dms->save();
 
 
-        } catch (Exception $e) {
-            print_r($binaryPDF);
-            // print_r($descrizione);
-            // print_r($fileName);
-            // print_r($dotes);
-            // print_r($date);
+        } catch (Exception $e) { 
             print_r($e);
             return false;
         }

@@ -98,16 +98,60 @@
                         </td>
 
                     </tr>
+                
+                    
+                 
                 </tbody>
         </table>
         <button type="button" class="btn btn-primary mt-3" id="aggiungiBtn" onclick="aggiungiRiga()">Aggiungi Riga</button>
         <input type="submit" class="btn btn-success mt-3" value="SALVA">
     </form>
+    <div class="modal fade" id="confermaEliminazioneModal" tabindex="-1" role="dialog" aria-labelledby="confermaEliminazioneModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confermaEliminazioneModalLabel">Conferma Eliminazione</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Sei sicuro di voler eliminare questa riga?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-danger" onclick="eliminaRiga()">Elimina</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+
+        
+        function eliminaRiga(button) {
+            // var row = button.closest('tr');
+            // row.remove();
+
+            $('#confermaEliminazioneModal').modal('hide');
+
+            // Rimuovi la riga salvata
+            rigaDaEliminare.remove();
+        }
+        function confermaEliminazione(button) {
+            // Apri il modale di conferma
+            $('#confermaEliminazioneModal').modal('show');
+
+            // Salva la riga corrispondente
+            rigaDaEliminare = button.closest('tr');
+        }
+
+
         var counter = 1;
 
         let options = [];
@@ -168,35 +212,35 @@
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="fe${counter}" value="false">
-                            <input name="fe1" type="checkbox" id="fe${counter}"
+                            <input name="fe${counter}" type="checkbox" id="fe${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="nofe${counter}" value="false">
-                            <input name="nofe1" type="checkbox" id="nofe${counter}"
+                            <input name="nofe${counter}" type="checkbox" id="nofe${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="stainless${counter}" value="false">
-                            <input name="stainless1" type="checkbox" id="stainless${counter}"
+                            <input name="stainless${counter}" type="checkbox" id="stainless${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="crystal${counter}" value="false">
-                            <input name="crystal1" type="checkbox" id="crystal${counter}"
+                            <input name="crystal${counter}" type="checkbox" id="crystal${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="ceramic${counter}" value="false">
-                            <input name="ceramic1" type="checkbox" id="ceramic${counter}"
+                            <input name="ceramic${counter}" type="checkbox" id="ceramic${counter}"
                                 class="custom-checkbox form-check-input" value="true">
                          </div>
                     </td>
