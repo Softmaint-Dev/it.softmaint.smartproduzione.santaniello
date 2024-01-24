@@ -1,35 +1,13 @@
 @include('backend.common.header')
-@include('backend.common.sidebar')
+@include('moduli.components.header') 
 
 
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
-<!-- Popper.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-
-<link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<!-- Bootstrap Selectpicker CSS -->
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
-
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<!-- Bootstrap Selectpicker JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
  
 
 <div class="content-wrapper p-3">
 
-    <form action="{{ route('createPostCalibratura', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST" onsubmit="return validateForm()">
+    <form action="{{ route('createPostGranella', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST" onsubmit="return validateForm()">
         <div class="container">
             <div class="row">
                 <!-- Prima Colonna -->
@@ -37,7 +15,7 @@
                     <h1> Dati </h1>
                     <div class="mb-3">
                         <label class="form-label">Varieta / Variery</label>
-                        <input required type="text" class="form-control" id="variety" name="variety" value="2" required>
+                        <input required type="text" class="form-control" id="variety" name="variety" required>
                     </div>
                     <div class="mb-3">
                         <label for="calibre" class="form-label">Calibro / Caliber</label>
@@ -57,11 +35,10 @@
                     </div>
                     @csrf
                     <input required type="hidden" name="cf" id="cf"> --}}
-
+                    @include('moduli.components.xwpcollo_select', ['attivita' => $attivity])
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Data / Date</label>
-                        <input required type="date" name="date" class="form-control" id="date"
-                            aria-describedby="emailHelp">
+                        <label for="caliber" class="form-label">Data / Date</label> 
+                        <input type="text" class="form-control datepicker" id="data" name="date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="caliber" class="form-label">ANALYSIS TIME</label>
@@ -79,20 +56,20 @@
                             aria-describedby="emailHelp">
                     </div>
                     <div class="form-check form-switch">
-                        <input required name="skin" class="form-check-input required" type="checkbox" role="switch"
-                            id="flexSwitchCheckChecked" checked>
+                        <input name="skin" class="form-check-input required" type="checkbox" role="switch"
+                        id="flexSwitchCheckChecked" checked>
                         <label class="form-check-label" for="flexSwitchCheckChecked">SKIN</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
-                        <input required name="tastAndSmell" class="form-check-input required" type="checkbox"
-                            role="switch" id="flexSwitchCheckChecked" checked>
+                        <input class="form-check-input required" name="tastAndSmell" type="checkbox" role="switch"
+                        id="flexSwitchCheckChecked" checked>
                         <label class="form-check-label" for="flexSwitchCheckChecked">Taste and smell </label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
-                        <input required name="colour" class="form-check-input required" type="checkbox" role="switch"
-                            id="flexSwitchCheckChecked" checked>
+                        <input class="form-check-input required" name="colour" type="checkbox" role="switch"
+                        id="flexSwitchCheckChecked" checked>
                         <label class="form-check-label" for="flexSwitchCheckChecked">Colour</label>
                     </div>
                 </div>
@@ -119,59 +96,44 @@
                                 <tbody>
                                     <tr>
                                         <td>over size</td>
-                                        <td id="overSize" contenteditable="true"></td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="overSize" name="overSize" required>
+                                            </div>
+                                        </td>
                                         <td id="overSizePercentage"></td>
-
-                                        @csrf
-                                        <input required type="hidden" name="overSize" id="overSizeI">
-
-                                        @csrf
-                                        <input required type="hidden" name="overSizePercentage"
-                                            id="overSizePercentageI">
                                     </tr>
                                     <tr>
                                         <td>>5/10></td>
-                                        <td id="calculation" contenteditable="true"></td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="calculation" name="calculation" required>
+                                            </div>
+                                        </td>
                                         <td id="calculationPercentage"></td>
-
-                                        @csrf
-                                        <input required type="hidden" name="calculation" id="calculationSizeI">
-
-                                        @csrf
-                                        <input required type="hidden" name="calculationPercentage"
-                                            id="calculationPercentageI">
-
-                                        <!-- 
-                                        @csrf
-                                        <input required type="hidden" name="calculation"  id="cf">
-
-                                        @csrf
-                                        <input required type="hidden" name="calculationPercentage"  id="cf"> -->
                                     </tr>
                                     <tr>
                                         <td>under size</td>
-                                        <td id="underSize" contenteditable="true"></td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="underSize" name="underSize" required>
+                                            </div>
+                                        </td>
                                         <td id="underSizePercentage"></td>
-
-                                        @csrf
-                                        <input required type="hidden" name="underSize" id="underSizeI" value="">
-
-                                        @csrf
-                                        <input required type="hidden" name="underSizePercentage"
-                                            id="underSizePercentageI">
                                     </tr>
                                     <tr>
                                         <td>total</td>
-                                        <td id="total" contenteditable="true"></td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="total" name="total" required>
+                                            </div>
+                                        </td>
                                         <td id="totalPercentage"></td>
-
-                                        @csrf
-                                        <input required type="hidden" name="total" id="totalI">
-
-                                        @csrf
-                                        <input required type="hidden" name="totalPercentage" id="totalPercentageI">
                                     </tr>
-                                    <!-- Aggiungi altre righe secondo le tue esigenze -->
+                                    @csrf  <input required type="hidden" name="calculationPercentage" id="calculationPercentageI">
+                                    @csrf  <input required type="hidden" name="overSizePercentage" id="overSizePercentageI">
+                                    @csrf  <input required type="hidden" name="underSizePercentage"  id="underSizePercentageI">
+                                    @csrf  <input required type="hidden" name="totalPercentage" id="totalPercentageI">
                                 </tbody>
                             </table>
                         </div>
@@ -260,6 +222,8 @@
             elementCalculated.forEach(element => percentageOp(element)));
 
         function percentageOp(element) {
+            console.log("Hello World")
+
             const value = Number.parseInt(element.field.textContent) || 0;
             const caliber = Number.parseInt(caliberSample.value) || 0;
             const calculatedPercentage = (caliber / value).toFixed(2);

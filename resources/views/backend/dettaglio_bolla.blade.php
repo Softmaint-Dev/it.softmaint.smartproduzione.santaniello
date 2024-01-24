@@ -354,14 +354,16 @@
                                                         href="#tab2" role="tab"
                                                         aria-controls="custom-content-below-profile"
                                                         aria-selected="false">Colli
-                                                        (<?php echo sizeof($attivita_bolla->colli) ?>)
+                                                        (
+                                                        <?php echo sizeof($attivita_bolla->colli) ?>)
                                                     </a></li>
                                                 <li class="nav-item"><a class="nav-link"
                                                         id="custom-content-below-profile-tab" data-toggle="pill"
                                                         href="#tab3" role="tab"
                                                         aria-controls="custom-content-below-profile"
                                                         aria-selected="false">Pedane
-                                                        (<?php echo sizeof($attivita_bolla->pedane) ?>)
+                                                        (
+                                                        <?php echo sizeof($attivita_bolla->pedane) ?>)
                                                     </a></li>
                                                 <li class="nav-item"><a class="nav-link"
                                                         id="custom-content-below-profile-tab" data-toggle="pill"
@@ -373,15 +375,15 @@
                                                         href="#tab5" role="tab"
                                                         aria-controls="custom-content-below-profile"
                                                         aria-selected="false">Segnalazioni
-                                                        (<?php echo sizeof($attivita_bolla->segnalazioni) ?>)
+                                                        (
+                                                        <?php echo sizeof($attivita_bolla->segnalazioni) ?>)
                                                     </a></li>
 
                                                 <li class="nav-item"><a class="nav-link"
                                                         id="custom-content-below-profile-tab" data-toggle="pill"
                                                         href="#tab7" role="tab"
                                                         aria-controls="custom-content-below-profile"
-                                                        aria-selected="false">Moduli Qualit&agrave;
-                                                        (<?php echo sizeof($attivita_bolla->moduli_qualita) ?>)
+                                                        aria-selected="false">Moduli Qualità (<span id="idNumQlt">0</span>)
                                                     </a></li>
                                             </ul>
                                             <div class="tab-content" id="custom-content-below-tabContent">
@@ -625,32 +627,33 @@
                                                                         <select id="comboA" class="form-control select2"
                                                                             aria-label="Large select example"
                                                                             onchange="getComboA(this)">
-                                                                            <option selected>
-                                                                                ------------------------------------------------------
-                                                                            </option>
+                                                                            <option selected>  ------------------------------------------------------ </option>
                                                                             <option
-                                                                                value="{{ route('createCalibratura', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
-                                                                                Calibratura</option>
-                                                                            <!--   <option
-                                                                                value="{{ route('confezionamento2', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
-                                                                                Confezionamento2</option>
+                                                                                value="{{ route('createGranella', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                Granella</option>
                                                                             <option
-                                                                                value="{{ route('selezionatrice_accensione', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
-                                                                                Selezionatrice Accensione
-                                                                            </option>
-                                                                            <option
-                                                                                value="{{ route('selezionatrice_controllo', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
-                                                                                Selezionatrice Controllo
-                                                                                Prodott</option>
-                                                                            <option
-                                                                                value="{{ route('tostatura', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createEfficienza', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                Efficienza</option>
+                                                                                <option
+                                                                                value="{{ route('createTostatura', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Tostatura</option>
-                                                                            <option
-                                                                                value="{{ route('tostatura2', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
-                                                                                Tostatura 2</option>
-                                                                            <option
-                                                                                value="{{ route('tritatura', ['Id_Bolla' => $attivita_bolla->Id_PrBLAttivita])}}">
-                                                                                Tritatura</option> -->
+                                                                                <option
+                                                                                value="{{ route('createRaffinatrice', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                Raffinatrice</option>
+                                                                                <option
+                                                                                value="{{ route('createSortex', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                Sortex</option>
+                                                                                <option
+                                                                                value="{{ route('createFarina', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                Farina</option>
+                                                                                <option
+                                                                                value="{{ route('createXrayBR6000', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                XRay XBR-6000</option>
+                                                                                <option
+                                                                                value="{{ route('createXray400N', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                XRay 400N</option>
+                                                                                <option value="{{ route('createMDMBR1200', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">  Metal Detector BR1200</option>
+                                                                                <option  value="{{ route('createMDPMO', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">  Metal Detector PMO</option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -685,6 +688,8 @@
                                                                         const table = document.createElement('table');
                                                                         table.classList.add('table', 'table-bordered', 'table-striped');
                                                                         const headerRow = table.insertRow();
+                                                                        document.getElementById("idNumQlt").innerHTML = data.length
+
                                                                         Object.keys(data[0]).forEach(key => {
                                                                             const th = document.createElement('th');
                                                                             th.textContent = key;
@@ -2368,13 +2373,13 @@
     }
 
     function controlla_lotto(lotto) {
-        $.get('<?php echo URL::asset('ajax / controlla_lotto') ?>/' + lotto, function (data) {
+        $.get('<?php echo URL::asset('ajax/controlla_lotto') ?>/' + lotto, function (data) {
             $('#ajax_loader').html(data);
         });
     }
 
     function controlla_lotto_mod(lotto, Id_PrBLMateriale) {
-        $.get('<?php echo URL::asset('ajax / controlla_lotto_mod') ?>/' + lotto + "/" + Id_PrBLMateriale, function (data) {
+        $.get('<?php echo URL::asset('ajax/controlla_lotto_mod') ?>/' + lotto + "/" + Id_PrBLMateriale, function (data) {
             $('#ajax_loader').html(data);
         });
     }

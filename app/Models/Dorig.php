@@ -15,4 +15,6 @@ class Dorig extends Model
         return $this->hasOne(Dotes::class, 'Id_DOTes', 'Id_DOTes');
     }
 
+ 
+
 }
