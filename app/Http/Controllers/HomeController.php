@@ -1315,7 +1315,7 @@ class HomeController extends Controller
                 if (sizeof($OLAttivita) > 0) {
                     $OLAttivita = $OLAttivita[0];
 
-                    if ($OLAttivita->Cd_PrAttivita == 'CONFEZIONAMENTO') {
+                    if ($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO') {
                         $tipologia = 0;
                     }
                 }
@@ -1559,7 +1559,7 @@ class HomeController extends Controller
                     if (sizeof($OLAttivita) > 0) {
                         $OLAttivita = $OLAttivita[0];
 
-                        if ($OLAttivita->Cd_PrAttivita == 'CONFEZIONAMENTO') {
+                        if ($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO') {
                             $tipologia = 0;
                         }
                     }
@@ -1711,7 +1711,7 @@ class HomeController extends Controller
                 $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                 if (sizeof($OLAttivita) > 0) {
                     $OLAttivita = $OLAttivita[0];
-                    if ($OLAttivita->Cd_PrAttivita == 'CONFEZIONAMENTO')
+                    if ($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO')
                         $tipologia = 0;
                 }
 
@@ -2021,17 +2021,9 @@ class HomeController extends Controller
 
                         if (sizeof($colli) == $dati['esemplari']) {
 
-                            /**
-                             * Forzatura All Packaging
-                             * Stampa la qualità piccola se in fase di saldatura
-                             * Altrimenti Stampa la Qualità Grande per il resto delle fasi
-                             *
-                             **/
+                            if ($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO') {
 
-
-                            if ($OLAttivita->Cd_PrAttivita == 'SALDATURA') {
-
-                                $nome_file = StampaController::motore_industry($id, $colli[0]->Nr_Collo, 3);
+                                $nome_file = StampaController::motore_industry($id, $colli[0]->Nr_Collo, 0);
                                 if ($nome_file != '') {
                                     array_push($nomi_colli, $nome_file);
                                 }
@@ -2046,25 +2038,13 @@ class HomeController extends Controller
                         }
                     }
 
-
-                    /**
-                     * Forzatura All Packaging
-                     * Di Default prova a stampare collo grande tipologia 0
-                     * se la fase è la saldatura stampa collo piccolo tipologia 2
-                     * se la fase è quella prima dell'imballaggio stampa il collo anonimo tipologia 4
-                     **/
-
                     $tipologia = 2;
                     $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                     if (sizeof($OLAttivita) > 0) {
                         $OLAttivita = $OLAttivita[0];
-
-                        if ($OLAttivita->Id_PrOLAttivita_Next != '') {
-                            $OLAttivitaNext = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $OLAttivita->Id_PrOLAttivita_Next);
-                            if (($OLAttivitaNext[0]->Cd_PrAttivita == 'CONFEZIONAMENTO')) {
+							if (($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO')) {
                                 $tipologia = 0;
                             }
-                        }
                     }
 
 
