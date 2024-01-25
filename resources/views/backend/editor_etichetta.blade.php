@@ -275,7 +275,7 @@
         text = document.getElementById('cd_cf').value;
         if (text != '') {
             text = text + '.jpg';
-            var immagine = new fabric.Image.fromURL('http://hp-srv:8080/img/' + text, function (oImg) {
+            var immagine = new fabric.Image.fromURL('http://server:8081/img/' + text, function (oImg) {
                 canvas.add(oImg);
             });
         }
