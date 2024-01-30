@@ -110,6 +110,8 @@
     <button onclick="Addtext('{colli}')">Colli</button>
     <button onclick="Addtext('{id_prblattivita}')">Id Bolla</button>
     <button onclick="Addtext('{indirizzo}')">Indirizzo</button>
+    <button onclick="Addtext('{Anno}')">Anno</button>
+    <button onclick="Addtext('{Origine}')">Origine</button>
     <button onclick="Addtext('{localita}')">Localita</button>
     <button onclick="Addtext('{cd_provincia}')">Provincia</button>
     <button onclick="Addtext('{xLotto}')">xLotto</button>
@@ -275,7 +277,7 @@
         text = document.getElementById('cd_cf').value;
         if (text != '') {
             text = text + '.jpg';
-            var immagine = new fabric.Image.fromURL('http://server:8081/img/' + text, function (oImg) {
+            var immagine = new fabric.Image.fromURL('http://192.168.7.113:8081/img/' + text, function (oImg) {
                 canvas.add(oImg);
             });
         }

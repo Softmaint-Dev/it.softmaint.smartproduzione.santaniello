@@ -253,6 +253,8 @@ class StampaController extends Controller{
         if(isset($query->PesoNettissimo)) $string = str_replace('{pesonettissimo}',number_format($query->PesoNettissimo,2,'.',''),$string);
         if(isset($query->colli)) $string = str_replace('{colli}',$query->colli,$string);
         if(isset($query->Indirizzo)) $string = str_replace('{indirizzo}',$query->Indirizzo,$string);
+        if(isset($query->Origine)) $string = str_replace('{Origine}',$query->Origine,$string);
+        if(isset($query->Anno)) $string = str_replace('{Anno}',$query->Anno,$string);
         if(isset($query->Localita)) $string = str_replace('{localita}',$query->Localita,$string);
         if(isset($query->Cd_Provincia)) $string = str_replace('{cd_provincia}',$query->Cd_Provincia,$string);
         if(isset($query->PesoLordo) && isset($query->NumeroColli) && $query->NumeroColli > 0) $string = str_replace('{peso_lordo_num_colli}',number_format($query->PesoLordo/$query->NumeroColli,2,'.',''),$string);

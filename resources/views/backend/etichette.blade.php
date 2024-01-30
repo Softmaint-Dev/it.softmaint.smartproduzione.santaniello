@@ -23,13 +23,34 @@
 
                     <!-- /.card-header -->
                     <div class="card-body">
+                        <form enctype="multipart/form-data" method="post" id="form1">
+                            <div style="display: flex">
+
+                                <label for="anno" style="margin-left:2%;">
+                                    Anno
+                                </label>
+                                <input id="anno" onblur="sumbitform()" name="anno" type="text" class="form-control"
+                                       style="margin-left:2%;width: 25%;border-width: 0 0 2px 0;"
+                                       value="{{$raccolto->Anno}}">
+                                <label for="origine" style="margin-left:2%;">
+                                    Origine
+                                </label>
+                                <input id="origine" onblur="sumbitform()" name="origine" type="text"
+                                       class="form-control"
+                                       style="margin-left:2%;width: 25%;border-width: 0 0 2px 0;"
+                                       value="{{$raccolto->Origine}}">
+
+                            </div>
+                        </form>
+
+                        <a style="float:right;margin-bottom:20px;" class="btn btn-success" onclick="aggiungi()">Crea
+                            Etichetta</a>
+                        <a style="float:right;margin-bottom:20px;margin-right:10px;" class="btn btn-primary"
+                           onclick="importa()">Importa Etichetta</a>
 
 
-                        <a style="float:right;margin-bottom:20px;" class="btn btn-success" onclick="aggiungi()">Crea Etichetta</a>
-                        <a style="float:right;margin-bottom:20px;margin-right:10px;" class="btn btn-primary" onclick="importa()">Importa Etichetta</a>
-
-
-                        <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                        <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                               aria-describedby="example1_info">
                             <thead>
                             <tr role="row">
                                 <th>Codice</th>
@@ -41,49 +62,57 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <?php foreach($etichette as $e){ ?>
+                            <?php foreach ($etichette as $e){ ?>
                             <tr>
                                 <td><?php echo $e->codice ?></td>
                                 <td><?php echo $e->descrizione ?><br>Formato:<?php echo $e->grandezza ?></td>
                                 <td>
-                                    <?php echo ($e->cd_cf != '')?$e->cd_cf:'Tutti i Clienti' ?><br>
-                                    <?php echo ($e->cd_prattivita != '')?$e->cd_prattivita:'Tutti le Fasi' ?><br>
-                                    <?php echo ($e->cd_ar1 != '')?$e->cd_ar1.'<br>':'Tutti gli Articoli' ?>
-                                    <?php echo ($e->cd_ar2 != '')?$e->cd_ar2.'<br>':'' ?>
-                                    <?php echo ($e->cd_ar3 != '')?$e->cd_ar3.'<br>':'' ?>
-                                    <?php echo ($e->cd_ar4 != '')?$e->cd_ar4.'<br>':'' ?>
-                                    <?php echo ($e->cd_ar5 != '')?$e->cd_ar5.'<br>':'' ?>
+                                        <?php echo ($e->cd_cf != '') ? $e->cd_cf : 'Tutti i Clienti' ?><br>
+                                        <?php echo ($e->cd_prattivita != '') ? $e->cd_prattivita : 'Tutti le Fasi' ?>
+                                    <br>
+                                        <?php echo ($e->cd_ar1 != '') ? $e->cd_ar1 . '<br>' : 'Tutti gli Articoli' ?>
+                                        <?php echo ($e->cd_ar2 != '') ? $e->cd_ar2 . '<br>' : '' ?>
+                                        <?php echo ($e->cd_ar3 != '') ? $e->cd_ar3 . '<br>' : '' ?>
+                                        <?php echo ($e->cd_ar4 != '') ? $e->cd_ar4 . '<br>' : '' ?>
+                                        <?php echo ($e->cd_ar5 != '') ? $e->cd_ar5 . '<br>' : '' ?>
                                 </td>
 
                                 <td>
-                                    <?php echo ($e->tipologia == 0)?'Collo Grande':'' ?>
-                                    <?php echo ($e->tipologia == 1)?'Qualita Grande':'' ?>
-                                    <?php echo ($e->tipologia == 2)?'Collo Piccolo':'' ?>
-                                    <?php echo ($e->tipologia == 3)?'Qualità Piccolo':'' ?>
-                                    <?php echo ($e->tipologia == 4)?'Collo Anonimo':'' ?>
-                                    <?php echo ($e->tipologia == 5)?'Pedana':'' ?>
-                                    <?php echo ($e->tipologia == 6)?'Etichetta Pedana':'' ?>
-                                    <?php echo ($e->tipologia == 7)?'Stampa Libera':'' ?>
-                                    <?php echo ($e->tipologia == 8)?'Etichetta Piccola':'' ?>
+                                        <?php echo ($e->tipologia == 0) ? 'Collo Grande' : '' ?>
+                                        <?php echo ($e->tipologia == 1) ? 'Qualita Grande' : '' ?>
+                                        <?php echo ($e->tipologia == 2) ? 'Collo Piccolo' : '' ?>
+                                        <?php echo ($e->tipologia == 3) ? 'Qualità Piccolo' : '' ?>
+                                        <?php echo ($e->tipologia == 4) ? 'Collo Anonimo' : '' ?>
+                                        <?php echo ($e->tipologia == 5) ? 'Pedana' : '' ?>
+                                        <?php echo ($e->tipologia == 6) ? 'Etichetta Pedana' : '' ?>
+                                        <?php echo ($e->tipologia == 7) ? 'Stampa Libera' : '' ?>
+                                        <?php echo ($e->tipologia == 8) ? 'Etichetta Piccola' : '' ?>
                                 </td>
 
-                                <td><?php echo ($e->abilitato == 1)?'SI':'NO' ?></td>
+                                <td><?php echo ($e->abilitato == 1) ? 'SI' : 'NO' ?></td>
                                 <td>
 
-                                    <a style="float:left;margin-left:5px;" class="btn btn-success" onclick="modifica(<?php echo $e->Id_xSPReport ?>)">Modifica</a>
+                                    <a style="float:left;margin-left:5px;" class="btn btn-success"
+                                       onclick="modifica(<?php echo $e->Id_xSPReport ?>)">Modifica</a>
 
-                                    <a style="float:left;margin-left:5px;" target="_blank" class="btn btn-primary" href="<?php echo URL::asset('editor_etichetta/'.$e->Id_xSPReport) ?>">Editor</a>
+                                    <a style="float:left;margin-left:5px;" target="_blank" class="btn btn-primary"
+                                       href="<?php echo URL::asset('editor_etichetta/'.$e->Id_xSPReport) ?>">Editor</a>
 
-                                    <a style="float:left;margin-left:5px;" target="_blank" class="btn btn-primary" href="<?php echo URL::asset('etichette?esporta_etichette=Esporta&codice='.$e->codice.'&Id_xSPReport='.$e->Id_xSPReport) ?>">Esporta</a>
+                                    <a style="float:left;margin-left:5px;" target="_blank" class="btn btn-primary"
+                                       href="<?php echo URL::asset('etichette?esporta_etichette=Esporta&codice='.$e->codice.'&Id_xSPReport='.$e->Id_xSPReport) ?>">Esporta</a>
 
-                                    <form method="post"onsubmit="return confirm('Vuoi Eliminare questa Etichetta ?')" style="float:left;margin-left:5px;">
+                                    <form method="post" onsubmit="return confirm('Vuoi Eliminare questa Etichetta ?')"
+                                          style="float:left;margin-left:5px;">
                                         <input type="hidden" name="Id_xSPReport" value="<?php echo $e->Id_xSPReport ?>">
-                                        <input type="submit" name="elimina" class="btn btn-danger" value="Elimina" style="float:left;margin-left:5px;">
+                                        <input type="submit" name="elimina" class="btn btn-danger" value="Elimina"
+                                               style="float:left;margin-left:5px;">
                                     </form>
 
-                                    <form method="post"onsubmit="return confirm('Vuoi duplicare questa Etichetta ?')" style="float:left;margin-left:5px;">
+                                    <form method="post" onsubmit="return confirm('Vuoi duplicare questa Etichetta ?')"
+                                          style="float:left;margin-left:5px;">
                                         <input type="hidden" name="Id_xSPReport" value="<?php echo $e->Id_xSPReport ?>">
-                                        <input type="submit" name="duplica" class="btn btn-primary" value="Duplica" style="float:left;margin-left:5px;">
+                                        <input type="submit" name="duplica" class="btn btn-primary" value="Duplica"
+                                               style="float:left;margin-left:5px;">
                                     </form>
 
                                 </td>
@@ -103,8 +132,6 @@
 </div>
 
 @include('backend.common.footer')
-
-
 
 
 <form method="post" enctype="multipart/form-data">
@@ -158,7 +185,8 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Query</label>
-                            <textarea style="height:200px;" class="form-control" name="query" placeholder="Query"></textarea>
+                            <textarea style="height:200px;" class="form-control" name="query"
+                                      placeholder="Query"></textarea>
                         </div>
                     </div>
 
@@ -167,7 +195,8 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Chiudi</button>
-                    <input type="submit" class="btn btn-primary pull-right" name="aggiungi" value="Aggiungi" style="margin-right:5px;">
+                    <input type="submit" class="btn btn-primary pull-right" name="aggiungi" value="Aggiungi"
+                           style="margin-right:5px;">
                 </div>
             </div>
         </div>
@@ -196,7 +225,8 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Chiudi</button>
-                    <input type="submit" class="btn btn-primary pull-right" name="importa_etichetta" value="Importa" style="margin-right:5px;">
+                    <input type="submit" class="btn btn-primary pull-right" name="importa_etichetta" value="Importa"
+                           style="margin-right:5px;">
                 </div>
             </div>
         </div>
@@ -208,26 +238,29 @@
 
 <script type="text/javascript">
 
-    function aggiungi(){
+    function sumbitform() {
+        $('#form1').submit();
+    }
+
+    function aggiungi() {
         $('#modal_aggiungi').modal('show');
     }
 
-    function importa(){
+    function importa() {
         $('#modal_importa').modal('show');
     }
 
-    function modifica(id){
+    function modifica(id) {
 
-        $.get('<?php echo URL::asset('ajax/get_etichetta') ?>/'+id, function( data ) {
+        $.get('<?php echo URL::asset('ajax/get_etichetta') ?>/' + id, function (data) {
             $('#ajax_loader2').html(data);
 
             $('.select2').select2();
-            $('#modal_modifica_'+id).modal('show');
+            $('#modal_modifica_' + id).modal('show');
         });
 
 
     }
-
 
 
 </script>

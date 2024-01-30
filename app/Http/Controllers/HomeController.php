@@ -13,7 +13,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Mpdf\Mpdf;
 use function Symfony\Component\String\s;
-use Predis; 
+use Predis;
+
 /**
  * Controller principale del webticket
  * Class HomeController
@@ -830,12 +831,13 @@ class HomeController extends Controller
 
     }
 
-    public function  QualitaBolla($idBolla, $idQualita, Request $request) {
-        switch($idQualita) {
+    public function QualitaBolla($idBolla, $idQualita, Request $request)
+    {
+        switch ($idQualita) {
             case '1':
                 return view("");
             default:
-            return Redirect::to('dettaglio_bolla/' . $idBolla);
+                return Redirect::to('dettaglio_bolla/' . $idBolla);
         }
     }
 
@@ -2042,9 +2044,9 @@ class HomeController extends Controller
                     $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                     if (sizeof($OLAttivita) > 0) {
                         $OLAttivita = $OLAttivita[0];
-							if (($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO')) {
-                                $tipologia = 0;
-                            }
+                        if (($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO')) {
+                            $tipologia = 0;
+                        }
                     }
 
 
@@ -3073,6 +3075,14 @@ class HomeController extends Controller
             DB::table('xSPReport')->where('Id_xSPReport', $id)->update($dati);
             return Redirect::to('etichette');
         }
+        if (isset($dati['anno'])) {
+            DB::table('xRaccolta')->update($dati);
+            return Redirect::to('etichette');
+        }
+        if (isset($dati['origine'])) {
+            DB::table('xRaccolta')->update($dati);
+            return Redirect::to('etichette');
+        }
 
         if (isset($dati['elimina'])) {
             unset($dati['elimina']);
@@ -3084,7 +3094,8 @@ class HomeController extends Controller
         $clienti = DB::select('SELECT Cd_CF,Descrizione from CF where Cliente = 1');
         $articoli = DB::select('SELECT * from AR');
         $fasi = DB::select('SELECT Cd_PrAttivita from PRAttivita');
-        return View::make('backend.etichette', compact('etichette', 'clienti', 'articoli', 'fasi'));
+        $raccolto = DB::select('SELECT * from xRaccolta')[0];
+        return View::make('backend.etichette', compact('etichette', 'clienti', 'articoli', 'fasi', 'raccolto'));
     }
 
 
