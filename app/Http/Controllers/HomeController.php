@@ -2263,7 +2263,7 @@ class HomeController extends Controller
                             //if ($attivita->Id_PrOLAttivita_Next == null) {
 
                             if ($ordine->Id_PrOLAttivita_Next == null) {
-                                DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => (sizeof($max_lotto) > 0) ? $max_lotto[0]->max : $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => (isset($dati['cd_mg'])) ? $dati['cd_mg'] : '00009', 'Cd_MGUbicazione' => ((isset($dati['cd_mg_ubicazione']) && ($dati['cd_mg'] != '00009'))) ? $dati['cd_mg_ubicazione'] : null, 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
+                                DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => (isset($dati['cd_mg'])) ? $dati['cd_mg'] : '00009', 'Cd_MGUbicazione' => ((isset($dati['cd_mg_ubicazione']) && ($dati['cd_mg'] != '00009'))) ? $dati['cd_mg_ubicazione'] : null, 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
                             }
 
                         }
