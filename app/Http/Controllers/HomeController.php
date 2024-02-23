@@ -1044,7 +1044,7 @@ class HomeController extends Controller
                     $insert['Data'] = date('Ymd');
                     //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
                     if ($quantita > 0) {
-                        $insert['Cd_MG'] = '00009';
+                        $insert['Cd_MG'] = '00001';
                     }
                     $insert['Cd_Operatore'] = $utente->Cd_Operatore;
 
@@ -2117,7 +2117,7 @@ class HomeController extends Controller
                         // $insert['xContatoreRisorsa'] = $dati['quantita_contatore'];
                         $insert['Data'] = date('Ymd');
                         //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
-                        $insert['Cd_MG'] = '00009';
+                        $insert['Cd_MG'] = '00001';
                         $insert['Cd_Operatore'] = $utente->Cd_Operatore;
                         $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
 
@@ -2345,7 +2345,7 @@ class HomeController extends Controller
 
                         $insert['Data'] = date('Ymd');
                         //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
-                        $insert['Cd_MG'] = '00009';
+                        $insert['Cd_MG'] = '00001';
                         $insert['Cd_Operatore'] = $utente->Cd_Operatore;
                         $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
 
