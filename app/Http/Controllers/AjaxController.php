@@ -454,7 +454,7 @@ class AjaxController extends Controller
         $fermi1 = '';
         $segnalazioni1 = '';
 
-        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con ArcaIndustry - Secondo Operatore di Attrezzaggio\' ');
+        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
 
 
         foreach ($fermi as $f)
@@ -728,7 +728,7 @@ class AjaxController extends Controller
 
             $conversione = DB::SELECT('SELECT * FROM PROLAttivita where Id_ProlAttivita = \'' . $prol_attivita . '\'');
 
-            $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con ArcaIndustry - Secondo Operatore di Attrezzaggio\' ');
+            $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
 
             foreach ($collo as $c) {
                 ?>
@@ -1362,7 +1362,7 @@ class AjaxController extends Controller
         WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
 
 
-        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con ArcaIndustry - Secondo Operatore di Attrezzaggio\' ');
+        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
 
 
         ?><h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
@@ -1550,7 +1550,7 @@ class AjaxController extends Controller
         WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
 
 
-        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con ArcaIndustry - Secondo Operatore di Attrezzaggio\' ');
+        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
 
         $Nr_Collo = DB::SELECT('SELECT * FROM xWPCollo WHERE Rif_Nr_Collo = \'' . $Rif_Nr_Collo . '\'');
         if (sizeof($Nr_Collo) > 0) {
@@ -1753,7 +1753,7 @@ class AjaxController extends Controller
 
         if (sizeof($ordine) > 0) {
             $collo2 = DB::SELECT('Select * from xWPCollo WHERE Rif_Nr_Collo = \'' . $Nr_Collo . '\'');
-            $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $ordine[0]->Id_PRBLAttivita . '\' and NotePRVRAttivita = \'Creato con ArcaIndustry - Secondo Operatore di Attrezzaggio\' ');
+            $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $ordine[0]->Id_PRBLAttivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
         }/* else {
             $collo2 = [];
             $note_prvr = [];

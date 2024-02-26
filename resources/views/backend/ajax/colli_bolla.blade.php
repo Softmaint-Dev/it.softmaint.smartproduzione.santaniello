@@ -64,7 +64,7 @@ foreach ($attivita_bolla->colli as $c){
                 <option value="">Nessuna Pedana</option>
                     <?php foreach ($attivita_bolla->pedane as $p) { ?>
                 <option
-                    value="<?php echo $p->Nr_Pedana ?>" <?php echo ($p->Nr_Pedana == $c->Nr_Pedana) ? 'selected' : '' ?>><?php echo $p->Nr_Pedana ?></option>
+                        value="<?php echo $p->Nr_Pedana ?>" <?php echo ($p->Nr_Pedana == $c->Nr_Pedana) ? 'selected' : '' ?>><?php echo $p->Nr_Pedana ?></option>
                 <?php } ?>
             </select>
         </div>
@@ -120,7 +120,7 @@ foreach ($attivita_bolla->colli as $c){
 <?php } ?>
 
 
-<form method="post">
+<form method="post" id="fine_lavorazione">
 
     <div class="modal fade" id="modal_fine_lavorazione">
         <div class="modal-dialog modal-lg" style="min-width:70%">
@@ -157,7 +157,7 @@ foreach ($attivita_bolla->colli as $c){
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Quantità Contatore
+                                        <label>Quantità Prodotta
                                             (<?php echo (sizeof($attivita_bolla->colli) > 0) ? $attivita_bolla->colli[0]->Cd_ARMisura : '' ?>
                                             )</label>
                                         <input id="quantita_rilevata" name="quantita_contatore" type="text" step="1"
@@ -168,28 +168,28 @@ foreach ($attivita_bolla->colli as $c){
                                     </div>
                                 </div>
 
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Scarto Contatore
-                                            (<?php echo (sizeof($attivita_bolla->colli) > 0) ? $attivita_bolla->colli[0]->Cd_ARMisura : '' ?>
-                                            )</label>
-                                        <input id="quantita_scarto" type="number" step="1" min="0" value="0"
-                                               class="form-control" name="quantita_scarto" readonly
-                                               onkeyup="calcola_scarto()">
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Scarto N.C.
-                                            (<?php echo (sizeof($attivita_bolla->colli) > 0) ? $attivita_bolla->colli[0]->Cd_ARMisura : '' ?>
-                                            )</label>
-                                        <input id="quantita_scarto_nc" type="number" step="1" min="0"
-                                               class="form-control" name="quantita_scarto_nc"
-                                               value="<?php echo $qta_colli_nc ?>" readonly>
-                                    </div>
-                                </div>
+                                {{--
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label>Scarto Contatore
+                                                                            (<?php echo (sizeof($attivita_bolla->colli) > 0) ? $attivita_bolla->colli[0]->Cd_ARMisura : '' ?>
+                                                                            )</label>--}}
+                                <input id="quantita_scarto" type="hidden" step="1" min="0" value="0"
+                                       class="form-control" name="quantita_scarto" readonly
+                                       onkeyup="calcola_scarto()">
+                                {{--           </div>
+                                       </div>
+       --}}
+                                {{--  <div class="col-md-6">
+                                      <div class="form-group">
+                                          <label>Scarto N.C.
+                                              (<?php echo (sizeof($attivita_bolla->colli) > 0) ? $attivita_bolla->colli[0]->Cd_ARMisura : '' ?>
+                                              )</label>--}}
+                                <input id="quantita_scarto_nc" type="hidden" step="1" min="0"
+                                       class="form-control" name="quantita_scarto_nc"
+                                       value="0" readonly>
+                                {{--        </div>
+                                    </div>--}}
 
                                 <div class="col-md-6">
                                     <label>U.M.</label>
@@ -198,14 +198,14 @@ foreach ($attivita_bolla->colli as $c){
                                             style="width:100%">
                                             <?php foreach ($articolo->UM as $um){ ?>
                                         <option
-                                            value="<?php echo $um->Cd_ARMisura ?>" <?php echo ($um->TipoARMisura == 'V') ? 'selected' : '' ?>><?php echo $um->Cd_ARMisura ?></option>
+                                                value="<?php echo $um->Cd_ARMisura ?>" <?php echo ($um->TipoARMisura == 'V') ? 'selected' : '' ?>><?php echo $um->Cd_ARMisura ?></option>
                                         <?php } ?>
                                     </select>
                                     <?php } else { ?>
                                     <select name="xCd_ARMisura" class="form-control select2" readonly
                                             style="width:100%">
                                         <option
-                                            value="<?php echo $attivita_bolla->Cd_ARMisura ?>"><?php echo $attivita_bolla->Cd_ARMisura ?></option>
+                                                value="<?php echo $attivita_bolla->Cd_ARMisura ?>"><?php echo $attivita_bolla->Cd_ARMisura ?></option>
                                     </select>
                                     <?php } ?>
 
@@ -213,13 +213,14 @@ foreach ($attivita_bolla->colli as $c){
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Scarto Versamento (<?php echo $attivita_bolla->Cd_ARMisura ?>)</label>
-                                        <input id="quantita_scarto_vr" type="number" step="1" min="0"
+                                        <label>Magazzino</label>
+                                        <select id="cd_mg" name="cd_mg" class="form-control">
+                                            <option seelcted value="00001">00001 - Magazzino Centrale</option>
+                                            <option value="00009">00009 - Magazzino Produzione</option>
+                                        </select>
+                                        <input id="quantita_scarto_vr" type="hidden" step="1" min="0"
                                                class="form-control" name="quantita_scarto_vr"
-                                               value="<?php echo $qta_colli_nc ?>" readonly>
-                                        <small>Fattore di
-                                            Conversione <?php echo (sizeof($attivita_bolla->colli) > 0) ? $attivita_bolla->colli[0]->Cd_ARMisura : '' ?>
-                                            -> <?php echo $attivita_bolla->Cd_ARMisura ?> =<b id="umfatt"></b></small>
+                                               value="0" readonly>
                                     </div>
                                 </div>
 
@@ -232,18 +233,18 @@ foreach ($attivita_bolla->colli as $c){
 
                                 <div class="col-md-4">
                                     <input
-                                        style="width: 100%;display: block;font-size: 70px;margin: 20px auto auto auto;"
-                                        type="submit" name="fine_lavorazione_si" value="SI" class="btn btn-success">
+                                            style="width: 100%;display: block;font-size: 70px;margin: 20px auto auto auto;"
+                                            type="submit" name="fine_lavorazione_si" value="SI" class="btn btn-success">
                                 </div>
                                 <div class="col-md-4">
                                     <input
-                                        style="width: 100%;display: block;font-size: 70px;margin: 20px auto auto auto;"
-                                        type="submit" name="fine_lavorazione_no" value="NO" class="btn btn-primary">
+                                            style="width: 100%;display: block;font-size: 70px;margin: 20px auto auto auto;"
+                                            type="submit" name="fine_lavorazione_no" value="NO" class="btn btn-primary">
                                 </div>
                                 <div class="col-md-4">
                                     <button
-                                        style="width: 100%;display: block;line-height:105px;font-size: 30px;margin: 20px auto auto auto;"
-                                        type="button" class="btn btn-default" data-dismiss="modal">Annulla
+                                            style="width: 100%;display: block;line-height:105px;font-size: 30px;margin: 20px auto auto auto;"
+                                            type="button" class="btn btn-default" data-dismiss="modal">Annulla
                                     </button>
                                 </div>
 
@@ -310,5 +311,7 @@ foreach ($attivita_bolla->colli as $c){
     $('form').submit(function () {
         $('#ajax_loader').fadeIn();
     });
-
+    $('#fine_lavorazione').submit(function (e) {
+        check_lotti(e);
+    });
 </script>

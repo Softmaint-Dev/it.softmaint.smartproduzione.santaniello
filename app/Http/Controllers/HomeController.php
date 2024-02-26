@@ -96,12 +96,17 @@ class HomeController extends Controller
 
         $utente = session('utente');
 
-        if ($utente->Cd_PRRiparto == 'IMBALLAGGO') {
-            return Redirect::to('imballaggio');
+        if ($utente->Cd_PRRiparto == 'LAB') {
+            $bolle = DB::select('
+            SELECT top 50 Id_PrOL,Id_PrBLAttivita,Articolo,Quantita,QuantitaProdotta,PercProdotta,(SELECT NumeroDoc from dotes where Id_DOTes in (SELECT Id_DOTes from dorig where Id_DORig in (SELECT Id_DORig FROM PROLDorig where Id_PrOL = PrBLAttivitaEx.Id_PrOL)))
+        as NumeroDoc from PrBLAttivitaEx order by TimeIns DESC
+            ');
+            return View::make('backend.index', compact('utente', 'bolle'));
         }
 
         $bolle = DB::select('
-            SELECT top 50 Id_PrOL,Id_PrBLAttivita,Articolo,Quantita,QuantitaProdotta,PercProdotta from PrBLAttivitaEx where Prodotta = 0 and Cd_PrRisorsa = \'' . $utente->Cd_PRRisorsa . '\' order by TimeIns DESC
+            SELECT top 50 Id_PrOL,Id_PrBLAttivita,Articolo,Quantita,QuantitaProdotta,PercProdotta,(SELECT NumeroDoc from dotes where Id_DOTes in (SELECT Id_DOTes from dorig where Id_DORig in (SELECT Id_DORig FROM PROLDorig where Id_PrOL = PrBLAttivitaEx.Id_PrOL)))
+        as NumeroDoc from PrBLAttivitaEx where Prodotta = 0 and Cd_PrRisorsa = \'' . $utente->Cd_PRRisorsa . '\' order by TimeIns DESC
             ');
 
 
@@ -334,7 +339,7 @@ class HomeController extends Controller
                     $insert['Data'] = date('Ymd');
                     $insert['Cd_MG'] = '00001';
                     $insert['Cd_Operatore'] = $utente->Cd_Operatore;
-                    $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                    $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
 
                     $insert['CostoLavorazione'] = 0;
                     $insert['Esecuzione'] = 0;
@@ -598,7 +603,7 @@ class HomeController extends Controller
                     $insert['Data'] = date('Ymd');
                     $insert['Cd_MG'] = '00001';
                     $insert['Cd_Operatore'] = $utente->Cd_Operatore;
-                    $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                    $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
 
                     $insert['CostoLavorazione'] = 0;
                     $insert['Esecuzione'] = 0;
@@ -1028,7 +1033,7 @@ class HomeController extends Controller
                         }
                         $insert['Cd_Operatore'] = $dati['Cd_Operatore2'];
 
-                        $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry - Secondo Operatore di Attrezzaggio';
+                        $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio';
                         $insert['CostoLavorazione'] = 0;
                         $insert['Attrezzaggio'] = 0;
                         $insert['Esecuzione'] = 0;
@@ -1048,7 +1053,7 @@ class HomeController extends Controller
                     }
                     $insert['Cd_Operatore'] = $utente->Cd_Operatore;
 
-                    $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                    $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
                     $insert['CostoLavorazione'] = 0;
                     $insert['Attrezzaggio'] = 0;
                     $insert['Esecuzione'] = 0;
@@ -2117,9 +2122,9 @@ class HomeController extends Controller
                         // $insert['xContatoreRisorsa'] = $dati['quantita_contatore'];
                         $insert['Data'] = date('Ymd');
                         //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
-                        $insert['Cd_MG'] = '00001';
+                        $insert['Cd_MG'] = $dati['cd_mg'];
                         $insert['Cd_Operatore'] = $utente->Cd_Operatore;
-                        $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                        $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
 
                         $insert['CostoLavorazione'] = 0;
                         $insert['Esecuzione'] = 0;
@@ -2345,9 +2350,9 @@ class HomeController extends Controller
 
                         $insert['Data'] = date('Ymd');
                         //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
-                        $insert['Cd_MG'] = '00001';
+                        $insert['Cd_MG'] = $dati['cd_mg'];
                         $insert['Cd_Operatore'] = $utente->Cd_Operatore;
-                        $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                        $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
 
                         $insert['CostoLavorazione'] = 0;
                         $insert['Esecuzione'] = 0;
@@ -2787,6 +2792,12 @@ class HomeController extends Controller
 
                     $attivita_bolla->versamenti = DB::select('SELECT * from PrVRAttivitaEx Where Id_PrBLAttivita=' . $id);
                     $attivita_bolla->materiali = DB::select('SELECT *,(SELECT MG_LottoObbligatorio FROM AR WHERE AR.Cd_AR = PRBLMateriale.Cd_AR) as Obbligatorio from PRBLMateriale Where Id_PrBLAttivita = ' . $id);
+                    $LottiObbligatorio = 0;
+                    foreach ($attivita_bolla->materiali as $m) {
+                        if ($m->Obbligatorio == 1)
+                            if ($m->Cd_ARLotto == null || $m->Cd_ARLotto == '' || $m->Cd_ARLotto == 'null')
+                                $LottiObbligatorio = 1;
+                    }
                     $attivita_bolla->colli = DB::select('SELECT * from xWPCollo Where Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ' order by Id_xWPCollo DESC');
                     $attivita_bolla->pedane = DB::select('SELECT p.*,AR.PesoNetto as peso_pedana from xWPPD p LEFT JOIN AR ON AR.Cd_AR = p.Cd_xPD Where p.Id_PrOL = ' . $attivita_bolla->Id_PrOL . ' order by p.Id_xWPPD DESC');
                     $attivita_bolla->segnalazioni = DB::select('SELECT * from xWPSegnalazione Where Id_PrBLAttivita = ' . $id);
@@ -2808,6 +2819,11 @@ class HomeController extends Controller
                         $ordini = DB::select('SELECT * from PrOLEx Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
+                            $nr_dotes = DB::SELECT('SELECT NumeroDoc from dotes where Id_DOTes in (SELECT Id_DOTes from dorig where Id_DORig in (SELECT Id_DORig FROM PROLDorig where Id_PrOL = \'' . $attivita_bolla->Id_PrOL . '\'))');
+                            if (sizeof($nr_dotes) > 0)
+                                $nr_dotes = $nr_dotes[0]->NumeroDoc;
+                            else
+                                $nr_dotes = 0;
                             $articoli = DB::select('SELECT * from AR where CD_AR = \'' . $ordine->Cd_AR . '\'');
                             if (sizeof($articoli) > 0) {
                                 $articolo = $articoli[0];
@@ -2824,9 +2840,8 @@ class HomeController extends Controller
                                 $colli_da_versare = DB::select('SELECT * from xWPCollo Where QtaVersata < QtaProdotta and Id_PrBLAttivita =  ' . $id . ' order by Id_xWPCollo DESC');
 
 
-                                $titolo = 'Ordine ' . $attivita_bolla->Id_PrOL . ' | ' . $utente->Cd_PRRisorsa;
                                 $operatori = DB::select('SELECT * from Operatore Where CD_Operatore IN (SELECT CD_Operatore from PRRisorsa_Operatore Where Cd_PRRIsorsa = \'' . $utente->Cd_PRRisorsa . '\')');
-                                return View::make('backend.dettaglio_bolla', compact('mese_lettera', 'attivita_bolla', 'bolla', 'titolo', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
+                                return View::make('backend.dettaglio_bolla', compact('mese_lettera', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
 
                             }
                         }

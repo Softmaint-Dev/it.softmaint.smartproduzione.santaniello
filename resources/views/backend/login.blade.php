@@ -40,7 +40,7 @@
                     <select name="risorsa" class="form-control" onchange="top.location.href='/login?reparto='+$('#reparto').val()+'&risorsa='+$(this).val()">
                         <option value="">Seleziona una Risorsa</option>
                         <?php foreach($risorse as $ris){ ?>
-                        <option value="<?php echo $ris->Cd_PrRisorsa ?>" <?php echo ((isset($_GET['risorsa'])) && trim($ris->Cd_PrRisorsa) == $_GET['risorsa'])?'selected':''  ?>><?php echo $ris->Cd_PrRisorsa ?></option>
+                        <option value="<?php echo $ris->Cd_PrRisorsa ?>" <?php echo ((isset($_GET['risorsa'])) && trim($ris->Cd_PrRisorsa) == $_GET['risorsa'])?'selected':''  ?>><?php echo $ris->Cd_PrRisorsa.' - '.$ris->Descrizione ?></option>
                         <?php } ?>
                     </select>
 

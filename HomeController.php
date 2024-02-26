@@ -335,7 +335,7 @@ class HomeController extends Controller
                     $insert['Data'] = date('Ymd');
                     $insert['Cd_MG'] = '00001';
                     $insert['Cd_Operatore'] = $utente->Cd_Operatore;
-                    $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                    $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
 
                     $insert['CostoLavorazione'] = 0;
                     $insert['Esecuzione'] = 0;
@@ -582,7 +582,7 @@ class HomeController extends Controller
                     $insert['Data'] = date('Ymd');
                     $insert['Cd_MG'] = '00001';
                     $insert['Cd_Operatore'] = $utente->Cd_Operatore;
-                    $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                    $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
 
                     $insert['CostoLavorazione'] = 0;
                     $insert['Esecuzione'] = 0;
@@ -984,7 +984,7 @@ class HomeController extends Controller
                         }
                         $insert['Cd_Operatore'] = $dati['Cd_Operatore2'];
 
-                        $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry - Secondo Operatore di Attrezzaggio';
+                        $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio';
                         $insert['CostoLavorazione'] = 0;
                         $insert['Attrezzaggio'] = 0;
                         $insert['Esecuzione'] = 0;
@@ -1004,7 +1004,7 @@ class HomeController extends Controller
                     }
                     $insert['Cd_Operatore'] = $utente->Cd_Operatore;
 
-                    $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                    $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
                     $insert['CostoLavorazione'] = 0;
                     $insert['Attrezzaggio'] = 0;
                     $insert['Esecuzione'] = 0;
@@ -2109,7 +2109,7 @@ class HomeController extends Controller
                         //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
                         $insert['Cd_MG'] = '00009';
                         $insert['Cd_Operatore'] = $utente->Cd_Operatore;
-                        $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                        $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
 
                         $insert['CostoLavorazione'] = 0;
                         $insert['Esecuzione'] = 0;
@@ -2286,7 +2286,7 @@ class HomeController extends Controller
                         //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
                         $insert['Cd_MG'] = '00009';
                         $insert['Cd_Operatore'] = $utente->Cd_Operatore;
-                        $insert['NotePrVRAttivita'] = 'Creato con ArcaIndustry';
+                        $insert['NotePrVRAttivita'] = 'Creato con SmartProduzione';
 
                         $insert['CostoLavorazione'] = 0;
                         $insert['Esecuzione'] = 0;
