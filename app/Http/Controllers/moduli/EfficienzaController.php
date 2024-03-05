@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\moduli\ModuloController;
 use App\Models\DmsDocument;
 use App\Models\PRRLAttivita;
-use Illuminate\Http\Request; 
-use App\Models\PRBLAttivita; 
+use Illuminate\Http\Request;
+use App\Models\PRBLAttivita;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +17,7 @@ use Carbon\Carbon;
 
 class EfficienzaController extends Controller
 {
-   
+
     public function createView($id)
     {
 
@@ -33,7 +33,7 @@ class EfficienzaController extends Controller
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
-       
+
         print_r(json_encode($dms->xJSON));
 
         return view('moduli.efficienza.efficienza_edit', [
@@ -44,8 +44,8 @@ class EfficienzaController extends Controller
     }
 
     public function edit($idActivity, $id, Request $request) {
-        
-       
+
+
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $oldJson = json_decode($dms->xJSON);
         $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
@@ -57,10 +57,10 @@ class EfficienzaController extends Controller
          $refactoring = array(
             '[USER]' => $oldJson->utente,
             '[GIORNO]' => $oldJson->giorno,
-            '[MESE]' =>  $oldJson->mese, 
+            '[MESE]' =>  $oldJson->mese,
             '[ANNO]' =>  $oldJson->anno,
-            '[ORA_INIZIO]' => $data['oraInizio'], 
-            '[ORA_FINE]' => $data['oraFine'], 
+            '[ORA_INIZIO]' => $data['oraInizio'],
+            '[ORA_FINE]' => $data['oraFine'],
             '[LOTTO]' => $data['xwpCollo'],
             '[ALLARME]' => isset($data['allarme']) ? "X" : "",
             '[ALLARME_DESCRIZIONE]' => $data['allarme_nota'],
@@ -76,7 +76,7 @@ class EfficienzaController extends Controller
          );
 
          $html = str_replace(array_keys($refactoring), $refactoring, $layout);
-         
+
          $pdf->loadHtml($html);
          $pdf->setPaper('A4', 'landscape');
 
@@ -88,7 +88,7 @@ class EfficienzaController extends Controller
      if ($complete) {
         return Redirect::to('dettaglio_bolla/' . $idActivity);
     }
-   
+
    return response('errore!!');
 
          //edit($id, $binaryPDF, $json)
@@ -108,12 +108,12 @@ class EfficienzaController extends Controller
         $dotes = $dorig->dotes;
         $cf = $dotes->cf;
         $dms = $dotes->dms();
-        
+
          $pdf = App::make('dompdf.wrapper');
 
          $layout = file_get_contents(public_path('pdf/efficienza.html'));
 
-        
+
 
         $dateCarbon = Carbon::createFromFormat('d/m/Y', $data['data']);
 
@@ -125,10 +125,10 @@ class EfficienzaController extends Controller
         $refactoring = array(
            '[USER]' => ($utente->Nome) . " " . ($utente->Cognome),
            '[GIORNO]' => $giorno,
-           '[MESE]' =>  $mese, 
+           '[MESE]' =>  $mese,
            '[ANNO]' =>  $anno,
-           '[ORA_INIZIO]' => $data['oraInizio'], 
-           '[ORA_FINE]' => $data['oraFine'], 
+           '[ORA_INIZIO]' => $data['oraInizio'],
+           '[ORA_FINE]' => $data['oraFine'],
            '[LOTTO]' => $data['xwpCollo'],
            '[ALLARME]' => isset($data['allarme']) ? "X" : "",
            '[ALLARME_DESCRIZIONE]' => $data['allarme_nota'],
@@ -142,19 +142,19 @@ class EfficienzaController extends Controller
            '[CALIBRAZIONE_DESCRIZIONE]' => $data['calibrazione_note'],
            '[NOTE]' => $data['note'],
         );
-    
+
          $html = str_replace(array_keys($refactoring), $refactoring, $layout);
-         
+
          $pdf->loadHtml($html);
          $pdf->setPaper('A4', 'landscape');
 
          $binaryPDF = $pdf->output();
- 
+
          $formatoOrigine = 'd/m/Y';
 
          $dateCarbon = Carbon::createFromFormat($formatoOrigine,  $data['data']);
          $dataFormattata = $dateCarbon->format('Y-m-d H:i:s');
-     
+
          $data['utente'] = ($utente->Nome) . " " . ($utente->Cognome);
          $data['giorno'] =  $giorno;
          $data['mese'] =  $mese;
@@ -174,7 +174,7 @@ class EfficienzaController extends Controller
           if ($complete) {
               return Redirect::to('dettaglio_bolla/' . $id);
           }
-        
+
         return response('errore!!');
 
     }

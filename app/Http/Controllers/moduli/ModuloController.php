@@ -26,7 +26,8 @@ class ModuloController extends Controller
         return new JsonResponse($dms);
     }
 
-    public function removeDMS($id) {
+    public function removeDMS($id)
+    {
         DmsDocument::where('column_name', '=', 'value')->delete();
 
         return true;
@@ -36,10 +37,18 @@ class ModuloController extends Controller
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $activity);
-
-        switch($dms->xType) {
+        switch (str_replace(' ', '', $dms->xType)) {
             case 'efficienza':
                 return redirect()->route('editEfficienza', ['id' => $id, 'activity' => $activity]);
+                break;
+            case 'granella':
+                return redirect()->route('editGranella', ['id' => $id, 'activity' => $activity]);
+                break;
+            case 'raffina':
+                return redirect()->route('editRaffinatrice', ['id' => $id, 'activity' => $activity]);
+                break;
+            case 'farina':
+                return redirect()->route('editFarina', ['id' => $id, 'activity' => $activity]);
                 break;
             case '2':
                 $dms->xType = '1';
@@ -47,9 +56,8 @@ class ModuloController extends Controller
         }
 
         return response("");
- 
-    }
 
+    }
 
 
     public function showDMS($id)
@@ -58,10 +66,11 @@ class ModuloController extends Controller
 
         return response($dms->Content)
             ->header('Content-Type', 'application/pdf');
- 
+
     }
 
-    public function edit($Id_DmsDocument, $binaryPDF, $json) {
+    public function edit($Id_DmsDocument, $binaryPDF, $json)
+    {
         try {
             $dms = DmsDocument::find($Id_DmsDocument);
             if ($dms) {
@@ -71,7 +80,7 @@ class ModuloController extends Controller
 
                 $dms->save();
             }
-        } catch (Exception $e) { 
+        } catch (Exception $e) {
             dd($e);
             return false;
         }
@@ -79,7 +88,7 @@ class ModuloController extends Controller
     }
 
     public function createDMS($binaryPDF, $descrizione, $fileName, $dotes, $date, $json, $type)
-    {   
+    {
         $dataAttuale = Carbon::now();
 
         try {
@@ -105,8 +114,8 @@ class ModuloController extends Controller
             $dms->save();
 
 
-        } catch (Exception $e) { 
-            print_r($e);
+        } catch (Exception $e) {
+            print_r($e->getMessage());
             return false;
         }
         return true;

@@ -84,7 +84,7 @@ Route::group(['prefix' => 'qualita'], function () {
 Route::post('/generate-and-save-pdf', 'QualitaController@generateAndSavePdf');
 
 Route::any('logout', 'HomeController@logout');
- 
+
 Route::group(['prefix' => 'moduli'], function() {
     Route::get('{id}/dms', [ModuloController::class, 'getDMS']);
     Route::get('show/{id}', [ModuloController::class, 'showDMS']);
@@ -94,6 +94,8 @@ Route::group(['prefix' => 'moduli'], function() {
         Route::get('/', [GranellaController::class, 'showAll']);
         Route::get("/create/{id}", [GranellaController::class, 'createView'])->name("createGranella");
         Route::post("/create/{id}", [GranellaController::class, 'create'])->name("createPostGranella");
+        Route::get("/edit/{activity}/{id}", [GranellaController::class, 'editView'])->name("editGranella");
+        Route::post("/edit/{idActivity}/{id}", [GranellaController::class, 'edit'])->name("editPostGranella");
      });
      Route::group(['prefix' => 'efficienza'], function() {
         Route::get('/', [EfficienzaController::class, 'showAll']);
@@ -111,6 +113,8 @@ Route::group(['prefix' => 'moduli'], function() {
         Route::get('/', [RaffinatriceController::class, 'showAll']);
         Route::get("/create/{id}", [RaffinatriceController::class, 'createView'])->name("createRaffinatrice");
         Route::post("/create/{id}", [RaffinatriceController::class, 'create'])->name("createPostRaffinatrice");
+         Route::get("/edit/{activity}/{id}", [RaffinatriceController::class, 'editView'])->name("editRaffinatrice");
+         Route::post("/edit/{idActivity}/{id}", [RaffinatriceController::class, 'edit'])->name("editPostRaffinatrice");
      });
      Route::group(['prefix' => 'sortex'], function() {
       Route::get('/', [SortexController::class, 'showAll']);
@@ -121,6 +125,8 @@ Route::group(['prefix' => 'moduli'], function() {
       Route::get('/', [FarinaController::class, 'showAll']);
       Route::get("/create/{id}", [FarinaController::class, 'createView'])->name("createFarina");
       Route::post("/create/{id}", [FarinaController::class, 'create'])->name("createPostFarina");
+       Route::get("/edit/{activity}/{id}", [FarinaController::class, 'editView'])->name("editFarina");
+       Route::post("/edit/{idActivity}/{id}", [FarinaController::class, 'edit'])->name("editPostFarina");
    });
    Route::group(['prefix' => 'xray'], function() {
       Route::group(['prefix' => 'BR6000'], function() {
