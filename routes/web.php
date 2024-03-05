@@ -88,6 +88,8 @@ Route::any('logout', 'HomeController@logout');
 Route::group(['prefix' => 'moduli'], function() {
     Route::get('{id}/dms', [ModuloController::class, 'getDMS']);
     Route::get('show/{id}', [ModuloController::class, 'showDMS']);
+    Route::get('edit/{activity}/{id}', [ModuloController::class, 'editDMS']);
+
     Route::group(['prefix' => 'granella'], function() {
         Route::get('/', [GranellaController::class, 'showAll']);
         Route::get("/create/{id}", [GranellaController::class, 'createView'])->name("createGranella");
@@ -97,6 +99,8 @@ Route::group(['prefix' => 'moduli'], function() {
         Route::get('/', [EfficienzaController::class, 'showAll']);
         Route::get("/create/{id}", [EfficienzaController::class, 'createView'])->name("createEfficienza");
         Route::post("/create/{id}", [EfficienzaController::class, 'create'])->name("createPostEfficienza");
+        Route::get("/edit/{activity}/{id}", [EfficienzaController::class, 'editView'])->name("editEfficienza");
+        Route::post("/edit/{idActivity}/{id}", [EfficienzaController::class, 'edit'])->name("editPostEfficienza");
      });
      Route::group(['prefix' => 'tostatura'], function() {
         Route::get('/', [TostaturaController::class, 'showAll']);

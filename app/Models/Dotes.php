@@ -22,7 +22,7 @@ class Dotes extends Model
         ->join('dotes', 'dotes.Id_Dotes', '=', 'DmsDocument.EntityId')
         ->whereNotNull('DmsDocument.EntityId')
         ->whereRaw("CONVERT(NVARCHAR(MAX), DmsDocument.EntityId) LIKE CONCAT('%', CONVERT(NVARCHAR(MAX), ?), '%')", [$this->Id_DoTes])
-        ->select("Id_DmsDocument", "Descrizione", "DocumentDate")
+        ->select("Id_DmsDocument", "Descrizione", "DocumentDate", "xType")
         ->get();
     }
 }

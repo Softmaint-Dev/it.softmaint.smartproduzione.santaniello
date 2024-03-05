@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Redirect;
 
 class ModuloController extends Controller
 {
@@ -31,6 +32,26 @@ class ModuloController extends Controller
         return true;
     }
 
+    public function editDMS($activity, $id)
+    {
+        $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+        $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $activity);
+
+        switch($dms->xType) {
+            case 'efficienza':
+                return redirect()->route('editEfficienza', ['id' => $id, 'activity' => $activity]);
+                break;
+            case '2':
+                $dms->xType = '1';
+                break;
+        }
+
+        return response("");
+ 
+    }
+
+
+
     public function showDMS($id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
@@ -40,7 +61,24 @@ class ModuloController extends Controller
  
     }
 
-    public function createDMS($binaryPDF, $descrizione, $fileName, $dotes, $date)
+    public function edit($Id_DmsDocument, $binaryPDF, $json) {
+        try {
+            $dms = DmsDocument::find($Id_DmsDocument);
+            if ($dms) {
+                $dms->Content = $binaryPDF;
+                //$dms->FileSize = strlen($binaryPDF);
+                //$dms->xJSON = $json;
+
+                $dms->save();
+            }
+        } catch (Exception $e) { 
+            dd($e);
+            return false;
+        }
+        return true;
+    }
+
+    public function createDMS($binaryPDF, $descrizione, $fileName, $dotes, $date, $json, $type)
     {   
         $dataAttuale = Carbon::now();
 
@@ -62,6 +100,8 @@ class ModuloController extends Controller
             $dms->ComputerName = "";
             $dms->FilePath = "";
             $dms->Note = $dotes->Id_DoTes . '';
+            $dms->xJSON = $json;
+            $dms->xType = $type;
             $dms->save();
 
 

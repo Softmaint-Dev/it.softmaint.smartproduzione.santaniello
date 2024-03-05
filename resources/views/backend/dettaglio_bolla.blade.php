@@ -725,34 +725,54 @@
                                                                         const table = document.createElement('table');
                                                                         table.classList.add('table', 'table-bordered', 'table-striped');
                                                                         const headerRow = table.insertRow();
-                                                                        document.getElementById("idNumQlt").innerHTML = data.length
+                                                                        document.getElementById("idNumQlt").innerHTML = data.length;
+                                                                        console.log(data)
 
                                                                         Object.keys(data[0]).forEach(key => {
                                                                             const th = document.createElement('th');
                                                                             th.textContent = key;
                                                                             headerRow.appendChild(th);
                                                                         });
+                                                                        const thVisualizza = document.createElement('th');
+                                                                        thVisualizza.textContent = "Visualizza";
+                                                                        headerRow.appendChild(thVisualizza);
 
-                                                                        const th = document.createElement('th');
-                                                                        th.textContent = "Visualizza";
-                                                                        headerRow.appendChild(th);
+                                                                        const thModifica = document.createElement('th');
+                                                                        thModifica.textContent = "Modifica";
+                                                                        headerRow.appendChild(thModifica);
+
                                                                         data.forEach(item => {
                                                                             const row = table.insertRow();
                                                                             Object.values(item).forEach(value => {
                                                                                 const cell = row.insertCell();
                                                                                 cell.textContent = value;
-
                                                                             });
-                                                                            const visualizzaCell = row.insertCell();
-                                                                            const visualizzaInput = document.createElement('input');
-                                                                            visualizzaInput.type = 'button';
-                                                                            visualizzaInput.classList.add("btn", "btn-success")
-                                                                            visualizzaInput.value = 'VISUALIZZA';
-                                                                            visualizzaCell.appendChild(visualizzaInput);
-                                                                            visualizzaInput.onclick = function () {
-                                                                                window.location.href = '/moduli/show/' + item.Id_DmsDocument
-                                                                            };
+
+                                                                            if(item.xType) {
+
+                                                                                const visualizzaCell = row.insertCell();
+                                                                                const visualizzaInput = document.createElement('input');
+                                                                                visualizzaInput.type = 'button';
+                                                                                visualizzaInput.classList.add("btn", "btn-success");
+                                                                                visualizzaInput.value = 'VISUALIZZA';
+                                                                                visualizzaCell.appendChild(visualizzaInput);
+                                                                                visualizzaInput.onclick = function () {
+                                                                                    window.location.href = '/moduli/show/' + item.Id_DmsDocument;
+                                                                                };
+                                                                         
+                                                                                const modificaCell = row.insertCell();
+                                                                                const modificaInput = document.createElement('input');
+                                                                                modificaInput.type = 'button';
+                                                                                modificaInput.classList.add("btn", "btn-primary");
+                                                                                modificaInput.value = 'MODIFICA';
+                                                                                modificaCell.appendChild(modificaInput);
+                                                                                modificaInput.onclick = function () {
+                                                                                    window.location.href = '/moduli/edit/' + {{$attivita_bolla->Id_PrBLAttivita}} + '/' + item.Id_DmsDocument;
+                                                                                };
+                                                                            }
+                                                                          
                                                                         });
+
                                                                         const divDms = document.querySelector('.div-dms');
                                                                         divDms.appendChild(table);
                                                                     });

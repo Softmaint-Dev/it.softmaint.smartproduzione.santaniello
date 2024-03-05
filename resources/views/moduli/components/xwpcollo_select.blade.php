@@ -20,9 +20,9 @@
                     var option = document.createElement('option');
                     option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
                     option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
+                    if(option.value === '{{$selected}}') option.selected = true;
                     xwpCollo.add(option);
                 });
-                console.log(response.data);
                 $(xwpCollo).selectpicker('refresh');
             })
             .catch(function (error) {

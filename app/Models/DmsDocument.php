@@ -13,6 +13,8 @@ class DmsDocument extends Model
 
     protected $table = 'DmsDocument';
 
+    protected $primaryKey = 'Id_DmsDocument';
+
     public $timestamps = false;
 
 
