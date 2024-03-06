@@ -122,6 +122,8 @@ Route::group(['prefix' => 'moduli'], function () {
         Route::get('/', [SortexController::class, 'showAll']);
         Route::get("/create/{id}", [SortexController::class, 'createView'])->name("createSortex");
         Route::post("/create/{id}", [SortexController::class, 'create'])->name("createPostSortex");
+        Route::get("/edit/{activity}/{id}", [SortexController::class, 'editView'])->name("editSortex");
+        Route::post("/edit/{idActivity}/{id}", [SortexController::class, 'edit'])->name("editPostSortex");
     });
     Route::group(['prefix' => 'farina'], function () {
         Route::get('/', [FarinaController::class, 'showAll']);
