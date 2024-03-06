@@ -153,11 +153,15 @@ Route::group(['prefix' => 'moduli'], function () {
             Route::get('/', [MetalDetectorController::class, 'showAll']);
             Route::get("/create/{id}", [MetalDetectorController::class, 'createViewMBR1200'])->name("createMDMBR1200");
             Route::post("/create/{id}", [MetalDetectorController::class, 'createPostMBR1200'])->name("createPostMDMBR1200");
+            Route::get("/edit/{activity}/{id}", [MetalDetectorController::class, 'editViewMBR1200'])->name("editMBR1200");
+            Route::post("/edit/{idActivity}/{id}", [MetalDetectorController::class, 'editMBR1200'])->name("editPostMBR1200");
         });
         Route::group(['prefix' => 'PMO'], function () {
             Route::get('/', [MetalDetectorController::class, 'showAll']);
             Route::get("/create/{id}", [MetalDetectorController::class, 'createViewPMO'])->name("createMDPMO");
             Route::post("/create/{id}", [MetalDetectorController::class, 'createPostPMO'])->name("createMDPMO");
+            Route::get("/edit/{activity}/{id}", [MetalDetectorController::class, 'editViewPMO'])->name("editMDPMO");
+            Route::post("/edit/{idActivity}/{id}", [MetalDetectorController::class, 'editPMO'])->name("editPostMDPMO");
         });
     });
 });

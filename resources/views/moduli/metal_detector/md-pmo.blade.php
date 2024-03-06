@@ -22,6 +22,7 @@
             vertical-align: middle;
         }
 
+
         .form-label {
             font-weight: bold;
         }

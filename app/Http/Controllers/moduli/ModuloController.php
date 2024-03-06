@@ -62,6 +62,12 @@ class ModuloController extends Controller
             case 'sortex':
                 return redirect()->route('editSortex', ['id' => $id, 'activity' => $activity]);
                 break;
+            case 'PMO':
+                return redirect()->route('editMDPMO', ['id' => $id, 'activity' => $activity]);
+                break;
+            case 'MBR1200':
+                return redirect()->route('editMBR1200', ['id' => $id, 'activity' => $activity]);
+                break;
             case '2':
                 $dms->xType = '1';
                 break;
