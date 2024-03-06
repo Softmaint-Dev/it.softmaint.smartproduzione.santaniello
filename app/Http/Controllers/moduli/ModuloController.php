@@ -56,6 +56,9 @@ class ModuloController extends Controller
             case 'XRAY400N':
                 return redirect()->route('edit400N', ['id' => $id, 'activity' => $activity]);
                 break;
+            case 'XRAYBR6000':
+                return redirect()->route('editBR6000', ['id' => $id, 'activity' => $activity]);
+                break;
             case '2':
                 $dms->xType = '1';
                 break;

@@ -1,4 +1,4 @@
- 
+
 @include('backend.common.header')
 {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -58,12 +58,12 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
     <div class="container mt-5">
         <h2>SORTEX</h2>
-    
+
         <table class="table">
             <thead>
                 <tr>
@@ -72,7 +72,7 @@
                      <th>CORPI ESTRANEI</th>
                     <th>RAGGRINZITO/SEMI NERI
                         - SCURI
-                        </th>  
+                        </th>
                     <th>AMMUFFITO /
                         CIMICIATO
                         </th>
@@ -82,13 +82,13 @@
                 <!-- Le tue righe verranno aggiunte qui dinamicamente -->
             </tbody>
         </table>
-    
+
         <button type="button" class="btn btn-primary" onclick="aggiungiRiga()">Aggiungi Riga</button>
 
         <div class="container mt-5">
             <input id="salv" required type="submit" class="btn btn-primary btn-block" value="SALVA" />
         </div>
-        
+
         <div class="modal fade" id="confermaEliminazioneModal" tabindex="-1" role="dialog" aria-labelledby="confermaEliminazioneModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -124,16 +124,16 @@ function eliminaRiga(button) {
 function rigaStyle(name, index) {
     var tbody = document.getElementById('tabella-corpo');
 
-    
+
     var input = document.createElement("input");
     input.type = "text";
-    input.name = name + (tbody.rows.length);  
-    input.classList.add("form-control");  
-    input.value = ""; 
-    input.setAttribute("required", "required"); 
+    input.name = name + (tbody.rows.length);
+    input.classList.add("form-control");
+    input.value = "";
+    input.setAttribute("required", "required");
 
     return input;
-} 
+}
 
 function confermaEliminazione(button) {
     // Apri il modale di conferma
@@ -144,16 +144,16 @@ function confermaEliminazione(button) {
 }
 
 function aggiungiRiga() {
- 
+
         var tbody = document.getElementById('tabella-corpo');
         var newRow = tbody.insertRow();
-        newRow.insertCell(0).innerHTML = `  
-                    <input type="date" class="form-control datepicker"  id="data${(tbody.rows.length)}" name="data${(tbody.rows.length)}" required> 
+        newRow.insertCell(0).innerHTML = `
+                    <input type="date" class="form-control datepicker"  id="data${(tbody.rows.length)}" name="data${(tbody.rows.length)}" required>
                `;
-        newRow.insertCell(1).appendChild(rigaStyle("ora", 2)) 
-        newRow.insertCell(2).appendChild(rigaStyle("corpi", 2)) 
+        newRow.insertCell(1).appendChild(rigaStyle("ora", 2))
+        newRow.insertCell(2).appendChild(rigaStyle("corpi", 2))
         newRow.insertCell(3).appendChild(rigaStyle("raggrizito", 2))
-        newRow.insertCell(4).appendChild(rigaStyle("ammuffito", 2))  
+        newRow.insertCell(4).appendChild(rigaStyle("ammuffito", 2))
           newRow.insertCell(5).innerHTML = `
         <td>
             <button type="button" class="btn btn-danger btn-sm" onclick="confermaEliminazione(this)">
@@ -161,7 +161,7 @@ function aggiungiRiga() {
             </button>
         </td>`;
          // for (var i = 0; i < 5; i++) {
-        
+
         //     var cell = newRow.insertCell(i);
 
         //     // Crea un input di tipo text con nome dinamico (lotto1, lotto2, ...)
@@ -182,15 +182,15 @@ function aggiungiRiga() {
             var data = document.getElementById('data').value;
             var oraInizio = document.getElementById('oraInizio').value;
             var oraFine = document.getElementById('oraFine').value;
-         
+
             if (data === '' || oraInizio === '' || oraFine === '') {
                  $('#myModal').modal('show');
                  return false;
             }
 
             return true;
-        
-       
+
+
          }
   $('.datepicker').datepicker({
         language: 'it',
@@ -217,7 +217,7 @@ function aggiungiRiga() {
             </div>
             <div class="modal-body">
                 <p>Compila i campi obbligatori per proseguire.</p>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Chiudi</button>

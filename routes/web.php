@@ -135,15 +135,15 @@ Route::group(['prefix' => 'moduli'], function () {
             Route::get('/', [XRayController::class, 'showAll']);
             Route::get("/create/{id}", [XRayController::class, 'createViewBR6000'])->name("createXrayBR6000");
             Route::post("/create/{id}", [XRayController::class, 'createPostXBR6000'])->name("createPostXBR6000");
-            Route::get("/edit/{activity}/{id}", [XRayController::class, 'editViewBR6000'])->name("editBR6000");
-            Route::post("/edit/{idActivity}/{id}", [XRayController::class, 'editPostBR6000'])->name("editPostBR6000");
+            Route::get("/edit/{activity}/{id}", [XRayController::class, 'editviewBR6000'])->name("editBR6000");
+            Route::post("/edit/{idActivity}/{id}", [XRayController::class, 'editBR6000'])->name("editPostBR6000");
         });
         Route::group(['prefix' => '400N'], function () {
             Route::get('/', [XRayController::class, 'showAll']);
             Route::get("/create/{id}", [XRayController::class, 'createView400N'])->name("createXray400N");
             Route::post("/create/{id}", [XRayController::class, 'createPost400N'])->name("createPost400N");
             Route::get("/edit/{activity}/{id}", [XRayController::class, 'editView400N'])->name("edit400N");
-            Route::post("/edit/{idActivity}/{id}", [XRayController::class, 'editPost400N'])->name("editPost400N");
+            Route::post("/edit/{idActivity}/{id}", [XRayController::class, 'edit400N'])->name("editPost400N");
         });
     });
     Route::group(['prefix' => 'metal-detector'], function () {
