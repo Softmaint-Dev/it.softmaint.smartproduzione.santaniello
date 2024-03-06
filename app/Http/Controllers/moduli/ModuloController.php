@@ -50,6 +50,12 @@ class ModuloController extends Controller
             case 'farina':
                 return redirect()->route('editFarina', ['id' => $id, 'activity' => $activity]);
                 break;
+            case 'tostatura':
+                return redirect()->route('editTostatura', ['id' => $id, 'activity' => $activity]);
+                break;
+            case 'XRAY400N':
+                return redirect()->route('edit400N', ['id' => $id, 'activity' => $activity]);
+                break;
             case '2':
                 $dms->xType = '1';
                 break;
@@ -76,7 +82,7 @@ class ModuloController extends Controller
             if ($dms) {
                 $dms->Content = $binaryPDF;
                 //$dms->FileSize = strlen($binaryPDF);
-                //$dms->xJSON = $json;
+                $dms->xJSON = $json;
 
                 $dms->save();
             }

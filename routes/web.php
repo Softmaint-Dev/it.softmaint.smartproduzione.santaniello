@@ -85,79 +85,85 @@ Route::post('/generate-and-save-pdf', 'QualitaController@generateAndSavePdf');
 
 Route::any('logout', 'HomeController@logout');
 
-Route::group(['prefix' => 'moduli'], function() {
+Route::group(['prefix' => 'moduli'], function () {
     Route::get('{id}/dms', [ModuloController::class, 'getDMS']);
     Route::get('show/{id}', [ModuloController::class, 'showDMS']);
     Route::get('edit/{activity}/{id}', [ModuloController::class, 'editDMS']);
 
-    Route::group(['prefix' => 'granella'], function() {
+    Route::group(['prefix' => 'granella'], function () {
         Route::get('/', [GranellaController::class, 'showAll']);
         Route::get("/create/{id}", [GranellaController::class, 'createView'])->name("createGranella");
         Route::post("/create/{id}", [GranellaController::class, 'create'])->name("createPostGranella");
         Route::get("/edit/{activity}/{id}", [GranellaController::class, 'editView'])->name("editGranella");
         Route::post("/edit/{idActivity}/{id}", [GranellaController::class, 'edit'])->name("editPostGranella");
-     });
-     Route::group(['prefix' => 'efficienza'], function() {
+    });
+    Route::group(['prefix' => 'efficienza'], function () {
         Route::get('/', [EfficienzaController::class, 'showAll']);
         Route::get("/create/{id}", [EfficienzaController::class, 'createView'])->name("createEfficienza");
         Route::post("/create/{id}", [EfficienzaController::class, 'create'])->name("createPostEfficienza");
         Route::get("/edit/{activity}/{id}", [EfficienzaController::class, 'editView'])->name("editEfficienza");
         Route::post("/edit/{idActivity}/{id}", [EfficienzaController::class, 'edit'])->name("editPostEfficienza");
-     });
-     Route::group(['prefix' => 'tostatura'], function() {
+    });
+    Route::group(['prefix' => 'tostatura'], function () {
         Route::get('/', [TostaturaController::class, 'showAll']);
         Route::get("/create/{id}", [TostaturaController::class, 'createView'])->name("createTostatura");
         Route::post("/create/{id}", [TostaturaController::class, 'create'])->name("createPostTostatura");
-     });
-     Route::group(['prefix' => 'raffinatrice'], function() {
+        Route::get("/edit/{activity}/{id}", [TostaturaController::class, 'editView'])->name("editTostatura");
+        Route::post("/edit/{idActivity}/{id}", [TostaturaController::class, 'edit'])->name("editPostTostatura");
+    });
+    Route::group(['prefix' => 'raffinatrice'], function () {
         Route::get('/', [RaffinatriceController::class, 'showAll']);
         Route::get("/create/{id}", [RaffinatriceController::class, 'createView'])->name("createRaffinatrice");
         Route::post("/create/{id}", [RaffinatriceController::class, 'create'])->name("createPostRaffinatrice");
-         Route::get("/edit/{activity}/{id}", [RaffinatriceController::class, 'editView'])->name("editRaffinatrice");
-         Route::post("/edit/{idActivity}/{id}", [RaffinatriceController::class, 'edit'])->name("editPostRaffinatrice");
-     });
-     Route::group(['prefix' => 'sortex'], function() {
-      Route::get('/', [SortexController::class, 'showAll']);
-      Route::get("/create/{id}", [SortexController::class, 'createView'])->name("createSortex");
-      Route::post("/create/{id}", [SortexController::class, 'create'])->name("createPostSortex");
-   });
-   Route::group(['prefix' => 'farina'], function() {
-      Route::get('/', [FarinaController::class, 'showAll']);
-      Route::get("/create/{id}", [FarinaController::class, 'createView'])->name("createFarina");
-      Route::post("/create/{id}", [FarinaController::class, 'create'])->name("createPostFarina");
-       Route::get("/edit/{activity}/{id}", [FarinaController::class, 'editView'])->name("editFarina");
-       Route::post("/edit/{idActivity}/{id}", [FarinaController::class, 'edit'])->name("editPostFarina");
-   });
-   Route::group(['prefix' => 'xray'], function() {
-      Route::group(['prefix' => 'BR6000'], function() {
-         Route::get('/', [XRayController::class, 'showAll']);
-         Route::get("/create/{id}", [XRayController::class, 'createViewBR6000'])->name("createXrayBR6000");
-         Route::post("/create/{id}", [XRayController::class, 'createPostXBR6000'])->name("createPostXBR6000");
-      });
-      Route::group(['prefix' => '400N'], function() {
-         Route::get('/', [XRayController::class, 'showAll']);
-         Route::get("/create/{id}", [XRayController::class, 'createView400N'])->name("createXray400N");
-         Route::post("/create/{id}", [XRayController::class, 'createPost400N'])->name("createPost400N");
-      });
-   });
-   Route::group(['prefix' => 'metal-detector'], function() {
-      Route::group(['prefix' => 'MBR1200'], function() {
-         Route::get('/', [MetalDetectorController::class, 'showAll']);
-         Route::get("/create/{id}", [MetalDetectorController::class, 'createViewMBR1200'])->name("createMDMBR1200");
-         Route::post("/create/{id}", [MetalDetectorController::class, 'createPostMBR1200'])->name("createPostMDMBR1200");
-      });
-      Route::group(['prefix' => 'PMO'], function() {
-         Route::get('/', [MetalDetectorController::class, 'showAll']);
-         Route::get("/create/{id}", [MetalDetectorController::class, 'createViewPMO'])->name("createMDPMO");
-         Route::post("/create/{id}", [MetalDetectorController::class, 'createPostPMO'])->name("createMDPMO");
-      });
-   });
+        Route::get("/edit/{activity}/{id}", [RaffinatriceController::class, 'editView'])->name("editRaffinatrice");
+        Route::post("/edit/{idActivity}/{id}", [RaffinatriceController::class, 'edit'])->name("editPostRaffinatrice");
+    });
+    Route::group(['prefix' => 'sortex'], function () {
+        Route::get('/', [SortexController::class, 'showAll']);
+        Route::get("/create/{id}", [SortexController::class, 'createView'])->name("createSortex");
+        Route::post("/create/{id}", [SortexController::class, 'create'])->name("createPostSortex");
+    });
+    Route::group(['prefix' => 'farina'], function () {
+        Route::get('/', [FarinaController::class, 'showAll']);
+        Route::get("/create/{id}", [FarinaController::class, 'createView'])->name("createFarina");
+        Route::post("/create/{id}", [FarinaController::class, 'create'])->name("createPostFarina");
+        Route::get("/edit/{activity}/{id}", [FarinaController::class, 'editView'])->name("editFarina");
+        Route::post("/edit/{idActivity}/{id}", [FarinaController::class, 'edit'])->name("editPostFarina");
+    });
+    Route::group(['prefix' => 'xray'], function () {
+        Route::group(['prefix' => 'BR6000'], function () {
+            Route::get('/', [XRayController::class, 'showAll']);
+            Route::get("/create/{id}", [XRayController::class, 'createViewBR6000'])->name("createXrayBR6000");
+            Route::post("/create/{id}", [XRayController::class, 'createPostXBR6000'])->name("createPostXBR6000");
+            Route::get("/edit/{activity}/{id}", [XRayController::class, 'editViewBR6000'])->name("editBR6000");
+            Route::post("/edit/{idActivity}/{id}", [XRayController::class, 'editPostBR6000'])->name("editPostBR6000");
+        });
+        Route::group(['prefix' => '400N'], function () {
+            Route::get('/', [XRayController::class, 'showAll']);
+            Route::get("/create/{id}", [XRayController::class, 'createView400N'])->name("createXray400N");
+            Route::post("/create/{id}", [XRayController::class, 'createPost400N'])->name("createPost400N");
+            Route::get("/edit/{activity}/{id}", [XRayController::class, 'editView400N'])->name("edit400N");
+            Route::post("/edit/{idActivity}/{id}", [XRayController::class, 'editPost400N'])->name("editPost400N");
+        });
+    });
+    Route::group(['prefix' => 'metal-detector'], function () {
+        Route::group(['prefix' => 'MBR1200'], function () {
+            Route::get('/', [MetalDetectorController::class, 'showAll']);
+            Route::get("/create/{id}", [MetalDetectorController::class, 'createViewMBR1200'])->name("createMDMBR1200");
+            Route::post("/create/{id}", [MetalDetectorController::class, 'createPostMBR1200'])->name("createPostMDMBR1200");
+        });
+        Route::group(['prefix' => 'PMO'], function () {
+            Route::get('/', [MetalDetectorController::class, 'showAll']);
+            Route::get("/create/{id}", [MetalDetectorController::class, 'createViewPMO'])->name("createMDPMO");
+            Route::post("/create/{id}", [MetalDetectorController::class, 'createPostPMO'])->name("createMDPMO");
+        });
+    });
 });
 
-Route::group(['prefix' => 'CF'], function() {
+Route::group(['prefix' => 'CF'], function () {
     Route::get("/", [CFController::class, 'findAll']);
 });
 
-Route::group(['prefix' => 'XWPCollo'], function() {
-   Route::get("/{id}", [XWPColloController::class, 'xWPColloByAttivita']);
+Route::group(['prefix' => 'XWPCollo'], function () {
+    Route::get("/{id}", [XWPColloController::class, 'xWPColloByAttivita']);
 });
