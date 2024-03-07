@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class GranellaController extends Controller
 {
- 
+
 
     public function createView($id)
     {
@@ -35,7 +35,6 @@ class GranellaController extends Controller
     {
 
 
-
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
@@ -43,9 +42,9 @@ class GranellaController extends Controller
         $dorig = $prolDorig->dorig;
         $dotes = $dorig->dotes;
         $cf = $dotes->cf;
-        $dms = $dotes->dms(); 
-        $data = $request->all(); 
-        $pdf = App::make('dompdf.wrapper'); 
+        $dms = $dotes->dms();
+        $data = $request->all();
+        $pdf = App::make('dompdf.wrapper');
         $layout = file_get_contents(public_path('pdf/granella.html'));
         $utente = $request->session()->get("utente");
 
@@ -63,7 +62,7 @@ class GranellaController extends Controller
             '[UMIDITA]' => $data['moisture'],
             '[SKIN]' => (filter_var($data['skin'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
             '[TASTE]' => (filter_var($data['tastAndSmell'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
-            '[COLOUR]' =>(filter_var($data['colour'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
+            '[COLOUR]' => (filter_var($data['colour'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
             '[OVERSIZE]' => $data['overSize'],
             '[OVERSIZE_PERCENTAGE]' => $data['overSizePercentage'],
             '[CALCULATION]' => $data['calculation'],
@@ -72,7 +71,7 @@ class GranellaController extends Controller
             '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
             '[TOTAL]' => $data['total'],
             '[OBSERVATIONS]' => $data['observations'],
-            '[USER]' => ( $request->session()->get("utente")->Nome) . " " . ( $request->session()->get("utente")->Cognome)
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome)
         );
 
         $html = str_replace(array_keys($refactoring), $refactoring, $layout);
@@ -81,7 +80,9 @@ class GranellaController extends Controller
 
         $binaryPDF = $pdf->output();
 
-
+        $data['USER'] = ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome);
+        $data['CLIENTE'] = $cf->Descrizione;
+        $data['TOTAL_KG'] = number_format($prblAttivita->Quantita, 2);
 
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
@@ -89,16 +90,85 @@ class GranellaController extends Controller
                 DB::raw("0x" . bin2hex($binaryPDF)),
                 'MODULO GRANELLA',
                 "granella.pdf",
-            
                 $dotes,
-                $data['date']
+                $data['date'],
+                json_encode($data),
+                "granella"
             );
 
         if ($complete) {
-         
+
             return Redirect::to('dettaglio_bolla/' . $id);
         }
         return response('errore!!');
 
+    }
+
+    public function editView($idActivity, $id)
+    {
+        $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+
+        return view('moduli.granella.granella_edit', [
+            'activity' => $activity,
+            'json' => json_decode($dms->xJSON),
+            'id' => $id,
+        ]);
+    }
+
+    public function edit($idActivity, $id, Request $request)
+    {
+
+
+        $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+        $oldJson = json_decode($dms->xJSON);
+        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+
+        $data = $request->all();
+
+        $pdf = App::make('dompdf.wrapper');
+        $layout = file_get_contents(public_path('pdf/granella.html'));
+        $refactoring = array(
+            '[VARIETA]' => $data['variety'],
+            '[LOTTO]' => $data['xwpCollo'],
+            '[CALIBRO]' => $data['calibre'],
+            '[CLIENTE]' => $oldJson->CLIENTE,
+            '[TOTAL_KG]' => number_format(floatval($oldJson->TOTAL_KG), 2),
+            '[DATE]' => $data['date'],
+            '[TIME]' => $data['analysis'],
+            '[SAMPLE]' => $data['sample'],
+            '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
+            '[UMIDITA]' => $data['moisture'],
+            '[SKIN]' => (filter_var($data['skin'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
+            '[TASTE]' => (filter_var($data['tastAndSmell'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
+            '[COLOUR]' => (filter_var($data['colour'], FILTER_VALIDATE_BOOLEAN) ? 'X' : ''),
+            '[OVERSIZE]' => $data['overSize'],
+            '[OVERSIZE_PERCENTAGE]' => $data['overSizePercentage'],
+            '[CALCULATION]' => $data['calculation'],
+            '[CALCULATION_PERCENTAGE]' => $data['calculationPercentage'],
+            '[UNDERSIZE]' => $data['underSize'],
+            '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
+            '[TOTAL]' => $data['total'],
+            '[OBSERVATIONS]' => $data['observations'],
+            '[USER]' => $oldJson->USER,
+        );
+        $html = str_replace(array_keys($refactoring), $refactoring, $layout);
+
+        $pdf->loadHtml($html);
+        $pdf->setPaper('A4', 'landscape');
+
+        $binaryPDF = $pdf->output();
+
+        $complete = App::make('App\Http\Controllers\moduli\ModuloController')
+            ->edit($id, DB::raw("0x" . bin2hex($binaryPDF)), json_encode($data));
+
+        if ($complete) {
+            return Redirect::to('dettaglio_bolla/' . $idActivity);
+        }
+
+        return response('errore!!');
+
+        //edit($id, $binaryPDF, $json)
+        //return Redirect::to('dettaglio_bolla/' . $idActivity);
     }
 }

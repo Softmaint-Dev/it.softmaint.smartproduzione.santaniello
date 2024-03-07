@@ -1,10 +1,10 @@
- 
+
 
 <div class="mb-3">
     <label for="xwpCollo" class="form-label">LOTTO</label>
     <select class="selectpicker" data-live-search="true" id="xwpCollo" name="xwpCollo" required>
         <option value="" disabled selected>Seleziona un lotto</option>
-        
+
     </select>
 </div>
 @csrf
@@ -20,9 +20,9 @@
                     var option = document.createElement('option');
                     option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
                     option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
+                    if(option.value === '@if(isset($selected)){{$selected}}@else{{''}}@endif') option.selected = true;
                     xwpCollo.add(option);
                 });
-                console.log(response.data);
                 $(xwpCollo).selectpicker('refresh');
             })
             .catch(function (error) {
