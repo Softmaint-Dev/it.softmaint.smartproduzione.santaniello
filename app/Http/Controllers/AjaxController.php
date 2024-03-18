@@ -153,26 +153,26 @@ class AjaxController extends Controller
         }
 
 
-      /*
+        /*
 
-       $colli = DB::select('SELECT * from xWPCollo Where Nr_Collo = \'' . $lotto . '\'');
-        if (sizeof($colli) > 0) { ?>
-            <script type="text/javascript">
+         $colli = DB::select('SELECT * from xWPCollo Where Nr_Collo = \'' . $lotto . '\'');
+          if (sizeof($colli) > 0) { ?>
+              <script type="text/javascript">
 
-                $('#articoli_lotto_<?php echo $Id_PrBLMateriale; ?>').html('');
-                $('#magazzini_lotto_<?php echo $Id_PrBLMateriale; ?>').html('');
-                $('#articoli_um_<?php echo $Id_PrBLMateriale; ?>').html('');
+                  $('#articoli_lotto_<?php echo $Id_PrBLMateriale; ?>').html('');
+                  $('#magazzini_lotto_<?php echo $Id_PrBLMateriale; ?>').html('');
+                  $('#articoli_um_<?php echo $Id_PrBLMateriale; ?>').html('');
 
-                $('#articoli_lotto_<?php echo $Id_PrBLMateriale; ?>').append('<option value="">SemiLavorato</option>');
-                $('#magazzini_lotto_<?php echo $Id_PrBLMateriale; ?>').append('<option value="">SemiLavorato</option>');
-                $('#articoli_um_<?php echo $Id_PrBLMateriale; ?>').append('<option value="<?php echo $colli[0]->Cd_ARMisura ?>"><?php echo $colli[0]->Cd_ARMisura ?></option>');
+                  $('#articoli_lotto_<?php echo $Id_PrBLMateriale; ?>').append('<option value="">SemiLavorato</option>');
+                  $('#magazzini_lotto_<?php echo $Id_PrBLMateriale; ?>').append('<option value="">SemiLavorato</option>');
+                  $('#articoli_um_<?php echo $Id_PrBLMateriale; ?>').append('<option value="<?php echo $colli[0]->Cd_ARMisura ?>"><?php echo $colli[0]->Cd_ARMisura ?></option>');
 
 
-                $('#quantita_inserisci_materiale_<?php echo $Id_PrBLMateriale; ?>').val(<?php echo $colli[0]->QtaProdotta ?>)
-                $('#inserisci_tipo_materiale_<?php echo $Id_PrBLMateriale; ?>').val(3)
-            </script>
-        <?php }
-      */
+                  $('#quantita_inserisci_materiale_<?php echo $Id_PrBLMateriale; ?>').val(<?php echo $colli[0]->QtaProdotta ?>)
+                  $('#inserisci_tipo_materiale_<?php echo $Id_PrBLMateriale; ?>').val(3)
+              </script>
+          <?php }
+        */
     }
 
     public function visualizza_file($id_dms)
@@ -413,1516 +413,6 @@ class AjaxController extends Controller
         }
     }
 
-    public function load_tracciabilita($id_prol)
-    {
-
-        $base = DB::SELECT('SELECT * FROM PRol where Id_PROl = \'' . $id_prol . '\'')[0];
-
-        $base1 = DB::SELECT('SELECT PROLDoRig.*,DORig.NumeroDoc,CF.Descrizione,DORig.Cd_DO
-        FROM PROLDoRig
-        LEFT JOIN DORig ON PROLDoRig.Id_DoRig = DORIG.Id_DORig
-        LEFT JOIN CF    ON CF.Cd_CF = DORig.Cd_CF
-        where PROLDoRig.Id_PrOL = \'' . $id_prol . '\'')[0];
-
-        $id_prol1 = $id_prol;
-
-        $id_prol = DB::SELECT('SELECT PRBLAttivita.Id_PrBLAttivita,PRRLAttivita.DataOra,PRRLAttivita.Cd_Operatore,xwpGruppiLavoro.Cd_Operatore as Assistente,PROLAttivita .*,PRBLAttivita.* FROM PROLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrOLAttivita = PROLAttivita.Id_PrOLAttivita
-        LEFT JOIN xwpGruppiLavoro ON xwpGruppiLavoro.Id_PrblAttivita = PrblAttivita.Id_PrblAttivita
-        LEFT JOIN PRRLAttivita ON PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\' and DataOra = (SELECT  MIN(DataOra)  FROM PRRLAttivita WHERE PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\')
-        WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
-
-        $id_prbl = '';
-
-        foreach ($id_prol as $i) {
-            $id_prbl .= $i->Id_PrBLAttivita . ',';
-        }
-
-        $id_prbl = substr($id_prbl, 0, (strlen($id_prbl) - 1));
-
-        $versamenti = DB::SELECT('SELECT SUM(QtaProdotta) as Qta_TOT,IdCodiceAttivita,Cd_ARMisura FROM xWPcollo where IdOrdineLavoro = \'' . $id_prol1 . '\' and Nr_Collo not like \'-%\' Group By IdCodiceAttivita,Cd_ARMisura ORDER BY Cd_ARMisura DESC  ');
-
-        $id_prblattivita = DB::SELECT('SELECT * FROM PRBLAttivita WHERE Id_PrBLAttivita in( ' . $id_prbl . ')')[0]->Id_PrBLAttivita;
-
-
-        $fermi = DB::select('SELECT * FROM PRRLAttivita
-                LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PRRLAttivita.Id_PrBLAttivita
-                WHERE PRBLAttivita.Id_PrBLAttivita in( ' . $id_prbl . ') and PRRLAttivita.TipoRilevazione = \'F\' and InizioFine = \'I\' ');
-
-        $segnalazioni = DB::select('SELECT * FROM xWPSegnalazione WHERE Id_PrBLAttivita in (' . $id_prbl . ') ');
-
-        $fermi1 = '';
-        $segnalazioni1 = '';
-
-        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
-
-
-        foreach ($fermi as $f)
-            $fermi1 .= '<tr><td> FERMO </td><td>' . $f->DataOra . '</td> <td></td> <td>' . $f->Cd_Operatore . '</td> <td>' . $f->Terminale . '</td></tr>';
-
-        foreach ($segnalazioni as $s)
-            $segnalazioni1 .= '<tr><td> SEGNALAZIONE </td> <td>' . $s->TimeIns . ' </td><td> ' . $s->Messaggio . '</td><td> ' . $s->Cd_Operatore . ' </td><td> ' . $s->Cd_PrRisorsa . '</td></tr>';
-
-        ?><h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
-        : <?php echo $base->Cd_AR; ?> <strong
-            style="margin-left: 40px;">Quantita </strong>: <?php echo number_format($base1->QuantitaUM1_PR, 2, ',', '') ?>
-        <strong style="margin-left: 40px;">Cliente</strong> : <?php echo $base1->Descrizione ?> <strong
-            style="margin-left: 40px;"><?php echo ($base1->Cd_DO == 'OVC') ? 'OVC' : 'OCL' ?>  </strong>: <?php echo $base1->NumeroDoc ?>
-    </h3><br><br>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a onclick="cerca()">Attività</a></li>
-            </ol>
-        </nav>
-        <table class="table table-bordered dataTable" id="ciao" style="width:100%;font-size:20px;">
-            <thead>
-            <tr>
-                <th style="width:50px;text-align: center">Collo/Bobina</th>
-                <th style="width:50px;text-align: center">Operatore / Assistente</th>
-                <th style="width:50px;text-align: center">Risorsa</th>
-                <th style="width:50px;text-align: center">Data</th>
-                <th style="width:50px;text-align: center">Ora</th>
-                <th style="width:50px;text-align: center">Id_Pedana</th>
-                <th style="width:50px;text-align: center">Misura</th>
-                <th style="width:50px;text-align: center">Qta</th>
-                <th style="width:50px;text-align: center">QtaKG</th>
-                <!--  <th style="width:50px;text-align: center">QtaEffettiva</th>-->
-            </tr>
-            </thead>
-            <tbody><?php foreach ($id_prol as $i) { ?>
-                <tr onclick="<?php echo ($i->Cd_PrRisorsa != 'IMBALLATRICI') ? 'cerca1(' . $i->Id_PrOLAttivita . ')' : 'cercaimballo(' . $i->Id_PrOLAttivita . ')' ?>">
-                    <td>
-                        <?php echo $i->Id_PrOLAttivita ?>
-                    </td>
-                    <td>
-                        <?php echo $i->Cd_Operatore;
-                        if ($i->Assistente != '') echo ' / ' . $i->Assistente;
-                        if (sizeof($note_prvr) > 0 && str_contains($i->Cd_PrRisorsa, 'ST')) echo ' / ' . $note_prvr[0]->Cd_Operatore; ?>
-                    </td>
-                    <td>
-                        <?php echo $i->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($i->DataOra != '') echo date('d/m/Y', strtotime($i->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($i->DataOra != '') echo date('H:i:s', strtotime($i->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-
-                    </td>
-                    <td>
-                        <?php foreach ($versamenti as $v) {
-                            if ($v->IdCodiceAttivita == $i->Id_PrOLAttivita) {
-                                echo $v->Cd_ARMisura;
-                            }
-                        }
-                        if ($i->Cd_PrRisorsa == 'IMBALLATRICI') {
-                            echo 'KG';
-                        } ?>
-                    </td>
-
-                    <td>
-                        <?php foreach ($versamenti as $v) {
-                            if ($v->IdCodiceAttivita == $i->Id_PrOLAttivita) {
-                                echo number_format($v->Qta_TOT, 2, ',', '');
-                                $quantita_fase = $v->Qta_TOT;
-                            }
-                        }
-                        if ($i->Cd_PrRisorsa == 'IMBALLATRICI') {
-                            $versamenti_imb = DB::SELECT('SELECT SUM(Quantita) as quantita from PRVRAttivita where Id_PRBLAttivita = \'' . $i->Id_PrBLAttivita . '\' ');
-                            echo number_format($versamenti_imb[0]->quantita, 2, ',', '');
-                        } ?>
-                    </td>
-                    <td>
-                        <?php
-                        $quantita = (isset($quantita_fase) and $quantita_fase != 0) ? $quantita_fase : 0;
-                        foreach ($versamenti as $v) {
-                            if ($v->IdCodiceAttivita == $i->Id_PrOLAttivita) {
-                                if ($v->Cd_ARMisura == 'mt') $quantita = ($quantita * $i->xDB_Grammatura) / 1000;
-                                if ($v->Cd_ARMisura == 'pz') $quantita = ($quantita * $i->xDB_Pesobusta) / 1000;
-                            }
-                        }
-                        if ($i->Cd_PrRisorsa == 'IMBALLATRICI') {
-                            $versamenti_imb = DB::SELECT('SELECT SUM(Quantita) as quantita from PRVRAttivita where Id_PRBLAttivita = \'' . $i->Id_PrBLAttivita . '\' ');
-                            $quantita = $versamenti_imb[0]->quantita;
-                        }
-
-
-                        echo number_format($quantita, 2, ',', ''); ?>
-                    </td>
-
-                    <!--<td><span class="badge bg-<?php /* echo $color ?>"><?php echo $percent */ ?>%</span></td>-->
-
-
-                </tr>
-                <?php /* $collo = DB::SELECT('SELECT * FROM xWPCollo WHERE IdOrdineLavoro = \''.$i->Id_PrOL.'\' and IdCodiceAttivita = \''.$i->Id_PrOLAttivita.'\' and Rif_Nr_Collo = \'\'');foreach($collo as $c){?>
-                    <tr>
-                        <td style="text-align: center">
-                            <?php echo $c->Nr_Collo ?>
-                        </td>
-                        <td style="text-align: center">
-                            <?php echo $c->Cd_Operatore ?>
-                        </td>
-                        <td style="text-align: center">
-                            <?php echo $c->Cd_PrRisorsa ?>
-                        </td>
-                        <td style="text-align: center">
-                            <?php if($i->TimeIns     != '')echo date('d/m/Y',strtotime($i->TimeIns) );?>
-                        </td>
-                        <td style="text-align: center">
-                            <?php if($i->TimeIns != '')echo date('H:i:s',strtotime($i->TimeIns) );?>
-                        </td>
-                        <td style="text-align: center">
-                            <?php echo $c->Nr_Pedana ?>
-                        </td>
-                        <td style="text-align: center">
-                            <?php echo $c->Cd_ARMisura ?>
-                        </td>
-                        <td style="text-align: center">
-                            <?php echo number_format($c->QtaProdotta,2) ?>
-                        </td>
-                        <td style="text-align: center">
-                            <?php echo number_format($c->QtaProdottaUmFase,2) ?>
-                        </td>
-                    </tr>
-                    <?php $collo1 = DB::SELECT('SELECT * FROM xWPCollo WHERE  Rif_Nr_Collo = \''.$c->Nr_Collo.'\'');foreach($collo1 as $c1){ ?>
-                        <tr>
-                            <td style="text-align: right">
-                                <?php echo $c1->Nr_Collo ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_Operatore ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_PrRisorsa ?>
-                            </td>
-                            <td style="text-align: center">
-                                <?php if($c1->TimeIns != '')echo date('d/m/Y',strtotime($c1->TimeIns) );?>
-                            </td>
-                            <td style="text-align: center">
-                                <?php if($c1->TimeIns != '')echo date('H:i:s',strtotime($c1->TimeIns) );?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Nr_Pedana ?>
-                            </td>
-
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_ARMisura ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo number_format($c1->QtaProdotta,2) ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo number_format($c1->QtaProdottaUmFase,2) ?>
-                            </td>
-                        </tr>
-                    <?php }
-                }*/
-            }
-            ?>
-            </tbody>
-        </table>
-        <?php
-        if ($fermi1 != '' || $segnalazioni1 != '')
-            echo '<table class="table table-bordered dataTable" id="ciao" style="width:100%;font-size:20px;">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Segnalazione/Fermo
-                                    </th>
-                                    <th>
-                                        Orario
-                                    </th>
-                                    <th>
-                                        Messaggio
-                                    </th>
-                                    <th>
-                                        Operatore
-                                    </th>
-                                    <th>
-                                        Risorsa
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            ' . $fermi1 . $segnalazioni1 . '
-                            </tbody>
-                        </table>';
-        ?>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#ciao').DataTable({"order": [[0, 'desc']], "pageLength": 50});
-            });
-            document.getElementById('numero_ol').innerHTML = 'Tracciabilita dell \' OL ' + '<?php echo $id_prol[0]->Id_PrOL ?>'
-        </script>
-
-        <?php
-    }
-
-    public function load_tracciabilita1($id_prol, $prol_attivita)
-    {
-
-        $base = DB::SELECT('SELECT * FROM PRol where Id_PROl = \'' . $id_prol . '\'')[0];
-
-        $base1 = DB::SELECT('SELECT PROLDoRig.*,DORig.NumeroDoc,CF.Descrizione,DORig.Cd_DO
-        FROM PROLDoRig
-        LEFT JOIN DORig ON PROLDoRig.Id_DoRig = DORIG.Id_DORig
-        LEFT JOIN CF    ON CF.Cd_CF = DORig.Cd_CF
-        where PROLDoRig.Id_PrOL = \'' . $id_prol . '\'')[0];
-
-        $id_prblattivita = DB::SELECT('SELECT * FROM PRBLAttivita WHERE Id_PROLAttivita = \'' . $prol_attivita . '\' ')[0]->Id_PrBLAttivita;
-
-        $primo = DB::SELECT('SELECT * FROM PROLAttivita WHERE Id_PROL = \'' . $id_prol . '\' ORDER BY Id_PROlAttivita DESC')[0];
-        if ($primo->Cd_PrAttivita != 'ESTRUSIONE')
-            $lotto = 1;
-        else
-            $lotto = 0;
-        $fermi = DB::select('SELECT * FROM PRRLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PRRLAttivita.Id_PrBLAttivita
-        WHERE PRBLAttivita.Id_PrBLAttivita = ' . $id_prblattivita . ' and PRRLAttivita.TipoRilevazione = \'F\'');
-
-        $id_prol = DB::SELECT('SELECT PRRLAttivita.DataOra,PRRLAttivita.Cd_Operatore,PROLAttivita .*,PRBLAttivita.*,xwpGruppiLavoro.Cd_Operatore as Assistente FROM PROLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrOLAttivita = PROLAttivita.Id_PrOLAttivita
-        LEFT JOIN xwpGruppiLavoro ON PRBLAttivita.Id_PrBLAttivita = xwpGruppiLavoro.Id_PrBLAttivita
-        LEFT JOIN PRRLAttivita ON PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\' and DataOra = (SELECT  MIN(DataOra)  FROM PRRLAttivita WHERE PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\')
-        WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
-        ?>
-        <h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
-            : <?php echo $base->Cd_AR; ?> <strong
-                style="margin-left: 40px;">Quantita </strong>: <?php echo number_format($base1->QuantitaUM1_PR, 2, ',', '') ?>
-            <strong style="margin-left: 40px;">Cliente</strong> : <?php echo $base1->Descrizione ?> <strong
-                style="margin-left: 40px;"><?php echo ($base1->Cd_DO == 'OVC') ? 'OVC' : 'OCL' ?>  </strong>: <?php echo $base1->NumeroDoc ?>
-        </h3><br><br>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a onclick="cerca()">Attività</a></li>
-                <li class="breadcrumb-item active"><a onclick="cerca1()">Colli</a></li>
-            </ol>
-        </nav>
-        <table class="table table-bordered dataTable" id="ciao" style="width:100%;font-size:20px;">
-            <thead>
-            <tr>
-                <th style="width:50px;text-align: center">Collo/Bobina</th>
-                <th style="width:50px;text-align: center">Operatore / Assistente</th>
-                <th style="width:50px;text-align: center">Risorsa</th>
-                <th style="width:50px;text-align: center">Data</th>
-                <th style="width:50px;text-align: center">Ora</th>
-                <th style="width:50px;text-align: center">Id_Pedana</th>
-                <th style="width:50px;text-align: center">Misura</th>
-                <th style="width:50px;text-align: center">Qta</th>
-                <th style="width:50px;text-align: center">QtaKG</th>
-                <!--  <th style="width:50px;text-align: center">QtaEffettiva</th>-->
-            </tr>
-            </thead>
-            <tbody>
-            <?php
-            $tot = 0;
-            $tot_nc = 0;
-            $tot_KG = 0;
-            $tot_KG_nc = 0;
-
-            $collo = DB::SELECT('SELECT * FROM xWPCollo WHERE IdOrdineLavoro = \'' . $id_prol[0]->Id_PrOL . '\' and IdCodiceAttivita = \'' . $prol_attivita . '\' ');
-
-            $rif_madre = DB::SELECT('SELECT * FROM xWPCollo WHERE Nr_Collo in (SELECT Rif_Nr_Collo FROM xWPCollo WHERE IdOrdineLavoro = \'' . $id_prol[0]->Id_PrOL . '\' and IdCodiceAttivita = \'' . $prol_attivita . '\')');
-
-            $conversione = DB::SELECT('SELECT * FROM PROLAttivita where Id_ProlAttivita = \'' . $prol_attivita . '\'');
-
-            $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
-
-            foreach ($collo as $c) {
-                ?>
-                <tr>
-                    <td>
-                        <button type="button" style="width:40%;height: 80%;border: none"
-                                onclick="cerca_dietro(<?php echo $prol_attivita . ',' . $c->Rif_Nr_Collo . ',';
-                                if ($c->Rif_Nr_Collo2 != null) echo $c->Rif_Nr_Collo2; else echo '0'; ?>)"><i
-                                class="fa fa-arrow-left"></i></button>
-
-                        <?php $risorsa = DB::SELECT('SELECT (SELECT top 1 descrizione from PRReparto where Cd_PRReparto = PrRisorsa.Cd_PRReparto) as Cd_PRrisorsa FROM PrRisorsa where Cd_PrRisorsa = \'' . $c->Cd_PrRisorsa . '\'')[0]->Cd_PRrisorsa; ?>
-                        <?php if ($lotto == 1) { ?>
-                            <?php if ($c->Rif_Nr_Collo != '') { ?>
-                                <?php $rif_ol = DB::SELECT('SELECT * FROM xWPCollo WHERE Nr_Collo = \'' . $c->Rif_Nr_Collo . '\'');
-                                if (sizeof($rif_ol) > 0)
-                                    $rif_ol = $rif_ol[0]->IdOrdineLavoro;
-                                else
-                                    $rif_ol = '';
-                                ?>
-                                <a style="text-align: left"><?php echo '(' . $c->Rif_Nr_Collo . '<strong> ' . $rif_ol . '</strong>)' ?></a>
-                                <a style="text-align: center">DCF:<?php $dcf = DB::select('SELECT * FROM DORIG WHERE Cd_DO = \'DCF\' and Cd_ARLotto = ' . $c->Rif_Nr_Collo . ' ');
-                                    if (sizeof($dcf) > 0) echo $dcf[0]->NumeroDoc; ?> - </a>
-                                <a style="text-align: right"><?php echo $c->Nr_Collo ?></a>
-
-                            <?php } else { ?>
-
-                                <?php $rif_ol = DB::SELECT('SELECT * FROM xWPCollo WHERE Nr_Collo = \'' . $c->Nr_Collo . '\'');
-                                if (sizeof($rif_ol) > 0)
-                                    $rif_ol = $rif_ol[0]->IdOrdineLavoro;
-                                else
-                                    $rif_ol = '';
-                                ?>
-                                <a style="text-align: left"><?php echo '(' . $c->Rif_Nr_Collo . '<strong> ' . $rif_ol . '</strong>)' ?></a>
-                                <a style="text-align: center">DCF:<?php $dcf = DB::select('SELECT * FROM DORIG WHERE Cd_DO = \'DCF\' and Cd_ARLotto = \'' . $c->Rif_Nr_Collo . '\' ');
-                                    if (sizeof($dcf) > 0) echo $dcf[0]->NumeroDoc; ?> - </a>
-                                <a style="text-align: right"><?php echo $c->Nr_Collo ?></a>
-
-                            <?php }
-                        } else { ?>
-                            <a style="text-align: center"><?php echo $c->Nr_Collo ?> </a>
-                        <?php } ?>
-                    </td>
-                    <td onclick="cerca2(<?php echo $prol_attivita . ',' . $c->Nr_Collo; ?>)" style="text-align: center">
-                        <?php echo $c->Cd_Operatore;
-                        if ($id_prol[0]->Assistente != '' && str_contains($c->Cd_PrRisorsa, 'ES')) echo ' / ' . $id_prol[0]->Assistente;
-                        if (sizeof($note_prvr) > 0 && str_contains($c->Cd_PrRisorsa, 'ST')) echo ' / ' . $note_prvr[0]->Cd_Operatore; ?>
-                    </td>
-                    <td onclick="cerca2(<?php echo $prol_attivita . ',' . $c->Nr_Collo; ?>)" style="text-align: center">
-                        <?php echo $c->Cd_PrRisorsa; ?>
-                    </td>
-                    <td onclick="cerca2(<?php echo $prol_attivita . ',' . $c->Nr_Collo; ?>)" style="text-align: center">
-                        <?php if ($c->TimeIns != '') echo date('d/m/Y', strtotime($c->TimeIns)); ?>
-                    </td>
-                    <td onclick="cerca2(<?php echo $prol_attivita . ',' . $c->Nr_Collo; ?>)" style="text-align: center">
-                        <?php if ($c->TimeIns != '') echo date('H:i:s', strtotime($c->TimeIns)); ?>
-                    </td>
-                    <td onclick="cerca2(<?php echo $prol_attivita . ',' . $c->Nr_Collo; ?>)" style="text-align: center">
-                        <?php echo $c->Nr_Pedana ?>
-                    </td>
-                    <td onclick="cerca2(<?php echo $prol_attivita . ',' . $c->Nr_Collo; ?>)" style="text-align: center">
-                        <?php echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td onclick="cerca2(<?php echo $prol_attivita . ',' . $c->Nr_Collo; ?>)" style="text-align: center">
-                        <?php echo number_format($c->QtaProdotta, 2, ',', '');
-                        if (substr($c->Nr_Collo, 0, 1) == '-') $tot_nc = $tot_nc + $c->QtaProdotta;
-                        else $tot = $tot + $c->QtaProdotta;
-                        ?>
-                    </td>
-                    <td onclick="cerca2(<?php echo $prol_attivita . ',' . $c->Nr_Collo; ?>)" style="text-align: center">
-                        <?php
-                        $quantita = $c->QtaProdotta;
-                        if ($c->Cd_ARMisura == 'mt') $quantita = ($quantita * $conversione[0]->xDB_Grammatura) / 1000;
-                        if ($c->Cd_ARMisura == 'pz') $quantita = ($quantita * $conversione[0]->xDB_Pesobusta) / 1000;
-                        echo number_format($quantita, 2, ',', '');
-                        if (substr($c->Nr_Collo, 0, 1) == '-') $tot_KG_nc = $tot_KG_nc + $quantita;
-                        else $tot_KG = $tot_KG + $quantita;
-                        ?>
-                    </td>
-                </tr>
-
-                <?php
-            } ?>
-            <?php foreach ($fermi as $f) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo ($f->InizioFine == 'I') ? 'Inizio Fermo Macchina' : 'Fine Fermo Macchina' ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Terminale ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('d/m/Y', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('H:i:s', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php // echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita, 2, ',', '') ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita_Scar, 2, ',', '') ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php $segnalazioni = DB::select('SELECT * FROM xWPSegnalazione WHERE Id_PrBLAttivita = ' . $id_prblattivita . ' '); ?>
-
-            <?php foreach ($segnalazioni as $s) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo 'Segnalazione'; ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('d/m/Y', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('H:i:s', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Messaggio;// echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita,2) ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita_Scar,2) ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
-        <div style="text-align: right">
-            <h5><strong>Totali Colli: </strong><?php echo number_format($tot, 2, ',', ''); ?></h5>
-
-            <h5><strong>Totali Colli Kg: </strong><?php echo number_format($tot_KG, 2, ',', ''); ?></h5>
-            <?php if ($tot_nc > 0) { ?><h5><strong>Totali Colli N.C.
-                : </strong><?php echo number_format($tot_nc, 2, ',', ''); ?></h5><?php } ?>
-            <?php if ($tot_KG_nc > 0) { ?><h5><strong>Totali Colli N.C.
-                Kg: </strong><?php echo number_format($tot_KG_nc, 2, ',', ''); ?></h5> <?php } ?>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#ciao').DataTable({"order": [[3, 'asc'], [4, 'asc']], "pageLength": 50});
-            });
-            document.getElementById('numero_ol').innerHTML = 'Tracciabilita dell \' OL ' + '<?php echo $id_prol[0]->Id_PrOL ?>'
-        </script>
-
-        <?php
-    }
-
-    public function load_imballo($id_prol, $prol_attivita)
-    {
-
-        $base = DB::SELECT('SELECT * FROM PRol where Id_PROl = \'' . $id_prol . '\'')[0];
-
-        $base1 = DB::SELECT('SELECT PROLDoRig.*,DORig.NumeroDoc,CF.Descrizione,DORig.Cd_DO
-        FROM PROLDoRig
-        LEFT JOIN DORig ON PROLDoRig.Id_DoRig = DORIG.Id_DORig
-        LEFT JOIN CF    ON CF.Cd_CF = DORig.Cd_CF
-        where PROLDoRig.Id_PrOL = \'' . $id_prol . '\'')[0];
-
-        $id_prblattivita = DB::SELECT('SELECT * FROM PRBLAttivita WHERE Id_PROLAttivita = \'' . $prol_attivita . '\' ')[0]->Id_PrBLAttivita;
-        $fermi = DB::select('SELECT * FROM PRRLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PRRLAttivita.Id_PrBLAttivita
-        WHERE PRBLAttivita.Id_PrBLAttivita = ' . $id_prblattivita . ' and PRRLAttivita.TipoRilevazione = \'F\'');
-        $tot_Kg = 0;
-        $id_prol = DB::SELECT('SELECT PRRLAttivita.DataOra,PRRLAttivita.Cd_Operatore,PROLAttivita .*,PRBLAttivita.* FROM PROLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrOLAttivita = PROLAttivita.Id_PrOLAttivita
-        LEFT JOIN PRRLAttivita ON PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\' and DataOra = (SELECT  MIN(DataOra)  FROM PRRLAttivita WHERE PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\')
-        WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
-        ?>
-        <h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
-            : <?php echo $base->Cd_AR; ?> <strong
-                style="margin-left: 40px;">Quantita </strong>: <?php echo number_format($base1->QuantitaUM1_PR, 2, ',', '') ?>
-            <strong style="margin-left: 40px;">Cliente</strong> : <?php echo $base1->Descrizione ?> <strong
-                style="margin-left: 40px;"><?php echo ($base1->Cd_DO == 'OVC') ? 'OVC' : 'OCL' ?> </strong>: <?php echo $base1->NumeroDoc ?>
-        </h3><br><br>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a onclick="cerca()">Attività</a></li>
-                <li class="breadcrumb-item active"><a onclick="">Pedane</a></li>
-            </ol>
-        </nav>
-        <table class="table table-bordered dataTable" id="ciao" style="width:100%;font-size:20px;">
-            <thead>
-            <tr>
-                <th style="width:50px;text-align: center">Numero Colli</th>
-                <th style="width:50px;text-align: center">Operatore / Assistente</th>
-                <th style="width:50px;text-align: center">Risorsa</th>
-                <th style="width:50px;text-align: center">Data</th>
-                <th style="width:50px;text-align: center">Ora</th>
-                <th style="width:50px;text-align: center">Id_Pedana</th>
-                <th style="width:50px;text-align: center">Misura</th>
-                <th style="width:50px;text-align: center">Qta</th>
-                <th style="width:50px;text-align: center">QtaKG</th>
-                <!--  <th style="width:50px;text-align: center">QtaEffettiva</th>-->
-            </tr>
-            </thead>
-            <tbody><?php /* foreach ($id_prol as $i){ ?>
-                <tr>
-                    <td>
-                        <?php echo $i->Id_PrOLAttivita ?>
-                    </td>
-                    <td>
-                        <?php echo $i->Cd_Operatore ?>
-                    </td>
-                    <td>
-                        <?php echo $i->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if($i->DataOra != '')echo date('d/m/Y',strtotime($i->DataOra) );?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if($i->DataOra != '')echo date('H:i:s',strtotime($i->DataOra) );?>
-                    </td>
-                    <td style="text-align: center">
-
-                    </td>
-                    <td>
-                        <?php echo $i->Cd_ARMisura ?>
-                    </td>
-                    <td>
-                        <?php echo number_format($i->Quantita,2) ?>
-                    </td>
-                    <td>
-                        <?php echo number_format($i->Quantita,2) ?>
-                    </td>
-                    <!--<td><span class="badge bg-<?php /* echo $color ?>"><?php echo $percent *//*?>%</span></td>-->
-
-
-                </tr>
-                <?php */
-            $collo = DB::SELECT('SELECT PRVRAttivita.Cd_Operatore,PRVRAttivita.Cd_PRRisorsa,* FROM xWPPD
-                LEFT JOIN PRVRAttivita ON PRVRAttivita.Id_PRVRAttivita = xWPPD.Id_PrVrAttivita
-                WHERE xWPPD.Id_PrOL = \'' . $id_prol[0]->Id_PrOL . '\' ');
-            foreach ($collo as $c) {
-                ?>
-                <tr onclick="cercaimballo2('<?php echo $prol_attivita ?>','<?php echo $c->Nr_Pedana; ?>')">
-                    <td style="text-align: center">
-                        <?php echo $c->NumeroColli ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $c->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $c->Cd_PRRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($c->TimeIns != '') echo date('d/m/Y', strtotime($c->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($c->TimeIns != '') echo date('H:i:s', strtotime($c->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo 'KG'; ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($c->QuantitaProdotta, 2, ',', '') ?>
-                        <?php $tot_Kg = $tot_Kg + $c->QuantitaProdotta; ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($c->QuantitaProdotta, 2, ',', '') ?>
-                        <?php //echo number_format($c->QtaProdottaUmFase,2)
-                        ?>
-                    </td>
-                </tr>
-                <?php /*$collo1 = DB::SELECT('SELECT * FROM xWPCollo WHERE  Rif_Nr_Collo = \''.$c->Nr_Collo.'\'');foreach($collo1 as $c1){ ?>
-                        <tr>
-                            <td style="text-align: right">
-                                <?php echo $c1->Nr_Collo ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_Operatore ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_PrRisorsa ?>
-                            </td>
-                            <td style="text-align: center">
-                                <?php if($c1->TimeIns != '')echo date('d/m/Y',strtotime($c1->TimeIns) );?>
-                            </td>
-                            <td style="text-align: center">
-                                <?php if($c1->TimeIns != '')echo date('H:i:s',strtotime($c1->TimeIns) );?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Nr_Pedana ?>
-                            </td>
-
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_ARMisura ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo number_format($c1->QtaProdotta,2) ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo number_format($c1->QtaProdottaUmFase,2) ?>
-                            </td>
-                        </tr>
-                    <?php }
-            }*/
-            }
-            foreach ($fermi as $f) {
-                ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo ($f->InizioFine == 'I') ? 'Inizio Fermo Macchina' : 'Fine Fermo Macchina' ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Terminale ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('d/m/Y', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('H:i:s', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php // echo $c->Nr_Pedana
-                        ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura
-                        ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita, 2, ',', '') ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita_Scar, 2, ',', '') ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php $segnalazioni = DB::select('SELECT * FROM xWPSegnalazione WHERE Id_PrBLAttivita = ' . $id_prblattivita . ' '); ?>
-
-            <?php foreach ($segnalazioni as $s) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo 'Segnalazione'; ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('d/m/Y', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('H:i:s', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Messaggio;// echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita,2) ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita_Scar,2) ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
-        <div style="text-align: right">
-            <h5><strong>Totali Pedane Kg: </strong><?php echo number_format($tot_Kg, 2, ',', ''); ?></h5>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#ciao').DataTable({"order": [[3, 'asc'], [4, 'asc']], "pageLength": 50});
-            });
-            document.getElementById('numero_ol').innerHTML = 'Tracciabilita dell \' OL ' + '<?php echo $id_prol[0]->Id_PrOL ?>'
-        </script>
-
-        <?php
-    }
-
-    public function load_imballo2($id_prol, $prol_attivita, $Nr_Pedana)
-    {
-
-        $base = DB::SELECT('SELECT * FROM PRol where Id_PROl = \'' . $id_prol . '\'')[0];
-
-        $base1 = DB::SELECT('SELECT PROLDoRig.*,DORig.NumeroDoc,CF.Descrizione,DORig.Cd_DO
-        FROM PROLDoRig
-        LEFT JOIN DORig ON PROLDoRig.Id_DoRig = DORIG.Id_DORig
-        LEFT JOIN CF    ON CF.Cd_CF = DORig.Cd_CF
-        where PROLDoRig.Id_PrOL = \'' . $id_prol . '\'')[0];
-
-        $id_prblattivita = DB::SELECT('SELECT * FROM PRBLAttivita WHERE Id_PROLAttivita = \'' . $prol_attivita . '\' ')[0]->Id_PrBLAttivita;
-        $fermi = DB::select('SELECT * FROM PRRLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PRRLAttivita.Id_PrBLAttivita
-        WHERE PRBLAttivita.Id_PrBLAttivita = ' . $id_prblattivita . ' and PRRLAttivita.TipoRilevazione = \'F\'');
-
-        $id_prol = DB::SELECT('SELECT PRRLAttivita.DataOra,PRRLAttivita.Cd_Operatore,PROLAttivita .*,PRBLAttivita.* FROM PROLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrOLAttivita = PROLAttivita.Id_PrOLAttivita
-        LEFT JOIN PRRLAttivita ON PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\' and DataOra = (SELECT  MIN(DataOra)  FROM PRRLAttivita WHERE PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\')
-        WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
-        $tot_KG = 0;
-        ?>
-        <h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
-            : <?php echo $base->Cd_AR; ?> <strong
-                style="margin-left: 40px;">Quantita </strong>: <?php echo number_format($base1->QuantitaUM1_PR, 2, ',', '') ?>
-            <strong style="margin-left: 40px;">Cliente</strong> : <?php echo $base1->Descrizione ?> <strong
-                style="margin-left: 40px;"><?php echo ($base1->Cd_DO == 'OVC') ? 'OVC' : 'OCL' ?> </strong>: <?php echo $base1->NumeroDoc ?>
-        </h3><br><br>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a onclick="cerca()">Attività</a></li>
-                <li class="breadcrumb-item"><a onclick="cercaimballo('<?php echo $id_prol[0]->Id_PrOLAttivita ?>')">Pedane</a>
-                </li>
-                <li class="breadcrumb-item active"><a onclick="">Colli sulla Pedana (<?php echo $Nr_Pedana ?>)</a></li>
-            </ol>
-        </nav>
-        <table class="table table-bordered dataTable" id="ciao" style="width:100%;font-size:20px;">
-            <thead>
-            <tr>
-                <th style="width:50px;text-align: center">Numero Colli</th>
-                <th style="width:50px;text-align: center">Operatore / Assistente</th>
-                <th style="width:50px;text-align: center">Risorsa</th>
-                <th style="width:50px;text-align: center">Data</th>
-                <th style="width:50px;text-align: center">Ora</th>
-                <th style="width:50px;text-align: center">Id_Pedana</th>
-                <th style="width:50px;text-align: center">Misura</th>
-                <th style="width:50px;text-align: center">Qta</th>
-                <th style="width:50px;text-align: center">QtaKG</th>
-                <!--  <th style="width:50px;text-align: center">QtaEffettiva</th>-->
-            </tr>
-            </thead>
-            <tbody><?php $tot = 0;
-            $tot_KG = 0;
-            $collo = DB::SELECT('SELECT * FROM xWPCollo WHERE Nr_Pedana = \'' . $Nr_Pedana . '\'');
-            foreach ($collo as $c) {
-                $conversione = DB::SELECT('SELECT * FROM PROLAttivita where Id_ProlAttivita = \'' . $c->IdCodiceAttivita . '\''); ?>
-                <tr <?php // onclick="cerca2(<?php // echo $prol_attivita.','.$c->Nr_Collo;)"
-                ?>>
-                    <td style="text-align: center">
-                        <?php echo $c->Nr_Collo ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $c->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $c->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($c->TimeIns != '') echo date('d/m/Y', strtotime($c->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($c->TimeIns != '') echo date('H:i:s', strtotime($c->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($c->QtaProdotta, 2, ',', '');
-                        $tot = $tot + $c->QtaProdotta ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php
-                        if ($c->Cd_ARMisura == 'mt') $quantita = ($c->QtaProdotta * $conversione[0]->xDB_Grammatura) / 1000;
-                        if ($c->Cd_ARMisura == 'pz') $quantita = ($c->QtaProdotta * $conversione[0]->xDB_Pesobusta) / 1000;
-                        echo number_format($quantita, 2, ',', '');
-                        $tot_KG = $tot_KG + $quantita; ?>
-                    </td>
-                </tr>
-                <?php /*$collo1 = DB::SELECT('SELECT * FROM xWPCollo WHERE  Rif_Nr_Collo = \''.$c->Nr_Collo.'\'');foreach($collo1 as $c1){ ?>
-                        <tr>
-                            <td style="text-align: right">
-                                <?php echo $c1->Nr_Collo ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_Operatore ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_PrRisorsa ?>
-                            </td>
-                            <td style="text-align: center">
-                                <?php if($c1->TimeIns != '')echo date('d/m/Y',strtotime($c1->TimeIns) );?>
-                            </td>
-                            <td style="text-align: center">
-                                <?php if($c1->TimeIns != '')echo date('H:i:s',strtotime($c1->TimeIns) );?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo $c1->Nr_Pedana ?>
-                            </td>
-
-                            <td style="text-align: right">
-                                <?php echo $c1->Cd_ARMisura ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo number_format($c1->QtaProdotta,2) ?>
-                            </td>
-                            <td style="text-align: right">
-                                <?php echo number_format($c1->QtaProdottaUmFase,2) ?>
-                            </td>
-                        </tr>
-                    <?php }
-            }*/
-            } ?>
-
-            <?php
-            foreach ($fermi as $f) {
-                ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo ($f->InizioFine == 'I') ? 'Inizio Fermo Macchina' : 'Fine Fermo Macchina' ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Terminale ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('d/m/Y', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('H:i:s', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php // echo $c->Nr_Pedana
-                        ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura
-                        ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita, 2, ',', '') ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita_Scar, 2, ',', '') ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php $segnalazioni = DB::select('SELECT * FROM xWPSegnalazione WHERE Id_PrBLAttivita = ' . $id_prblattivita . ' '); ?>
-
-            <?php foreach ($segnalazioni as $s) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo 'Segnalazione'; ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('d/m/Y', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('H:i:s', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Messaggio;// echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita,2) ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita_Scar,2) ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
-        <div style="text-align: right">
-            <h5><strong>Totali Colli: </strong><?php echo number_format($tot, 2, ',', ''); ?></h5>
-
-            <h5><strong>Totali Colli Kg: </strong><?php echo number_format($tot_KG, 2, ',', ''); ?></h5>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#ciao').DataTable({"order": [[3, 'asc'], [4, 'asc']], "pageLength": 50});
-            });
-            document.getElementById('numero_ol').innerHTML = 'Tracciabilita dell \' OL ' + '<?php echo $id_prol[0]->Id_PrOL ?>'
-        </script>
-
-        <?php
-    }
-
-    public function load_tracciabilita2($id_prol, $prol_attivita, $Nr_Collo)
-    {
-
-        $base = DB::SELECT('SELECT * FROM PRol where Id_PROl = \'' . $id_prol . '\'')[0];
-
-        $base1 = DB::SELECT('SELECT PROLDoRig.*,DORig.NumeroDoc,CF.Descrizione,DORig.Cd_DO
-        FROM PROLDoRig
-        LEFT JOIN DORig ON PROLDoRig.Id_DoRig = DORIG.Id_DORig
-        LEFT JOIN CF    ON CF.Cd_CF = DORig.Cd_CF
-        where PROLDoRig.Id_PrOL = \'' . $id_prol . '\'')[0];
-
-        $id_prblattivita = DB::SELECT('SELECT * FROM PRBLAttivita WHERE Id_PROLAttivita = \'' . $prol_attivita . '\' ')[0]->Id_PrBLAttivita;
-
-        $id_prol = DB::SELECT('SELECT PRRLAttivita.DataOra,PRRLAttivita.Cd_Operatore,PROLAttivita .*,PRBLAttivita.*,xwpGruppiLavoro.Cd_Operatore as Assistente FROM PROLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrOLAttivita = PROLAttivita.Id_PrOLAttivita
-        LEFT JOIN xwpGruppiLavoro ON PRBLAttivita.Id_PrBLAttivita = xwpGruppiLavoro.Id_PrBLAttivita
-        LEFT JOIN PRRLAttivita ON PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\' and DataOra = (SELECT  MIN(DataOra)  FROM PRRLAttivita WHERE PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\')
-        WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
-
-
-        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
-
-
-        ?><h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
-        : <?php echo $base->Cd_AR; ?> <strong
-            style="margin-left: 40px;">Quantita </strong>: <?php echo number_format($base1->QuantitaUM1_PR, 2, ',', '') ?>
-        <strong style="margin-left: 40px;">Cliente</strong> : <?php echo $base1->Descrizione ?> <strong
-            style="margin-left: 40px;"><?php echo ($base1->Cd_DO == 'OVC') ? 'OVC' : 'OCL' ?>  </strong>: <?php echo $base1->NumeroDoc ?>
-    </h3><br><br>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a onclick="cerca()">Attività</a></li>
-                <li class="breadcrumb-item"><a onclick="cerca1(<?php echo $prol_attivita ?>)">Colli</a></li>
-                <li class="breadcrumb-item active"><a onclick="cerca2(<?php echo $prol_attivita . ',' . $Nr_Collo ?>)">Da
-                        Collo Madre (<?php echo $Nr_Collo ?>) </a></li>
-            </ol>
-        </nav>
-        <table class="table table-bordered dataTable" id="ciao" style="width:100%;font-size:20px;">
-            <thead>
-            <tr>
-                <th style="width:50px;text-align: center">Collo/Bobina</th>
-                <th style="width:50px;text-align: center">Operatore / Assistente</th>
-                <th style="width:50px;text-align: center">Risorsa</th>
-                <th style="width:50px;text-align: center">Data</th>
-                <th style="width:50px;text-align: center">Ora</th>
-                <th style="width:50px;text-align: center">Id_Pedana</th>
-                <th style="width:50px;text-align: center">Misura</th>
-                <th style="width:50px;text-align: center">Qta</th>
-                <th style="width:50px;text-align: center">QtaKG</th>
-                <!--  <th style="width:50px;text-align: center">QtaEffettiva</th>-->
-            </tr>
-            </thead>
-            <tbody><?php $tot = 0;
-            $tot_KG = 0;
-            $collo1 = DB::SELECT('SELECT * FROM xWPCollo WHERE  Rif_Nr_Collo = \'' . $Nr_Collo . '\'');
-            foreach ($collo1 as $c1) {
-                $conversione = DB::SELECT('SELECT * FROM PROLAttivita where Id_ProlAttivita = \'' . $c1->IdCodiceAttivita . '\''); ?>
-
-                <tr>
-                    <td style="text-align: right"
-                        onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>','<?php echo $prol_attivita; ?>')">
-                        <?php echo $c1->Nr_Collo ?>
-                    </td>
-                    <td style="text-align: right">
-                        <?php echo $c1->Cd_Operatore;
-                        if ($id_prol[0]->Assistente != '' && str_contains($c1->Cd_PrRisorsa, 'ES')) echo ' / ' . $id_prol[0]->Assistente;
-                        if (sizeof($note_prvr) > 0 && str_contains($c1->Cd_PrRisorsa, 'ST')) echo ' / ' . $note_prvr[0]->Cd_Operatore; ?>
-                    </td>
-                    <td style="text-align: right">
-                        <?php echo $c1->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($c1->TimeIns != '') echo date('d/m/Y', strtotime($c1->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($c1->TimeIns != '') echo date('H:i:s', strtotime($c1->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: right">
-                        <?php echo $c1->Nr_Pedana ?>
-                    </td>
-
-                    <td style="text-align: right">
-                        <?php echo $c1->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: right">
-                        <?php echo number_format($c1->QtaProdotta, 2, ',', '');
-                        $tot = $tot + $c1->QtaProdotta ?>
-                    </td>
-                    <td style="text-align: right">
-                        <?php $quantita = $c1->QtaProdotta;
-                        if ($c1->Cd_ARMisura == 'mt') $quantita = ($quantita * $conversione[0]->xDB_Grammatura) / 1000;
-                        if ($c1->Cd_ARMisura == 'pz') $quantita = ($quantita * $conversione[0]->xDB_Pesobusta) / 1000;
-                        echo $quantita;
-
-                        $tot_KG = $tot_KG + $quantita ?>
-                    </td>
-                </tr>
-            <?php } ?>
-
-
-            <?php
-            $id_prblattivita = DB::SELECT('SELECT * FROM xWPCollo WHERE  Rif_Nr_Collo = \'' . $Nr_Collo . '\'');
-            if (sizeof($id_prblattivita) > 0) $id_prblattivita = $id_prblattivita[0]->Id_PRBLAttivita; else $id_prblattivita = '';
-            $fermi = DB::select('SELECT * FROM PRRLAttivita
-                    LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PRRLAttivita.Id_PrBLAttivita
-                    WHERE PRBLAttivita.Id_PrBLAttivita = \'' . $id_prblattivita . '\' and PRRLAttivita.TipoRilevazione = \'F\''); ?>
-
-            <?php foreach ($fermi as $f) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo ($f->InizioFine == 'I') ? 'Inizio Fermo Macchina' : 'Fine Fermo Macchina' ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Terminale ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('d/m/Y', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('H:i:s', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php // echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita, 2, ',', '') ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita_Scar, 2, ',', '') ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php $segnalazioni = DB::select('SELECT * FROM xWPSegnalazione WHERE Id_PrBLAttivita = \'' . $id_prblattivita . '\' '); ?>
-
-            <?php foreach ($segnalazioni as $s) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo 'Segnalazione'; ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('d/m/Y', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('H:i:s', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Messaggio;// echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita,2) ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita_Scar,2) ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
-        <div style="text-align: right">
-            <h5><strong>Totali Colli: </strong><?php echo number_format($tot, 2, ',', ''); ?></h5>
-
-            <h5><strong>Totali Colli Kg: </strong><?php echo number_format($tot_KG, 2, ',', ''); ?></h5>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#ciao').DataTable({"order": [[3, 'asc'], [4, 'asc']], "pageLength": 50});
-            });
-            document.getElementById('numero_ol').innerHTML = 'Tracciabilita dell \' OL ' + '<?php echo $id_prol[0]->Id_PrOL ?>'
-        </script>
-
-        <?php
-    }
-
-    public function load_tracciabilita_dietro($id_prol, $prol_attivita, $Rif_Nr_Collo, $Rif_Nr_Collo2)
-    {
-
-        $base = DB::SELECT('SELECT * FROM PRol where Id_PROl = \'' . $id_prol . '\'')[0];
-
-        $base1 = DB::SELECT('SELECT PROLDoRig.*,DORig.NumeroDoc,CF.Descrizione,DORig.Cd_DO
-        FROM PROLDoRig
-        LEFT JOIN DORig ON PROLDoRig.Id_DoRig = DORIG.Id_DORig
-        LEFT JOIN CF    ON CF.Cd_CF = DORig.Cd_CF
-        where PROLDoRig.Id_PrOL = \'' . $id_prol . '\'')[0];
-
-        $id_prblattivita = DB::SELECT('SELECT * FROM PRBLAttivita WHERE Id_PROLAttivita = \'' . $prol_attivita . '\' ')[0]->Id_PrBLAttivita;
-
-        $id_prol = DB::SELECT('SELECT PRRLAttivita.DataOra,PRRLAttivita.Cd_Operatore,PROLAttivita .*,PRBLAttivita.*,xwpGruppiLavoro.Cd_Operatore as Assistente FROM PROLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrOLAttivita = PROLAttivita.Id_PrOLAttivita
-        LEFT JOIN xwpGruppiLavoro ON PRBLAttivita.Id_PrBLAttivita = xwpGruppiLavoro.Id_PrBLAttivita
-        LEFT JOIN PRRLAttivita ON PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\' and DataOra = (SELECT  MIN(DataOra)  FROM PRRLAttivita WHERE PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\')
-        WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
-
-
-        $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $id_prblattivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
-
-        $Nr_Collo = DB::SELECT('SELECT * FROM xWPCollo WHERE Rif_Nr_Collo = \'' . $Rif_Nr_Collo . '\'');
-        if (sizeof($Nr_Collo) > 0) {
-            $Nr_Collo = $Nr_Collo[0]->Nr_Collo;
-        } else {
-            $Nr_Collo = '';
-        }
-        ?><h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
-        : <?php echo $base->Cd_AR; ?> <strong
-            style="margin-left: 40px;">Quantita </strong>: <?php echo number_format($base1->QuantitaUM1_PR, 2, ',', '') ?>
-        <strong style="margin-left: 40px;">Cliente</strong> : <?php echo $base1->Descrizione ?> <strong
-            style="margin-left: 40px;"><?php echo ($base1->Cd_DO == 'OVC') ? 'OVC' : 'OCL' ?>  </strong>: <?php echo $base1->NumeroDoc ?>
-    </h3><br><br>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a onclick="cerca()">Attività</a></li>
-                <li class="breadcrumb-item"><a onclick="cerca1(<?php echo $prol_attivita ?>)">Colli</a></li>
-                <li class="breadcrumb-item active"><a onclick="cerca2(<?php echo $prol_attivita . ',' . $Nr_Collo ?>)">Da
-                        Collo Figlio (<?php echo $Nr_Collo ?>) </a></li>
-            </ol>
-        </nav>
-        <table class="table table-bordered dataTable" id="ciao" style="width:100%;font-size:20px;">
-            <thead>
-            <tr>
-                <th style="width:50px;text-align: center">Collo/Bobina</th>
-                <th style="width:50px;text-align: center">Operatore / Assistente</th>
-                <th style="width:50px;text-align: center">Risorsa</th>
-                <th style="width:50px;text-align: center">Data</th>
-                <th style="width:50px;text-align: center">Ora</th>
-                <th style="width:50px;text-align: center">Id_Pedana</th>
-                <th style="width:50px;text-align: center">Misura</th>
-                <th style="width:50px;text-align: center">Qta</th>
-                <th style="width:50px;text-align: center">QtaKG</th>
-                <!--  <th style="width:50px;text-align: center">QtaEffettiva</th>-->
-            </tr>
-            </thead>
-            <tbody><?php $tot = 0;
-            $tot_KG = 0;
-            $collo1 = DB::SELECT('SELECT * FROM xWPCollo WHERE  Nr_Collo in (\'' . $Rif_Nr_Collo . '\',\'' . $Rif_Nr_Collo2 . '\')');
-            foreach ($collo1 as $c1) {
-                $conversione = DB::SELECT('SELECT * FROM PROLAttivita where Id_ProlAttivita = \'' . $c1->IdCodiceAttivita . '\''); ?>
-                <tr>
-                    <td style="text-align: right">
-                        <button type="button" style="width:40%;height: 80%;border: none"
-                                onclick="cerca_dietro(<?php echo $prol_attivita . ',' . $c1->Rif_Nr_Collo . ',';
-                                if ($c1->Rif_Nr_Collo2 != null) echo $c1->Rif_Nr_Collo2; else echo 0; ?>)"><i
-                                class="fa fa-arrow-left"></i></button>
-                        <?php $vecchio_prol = DB::SELECT('SELECT Id_PRol from PRolAttivita where Id_PROLAttivita = ' . $c1->IdCodiceAttivita);
-                        if (sizeof($vecchio_prol) > 0) echo $vecchio_prol[0]->Id_PRol . ' - ' . $c1->Nr_Collo; else echo $c1->Nr_Collo; ?>
-                    </td>
-                    <td style="text-align: right"
-                        onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>','<?php echo $prol_attivita; ?>')">
-                        <?php echo $c1->Cd_Operatore;
-                        if ($id_prol[0]->Assistente != '' && str_contains($c1->Cd_PrRisorsa, 'ES')) echo ' / ' . $id_prol[0]->Assistente;
-                        if (sizeof($note_prvr) > 0 && str_contains($c1->Cd_PrRisorsa, 'ST')) echo ' / ' . $note_prvr[0]->Cd_Operatore; ?>
-                    </td>
-                    <td style="text-align: right">
-                        <?php echo $c1->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center"
-                        onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>','<?php echo $prol_attivita; ?>')">
-                        <?php if ($c1->TimeIns != '') echo date('d/m/Y', strtotime($c1->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center"
-                        onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>','<?php echo $prol_attivita; ?>')">
-                        <?php if ($c1->TimeIns != '') echo date('H:i:s', strtotime($c1->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: right"
-                        onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>','<?php echo $prol_attivita; ?>')">
-                        <?php echo $c1->Nr_Pedana ?>
-                    </td>
-
-                    <td style="text-align: right"
-                        onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>','<?php echo $prol_attivita; ?>')">
-                        <?php echo $c1->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: right"
-                        onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>','<?php echo $prol_attivita; ?>')">
-                        <?php echo number_format($c1->QtaProdotta, 2, ',', '');
-                        $tot = $tot + $c1->QtaProdotta ?>
-                    </td>
-                    <td style="text-align: right"
-                        onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>','<?php echo $prol_attivita; ?>')">
-                        <?php $quantita = $c1->QtaProdotta;
-                        if ($c1->Cd_ARMisura == 'mt') $quantita = ($quantita * $conversione[0]->xDB_Grammatura) / 1000;
-                        if ($c1->Cd_ARMisura == 'pz') $quantita = ($quantita * $conversione[0]->xDB_Pesobusta) / 1000;
-                        echo $quantita;
-
-                        $tot_KG = $tot_KG + $quantita ?>
-                    </td>
-                </tr>
-            <?php } ?>
-
-
-            <?php /*
-            $id_prblattivita = DB::SELECT('SELECT * FROM xWPCollo WHERE  Rif_Nr_Collo = \'' . $Rif_Nr_Collo . '\'');
-            if (sizeof($id_prblattivita) > 0) $id_prblattivita = $id_prblattivita[0]->Id_PRBLAttivita; else $id_prblattivita = '';
-            $fermi = DB::select('SELECT * FROM PRRLAttivita
-                    LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PRRLAttivita.Id_PrBLAttivita
-                    WHERE PRBLAttivita.Id_PrBLAttivita = \'' . $id_prblattivita . '\' and PRRLAttivita.TipoRilevazione = \'F\''); ?>
-
-            <?php foreach ($fermi as $f) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo ($f->InizioFine == 'I') ? 'Inizio Fermo Macchina' : 'Fine Fermo Macchina' ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Terminale ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('d/m/Y', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('H:i:s', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php // echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita, 2, ',', '') ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita_Scar, 2, ',', '') ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php $segnalazioni = DB::select('SELECT * FROM xWPSegnalazione WHERE Id_PrBLAttivita = \'' . $id_prblattivita . '\' '); ?>
-
-            <?php foreach ($segnalazioni as $s) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo 'Segnalazione'; ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('d/m/Y', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('H:i:s', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Messaggio;// echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita,2) ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita_Scar,2) ?>
-                    </td>
-                </tr>
-            <?php } */ ?>
-            </tbody>
-        </table>
-        <div style="text-align: right">
-            <h5><strong>Totali Colli: </strong><?php echo number_format($tot, 2, ',', ''); ?></h5>
-
-            <h5><strong>Totali Colli Kg: </strong><?php echo number_format($tot_KG, 2, ',', ''); ?></h5>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#ciao').DataTable({"order": [[3, 'asc'], [4, 'asc']], "pageLength": 50});
-            });
-            document.getElementById('numero_ol').innerHTML = 'Tracciabilita dell \' OL ' + '<?php echo $id_prol[0]->Id_PrOL ?>'
-        </script>
-
-        <?php
-    }
-
-    public function load_cerca_collo($id_prol, $prol_attivita, $Nr_Collo)
-    {
-
-        $base = DB::SELECT('SELECT * FROM PRol where Id_PROl = \'' . $id_prol . '\'')[0];
-
-        $base1 = DB::SELECT('SELECT PROLDoRig.*,DORig.NumeroDoc,CF.Descrizione,DORig.Cd_DO
-        FROM PROLDoRig
-        LEFT JOIN DORig ON PROLDoRig.Id_DoRig = DORIG.Id_DORig
-        LEFT JOIN CF    ON CF.Cd_CF = DORig.Cd_CF
-        where PROLDoRig.Id_PrOL = \'' . $id_prol . '\'')[0];
-
-        $id_prol = DB::SELECT('SELECT PRRLAttivita.DataOra,PRRLAttivita.Cd_Operatore,PROLAttivita .*,PRBLAttivita.*,xwpGruppiLavoro.Cd_Operatore as Assistente FROM PROLAttivita
-        LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrOLAttivita = PROLAttivita.Id_PrOLAttivita
-        LEFT JOIN xwpGruppiLavoro ON PRBLAttivita.Id_PrBLAttivita = xwpGruppiLavoro.Id_PrBLAttivita
-        LEFT JOIN PRRLAttivita ON PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\' and DataOra = (SELECT  MIN(DataOra)  FROM PRRLAttivita WHERE PRRLAttivita.Id_PrBLAttivita = PRBLAttivita.Id_PrBLAttivita and PRRLAttivita.InizioFine = \'I\')
-        WHERE Id_PRol =  \'' . $id_prol . '\' ORDER BY PROLAttivita .Id_PrOLAttivita DESC ');
-        $ordine = DB::SELECT('SELECT IdCodiceAttivita,Id_PRBLAttivita FROM xWPCollo WHERE  Nr_Collo = \'' . $Nr_Collo . '\'');
-
-        if (sizeof($ordine) > 0) {
-            $collo2 = DB::SELECT('Select * from xWPCollo WHERE Rif_Nr_Collo = \'' . $Nr_Collo . '\'');
-            $note_prvr = DB::SELECT('SELECT NotePRVRATTIVITA,Cd_Operatore FROM PRVRAttivita where Id_PrBlAttivita = \'' . $ordine[0]->Id_PRBLAttivita . '\' and NotePRVRAttivita = \'Creato con SmartProduzione - Secondo Operatore di Attrezzaggio\' ');
-        }/* else {
-            $collo2 = [];
-            $note_prvr = [];
-        }*/
-        ?>
-        <h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
-            : <?php echo $base->Cd_AR; ?> <strong
-                style="margin-left: 40px;">Quantita </strong>: <?php echo number_format($base1->QuantitaUM1_PR, 2, ',', '') ?>
-            <strong style="margin-left: 40px;">Cliente</strong> : <?php echo $base1->Descrizione ?> <strong
-                style="margin-left: 40px;"><?php echo ($base1->Cd_DO == 'OVC') ? 'OVC' : 'OCL' ?>  </strong>: <?php echo $base1->NumeroDoc ?>
-        </h3><br><br>
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a onclick="cerca()">Attività</a></li>
-                <li class="breadcrumb-item"><a onclick="cerca1(<?php echo $prol_attivita ?>)">Colli</a></li>
-                <li class="breadcrumb-item active"><a onclick="cerca2(<?php echo $prol_attivita . ',' . $Nr_Collo ?>)">Da
-                        Collo Madre (<?php echo $Nr_Collo ?>) </a></li>
-                <li class="breadcrumb-item active" href="#"> Da Collo Figlio Precedente</a></li>
-            </ol>
-        </nav>
-        <table class="table table-bordered dataTable" id="ciao" style="width:100%;font-size:20px;">
-            <thead>
-            <tr>
-                <th style="width:50px;text-align: center">Collo/Bobina</th>
-                <th style="width:50px;text-align: center">Operatore / Assistente</th>
-                <th style="width:50px;text-align: center">Risorsa</th>
-                <th style="width:50px;text-align: center">Data</th>
-                <th style="width:50px;text-align: center">Ora</th>
-                <th style="width:50px;text-align: center">Id_Pedana</th>
-                <th style="width:50px;text-align: center">Misura</th>
-                <th style="width:50px;text-align: center">Qta</th>
-                <th style="width:50px;text-align: center">QtaKG</th>
-                <!--  <th style="width:50px;text-align: center">QtaEffettiva</th>-->
-            </tr>
-            </thead>
-            <tbody><?php $tot = 0;
-            $tot_KG = 0;
-
-            foreach ($collo2 as $c1) {
-                $conversione = DB::SELECT('SELECT * FROM PROLAttivita where Id_ProlAttivita = \'' . $c1->IdCodiceAttivita . '\''); ?>
-
-                <tr>
-                    <td style="text-align: right" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php echo $c1->Nr_Collo ?>
-                    </td>
-                    <td style="text-align: right" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php echo $c1->Cd_Operatore;
-                        if ($id_prol[0]->Assistente != '' && str_contains($c1->Cd_PrRisorsa, 'ES')) echo ' / ' . $id_prol[0]->Assistente;
-                        if (sizeof($note_prvr) > 0 && str_contains($c1->Cd_PrRisorsa, 'ST')) echo ' / ' . $note_prvr[0]->Cd_Operatore; ?>
-                    </td>
-                    <td style="text-align: right" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php echo $c1->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php if ($c1->TimeIns != '') echo date('d/m/Y', strtotime($c1->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php if ($c1->TimeIns != '') echo date('H:i:s', strtotime($c1->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: right" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php echo $c1->Nr_Pedana ?>
-                    </td>
-
-                    <td style="text-align: right" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php echo $c1->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: right" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php echo number_format($c1->QtaProdotta, 2, ',', '');
-                        $tot = $tot + $c1->QtaProdotta ?>
-                    </td>
-                    <td style="text-align: right" onclick="cerca_collo('<?php echo $c1->Nr_Collo; ?>')">
-                        <?php $quantita = $c1->QtaProdotta;
-                        if ($c1->Cd_ARMisura == 'mt') $quantita = ($quantita * $conversione[0]->xDB_Grammatura) / 1000;
-                        if ($c1->Cd_ARMisura == 'pz') $quantita = ($quantita * $conversione[0]->xDB_Pesobusta) / 1000;
-                        echo $quantita;
-
-                        $tot_KG = $tot_KG + $quantita ?>
-                    </td>
-                </tr>
-            <?php } ?>
-
-
-            <?php
-            $id_prblattivita = DB::SELECT('SELECT * FROM xWPCollo WHERE  Rif_Nr_Collo = \'' . $Nr_Collo . '\'');
-            if (sizeof($id_prblattivita) > 0) $id_prblattivita = $id_prblattivita[0]->Id_PRBLAttivita; else $id_prblattivita = '';
-            $fermi = DB::select('SELECT * FROM PRRLAttivita
-                    LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PRRLAttivita.Id_PrBLAttivita
-                    WHERE PRBLAttivita.Id_PrBLAttivita = \'' . $id_prblattivita . '\' and PRRLAttivita.TipoRilevazione = \'F\''); ?>
-
-            <?php foreach ($fermi as $f) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo ($f->InizioFine == 'I') ? 'Inizio Fermo Macchina' : 'Fine Fermo Macchina' ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $f->Terminale ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('d/m/Y', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($f->DataOra != '') echo date('H:i:s', strtotime($f->DataOra)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php // echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita, 2, ',', '') ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo number_format($f->Quantita_Scar, 2, ',', '') ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            <?php $segnalazioni = DB::select('SELECT * FROM xWPSegnalazione WHERE Id_PrBLAttivita = \'' . $id_prblattivita . '\' '); ?>
-
-            <?php foreach ($segnalazioni as $s) { ?>
-                <tr onclick="">
-                    <td style="text-align: center">
-                        <?php echo 'Segnalazione'; ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_Operatore ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Cd_PrRisorsa ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('d/m/Y', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php if ($s->TimeIns != '') echo date('H:i:s', strtotime($s->TimeIns)); ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php echo $s->Messaggio;// echo $c->Nr_Pedana ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo $c->Cd_ARMisura ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita,2) ?>
-                    </td>
-                    <td style="text-align: center">
-                        <?php //echo number_format($s->Quantita_Scar,2) ?>
-                    </td>
-                </tr>
-            <?php } ?>
-            </tbody>
-        </table>
-        <div style="text-align: right">
-            <h5><strong>Totali Colli: </strong><?php echo number_format($tot, 2, ',', ''); ?></h5>
-
-            <h5><strong>Totali Colli Kg: </strong><?php echo number_format($tot_KG, 2, ',', ''); ?></h5>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#ciao').DataTable({"order": [[3, 'asc'], [4, 'asc']], "pageLength": 50});
-            });
-            document.getElementById('numero_ol').innerHTML = 'Tracciabilita dell \' OL ' + '<?php echo $id_prol[0]->Id_PrOL ?>'
-        </script>
-
-        <?php
-    }
 
     public
     function get_bolla($id)
@@ -2037,4 +527,148 @@ class AjaxController extends Controller
         return View::make('backend.ajax.get_etichetta', compact('etichette', 'clienti', 'articoli', 'fasi'));
 
     }
+
+    public
+    function load_tracciabilita($lotto)
+    {
+
+        $carico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL
+                    FROM
+                        MGMov
+                        Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
+						LEFT  JOIN PRVRMateriale ON MGMov.Id_PrVRMateriale = PRVRMateriale.Id_PRVRMateriale
+						LEFT  JOIN PRVRAttivita ON PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
+                        Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
+                        Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
+                        Left  Join PrOL  on PrOL.Id_PrOL = PrOLAttivita.Id_PrOL
+						Left  Join PROLDoRig    On PROLDoRig.Id_PrOL= PrOL.Id_PrOL
+						Left  Join DORig 		On DORig.Id_DORig 			= PROLDoRig.Id_DORig
+						Left  Join DORig DDT    On DDT.Id_DORig_Evade = DORig.Id_DoRig
+						Inner Join AR	 		On AR.Cd_AR 					= MGMov.Cd_AR
+                        Left  Join ARARMisura	On AR.Cd_AR 					= ARARMisura.Cd_AR And ARARMisura.DefaultMisura = 1
+						--Left  Join DORig DDT    On DDT.Id_DORig = MGMov.Id_DoRig
+                        --Left  Join DORig 		On DORig.Id_DORig 			= DDT.Id_DORig_Evade
+                        --Left  Join PROLDoRig    On PROLDoRig.Id_DoRig           = DoRig.Id_DoRig
+                        --Left  Join PRVRMateriale on PRVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale
+                        --Left  Join PRVRAttivita  on PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
+                        --Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
+                        --Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
+                        --Left  Join PrOL  on PrOL.Id_PrOL = PrOLAttivita.Id_PrOL
+                       --Left  Join PrVRMateriale PrVRMaterialeT on PrVRMaterialeT.Id_PRVRAttivita IN
+                       --(SELECT Id_PRVRAttivita from PRVRAttivita  where Id_PRBLAttivita in (SELECT Id_PRBLAttivita  FROM PRBLAttivita  WHERE Id_PROLAttivita in (SELECT Id_PROLAttivita from PROLAttivita  where Id_PROL = PrOL.Id_PROL)))
+                        --Inner Join MG			On MG.Cd_MG						= PrVRMaterialeT.Cd_MG
+                    Where
+                        MGMov.Ini = 0
+						AND MGMov.PartenzaArrivo = \'A\'
+						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
+						and MGMov.Id_PrVRMateriale is not null');
+
+        $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL
+                    FROM
+                        MGMov
+                        Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
+						LEFT  JOIN PRVRMateriale ON MGMov.Id_PrVRMateriale = PRVRMateriale.Id_PRVRMateriale
+						LEFT  JOIN PRVRAttivita ON PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
+                        Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
+                        Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
+                        Left  Join PrOL  on PrOL.Id_PrOL = PrOLAttivita.Id_PrOL
+						Left  Join PROLDoRig    On PROLDoRig.Id_PrOL= PrOL.Id_PrOL
+						Left  Join DORig 		On DORig.Id_DORig 			= PROLDoRig.Id_DORig
+						Left  Join DORig DDT    On DDT.Id_DORig_Evade = DORig.Id_DoRig
+						Inner Join AR	 		On AR.Cd_AR 					= MGMov.Cd_AR
+                        Left  Join ARARMisura	On AR.Cd_AR 					= ARARMisura.Cd_AR And ARARMisura.DefaultMisura = 1
+						--Left  Join DORig DDT    On DDT.Id_DORig = MGMov.Id_DoRig
+                        --Left  Join DORig 		On DORig.Id_DORig 			= DDT.Id_DORig_Evade
+                        --Left  Join PROLDoRig    On PROLDoRig.Id_DoRig           = DoRig.Id_DoRig
+                        --Left  Join PRVRMateriale on PRVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale
+                        --Left  Join PRVRAttivita  on PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
+                        --Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
+                        --Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
+                        --Left  Join PrOL  on PrOL.Id_PrOL = PrOLAttivita.Id_PrOL
+                       --Left  Join PrVRMateriale PrVRMaterialeT on PrVRMaterialeT.Id_PRVRAttivita IN
+                       --(SELECT Id_PRVRAttivita from PRVRAttivita  where Id_PRBLAttivita in (SELECT Id_PRBLAttivita  FROM PRBLAttivita  WHERE Id_PROLAttivita in (SELECT Id_PROLAttivita from PROLAttivita  where Id_PROL = PrOL.Id_PROL)))
+                        --Inner Join MG			On MG.Cd_MG						= PrVRMaterialeT.Cd_MG
+                    Where
+                        MGMov.Ini = 0
+						AND MGMov.PartenzaArrivo = \'P\'
+						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
+						and MGMov.Id_PrVRMateriale is not null ');
+
+        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,
+                                       CASE
+                                       WHEN (DOTes.Cd_Do = \'OVC\')
+                                       THEN
+                                       (SELECT Numero from PRol where Id_PROl in (SELECT TOP 1 Id_PROL FROM PROLDoRig where Id_DoRig = DORig.Id_DORig))
+                                       WHEN (DOTes.Cd_Do = \'DDT\')
+                                       THEN
+                                       (SELECT Numero from PRol where Id_PROl in (SELECT TOP 1 Id_PROL FROM PROLDoRig where Id_DoRig = DORig.Id_DORig_Evade))
+                                       ELSE NULL
+                                       END as NumeroOL
+                                       FROM DORig
+                                       LEFT JOIN DOTes ON DOTes.Id_DoTes = DORig.Id_DOTes
+                                       WHERE
+                                       DORig.Cd_ARLotto = \'' . $lotto . '\'
+                                       AND DOTes.Cd_Do IN (\'DDT\',\'OVC\')');
+        ?>
+        <?php /*<h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
+            : <?php echo $base->Cd_AR; ?> <strong
+                style="margin-left: 40px;">Quantita </strong>: <?php echo number_format($base1->QuantitaUM1_PR, 2, ',', '') ?>
+            <strong style="margin-left: 40px;">Cliente</strong> : <?php echo $base1->Descrizione ?> <strong
+                style="margin-left: 40px;"><?php echo ($base1->Cd_DO == 'OVC') ? 'OVC' : 'OCL' ?>  </strong>: <?php echo $base1->NumeroDoc ?>
+        </h3><br><br>
+       <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a onclick="cerca()">Attività</a></li>
+            </ol>
+        </nav> */ ?>
+        <div class="row">
+            <div class="col-xl-4 col-xs-12 col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item" style="text-align: center;font-weight: bolder;font-size: 18px;">
+                        DOCUMENTO
+                    </li>
+                    <?php foreach ($documenti as $i) { ?>
+                        <li class="list-group-item">
+                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' ' . $i->Cd_Do . '(<strong>' . $i->NumeroDoc . '</strong>)  Numero OL ( <strong>' . $i->NumeroOL . '</strong> )'; ?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+            <div class="col-xl-4 col-xs-12 col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item" style="text-align: center;font-weight: bolder;font-size: 18px;">
+                        PRODOTTO
+                    </li>
+
+                    <?php foreach ($carico as $i) { ?>
+                        <li class="list-group-item">
+                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' OL( <strong>' . $i->NumeroOL . '</strong> ) DDT( <strong>' . $i->NumeroDDT . '</strong> ) OVC( <strong>' . $i->NumeroOVC . '</strong> )'; ?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+            <div class="col-xl-4 col-xs-12 col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item" style="text-align: center;font-weight: bolder;font-size: 18px;">
+                        COMPONENTE
+                    </li>
+
+                    <?php foreach ($scarico as $i) { ?>
+                        <li class="list-group-item">
+                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' OL( <strong>' . $i->NumeroOL . '</strong> ) DDT( <strong>' . $i->NumeroDDT . '</strong> ) OVC( <strong>' . $i->NumeroOVC . '</strong> )'; ?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            document.getElementById('lotto').innerHTML = 'Tracciabilita del Lotto ' + '<?php echo $lotto; ?>'
+        </script>
+
+        <?php
+    }
+
+
 }

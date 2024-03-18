@@ -42,6 +42,7 @@ Route::any('logistic_schermata_carico', 'HomeController@logistic_schermata_caric
 Route::any('logistic_crea_documento', 'HomeController@logistic_crea_documento');
 Route::any('logistic_evadi_documento', 'HomeController@logistic_evadi_documento');
 Route::any('stampa_libera/{id}/{codice_stampa}', 'HomeController@stampa_libera');
+Route::any('tracciabilita', 'HomeController@tracciabilita');
 
 Route::any('ajax/lista_versamenti/{Id_PrBLAttivita}', 'AjaxController@lista_versamenti');
 Route::any('ajax/check_bolla/{Id_PrBLAttivita}', 'AjaxController@check_bolla');
@@ -55,14 +56,8 @@ Route::any('ajax/get_bolla/{numero_bolla}', 'AjaxController@get_bolla');
 Route::any('ajax/set_stampato/{nome_file}', 'AjaxController@set_stampato');
 Route::any('ajax/load_colli/{attivita_bolla}/{cd_ar}', 'AjaxController@load_colli');
 Route::any('ajax/load_tutti_colli/{attivita_bolla}/{cd_ar}', 'AjaxController@load_tutti_colli');
-Route::any('ajax/load_tracciabilita/{id_prol}', 'AjaxController@load_tracciabilita');
-Route::any('ajax/load_tracciabilita1/{id_prol}/{ProlAttivita}', 'AjaxController@load_tracciabilita1');
-Route::any('ajax/load_imballo/{id_prol}/{ProlAttivita}', 'AjaxController@load_imballo');
-Route::any('ajax/load_imballo2/{id_prol}/{ProlAttivita}/{Nr_Pedana}', 'AjaxController@load_imballo2');
-Route::any('ajax/load_tracciabilita2/{id_prol}/{ProlAttivita}/{Nr_Collo}', 'AjaxController@load_tracciabilita2');
-Route::any('ajax/load_tracciabilita_dietro/{id_prol}/{ProlAttivita}/{Rif_Nr_Collo}/{Rif_Nr_Collo2}', 'AjaxController@load_tracciabilita_dietro');
-Route::any('ajax/load_cerca_collo/{id_prol}/{ProlAttivita}/{Nr_Collo}', 'AjaxController@load_cerca_collo');
 Route::any('ajax/get_etichetta/{id}', 'AjaxController@get_etichetta');
+Route::any('ajax/load_tracciabilita/{lotto}', 'AjaxController@load_tracciabilita');
 
 Route::any('ajax/crea_collo/{Id_PrBLAttivita}/{qta}/{esemplari}/{cd_armisura}/{nr_pedana}/{rif1}/{rif2}', 'AjaxController@crea_collo');
 Route::any('ajax/chiudi_collo/{Id_PrBLAttivita}/{qta}/{esemplari}/{cd_armisura}/{nr_pedana}/{rif1}/{rif2}', 'AjaxController@chiudi_collo');

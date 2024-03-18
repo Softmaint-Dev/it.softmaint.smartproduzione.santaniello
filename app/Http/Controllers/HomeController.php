@@ -3189,6 +3189,20 @@ class HomeController extends Controller
 
     }
 
+    public static function tracciabilita(Request $request)
+    {
+        if (!session()->has('utente')) {
+            return Redirect::to('login');
+        }
+
+        if (session()->has('utente')) {
+            $utente = session('utente');
+            $risorsa = session('risorsa');
+            $dati = $request->all();
+            return View::make('backend.tracciabilita');
+        }
+    }
+
     function convertPropNamesLower($obj)
     {
         return (object)array_change_key_case((array)$obj, CASE_LOWER);
