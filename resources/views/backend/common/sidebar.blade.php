@@ -122,14 +122,13 @@
                         <p>Etichette</p>
                     </a>
                 </li>
-                <!--
                 <li class="nav-item">
                     <a href="<?php echo URL::asset('tracciabilita') ?>" class="nav-link">
                         <i class="nav-icon fas fa-chart-line"></i>
                         <p>Tracciabilità</p>
                     </a>
                 </li>
-
+<!--
 
                 <li class="nav-item">
                     <a href="<?php echo URL::asset('odl') ?>" class="nav-link">
