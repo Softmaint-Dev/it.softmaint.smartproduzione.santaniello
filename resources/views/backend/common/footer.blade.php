@@ -1,4 +1,4 @@
-<footer class="main-footer">
+<footer class="main-footer" id="footer">
     <strong>Copyright &copy; 2020 <a target="_blank" href="https://softmaint.it">Softmaint SRL</a>.</strong>
     Tutti i Diritti Riservati
     <div class="float-right d-none d-sm-inline-block">

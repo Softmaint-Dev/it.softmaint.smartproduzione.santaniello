@@ -62,6 +62,7 @@ Route::any('ajax/load_tracciabilita/{lotto}', 'AjaxController@load_tracciabilita
 Route::any('ajax/crea_collo/{Id_PrBLAttivita}/{qta}/{esemplari}/{cd_armisura}/{nr_pedana}/{rif1}/{rif2}', 'AjaxController@crea_collo');
 Route::any('ajax/chiudi_collo/{Id_PrBLAttivita}/{qta}/{esemplari}/{cd_armisura}/{nr_pedana}/{rif1}/{rif2}', 'AjaxController@chiudi_collo');
 Route::any('ajax/cerca_pedana/{Nr_Pedana}', 'AjaxController@cerca_pedana');
+Route::any('ajax/scarica_excel_lotto/{lotto}', 'AjaxController@scarica_excel_lotto');
 
 Route::any('stampa/qualita/{Id_xFormQualita}', 'StampaController@qualita');
 Route::any('qualita', 'HomeController@qualita');
