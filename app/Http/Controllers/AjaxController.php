@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ExcelExport;
+
 
 /**
  * Controller principale del webticket
@@ -670,5 +673,125 @@ class AjaxController extends Controller
         <?php
     }
 
+    public
+    function scarica_excel_lotto($lotto)
+    {
 
+        $carico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL
+                    FROM
+                        MGMov
+                        Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
+						LEFT  JOIN PRVRMateriale ON MGMov.Id_PrVRMateriale = PRVRMateriale.Id_PRVRMateriale
+						LEFT  JOIN PRVRAttivita ON PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
+                        Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
+                        Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
+                        Left  Join PrOL  on PrOL.Id_PrOL = PrOLAttivita.Id_PrOL
+						Left  Join PROLDoRig    On PROLDoRig.Id_PrOL= PrOL.Id_PrOL
+						Left  Join DORig 		On DORig.Id_DORig 			= PROLDoRig.Id_DORig
+						Left  Join DORig DDT    On DDT.Id_DORig_Evade = DORig.Id_DoRig
+						Inner Join AR	 		On AR.Cd_AR 					= MGMov.Cd_AR
+                        Left  Join ARARMisura	On AR.Cd_AR 					= ARARMisura.Cd_AR And ARARMisura.DefaultMisura = 1
+						--Left  Join DORig DDT    On DDT.Id_DORig = MGMov.Id_DoRig
+                        --Left  Join DORig 		On DORig.Id_DORig 			= DDT.Id_DORig_Evade
+                        --Left  Join PROLDoRig    On PROLDoRig.Id_DoRig           = DoRig.Id_DoRig
+                        --Left  Join PRVRMateriale on PRVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale
+                        --Left  Join PRVRAttivita  on PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
+                        --Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
+                        --Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
+                        --Left  Join PrOL  on PrOL.Id_PrOL = PrOLAttivita.Id_PrOL
+                       --Left  Join PrVRMateriale PrVRMaterialeT on PrVRMaterialeT.Id_PRVRAttivita IN
+                       --(SELECT Id_PRVRAttivita from PRVRAttivita  where Id_PRBLAttivita in (SELECT Id_PRBLAttivita  FROM PRBLAttivita  WHERE Id_PROLAttivita in (SELECT Id_PROLAttivita from PROLAttivita  where Id_PROL = PrOL.Id_PROL)))
+                        --Inner Join MG			On MG.Cd_MG						= PrVRMaterialeT.Cd_MG
+                    Where
+                        MGMov.Ini = 0
+						AND MGMov.PartenzaArrivo = \'A\'
+						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
+						and MGMov.Id_PrVRMateriale is not null');
+
+        $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL
+                    FROM
+                        MGMov
+                        Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
+						LEFT  JOIN PRVRMateriale ON MGMov.Id_PrVRMateriale = PRVRMateriale.Id_PRVRMateriale
+						LEFT  JOIN PRVRAttivita ON PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
+                        Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
+                        Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
+                        Left  Join PrOL  on PrOL.Id_PrOL = PrOLAttivita.Id_PrOL
+						Left  Join PROLDoRig    On PROLDoRig.Id_PrOL= PrOL.Id_PrOL
+						Left  Join DORig 		On DORig.Id_DORig 			= PROLDoRig.Id_DORig
+						Left  Join DORig DDT    On DDT.Id_DORig_Evade = DORig.Id_DoRig
+						Inner Join AR	 		On AR.Cd_AR 					= MGMov.Cd_AR
+                        Left  Join ARARMisura	On AR.Cd_AR 					= ARARMisura.Cd_AR And ARARMisura.DefaultMisura = 1
+						--Left  Join DORig DDT    On DDT.Id_DORig = MGMov.Id_DoRig
+                        --Left  Join DORig 		On DORig.Id_DORig 			= DDT.Id_DORig_Evade
+                        --Left  Join PROLDoRig    On PROLDoRig.Id_DoRig           = DoRig.Id_DoRig
+                        --Left  Join PRVRMateriale on PRVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale
+                        --Left  Join PRVRAttivita  on PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
+                        --Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
+                        --Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
+                        --Left  Join PrOL  on PrOL.Id_PrOL = PrOLAttivita.Id_PrOL
+                       --Left  Join PrVRMateriale PrVRMaterialeT on PrVRMaterialeT.Id_PRVRAttivita IN
+                       --(SELECT Id_PRVRAttivita from PRVRAttivita  where Id_PRBLAttivita in (SELECT Id_PRBLAttivita  FROM PRBLAttivita  WHERE Id_PROLAttivita in (SELECT Id_PROLAttivita from PROLAttivita  where Id_PROL = PrOL.Id_PROL)))
+                        --Inner Join MG			On MG.Cd_MG						= PrVRMaterialeT.Cd_MG
+                    Where
+                        MGMov.Ini = 0
+						AND MGMov.PartenzaArrivo = \'P\'
+						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
+						and MGMov.Id_PrVRMateriale is not null ');
+
+        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc as DataMov,
+                                       CASE
+                                       WHEN (DOTes.Cd_Do = \'OVC\')
+                                       THEN
+                                       DOTes.NumeroDoc
+                                       ELSE NULL
+                                       END as NumeroOVC,
+                                       CASE
+                                       WHEN (DOTes.Cd_Do = \'DDT\')
+                                       THEN
+                                       DOTes.NumeroDoc
+                                       ELSE NULL
+                                       END as NumeroDDT,
+                                       CASE
+                                       WHEN (DOTes.Cd_Do = \'OVC\')
+                                       THEN
+                                       (SELECT Numero from PRol where Id_PROl in (SELECT TOP 1 Id_PROL FROM PROLDoRig where Id_DoRig = DORig.Id_DORig))
+                                       WHEN (DOTes.Cd_Do = \'DDT\')
+                                       THEN
+                                       (SELECT Numero from PRol where Id_PROl in (SELECT TOP 1 Id_PROL FROM PROLDoRig where Id_DoRig = DORig.Id_DORig_Evade))
+                                       ELSE NULL
+                                       END as NumeroOL
+                                       FROM DORig
+                                       LEFT JOIN DOTes ON DOTes.Id_DoTes = DORig.Id_DOTes
+                                       WHERE
+                                       DORig.Cd_ARLotto = \'' . $lotto . '\'
+                                       AND DOTes.Cd_Do IN (\'DDT\',\'OVC\')');
+
+        $localFilePath = storage_path('/' . $lotto . '.xls');
+
+        $file = fopen($localFilePath, 'w+');
+
+        if ($file === false) {
+            $error = error_get_last();
+            return 'Errore nell\'apertura del file: ' . $error['message'];
+        }
+
+        $directory = dirname($localFilePath);
+        if (!file_exists($directory)) {
+            mkdir($directory, 0755, true);
+        }
+
+        $data = array_merge($documenti, $carico, $scarico);
+
+        //dd($data);
+
+        foreach ($data as $row) {
+
+            $row2[] = array(strval($row->Cd_AR), strval($row->Cd_ARLotto), strval($row->Quantita), strval($row->Cd_ARMisura), strval($row->DataMov), strval($row->NumeroOVC),strval($row->NumeroDDT), strval($row->NumeroOL));
+        }
+
+        return Excel::download(new ExcelExport($row2), $lotto . '.xls');
+
+
+    }
 }
