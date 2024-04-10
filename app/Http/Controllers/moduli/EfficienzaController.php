@@ -21,7 +21,7 @@ class EfficienzaController extends Controller
     public function createView($id)
     {
 
-        $attivity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $id);
+        $attivity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $id);
 
         return view('moduli.efficienza.efficienza_create', [
             'attivity' => $attivity
@@ -32,7 +32,7 @@ class EfficienzaController extends Controller
     {
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         print_r(json_encode($dms->xJSON));
 
@@ -48,7 +48,7 @@ class EfficienzaController extends Controller
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $oldJson = json_decode($dms->xJSON);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
 

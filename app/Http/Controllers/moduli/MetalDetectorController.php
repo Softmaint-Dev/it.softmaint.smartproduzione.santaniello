@@ -17,7 +17,7 @@ class MetalDetectorController extends Controller
     public function createViewMBR1200($id)
     {
 
-        $attivity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $id);
+        $attivity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $id);
 
         return view('moduli.metal_detector.md-mbr-1200_create', [
             'attivity' => $attivity
@@ -27,7 +27,7 @@ class MetalDetectorController extends Controller
     public function createViewPMO($id)
     {
 
-        $attivity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $id);
+        $attivity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $id);
 
         return view('moduli.metal_detector.md-pmo', [
             'attivity' => $attivity
@@ -125,7 +125,7 @@ class MetalDetectorController extends Controller
     public function editViewPMO($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.metal_detector.md-pmo_edit', [
             'activity' => $activity,
@@ -140,7 +140,7 @@ class MetalDetectorController extends Controller
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $oldJson = json_decode($dms->xJSON);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
 
@@ -205,7 +205,7 @@ class MetalDetectorController extends Controller
     public function editViewMBR1200($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.metal_detector.md-mbr-1200_edit', [
             'activity' => $activity,
@@ -220,7 +220,7 @@ class MetalDetectorController extends Controller
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $oldJson = json_decode($dms->xJSON);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
 

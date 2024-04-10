@@ -17,7 +17,7 @@ class XRayController extends Controller
     public function createViewBR6000($id)
     {
 
-        $attivity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $id);
+        $attivity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $id);
 
         return view('moduli.xray.xray_xbr-6000_create', [
             'attivity' => $attivity
@@ -27,7 +27,7 @@ class XRayController extends Controller
     public function createView400N($id)
     {
 
-        $attivity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $id);
+        $attivity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $id);
 
         return view('moduli.xray.xray_400n_create', [
             'attivity' => $attivity
@@ -129,7 +129,7 @@ class XRayController extends Controller
     public function editView400N($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.xray.xray_400n_edit', [
             'activity' => $activity,
@@ -144,7 +144,7 @@ class XRayController extends Controller
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $oldJson = json_decode($dms->xJSON);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
 
@@ -211,7 +211,7 @@ class XRayController extends Controller
     public function editViewBR6000($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.xray.xray_xbr-6000_edit', [
             'activity' => $activity,
@@ -227,7 +227,7 @@ class XRayController extends Controller
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $oldJson = json_decode($dms->xJSON);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
 

@@ -17,7 +17,7 @@ class RaffinatriceController extends Controller
     public function createView($id)
     {
 
-        $attivity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $id);
+        $attivity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $id);
 
         return view('moduli.raffinatrice.raffinatrice_create', [
             'attivity' => $attivity
@@ -104,7 +104,7 @@ class RaffinatriceController extends Controller
     public function editView($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.raffinatrice.raffinatrice_edit', [
             'activity' => $activity,
@@ -119,7 +119,7 @@ class RaffinatriceController extends Controller
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $oldJson = json_decode($dms->xJSON);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
 

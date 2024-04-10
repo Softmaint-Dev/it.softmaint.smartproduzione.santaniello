@@ -24,7 +24,7 @@ class FarinaController extends Controller
     public function createView($id)
     {
 
-        $attivity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $id);
+        $attivity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $id);
 
         return view('moduli.farina.farina_create', [
             'attivity' => $attivity
@@ -115,7 +115,7 @@ class FarinaController extends Controller
     public function editView($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.farina.farina_edit', [
             'activity' => $activity,
@@ -130,7 +130,7 @@ class FarinaController extends Controller
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         $oldJson = json_decode($dms->xJSON);
-        $activity = PRRLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
 
