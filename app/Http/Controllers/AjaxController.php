@@ -535,7 +535,7 @@ class AjaxController extends Controller
     function load_tracciabilita($lotto)
     {
 
-        $carico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL
+        $carico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PRVRAttivita.Note as Note
                     FROM
                         MGMov
                         Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
@@ -566,7 +566,7 @@ class AjaxController extends Controller
 						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
 						and MGMov.Id_PrVRMateriale is not null');
 
-        $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL
+        $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PRVRAttivita.Note as Note
                     FROM
                         MGMov
                         Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
@@ -597,7 +597,7 @@ class AjaxController extends Controller
 						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
 						and MGMov.Id_PrVRMateriale is not null ');
 
-        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,
+        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,,\'Ciao\' as Note
                                        CASE
                                        WHEN (DOTes.Cd_Do = \'OVC\')
                                        THEN
@@ -632,7 +632,7 @@ class AjaxController extends Controller
                     </li>
                     <?php foreach ($documenti as $i) { ?>
                         <li class="list-group-item">
-                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' ' . $i->Cd_Do . '(<strong>' . $i->NumeroDoc . '</strong>)  Numero OL ( <strong>' . $i->NumeroOL . '</strong> )'; ?>
+                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' ' . $i->Cd_Do . '(<strong>' . $i->NumeroDoc . '</strong>)  Numero OL ( <strong>' . $i->NumeroOL . '</strong> ) Note ( <strong>' . $i->Note . '</strong> )'; ?>
                         </li>
                     <?php } ?>
                 </ul>
@@ -645,7 +645,7 @@ class AjaxController extends Controller
 
                     <?php foreach ($carico as $i) { ?>
                         <li class="list-group-item">
-                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' OL( <strong>' . $i->NumeroOL . '</strong> ) DDT( <strong>' . $i->NumeroDDT . '</strong> ) OVC( <strong>' . $i->NumeroOVC . '</strong> )'; ?>
+                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' OL( <strong>' . $i->NumeroOL . '</strong> ) DDT( <strong>' . $i->NumeroDDT . '</strong> ) OVC( <strong>' . $i->NumeroOVC . '</strong> ) Note ( <strong>' . $i->Note . '</strong> )'; ?>
                         </li>
                     <?php } ?>
                 </ul>
@@ -658,7 +658,7 @@ class AjaxController extends Controller
 
                     <?php foreach ($scarico as $i) { ?>
                         <li class="list-group-item">
-                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' OL( <strong>' . $i->NumeroOL . '</strong> ) DDT( <strong>' . $i->NumeroDDT . '</strong> ) OVC( <strong>' . $i->NumeroOVC . '</strong> )'; ?>
+                            <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' OL( <strong>' . $i->NumeroOL . '</strong> ) DDT( <strong>' . $i->NumeroDDT . '</strong> ) OVC( <strong>' . $i->NumeroOVC . '</strong> ) Note ( <strong>' . $i->Note . '</strong> )'; ?>
                         </li>
                     <?php } ?>
                 </ul>
@@ -787,7 +787,7 @@ class AjaxController extends Controller
 
         foreach ($data as $row) {
 
-            $row2[] = array(strval($row->Cd_AR), strval($row->Cd_ARLotto), strval($row->Quantita), strval($row->Cd_ARMisura), strval($row->DataMov), strval($row->NumeroOVC),strval($row->NumeroDDT), strval($row->NumeroOL));
+            $row2[] = array(strval($row->Cd_AR), strval($row->Cd_ARLotto), strval($row->Quantita), strval($row->Cd_ARMisura), strval($row->DataMov), strval($row->NumeroOVC), strval($row->NumeroDDT), strval($row->NumeroOL));
         }
 
         return Excel::download(new ExcelExport($row2), $lotto . '.xls');
