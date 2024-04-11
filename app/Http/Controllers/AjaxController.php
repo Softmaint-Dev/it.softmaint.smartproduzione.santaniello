@@ -564,7 +564,8 @@ class AjaxController extends Controller
                         MGMov.Ini = 0
 						AND MGMov.PartenzaArrivo = \'A\'
 						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
-						and MGMov.Id_PrVRMateriale is not null');
+						and MGMov.Id_PrVRMateriale is not null
+						ORDER MGMov.Cd_AR Desc');
 
         $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PRVRAttivita.NotePRVRAttivita as Note
                     FROM
@@ -595,7 +596,8 @@ class AjaxController extends Controller
                         MGMov.Ini = 0
 						AND MGMov.PartenzaArrivo = \'P\'
 						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
-						and MGMov.Id_PrVRMateriale is not null ');
+						and MGMov.Id_PrVRMateriale is not null
+						ORDER MGMov.Cd_AR Desc');
 
         $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,\'\' as Note,
                                        CASE
@@ -611,7 +613,7 @@ class AjaxController extends Controller
                                        LEFT JOIN DOTes ON DOTes.Id_DoTes = DORig.Id_DOTes
                                        WHERE
                                        DORig.Cd_ARLotto = \'' . $lotto . '\'
-                                       AND DOTes.Cd_Do IN (\'DDT\',\'OVC\')');
+                                       AND DOTes.Cd_Do IN (\'OVC\')');
         ?>
         <?php /*<h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
             : <?php echo $base->Cd_AR; ?> <strong
