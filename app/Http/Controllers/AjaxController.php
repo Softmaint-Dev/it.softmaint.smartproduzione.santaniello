@@ -597,7 +597,7 @@ class AjaxController extends Controller
 						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
 						and MGMov.Id_PrVRMateriale is not null ');
 
-        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,\'Ciao\' as Note
+        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,\'Ciao\' as Note,
                                        CASE
                                        WHEN (DOTes.Cd_Do = \'OVC\')
                                        THEN
