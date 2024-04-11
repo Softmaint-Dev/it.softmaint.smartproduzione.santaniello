@@ -565,7 +565,7 @@ class AjaxController extends Controller
 						AND MGMov.PartenzaArrivo = \'A\'
 						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
 						and MGMov.Id_PrVRMateriale is not null
-						ORDER MGMov.Cd_AR Desc');
+						ORDER BY MGMov.Cd_AR Desc');
 
         $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PRVRAttivita.NotePRVRAttivita as Note
                     FROM
@@ -597,7 +597,7 @@ class AjaxController extends Controller
 						AND MGMov.PartenzaArrivo = \'P\'
 						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
 						and MGMov.Id_PrVRMateriale is not null
-						ORDER MGMov.Cd_AR Desc');
+						ORDER BY MGMov.Cd_AR Desc');
 
         $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,\'\' as Note,
                                        CASE
