@@ -759,7 +759,7 @@
                                                                                 visualizzaInput.onclick = function () {
                                                                                     window.location.href = '/moduli/show/' + item.Id_DmsDocument;
                                                                                 };
-                                                                         
+
                                                                                 const modificaCell = row.insertCell();
                                                                                 const modificaInput = document.createElement('input');
                                                                                 modificaInput.type = 'button';
@@ -770,7 +770,7 @@
                                                                                     window.location.href = '/moduli/edit/' + {{$attivita_bolla->Id_PrBLAttivita}} + '/' + item.Id_DmsDocument;
                                                                                 };
                                                                             }
-                                                                          
+
                                                                         });
 
                                                                         const divDms = document.querySelector('.div-dms');

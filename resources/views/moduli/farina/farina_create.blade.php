@@ -23,7 +23,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
- 
+
 
 <div class="content-wrapper p-3">
 
@@ -37,16 +37,16 @@
                     @include('moduli.farina.components.caliber')
                     @include('moduli.components.xwpcollo_select',
                         ['attivita' => $attivity]
-                    ) 
+                    )
                     @include('moduli.farina.components.simple_date')
 
                     @include('moduli.farina.components.analysis_time', ['name' => 'analysisTime']),
                     @include('moduli.farina.components.sample', ['name' => 'sample'])
                     @include('moduli.farina.components.moisture')
-                   
-                   
+
+
                 </div>
-                
+
                 <div class="col-md-4">
                     @include('moduli.farina.components.target')
                 </div>
