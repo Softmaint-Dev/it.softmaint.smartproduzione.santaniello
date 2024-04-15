@@ -359,7 +359,7 @@ class HomeController extends Controller
                             $insert_pr_materiale['Consumo'] = $m->Consumo;
                             $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                             $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                            $insert_pr_materiale['Sfrido'] = $m->Sfrido;
+                            $insert_pr_materiale['Sfrido'] = 0;
                             $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
                             $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
                             $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
@@ -623,7 +623,7 @@ class HomeController extends Controller
                             $insert_pr_materiale['Consumo'] = $m->Consumo;
                             $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                             $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                            $insert_pr_materiale['Sfrido'] = $m->Sfrido;
+                            $insert_pr_materiale['Sfrido'] = 0;
                             $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
                             $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
                             $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
@@ -2189,21 +2189,17 @@ class HomeController extends Controller
                     $qta_colli = DB::select('SELECT isnull(SUM(QtaProdotta),0) as qta from xWPCollo Where Id_PrVrAttivita = ' . $id_attivita)[0]->qta;
                     $proporzione = $qta_colli / $attivita_bolla->Quantita;
 
-                    $materiale = DB::SELECT('SELECT * from PRBLMateriale Where Id_PrBLAttivita = ' . $attivita_bolla->Id_PrBLAttivita);
+                    $materiale = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                     foreach ($materiale as $m) {
                         if ($m->Tipo != 0) {
                             $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
                             $insert_pr_materiale['Tipo'] = $m->Tipo;
                             $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
                             $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
-                            if ($m->Tipo == 2) {
-                                $insert_pr_materiale['Consumo'] = $m->Consumo * $proporzione;
-                            } else {
-                                $insert_pr_materiale['Consumo'] = $m->Consumo;
-                            }
+                            $insert_pr_materiale['Consumo'] = $m->Consumo;
                             $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                             $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                            $insert_pr_materiale['Sfrido'] = $m->Sfrido;
+                            $insert_pr_materiale['Sfrido'] = 0;
 
 
                             if ($m->Tipo == 2) {
@@ -2224,6 +2220,7 @@ class HomeController extends Controller
 
                         }
                     }
+                    session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
 
                     $insert_rl['Id_PrVRAttivita'] = $id_attivita;
                     $insert_rl['Id_PrRLAttivita_Sibling'] = $id_ultima_rilevazione;
@@ -2371,21 +2368,17 @@ class HomeController extends Controller
                         $qta_colli = DB::select('SELECT isnull(SUM(QtaProdotta),0) as qta from xWPCollo Where Id_PrVrAttivita = ' . $id_attivita)[0]->qta;
                         $proporzione = $qta_colli / $attivita_bolla->Quantita;
 
-                        $materiale = DB::SELECT('SELECT * from PRBLMateriale Where Id_PrBLAttivita = ' . $attivita_bolla->Id_PrBLAttivita);
+                        $materiale = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                         foreach ($materiale as $m) {
                             if ($m->Tipo != 0) {
                                 $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
                                 $insert_pr_materiale['Tipo'] = $m->Tipo;
                                 $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
                                 $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
-                                if ($m->Tipo == 2) {
-                                    $insert_pr_materiale['Consumo'] = $m->Consumo * $proporzione;
-                                } else {
-                                    $insert_pr_materiale['Consumo'] = $m->Consumo;
-                                }
+                                $insert_pr_materiale['Consumo'] = $m->Consumo;
                                 $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                                 $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                                $insert_pr_materiale['Sfrido'] = $m->Sfrido;
+                                $insert_pr_materiale['Sfrido'] = 0;
 
 
                                 if ($m->Tipo == 2) {
@@ -2406,6 +2399,7 @@ class HomeController extends Controller
 
                             }
                         }
+                        session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
 
                         $insert_rl['Id_PrVRAttivita'] = $id_attivita;
                         $insert_rl['Id_PrRLAttivita_Sibling'] = $id_ultima_rilevazione;
@@ -2631,11 +2625,149 @@ class HomeController extends Controller
 
                 return Redirect::to('');
             }
+            if (isset($dati['aggiungi_scarto'])) {
+                unset($dati['aggiungi_scarto']);
 
+                $attivita_bolle = DB::select('SELECT * from PrBLAttivitaEx Where Id_PrBLAttivita = ' . $id);
+                if (sizeof($attivita_bolle) > 0) {
+                    $attivita_bolla = $attivita_bolle[0];
+                    $insert['Id_PrBLAttivita'] = $id;
+                    $insert['Id_PrOLAttivita'] = null;
+                    $insert['Id_PrBLMateriale'] = rand(0, 999999);
+                    $insert['Tipo'] = $dati['Tipo'];
+                    $insert['Consumo'] = $dati['Quantita'];
+                    $insert['Cd_ARMisura'] = $dati['Cd_ARMisura'];
+                    $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
+                    if (sizeof($umfatt) > 0) {
+                        $umfatt = $umfatt[0]->UMFatt;
+                    } else $umfatt = 1;
+                    $insert['FattoreToUM1'] = $umfatt;
+                    $insert['Cd_AR'] = $dati['Cd_AR'];
+                    $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
+                    $insert['Obbligatorio'] = DB::select('SELECT COALESCE(MG_LottoObbligatorio,0) as ciao FROM AR WHERE AR.Cd_AR = \'' . $dati['Cd_AR'] . '\' ')[0]->ciao;
+                    $insert['NotePrBLMateriale'] = '';
+                    $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
+                    $insert['Cd_MG'] = $dati['Cd_MG'];
+                    $insert['Cd_MGUbicazione'] = '';
+
+
+                    if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
+                        $materiale_update1 = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        $materiale_update1[sizeof($materiale_update1)] = json_decode(json_encode($insert));
+                        session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        session(['\'' . $attivita_bolla->Id_PrBLAttivita . '\'' => $materiale_update1]);
+                        session()->save();
+                    }
+
+                    $insert['Id_PrBLMateriale'] = rand(0, 999999);
+                    $insert['Cd_AR'] = $dati['articolo_scarto'];
+                    $insert['Consumo'] = $dati['quantita_scarto_sclav'];
+                    $insert['Cd_ARLotto'] = '';
+
+                    if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
+                        $materiale_update1 = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        $materiale_update1[sizeof($materiale_update1)] = json_decode(json_encode($insert));
+                        session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        session(['\'' . $attivita_bolla->Id_PrBLAttivita . '\'' => $materiale_update1]);
+                        session()->save();
+                    }
+                    return Redirect::to('dettaglio_bolla/' . $id);
+                }
+            }
             if (isset($dati['elimina_materiale'])) {
                 unset($dati['elimina_materiale']);
-                DB::table('PRBLMateriale')->where('Id_PrBLMateriale', $dati['Id_PrBLMateriale'])->delete();
+                /*                DB::table('PRBLMateriale')->where('Id_PrBLMateriale', $dati['Id_PrBLMateriale'])->delete();
+                                return Redirect::to('dettaglio_bolla/' . $id);*/
+
+
+                $attivita_bolle = DB::select('SELECT * from PrBLAttivitaEx Where Id_PrBLAttivita = ' . $id);
+
+
+                if (sizeof($attivita_bolle) > 0) {
+                    $attivita_bolla = $attivita_bolle[0];
+
+                    if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
+                        $materiale_update = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        foreach ($materiale_update as $KEY => $m) {
+                            if ($m->Id_PrBLMateriale == $dati['Id_PrBLMateriale']) {
+                                unset($materiale_update[$KEY]);
+                            }
+                        }
+                        session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        session(['\'' . $attivita_bolla->Id_PrBLAttivita . '\'' => $materiale_update]);
+                        session()->save();
+                    }
+                }
+                //DB::table('PRBLMateriale')->where('Id_PrBLMateriale', $dati['Id_PrBLMateriale'])->delete();
                 return Redirect::to('dettaglio_bolla/' . $id);
+            }
+            if (isset($dati['aggiungi_calo_peso'])) {
+                unset($dati['aggiungi_calo_peso']);
+
+
+                $attivita_bolle = DB::select('SELECT * from PrBLAttivitaEx Where Id_PrBLAttivita = ' . $id);
+
+
+                if (sizeof($attivita_bolle) > 0) {
+                    $attivita_bolla = $attivita_bolle[0];
+
+                    if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
+                        $materiale_update = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        foreach ($materiale_update as $m) {
+                            if ($m->Id_PrBLMateriale == $dati['Id_PrBLMateriale']) {
+                                $m->Tipo = $dati['Tipo'];
+                                $m->Consumo = $dati['Quantita_Madre'] - $dati['calo_peso'];
+                                $m->Cd_ARMisura = $dati['Cd_ARMisura'];
+                                $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
+                                if (sizeof($umfatt) > 0) {
+                                    $umfatt = $umfatt[0]->UMFatt;
+                                } else $umfatt = 1;
+                                $m->FattoreToUM1 = $umfatt;
+                                $m->Cd_AR = $dati['Cd_AR'];
+                                $m->Descrizione = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
+                                $m->Cd_ARLotto = $dati['Cd_ARLotto'];
+                                $m->Cd_MG = $dati['Cd_MG'];
+                                $m->Cd_MGUbicazione = $dati['Cd_MGUbicazione'];
+                            }
+                        }
+                        session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        session(['\'' . $attivita_bolla->Id_PrBLAttivita . '\'' => $materiale_update]);
+                        session()->save();
+                    }
+
+                    $insert['Id_PrBLAttivita'] = $id;
+                    $insert['Id_PrOLAttivita'] = null;
+                    $insert['Id_PrBLMateriale'] = rand(0, 999999);
+                    $insert['Tipo'] = $dati['Tipo'];
+                    $insert['Consumo'] = $dati['calo_peso'];
+                    $insert['Cd_ARMisura'] = $dati['Cd_ARMisura'];
+                    $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
+                    if (sizeof($umfatt) > 0) {
+                        $umfatt = $umfatt[0]->UMFatt;
+                    } else $umfatt = 1;
+                    $insert['FattoreToUM1'] = $umfatt;
+                    $insert['Cd_AR'] = $dati['Cd_AR'];
+                    $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
+                    $insert['Obbligatorio'] = $dati['Obbligatorio'];
+                    $insert['NotePrBLMateriale'] = 'CALO PESO';
+                    $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
+                    $insert['Cd_MG'] = $dati['Cd_MG'];
+                    $insert['Cd_MGUbicazione'] = $dati['Cd_MGUbicazione'];
+
+
+                    if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
+                        $materiale_update1 = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        $materiale_update1[sizeof($materiale_update1)] = json_decode(json_encode($insert));
+                        session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        session(['\'' . $attivita_bolla->Id_PrBLAttivita . '\'' => $materiale_update1]);
+                        session()->save();
+                    }
+
+
+                    return Redirect::to('dettaglio_bolla/' . $id);
+
+                }
+
             }
 
             if (isset($dati['aggiungi_materiale'])) {
@@ -2645,7 +2777,7 @@ class HomeController extends Controller
                 $attivita_bolle = DB::select('SELECT * from PrBLAttivitaEx Where Id_PrBLAttivita = ' . $id);
 
 
-                if (sizeof($attivita_bolle) > 0) {
+                if (sizeof($attivita_bolle) > 0) {/*
                     $attivita_bolla = $attivita_bolle[0];
 
                     $insert['Id_PrBLAttivita'] = $id;
@@ -2674,6 +2806,38 @@ class HomeController extends Controller
                     }
 
                     DB::table('PRBLMateriale')->insert($insert);
+                    return Redirect::to('dettaglio_bolla/' . $id);*/
+                    $attivita_bolla = $attivita_bolle[0];
+
+                    $insert['Id_PrBLAttivita'] = $id;
+                    $insert['Id_PrOLAttivita'] = null;
+                    $insert['Id_PrBLMateriale'] = rand(0, 999999);
+                    $insert['Tipo'] = $dati['Tipo'];
+                    $insert['Consumo'] = $dati['Quantita'];
+                    $insert['Cd_ARMisura'] = $dati['Cd_ARMisura'];
+                    $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
+                    if (sizeof($umfatt) > 0) {
+                        $umfatt = $umfatt[0]->UMFatt;
+                    } else $umfatt = 1;
+                    $insert['FattoreToUM1'] = $umfatt;
+                    $insert['Cd_AR'] = $dati['Cd_AR'];
+                    $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
+                    $insert['Obbligatorio'] = '1';
+                    $insert['NotePrBLMateriale'] = '';
+                    $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
+                    $insert['Cd_MG'] = $dati['Cd_MG'];
+                    $insert['Cd_MGUbicazione'] = $dati['Cd_MGUbicazione'];
+
+
+                    if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
+                        $materiale_update = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        $materiale_update[sizeof($materiale_update)] = json_decode(json_encode($insert));
+                        session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        session(['\'' . $attivita_bolla->Id_PrBLAttivita . '\'' => $materiale_update]);
+                        session()->save();
+                    }
+
+                    // DB::table('PRBLMateriale')->insert($insert);
                     return Redirect::to('dettaglio_bolla/' . $id);
 
                 }
@@ -2687,7 +2851,7 @@ class HomeController extends Controller
                 $attivita_bolle = DB::select('SELECT * from PrBLAttivitaEx Where Id_PrBLAttivita = ' . $id);
 
 
-                if (sizeof($attivita_bolle) > 0) {
+                if (sizeof($attivita_bolle) > 0) {/*
                     $attivita_bolla = $attivita_bolle[0];
 
                     $insert['Tipo'] = $dati['Tipo'];
@@ -2705,6 +2869,34 @@ class HomeController extends Controller
 
 
                     DB::table('PRBLMateriale')->where('Id_PrBLMateriale', $dati['Id_PrBLMateriale'])->update($insert);
+                    return Redirect::to('dettaglio_bolla/' . $id);*/
+                    $attivita_bolla = $attivita_bolle[0];
+                    if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
+                        $materiale_update = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        foreach ($materiale_update as $m) {
+                            if ($m->Id_PrBLMateriale == $dati['Id_PrBLMateriale']) {
+                                $m->Tipo = $dati['Tipo'];
+                                $m->Consumo = $dati['Quantita'];
+                                $m->Cd_ARMisura = $dati['Cd_ARMisura'];
+                                $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
+                                if (sizeof($umfatt) > 0) {
+                                    $umfatt = $umfatt[0]->UMFatt;
+                                } else $umfatt = 1;
+                                $m->FattoreToUM1 = $umfatt;
+                                $m->Cd_AR = $dati['Cd_AR'];
+                                $m->Descrizione = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
+                                $m->Cd_ARLotto = $dati['Cd_ARLotto'];
+                                $m->Cd_MG = $dati['Cd_MG'];
+                                $m->Cd_MGUbicazione = $dati['Cd_MGUbicazione'];
+                            }
+                        }
+                        session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
+                        session(['\'' . $attivita_bolla->Id_PrBLAttivita . '\'' => $materiale_update]);
+                        session()->save();
+                    }
+
+
+                    //DB::table('PRBLMateriale')->where('Id_PrBLMateriale', $dati['Id_PrBLMateriale'])->update($insert);
                     return Redirect::to('dettaglio_bolla/' . $id);
 
                 }
@@ -2791,9 +2983,14 @@ class HomeController extends Controller
 
 
                     $attivita_bolla->versamenti = DB::select('SELECT * from PrVRAttivitaEx Where Id_PrBLAttivita=' . $id);
-                    $attivita_bolla->materiali = DB::select('SELECT *,(SELECT MG_LottoObbligatorio FROM AR WHERE AR.Cd_AR = PRBLMateriale.Cd_AR) as Obbligatorio from PRBLMateriale Where Id_PrBLAttivita = ' . $id);
+                    $attivita_bolla->materiali = DB::select('SELECT *,(SELECT MG_LottoObbligatorio FROM AR WHERE AR.Cd_AR = PRBLMateriale.Cd_AR) as Obbligatorio from PRBLMateriale Where Cd_AR not in (\'SCLAV\',\'BPN\',\'BPM\',\'BPP\') and Id_PrBLAttivita = ' . $id);
+                    if (!session()->has('\'' . $id . '\'')) {
+                        session(['\'' . $id . '\'' => $attivita_bolla->materiali]);
+                        session()->save();
+                    }
+                    $materiali = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                     $LottiObbligatorio = 0;
-                    foreach ($attivita_bolla->materiali as $m) {
+                    foreach ($materiali as $m) {
                         if ($m->Obbligatorio == 1)
                             if ($m->Cd_ARLotto == null || $m->Cd_ARLotto == '' || $m->Cd_ARLotto == 'null')
                                 $LottiObbligatorio = 1;
@@ -2812,6 +3009,15 @@ class HomeController extends Controller
                             )
                         )
                     ');
+                    $attivita_bolla->scarto = db::select('SELECT
+                        COALESCE(
+                        ((SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and Prvrmateriale.Consumo > 0 and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3)
+                        -
+                        SUM(PRVRAttivita.Quantita))
+                        ,0) as Scarto
+                        FROM PRVRAttivita
+                        WHERE PRVRAttivita.Id_PRBLAttivita = ' . $id . ' AND PRVRAttivita.Quantita > 0 AND PRVRAttivita.Attrezzaggio = 0
+                                            ');
 
                     $bolle = DB::select('SELECT * from PrBLEx Where Id_PrBL = ' . $attivita_bolla->Id_PrBL);
                     if (sizeof($bolle) > 0) {
@@ -2841,7 +3047,7 @@ class HomeController extends Controller
 
 
                                 $operatori = DB::select('SELECT * from Operatore Where CD_Operatore IN (SELECT CD_Operatore from PRRisorsa_Operatore Where Cd_PRRIsorsa = \'' . $utente->Cd_PRRisorsa . '\')');
-                                return View::make('backend.dettaglio_bolla', compact('mese_lettera', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
+                                return View::make('backend.dettaglio_bolla', compact('mese_lettera', 'materiali', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
 
                             }
                         }

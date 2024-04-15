@@ -49,6 +49,7 @@ Route::any('ajax/check_bolla/{Id_PrBLAttivita}', 'AjaxController@check_bolla');
 Route::any('ajax/modifica_pedana_imballaggio/{Id_xWPPD}', 'AjaxController@modifica_pedana_imballaggio');
 Route::any('ajax/dettagli_versdamento/{Id_PrVRAttivita}', 'AjaxController@dettagli_versamento');
 Route::any('ajax/controlla_lotto/{lotto}', 'AjaxController@controlla_lotto');
+Route::any('ajax/controlla_lotto_scar/{lotto}', 'AjaxController@controlla_lotto_scar');
 Route::any('ajax/controlla_lotto_mod/{lotto}/{Id_PrBLMateriale}', 'AjaxController@controlla_lotto_mod');
 Route::any('ajax/visualizza_file/{id_dms}', 'AjaxController@visualizza_file');
 Route::any('ajax/cambia_armisura/{Id_PrBLAttivita}/{cd_armisura}', 'AjaxController@cambia_armisura');

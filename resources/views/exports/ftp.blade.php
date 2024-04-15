@@ -9,6 +9,7 @@
         <th style="font-weight: bold;border:1px solid white;" colspan="1">NumeroOVC</th>
         <th style="font-weight: bold;border:1px solid white;" colspan="1">NumeroDDT</th>
         <th style="font-weight: bold;border:1px solid white;" colspan="1">NumeroOL</th>
+        <th style="font-weight: bold;border:1px solid white;" colspan="1">Note</th>
     </tr>
     </thead>
     <tbody>
@@ -22,6 +23,7 @@
         <td colspan="1" style="border:1px solid white;"><?php echo $r['5']; ?></td>
         <td colspan="1" style="border:1px solid white;"><?php echo $r['6']; ?></td>
         <td colspan="1" style="border:1px solid white;"><?php echo $r['7']; ?></td>
+        <td colspan="1" style="border:1px solid white;"><?php echo $r['8']; ?></td>
     </tr>
     <?php } ?>
 

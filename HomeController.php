@@ -355,7 +355,7 @@ class HomeController extends Controller
                         $insert_pr_materiale['Consumo'] = $m->Consumo;
                         $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                         $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                        $insert_pr_materiale['Sfrido'] = $m->Sfrido;
+                        $insert_pr_materiale['Sfrido'] = 0;
                         $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
                         $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
                         $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
@@ -602,7 +602,7 @@ class HomeController extends Controller
                         $insert_pr_materiale['Consumo'] = $m->Consumo;
                         $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                         $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                        $insert_pr_materiale['Sfrido'] = $m->Sfrido;
+                        $insert_pr_materiale['Sfrido'] = 0;
                         $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
                         $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
                         $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
@@ -2177,7 +2177,7 @@ class HomeController extends Controller
                             }
                             $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                             $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                            $insert_pr_materiale['Sfrido'] = $m->Sfrido;
+                            $insert_pr_materiale['Sfrido'] = 0;
 
                             /*
                             if($m->Tipo == 3) {
@@ -2322,7 +2322,7 @@ class HomeController extends Controller
                             }
                             $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                             $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                            $insert_pr_materiale['Sfrido'] = $m->Sfrido;
+                            $insert_pr_materiale['Sfrido'] = 0;
 
                             /*
                             if($m->Tipo == 3) {

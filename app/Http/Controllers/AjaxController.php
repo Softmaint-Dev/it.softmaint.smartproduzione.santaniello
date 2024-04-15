@@ -114,6 +114,67 @@ class AjaxController extends Controller
         <?php }
     }
 
+    public function controlla_lotto_scar($lotto)
+    {
+        ?>
+        <script type="text/javascript">
+            $('#scarto_articoli_lotto').html('');
+            $('#scarto_magazzini_lotto').html('');
+            $('#scarto_articoli_um').html('');
+        </script>
+        <?php
+        $articoli = DB::select('SELECT AR.Cd_AR,AR.Descrizione from AR JOIN ARLotto ON AR.Cd_AR = ARLotto.Cd_AR and ARLotto.Cd_ARLotto = \'' . $lotto . '\'');
+        if (sizeof($articoli) == 0) { ?>
+            <script type="text/javascript">
+                $('#scarto_articoli_lotto').append('<option value="">Inserire Lotto</option>');
+                $('#scarto_magazzini_lotto').append('<option value="">Magazzini Lotto</option>');
+                $('#scarto_articoli_um').append('<option value="">Inserire Lotto</option>');
+            </script>
+        <?php } else {
+
+            $ararmisura = DB::select('SELECT * from ARARMisura Where Cd_AR  = \'' . $articoli[0]->Cd_AR . '\''); ?>
+            <script type="text/javascript">
+                <?php foreach ($ararmisura as $misura) { ?>
+                $('#scarto_articoli_um').append('<option value="<?php echo $misura->Cd_ARMisura ?>" <?php echo ($misura->DefaultMisura == 1) ? 'selected' : '' ?>><?php echo $misura->Cd_ARMisura ?></option>');
+                <?php } ?>
+            </script>
+
+            <?php foreach ($articoli as $a) { ?>
+                <script type="text/javascript">
+                    $('#scarto_articoli_lotto').append('<option value="<?php echo $a->Cd_AR ?>"><?php echo $a->Cd_AR ?> - <?php echo $a->Descrizione ?></option>');
+                    $('#scarto_inserisci_tipo_materiale').val(2)
+                </script>
+            <?php }
+
+            $magazzini = DB::select('SELECT distinct Cd_MG from MGMov Where Cd_ARLotto = \'' . $lotto . '\'');
+            foreach ($magazzini as $m) { ?>
+                <script type="text/javascript">
+                    $('#scarto_magazzini_lotto').append('<option value="<?php echo $m->Cd_MG ?>" <?php echo ($m->Cd_MG == '00009') ? 'selected' : '' ?>><?php echo $m->Cd_MG ?></option>');
+                </script>
+            <?php }
+
+        }
+
+
+        $colli = DB::select('SELECT * from xWPCollo Where Nr_Collo = \'' . $lotto . '\'');
+        if (sizeof($colli) > 0) { ?>
+            <script type="text/javascript">
+
+                $('#scarto_articoli_lotto').html('');
+                $('#scarto_magazzini_lotto').html('');
+                $('#scarto_articoli_um').html('');
+
+                $('#scarto_articoli_lotto').append('<option value="">SemiLavorato</option>');
+                $('#scarto_magazzini_lotto').append('<option value="">SemiLavorato</option>');
+                $('#scarto_articoli_um').append('<option value="<?php echo $colli[0]->Cd_ARMisura ?>"><?php echo $colli[0]->Cd_ARMisura ?></option>');
+
+
+                $('#scarto_quantita_inserisci_materiale').val(<?php echo $colli[0]->QtaProdotta ?>)
+                $('#scarto_inserisci_tipo_materiale').val(3)
+            </script>
+        <?php }
+    }
+
     public function controlla_lotto_mod($lotto, $Id_PrBLMateriale)
     {
         ?>
@@ -563,7 +624,7 @@ class AjaxController extends Controller
                     Where
                         MGMov.Ini = 0
 						AND MGMov.PartenzaArrivo = \'A\'
-						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
+						and mgmov.Cd_ARLotto like \'%' . $lotto . '%\'
 						and MGMov.Id_PrVRMateriale is not null
 						ORDER BY MGMov.Cd_AR Desc');
 
@@ -595,11 +656,11 @@ class AjaxController extends Controller
                     Where
                         MGMov.Ini = 0
 						AND MGMov.PartenzaArrivo = \'P\'
-						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
+						and mgmov.Cd_ARLotto like \'%' . $lotto . '%\'
 						and MGMov.Id_PrVRMateriale is not null
 						ORDER BY MGMov.Cd_AR Desc');
 
-        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,\'\' as Note,
+        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc,DOTes.NumeroDoc,DOTes.Cd_Do,iif(d2.numerodoc is not null,Concat(\'DDT\',d2.numerodoc),\'\') as Note,
                                        CASE
                                        WHEN (DOTes.Cd_Do = \'OVC\')
                                        THEN
@@ -611,8 +672,9 @@ class AjaxController extends Controller
                                        END as NumeroOL
                                        FROM DORig
                                        LEFT JOIN DOTes ON DOTes.Id_DoTes = DORig.Id_DOTes
+                                       LEFT JOIN dorig d2 on d2.id_dorig_evade = DORig.id_dorig
                                        WHERE
-                                       DORig.Cd_ARLotto = \'' . $lotto . '\'
+                                       DORig.Cd_ARLotto  like \'%' . $lotto . '%\'
                                        AND DOTes.Cd_Do IN (\'OVC\')');
         ?>
         <?php /*<h3 class="card-title" id="info_ol" style="width: 100%;text-align: center"><strong>Articolo</strong>
@@ -679,7 +741,7 @@ class AjaxController extends Controller
     function scarica_excel_lotto($lotto)
     {
 
-        $carico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL
+        $carico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PRVRAttivita.NotePRVRAttivita as Note
                     FROM
                         MGMov
                         Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
@@ -707,10 +769,11 @@ class AjaxController extends Controller
                     Where
                         MGMov.Ini = 0
 						AND MGMov.PartenzaArrivo = \'A\'
-						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
-						and MGMov.Id_PrVRMateriale is not null');
+						and mgmov.Cd_ARLotto  like \'%' . $lotto . '%\'
+						and MGMov.Id_PrVRMateriale is not null
+						ORDER BY MGMov.Cd_AR Desc');
 
-        $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL
+        $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,- MGMov.Quantita as Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PRVRAttivita.NotePRVRAttivita as Note
                     FROM
                         MGMov
                         Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
@@ -738,36 +801,23 @@ class AjaxController extends Controller
                     Where
                         MGMov.Ini = 0
 						AND MGMov.PartenzaArrivo = \'P\'
-						and mgmov.Cd_ARLotto = \'' . $lotto . '\'
-						and MGMov.Id_PrVRMateriale is not null ');
+						and mgmov.Cd_ARLotto like \'%' . $lotto . '%\'
+						and MGMov.Id_PrVRMateriale is not null
+						ORDER BY MGMov.Cd_AR Desc');
 
-        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc as DataMov,
-                                       CASE
-                                       WHEN (DOTes.Cd_Do = \'OVC\')
-                                       THEN
-                                       DOTes.NumeroDoc
-                                       ELSE NULL
-                                       END as NumeroOVC,
-                                       CASE
-                                       WHEN (DOTes.Cd_Do = \'DDT\')
-                                       THEN
-                                       DOTes.NumeroDoc
-                                       ELSE NULL
-                                       END as NumeroDDT,
+        $documenti = DB::SELECT('SELECT DORig.Cd_AR,DORig.Cd_ARLotto,Dorig.Qta as Quantita,DORig.Cd_ARMisura,DOTes.DataDoc as DataMov ,DOTes.NumeroDoc as NumeroOVC,DOTes.Cd_Do,iif(d2.numerodoc is not null,Concat(\'DDT\',d2.numerodoc),\'\') as Note,\'\' as NumeroDDT,
                                        CASE
                                        WHEN (DOTes.Cd_Do = \'OVC\')
                                        THEN
                                        (SELECT Numero from PRol where Id_PROl in (SELECT TOP 1 Id_PROL FROM PROLDoRig where Id_DoRig = DORig.Id_DORig))
-                                       WHEN (DOTes.Cd_Do = \'DDT\')
-                                       THEN
-                                       (SELECT Numero from PRol where Id_PROl in (SELECT TOP 1 Id_PROL FROM PROLDoRig where Id_DoRig = DORig.Id_DORig_Evade))
                                        ELSE NULL
                                        END as NumeroOL
                                        FROM DORig
                                        LEFT JOIN DOTes ON DOTes.Id_DoTes = DORig.Id_DOTes
+                                       LEFT JOIN dorig d2 on d2.id_dorig_evade = DORig.id_dorig
                                        WHERE
-                                       DORig.Cd_ARLotto = \'' . $lotto . '\'
-                                       AND DOTes.Cd_Do IN (\'DDT\',\'OVC\')');
+                                       DORig.Cd_ARLotto like \'%' . $lotto . '%\'
+                                       AND DOTes.Cd_Do IN (\'OVC\')');
 
         $localFilePath = storage_path('/' . $lotto . '.xls');
 
@@ -789,7 +839,7 @@ class AjaxController extends Controller
 
         foreach ($data as $row) {
 
-            $row2[] = array(strval($row->Cd_AR), strval($row->Cd_ARLotto), strval($row->Quantita), strval($row->Cd_ARMisura), strval($row->DataMov), strval($row->NumeroOVC), strval($row->NumeroDDT), strval($row->NumeroOL));
+            $row2[] = array(strval($row->Cd_AR), strval($row->Cd_ARLotto), strval($row->Quantita), strval($row->Cd_ARMisura), strval($row->DataMov), strval($row->NumeroOVC), strval($row->NumeroDDT), strval($row->NumeroOL), strval($row->Note));
         }
 
         return Excel::download(new ExcelExport($row2), $lotto . '.xls');

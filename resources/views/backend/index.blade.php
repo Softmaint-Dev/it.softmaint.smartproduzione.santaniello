@@ -57,7 +57,8 @@
 
                                 <tr>
                                     <td>
-                                        Numero Ordine : <b><?php echo ($b->NumeroDoc) ? $b->NumeroDoc:'N/D'; ?></b> Ordine di Lavorazione:
+                                        Numero Ordine : <b><?php echo ($b->NumeroDoc) ? $b->NumeroDoc : 'N/D'; ?></b>
+                                        Ordine di Lavorazione:
                                         <b><?php echo $b->Id_PrOL ?></b> &nbsp;&nbsp;&nbsp;Bolla :
                                         <b><?php echo $b->Id_PrBLAttivita ?></b><br>
                                         <small><?php echo $b->Articolo ?></small>
@@ -75,8 +76,6 @@
                                         <a style="width:100%;"
                                            href="<?php echo URL::asset('dettaglio_bolla/'.$b->Id_PrBLAttivita) ?>"
                                            class="btn btn-success btn-sm">Dettagli</a>
-                                        <a style="width:100%;margin-top:5px;" class="btn btn-primary btn-sm"
-                                           onclick="versamenti(<?php echo $b->Id_PrBLAttivita ?>)">Versamenti</a>
                                     </td>
                                 </tr>
                                 <?php } ?>
@@ -119,7 +118,7 @@
     }
 
 
-    $('#numero_bolla').keyup(function(event) {
+    $('#numero_bolla').keyup(function (event) {
         if (event.which === 13) {
             gotobolla()
         }
@@ -129,10 +128,11 @@
 
 
 <style>
-    td{
-        font-size:11px;
+    td {
+        font-size: 11px;
     }
-    th{
-        font-size:11px;
+
+    th {
+        font-size: 11px;
     }
 </style>
