@@ -2648,7 +2648,7 @@ class HomeController extends Controller
                     $insert['NotePrBLMateriale'] = '';
                     $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
                     $insert['Cd_MG'] = $dati['Cd_MG'];
-                    $insert['Cd_MGUbicazione'] = '';
+                    $insert['Cd_MGUbicazione'] = NULL;
 
 
                     if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
@@ -3009,15 +3009,20 @@ class HomeController extends Controller
                             )
                         )
                     ');
+                    $scarto_attuale = DB::SELECT('SELECT SUM(QtaProdotta) AS QtaProdotta FROM xWPCollo where Id_PrBLAttivita = \'' . $id . '\' and QtaVersata < QtaProdotta')[0]->QtaProdotta;
+                    foreach ($materiali as $m) {
+                        if ($m->NotePrVRMateriale == null || $m->NotePrVRMateriale == '' || $m->NotePrVRMateriale == 'null')
+                            $scarto_attuale = $m->Consumo - $scarto_attuale;
+                    }
                     $attivita_bolla->scarto = db::select('SELECT
                         COALESCE(
                         ((SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and Prvrmateriale.Consumo > 0 and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3)
                         -
                         SUM(PRVRAttivita.Quantita))
-                        ,0) as Scarto
+                        ,0) + ' . $scarto_attuale . ' as Scarto
                         FROM PRVRAttivita
                         WHERE PRVRAttivita.Id_PRBLAttivita = ' . $id . ' AND PRVRAttivita.Quantita > 0 AND PRVRAttivita.Attrezzaggio = 0
-                                            ');
+                        ');
 
                     $bolle = DB::select('SELECT * from PrBLEx Where Id_PrBL = ' . $attivita_bolla->Id_PrBL);
                     if (sizeof($bolle) > 0) {

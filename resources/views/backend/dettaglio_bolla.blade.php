@@ -2011,7 +2011,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label>Quantita Scarto Calcolata</label>
-                            <input type="number" class="form-control" id="qta_scarto_cal" name="qta_scarto_cal" value="<?php echo $attivita_bolla->scarto[0]->Scarto;?>" readonly>
+                            <input type="number" class="form-control" id="qta_scarto_cal" name="qta_scarto_cal"
+                                   value="<?php echo nuumber_format($attivita_bolla->scarto[0]->Scarto,2,'','.');?>"
+                                   readonly>
                         </div>
                         <div class="col-md-12">
                             <label>Lotto</label>
@@ -2591,13 +2593,14 @@
 
 <script type="text/javascript">
 
-    function change_sclav(){
+    function change_sclav() {
         scarto_calcolato = $('#scarto_quantita_inserisci_materiale').val();
         sclav = $('#qta_scarto_cal').val();
-        sclav = sclav-scarto_calcolato;
+        sclav = sclav - scarto_calcolato;
         $('#quantita_scarto_sclav').val(sclav);
 
     }
+
     id_riga_scarto_attrezzaggio = 1;
     qta_ultimo_collo = 0;
     umfatt = 1;
