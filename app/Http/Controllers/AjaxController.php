@@ -401,14 +401,14 @@ class AjaxController extends Controller
 
                     if ($OLAttivita->Cd_PrAttivita == 'SALDATURA') {
 
-                        $nome_file = StampaController::motore_industry($id, $colli[0]->Nr_Collo, 3);
+                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa,$id, $colli[0]->Nr_Collo, 3);
                         if ($nome_file != '') {
                             array_push($nomi_colli, $nome_file);
                         }
 
                     } else {
 
-                        $nome_file = StampaController::motore_industry($id, $colli[0]->Nr_Collo, 1);
+                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa,$id, $colli[0]->Nr_Collo, 1);
                         if ($nome_file != '') {
                             array_push($nomi_colli, $nome_file);
                         }
@@ -444,7 +444,7 @@ class AjaxController extends Controller
 
                 if ($c->Stampato == 0) {
 
-                    $nome_file = StampaController::motore_industry($id, $c->Nr_Collo, $tipologia);
+                    $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa,$id, $c->Nr_Collo, $tipologia);
                     if ($nome_file != '') {
 
                         DB::update('update xWPCollo set Stampato = 1 where Nr_Collo = ' . $c->Nr_Collo);

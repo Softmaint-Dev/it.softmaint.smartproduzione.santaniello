@@ -464,7 +464,7 @@ class HomeController extends Controller
 
             $id = $dati['Id_PrBLAttivita'];
 
-            $nome_file = StampaController::motore_industry($id, $dati['Id_xWPPD'], 6);
+            $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $dati['Id_xWPPD'], 6);
             if ($nome_file != '') {
                 $nomi_colli = array();
                 while ($dati['Copie'] > 0) {
@@ -711,7 +711,7 @@ class HomeController extends Controller
 
             $id = $dati['Id_PrBLAttivita'];
 
-            $nome_file = StampaController::motore_industry($id, $dati['Id_xWPPD'], 5);
+            $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $dati['Id_xWPPD'], 5);
             if ($nome_file != '') {
                 $nomi_colli = array();
                 while ($dati['Copie'] > 0) {
@@ -1133,7 +1133,7 @@ class HomeController extends Controller
 
 
                     $nomi_colli = array();
-                    $nome_file = StampaController::motore_industry($id, $id_pedana, 6);
+                    $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $id_pedana, 6);
                     if ($nome_file != '') {
 
                         return Redirect::to('dettaglio_bolla/' . $id . '?stampa=' . $nome_file);
@@ -1327,7 +1327,7 @@ class HomeController extends Controller
                     }
                 }
 
-                $nome_file = StampaController::motore_industry($id, $update['Nr_Collo'], $tipologia);
+                $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $update['Nr_Collo'], $tipologia);
                 if ($nome_file != '') {
                     $nomi_colli = array();
                     $dati['Copie'] = 1;
@@ -1337,7 +1337,7 @@ class HomeController extends Controller
                     }
                 }
 
-                return Redirect::to('dettaglio_bolla/' . $id . '?stampa=' . implode(',', $nomi_colli));
+                return Redirect::to('dettaglio_bolla/' . $id);
 
             }
 
@@ -1571,7 +1571,7 @@ class HomeController extends Controller
                         }
                     }
                     foreach ($colli as $c) {
-                        $nome_file = StampaController::motore_industry($id, $c->Nr_Collo, $tipologia);
+                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $c->Nr_Collo, $tipologia);
                         if ($nome_file != '') {
                             $dati['Copie'] = $c->Copie;
                             while ($dati['Copie'] > 0) {
@@ -1581,7 +1581,7 @@ class HomeController extends Controller
                         }
                     }
 
-                    return Redirect::to('dettaglio_bolla/' . $id . '?stampa=' . implode(',', $nomi_colli));
+                    return Redirect::to('dettaglio_bolla/' . $id);
 
                 }
 
@@ -1635,7 +1635,7 @@ class HomeController extends Controller
                             $dati['Copie'] -= 1;
                         }
 
-                        return Redirect::to('dettaglio_bolla/' . $id . '?stampa=' . implode(',', $nomi_colli));
+                        return Redirect::to('dettaglio_bolla/' . $id);
 
                     } else {
                         return Redirect::to('dettaglio_bolla/' . $id);
@@ -1722,7 +1722,7 @@ class HomeController extends Controller
                         $tipologia = 0;
                 }
 
-                $nome_file = StampaController::motore_industry($id, $dati['Nr_Collo'], $tipologia);
+                $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $dati['Nr_Collo'], $tipologia);
                 if ($nome_file != '') {
                     $nomi_colli = array();
                     $dati['Copie'] = 1;
@@ -1748,7 +1748,7 @@ class HomeController extends Controller
 
                 DB::table('xWPCollo')->where('Id_xWPCollo', $id_collo)->update($dati);
 
-                return Redirect::to('dettaglio_bolla/' . $id . '?stampa=' . implode(',', $nomi_colli));
+                return Redirect::to('dettaglio_bolla/' . $id);
 
 
             }
@@ -1821,14 +1821,14 @@ class HomeController extends Controller
 
                     if ($OLAttivita->Cd_PrAttivita == 'SALDATURA') {
 
-                        $nome_file = StampaController::motore_industry($id, $dati['Nr_Collo'], 3);
+                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $dati['Nr_Collo'], 3);
                         if ($nome_file != '') {
                             array_push($nomi_colli, $nome_file);
                         }
 
                     } else {
 
-                        $nome_file = StampaController::motore_industry($id, $dati['Nr_Collo'], 1);
+                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $dati['Nr_Collo'], 1);
                         if ($nome_file != '') {
                             array_push($nomi_colli, $nome_file);
                         }
@@ -1853,7 +1853,7 @@ class HomeController extends Controller
                 DB::table('xWPCollo')->where('Id_xWPCollo', $id_collo)->update($dati);
 
                 if (sizeof($nomi_colli) > 0) {
-                    return Redirect::to('dettaglio_bolla/' . $id . '?stampa=' . implode(',', $nomi_colli));
+                    return Redirect::to('dettaglio_bolla/' . $id);
                 } else {
                     return Redirect::to('dettaglio_bolla/' . $id);
 
@@ -2030,14 +2030,14 @@ class HomeController extends Controller
 
                             if ($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO') {
 
-                                $nome_file = StampaController::motore_industry($id, $colli[0]->Nr_Collo, 0);
+                                $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $colli[0]->Nr_Collo, 0);
                                 if ($nome_file != '') {
                                     array_push($nomi_colli, $nome_file);
                                 }
 
                             } else {
 
-                                $nome_file = StampaController::motore_industry($id, $colli[0]->Nr_Collo, 1);
+                                $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $colli[0]->Nr_Collo, 1);
                                 if ($nome_file != '') {
                                     array_push($nomi_colli, $nome_file);
                                 }
@@ -2059,7 +2059,7 @@ class HomeController extends Controller
 
                         if ($c->Stampato == 0) {
 
-                            $nome_file = StampaController::motore_industry($id, str_replace(' ', '', $c->Nr_Collo), $tipologia);
+                            $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, str_replace(' ', '', $c->Nr_Collo), $tipologia);
                             if ($nome_file != '') {
 
                                 DB::update('update xWPCollo set Stampato = 1 where Nr_Collo = \'' . str_replace(' ', '', $c->Nr_Collo) . '\'');
@@ -2077,7 +2077,7 @@ class HomeController extends Controller
 
                     if (sizeof($nomi_colli) > 0) {
 
-                        return Redirect::to('dettaglio_bolla/' . $id . '?stampa=' . implode(',', $nomi_colli));
+                        return Redirect::to('dettaglio_bolla/' . $id);
 
                     } else {
                         return Redirect::to('dettaglio_bolla/' . $id);
@@ -3359,7 +3359,7 @@ class HomeController extends Controller
             }
         }
 
-        $nome_file = StampaController::motore_industry($id, $param1, $tipologia, $codice_stampa);
+        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $param1, $tipologia, $codice_stampa);
 
         return Redirect::to('upload/' . $nome_file . '.pdf');
 
