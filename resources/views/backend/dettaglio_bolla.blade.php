@@ -2222,7 +2222,7 @@
                         <div class="col-md-6">
                             <label>Quantità Madre</label>
                             <input class="form-control" type="number" step="0.01"
-                                   value="<?php echo number_format($m->Consumo,2)?>"
+                                   value="<?php echo number_format($m->Consumo,2,'','.')?>"
                                    id="quantita_inserisci_materiale_<?php echo $m->Id_PrBLMateriale?>"
                                    name="Quantita_Madre"
                                    placeholder="Qta" required readonly>
