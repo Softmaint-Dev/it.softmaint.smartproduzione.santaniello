@@ -3011,7 +3011,7 @@ class HomeController extends Controller
                     ');
                     $scarto_attuale = DB::SELECT('SELECT SUM(QtaProdotta) AS QtaProdotta FROM xWPCollo where Id_PrBLAttivita = \'' . $id . '\' and QtaVersata < QtaProdotta')[0]->QtaProdotta;
                     foreach ($materiali as $m) {
-                        if ($m->NotePrVRMateriale == null || $m->NotePrVRMateriale == '' || $m->NotePrVRMateriale == 'null')
+                        if ($m->NotePrBLMateriale == null || $m->NotePrBLMateriale == '' || $m->NotePrBLMateriale == 'null')
                             $scarto_attuale = $m->Consumo - $scarto_attuale;
                     }
                     $attivita_bolla->scarto = db::select('SELECT
