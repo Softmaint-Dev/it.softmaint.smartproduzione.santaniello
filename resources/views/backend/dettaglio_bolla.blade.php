@@ -2012,7 +2012,7 @@
                         <div class="col-md-12">
                             <label>Quantita Scarto Calcolata</label>
                             <input type="number" class="form-control" id="qta_scarto_cal" name="qta_scarto_cal"
-                                   value="<?php echo nuumber_format($attivita_bolla->scarto[0]->Scarto,2,'','.');?>"
+                                   value="<?php echo number_format($attivita_bolla->scarto[0]->Scarto,2,'','.');?>"
                                    readonly>
                         </div>
                         <div class="col-md-12">
