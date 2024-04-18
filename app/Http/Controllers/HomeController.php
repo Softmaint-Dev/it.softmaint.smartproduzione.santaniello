@@ -3014,12 +3014,12 @@ class HomeController extends Controller
                         if ($m->NotePrBLMateriale == null || $m->NotePrBLMateriale == '' || $m->NotePrBLMateriale == 'null')
                             $scarto_attuale = $m->Consumo - $scarto_attuale;
                     }
-                    if($scarto_attuale == NULL)
+                    if ($scarto_attuale == NULL)
                         $scarto_attuale = 0;
 
                     $attivita_bolla->scarto = db::select('SELECT
                         COALESCE(
-                        ((SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and Prvrmateriale.Consumo > 0 and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3)
+                        ((SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and Prvrmateriale.Consumo > 0 and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3 AND PRVRMateriale.NotePrVRMateriale not like \'%CALO%PESO%\')
                         -
                         SUM(PRVRAttivita.Quantita))
                         ,0) + ' . $scarto_attuale . ' as Scarto
