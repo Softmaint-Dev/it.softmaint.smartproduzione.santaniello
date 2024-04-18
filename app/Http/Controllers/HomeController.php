@@ -2662,7 +2662,7 @@ class HomeController extends Controller
                     $insert['Id_PrBLMateriale'] = rand(0, 999999);
                     $insert['Cd_AR'] = $dati['articolo_scarto'];
                     $insert['Consumo'] = $dati['quantita_scarto_sclav'];
-                    $insert['Cd_ARLotto'] = '';
+                    $insert['Cd_ARLotto'] = NULL;
                     $insert['Obbligatorio'] = DB::select('SELECT COALESCE(MG_LottoObbligatorio,0) as ciao FROM AR WHERE AR.Cd_AR = \'' . $dati['articolo_scarto'] . '\' ')[0]->ciao;
 
                     if (session()->has('\'' . $attivita_bolla->Id_PrBLAttivita . '\'')) {
