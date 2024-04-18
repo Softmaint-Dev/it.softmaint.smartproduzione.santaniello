@@ -122,10 +122,10 @@ class StampaController extends Controller
             case 'IMB03':
             case 'IMB04':
             case 'IMB.V':
-                $stampante = 'stampante2';
+                $stampante = 'stampante1';
                 break;
             default:
-                $stampante = 'stampante1';
+                $stampante = 'stampante2';
         }
 
         if (!is_dir('upload/')) {
