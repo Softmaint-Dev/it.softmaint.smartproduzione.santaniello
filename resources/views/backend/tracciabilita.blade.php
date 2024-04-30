@@ -83,6 +83,10 @@
         window.open("<?php echo URL::asset('ajax/scarica_excel_lotto') ?>/" + lotto);
     }
 
+    function check_ol(ol) {
+        window.open("<?php echo URL::asset('/view_ol') ?>/" + ol);
+    }
+
     /*
 
     /* function cerca1(ProlAttivita){

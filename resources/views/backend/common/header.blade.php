@@ -27,13 +27,13 @@
     <link href="<?php echo URL::asset('backend/plugins/keyboard/css/keyboard.css') ?>" rel="stylesheet">
     <link href="<?php echo URL::asset('backend/plugins/keyboard/css/keyboard-previewkeyset.css') ?>" rel="stylesheet">
 
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- css for the preview keyset extension -->
     <style>
-                 
 
-      
+
+
         .inline {
             max-width: 400px;
             margin: auto;

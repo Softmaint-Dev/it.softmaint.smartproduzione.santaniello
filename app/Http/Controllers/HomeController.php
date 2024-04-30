@@ -3418,6 +3418,66 @@ class HomeController extends Controller
         }
     }
 
+    public static function view_ol(Request $request, $id_prol)
+    {
+        if (!session()->has('utente')) {
+            return Redirect::to('login');
+        }
+
+        if (session()->has('utente')) {
+            $utente = session('utente');
+            $risorsa = session('risorsa');
+            $dati = $request->all();
+            $numero_ol = DB::SELECT('SELECT * FROM PROL where id_prol = ' . $id_prol);
+            if (sizeof($numero_ol) > 0) {
+                $numero_ol = $numero_ol[0]->Numero;
+                $consumi = DB::select('SELECT
+                                            Id_PrVRAttivita,
+                                            (SELECT Cd_PrAttivita FROM PROLAttivita WHERE Id_PrOLAttivita = PRVRMateriale.Id_PrOLAttivita) as Attivita,Tipo,Cd_AR,Cd_ARLotto,Cd_ARMisura,ABS(Consumo) as Consumo,NotePRVRMateriale
+                                            FROM PRVRMateriale
+                                            WHERE Id_PRVRAttivita IN (SELECT Id_PRVRAttivita FROM PRVRAttivita
+                                            where Id_PRBLAttivita in (select Id_PrBLAttivita from PRBLAttivita
+                                            where Id_PrOLAttivita in (SELECT Id_PrOLAttivita FROM PROLAttivita WHERE Id_PrOL = ' . $id_prol . ')
+                                                )
+                                            )');
+                if (sizeof($consumi) > 0) {
+                    $semilavorati = DB::SELECT('SELECT
+                    Id_PrVRAttivita,(SELECT Cd_PrAttivita FROM PROLAttivita WHERE Id_PrOLAttivita = PRVRMateriale.Id_PrOLAttivita) as Attivita,Tipo,Cd_AR,Cd_ARLotto,Cd_ARMisura,ABS(Consumo) as Consumo,NotePRVRMateriale
+                    FROM PRVRMateriale
+                    WHERE Id_PRVRAttivita IN (SELECT Id_PRVRAttivita FROM PRVRAttivita
+                        where Id_PRBLAttivita in (select Id_PrBLAttivita from PRBLAttivita
+                            where Id_PrOLAttivita in (
+                                SELECT Id_PrOLAttivita
+                                FROM PRVRMateriale
+
+                                WHERE Cd_ARLotto in (SELECT Cd_ARLotto
+                                    FROM PRVRMateriale
+                                    WHERE Id_PRVRAttivita IN (SELECT Id_PRVRAttivita FROM PRVRAttivita
+                                    where Id_PRBLAttivita in (select Id_PrBLAttivita from PRBLAttivita
+                                    where Id_PrOLAttivita in (SELECT Id_PrOLAttivita FROM PROLAttivita WHERE Id_PrOL =  ' . $id_prol . ')
+                                        )
+                                )
+                            )
+                            AND Tipo = 0
+                            AND Cd_AR IN
+                                (
+                                SELECT Cd_AR
+                                FROM PRVRMateriale
+                                WHERE Id_PRVRAttivita IN (SELECT Id_PRVRAttivita FROM PRVRAttivita
+                                where Id_PRBLAttivita in (select Id_PrBLAttivita from PRBLAttivita
+                                where Id_PrOLAttivita in (SELECT Id_PrOLAttivita FROM PROLAttivita WHERE Id_PrOL = ' . $id_prol . ')
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )');
+                    return View::make('backend.view_ol', compact('numero_ol', 'consumi', 'semilavorati'));
+                }
+            }
+        }
+    }
+
     function convertPropNamesLower($obj)
     {
         return (object)array_change_key_case((array)$obj, CASE_LOWER);

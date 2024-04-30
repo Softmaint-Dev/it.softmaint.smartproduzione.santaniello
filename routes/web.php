@@ -43,6 +43,7 @@ Route::any('logistic_crea_documento', 'HomeController@logistic_crea_documento');
 Route::any('logistic_evadi_documento', 'HomeController@logistic_evadi_documento');
 Route::any('stampa_libera/{id}/{codice_stampa}', 'HomeController@stampa_libera');
 Route::any('tracciabilita', 'HomeController@tracciabilita');
+Route::any('view_ol/{id_prol}', 'HomeController@view_ol');
 
 Route::any('ajax/lista_versamenti/{Id_PrBLAttivita}', 'AjaxController@lista_versamenti');
 Route::any('ajax/check_bolla/{Id_PrBLAttivita}', 'AjaxController@check_bolla');

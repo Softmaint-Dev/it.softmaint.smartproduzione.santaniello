@@ -401,14 +401,14 @@ class AjaxController extends Controller
 
                     if ($OLAttivita->Cd_PrAttivita == 'SALDATURA') {
 
-                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa,$id, $colli[0]->Nr_Collo, 3);
+                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $colli[0]->Nr_Collo, 3);
                         if ($nome_file != '') {
                             array_push($nomi_colli, $nome_file);
                         }
 
                     } else {
 
-                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa,$id, $colli[0]->Nr_Collo, 1);
+                        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $colli[0]->Nr_Collo, 1);
                         if ($nome_file != '') {
                             array_push($nomi_colli, $nome_file);
                         }
@@ -444,7 +444,7 @@ class AjaxController extends Controller
 
                 if ($c->Stampato == 0) {
 
-                    $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa,$id, $c->Nr_Collo, $tipologia);
+                    $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $c->Nr_Collo, $tipologia);
                     if ($nome_file != '') {
 
                         DB::update('update xWPCollo set Stampato = 1 where Nr_Collo = ' . $c->Nr_Collo);
@@ -596,7 +596,7 @@ class AjaxController extends Controller
     function load_tracciabilita($lotto)
     {
 
-        $carico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PRVRAttivita.NotePRVRAttivita as Note
+        $carico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PROL.Id_PrOL,PRVRAttivita.NotePRVRAttivita as Note
                     FROM
                         MGMov
                         Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
@@ -628,11 +628,11 @@ class AjaxController extends Controller
 						and MGMov.Id_PrVRMateriale is not null
 						ORDER BY MGMov.Cd_AR Desc');
 
-        $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PRVRAttivita.NotePRVRAttivita as Note
+        $scarico = DB::SELECT('	SELECT MGMov.Cd_AR,MGMov.Cd_ARLotto,MGMov.Quantita,ARARMisura.Cd_ARMisura,Mgmov.DataMov,DORig.NumeroDoc as NumeroOVC,DDT.NumeroDoc as NumeroDDT,PROL.Numero as NumeroOL,PROL.Id_PrOL,PRVRAttivita.NotePRVRAttivita as Note
                     FROM
                         MGMov
                         Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
-						LEFT  JOIN PRVRMateriale ON MGMov.Id_PrVRMateriale = PRVRMateriale.Id_PRVRMateriale
+						LEFT  JOIN PRVRMateriale ON MGMov.Id_PrVRMateriale = PRVRMateriale.Id_PRVRMateriale and PRVRMateriale.Tipo != 0 and PRVRMateriale.Tipo != 3
 						LEFT  JOIN PRVRAttivita ON PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
                         Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
                         Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
@@ -669,7 +669,7 @@ class AjaxController extends Controller
                                        THEN
                                        (SELECT Numero from PRol where Id_PROl in (SELECT TOP 1 Id_PROL FROM PROLDoRig where Id_DoRig = DORig.Id_DORig_Evade))
                                        ELSE NULL
-                                       END as NumeroOL
+                                       END as NumeroOL,(SELECT Id_PROL from PRol where Id_PROl in (SELECT TOP 1 Id_PROL FROM PROLDoRig where Id_DoRig = DORig.Id_DORig)) as Id_PrOL
                                        FROM DORig
                                        LEFT JOIN DOTes ON DOTes.Id_DoTes = DORig.Id_DOTes
                                        LEFT JOIN dorig d2 on d2.id_dorig_evade = DORig.id_dorig
@@ -695,7 +695,7 @@ class AjaxController extends Controller
                         DOCUMENTO
                     </li>
                     <?php foreach ($documenti as $i) { ?>
-                        <li class="list-group-item">
+                        <li class="list-group-item" onclick="check_ol(<?php echo ($i->Id_PrOL) ? $i->Id_PrOL : 0; ?>)">
                             <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' ' . $i->Cd_Do . '(<strong>' . $i->NumeroDoc . '</strong>)  Numero OL ( <strong>' . $i->NumeroOL . '</strong> ) Note ( <strong>' . $i->Note . '</strong> )'; ?>
                         </li>
                     <?php } ?>
@@ -708,7 +708,7 @@ class AjaxController extends Controller
                     </li>
 
                     <?php foreach ($carico as $i) { ?>
-                        <li class="list-group-item">
+                        <li class="list-group-item" onclick="check_ol(<?php echo ($i->Id_PrOL) ? $i->Id_PrOL : 0; ?>)">
                             <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' OL( <strong>' . $i->NumeroOL . '</strong> ) DDT( <strong>' . $i->NumeroDDT . '</strong> ) OVC( <strong>' . $i->NumeroOVC . '</strong> ) Note ( <strong>' . $i->Note . '</strong> )'; ?>
                         </li>
                     <?php } ?>
@@ -721,7 +721,7 @@ class AjaxController extends Controller
                     </li>
 
                     <?php foreach ($scarico as $i) { ?>
-                        <li class="list-group-item">
+                        <li class="list-group-item" onclick="check_ol(<?php echo ($i->Id_PrOL) ? $i->Id_PrOL : 0; ?>)">
                             <?php echo $i->Cd_ARLotto . '(' . $i->Cd_AR . ') - ' . number_format($i->Quantita, 2, ',', ' ') . ' ' . $i->Cd_ARMisura . ' OL( <strong>' . $i->NumeroOL . '</strong> ) DDT( <strong>' . $i->NumeroDDT . '</strong> ) OVC( <strong>' . $i->NumeroOVC . '</strong> ) Note ( <strong>' . $i->Note . '</strong> )'; ?>
                         </li>
                     <?php } ?>
@@ -777,7 +777,7 @@ class AjaxController extends Controller
                     FROM
                         MGMov
                         Left  Join MGMovInt 	On MGMov.Id_MGMovInt 			= MGMovInt.Id_MGMovInt
-						LEFT  JOIN PRVRMateriale ON MGMov.Id_PrVRMateriale = PRVRMateriale.Id_PRVRMateriale
+						LEFT  JOIN PRVRMateriale ON MGMov.Id_PrVRMateriale = PRVRMateriale.Id_PRVRMateriale and PRVRMateriale.Tipo != 0 and PRVRMateriale.Tipo != 3
 						LEFT  JOIN PRVRAttivita ON PRVRAttivita.Id_PRVRAttivita = PRVRMateriale.Id_PRVRAttivita
                         Left  Join PrBLAttivita  on PrBLAttivita.Id_PrBLAttivita = PRVRAttivita.Id_PrBLAttivita
                         Left  Join PrOLAttivita  on PrBLAttivita.Id_PrOLAttivita = PrOLAttivita.Id_PrOLAttivita
