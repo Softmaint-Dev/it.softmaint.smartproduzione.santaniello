@@ -575,6 +575,10 @@
                                                             <td>
                                                                 <a style="float:left;margin-left:5px;"
                                                                    class="btn btn-secondary btn-sm"
+                                                                   onclick="$('#modal_stampa_etichetta_<?php echo $m->Id_PrBLMateriale ?>').modal('show');">
+                                                                    Stampa</a>
+                                                                <a style="float:left;margin-left:5px;"
+                                                                   class="btn btn-secondary btn-sm"
                                                                    onclick="$('#modal_calo_peso_<?php echo $m->Id_PrBLMateriale ?>').modal('show');">Aggiungi
                                                                     Calo Peso</a>
                                                                 <a style="float:left;margin-left:5px;"
@@ -2178,8 +2182,8 @@
                     <input type="hidden" name="Id_PrBLMateriale" id="Id_PrBLMateriale"
                            value="<?php echo $m->Id_PrBLMateriale ?>">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-                    <input style="float:left;" class="btn btn-primary" type="submit" name="modifica_materiale"
-                           value="Modifica Materiale">
+                    <input style="float:left;" class="btn btn-primary" type="submit" name="stampa_materia_prima"
+                           value="Stampa Materiale">
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -2199,6 +2203,105 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Calo Peso </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Lotto</label>
+                            <input class="form-control" type="text" name="Cd_ARLotto"
+                                   id="materiale_<?php echo $m->Id_PrBLMateriale; ?>"
+                                   value="<?php echo $m->Cd_ARLotto; ?>"
+                                   placeholder="Lotto Materiale"
+                                   readonly>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Cd_AR</label>
+                            <input name="Cd_AR" class="form-control" value="<?php echo $m->Cd_AR?>"
+                                   id="articoli_lotto_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Quantità Madre</label>
+                            <input class="form-control" type="number" step="0.01"
+                                   value="<?php echo number_format($m->Consumo,2,'.','')?>"
+                                   id="quantita_inserisci_materiale_<?php echo $m->Id_PrBLMateriale?>"
+                                   name="Quantita_Madre"
+                                   placeholder="Qta" required readonly>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <label>UM</label>
+                            <input class="form-control" value="<?php echo $m->Cd_ARMisura?>"
+                                   id="articoli_um_old_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Calo Peso</label>
+                            <input class="form-control" type="number" step="0.01"
+                                   id="calo_peso_<?php echo $m->Id_PrBLMateriale?>" name="calo_peso"
+                                   placeholder="Calo Peso" required>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <label>UM</label>
+                            <input name="Cd_ARMisura" class="form-control" value="<?php echo $m->Cd_ARMisura?>"
+                                   id="articoli_um_<?php echo $m->Id_PrBLMateriale?>">
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label>Magazzino</label>
+                            <input name="Cd_MG" class="form-control" value="<?php echo $m->Cd_MG?>"
+                                   id="magazzini_lotto_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Ubicazione</label>
+                            <input name="Cd_MGUbicazione" class="form-control" value="<?php echo $m->Cd_MGUbicazione?>"
+                                   id="Cd_MGUbicazione_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Tipo</label>
+                            <input id="inserisci_tipo_materiale_<?php echo $m->Id_PrBLMateriale?>" class="form-control"
+                                   type="text" name="Tipo" value="2" readonly>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="hidden" name="Cd_Operatore" value="<?php echo $utente->Cd_Operatore ?>">
+                    <input type="hidden" name="Obbligatorio" value="<?php echo $m->Obbligatorio ?>">
+                    <input type="hidden" name="Id_PrBLMateriale" id="Id_PrBLMateriale"
+                           value="<?php echo $m->Id_PrBLMateriale ?>">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+                    <input style="float:left;" class="btn btn-primary" type="submit" name="aggiungi_calo_peso"
+                           value="Aggiungi Calo Peso">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+</form>
+<?php } ?>
+<?php foreach ($materiali as $m){ ?>
+<form method="post">
+
+    <div class="modal fade" id="modal_stampa_etichetta_<?php echo $m->Id_PrBLMateriale ?>">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Stampa Etichetta</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">×</span></button>
                 </div>

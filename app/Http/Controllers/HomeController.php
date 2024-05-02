@@ -1645,7 +1645,7 @@ class HomeController extends Controller
 
             }
 
-            if (isset($dati['stampa_collo'])) {
+            if (isset($dati['stampa_materia_prima'])) {
                 unset($dati['stampa_collo']);
 
                 $id_collo = $dati['Id_xWPCollo'];
@@ -1747,6 +1747,46 @@ class HomeController extends Controller
                 }
 
                 DB::table('xWPCollo')->where('Id_xWPCollo', $id_collo)->update($dati);
+
+                return Redirect::to('dettaglio_bolla/' . $id);
+
+
+            }
+            if (isset($dati['stampa_materia_prima'])) {
+                unset($dati['stampa_materia_prima']);
+
+                unset($dati['Id_xWPCollo']);
+                unset($dati['Quantita']);
+                unset($dati['esemplari']);
+                unset($dati['Descrizione']);
+                unset($dati['copie']);
+                unset($dati['Rif_Nr_Collo_Ultimo']);
+
+
+                /**
+                 * Forzatura All Packaging
+                 * Di Default prova a stampare collo grande tipologia 0
+                 * se la fase è la saldatura stampa collo piccolo tipologia 2
+                 * se la fase è quella prima dell'imballaggio stampa il collo anonimo tipologia 4
+                 **/
+
+                $tipologia = 2;
+                /* $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
+                if (sizeof($OLAttivita) > 0) {
+                    $OLAttivita = $OLAttivita[0];
+                    if ($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO')
+                        $tipologia = 0;
+                } */
+                $param1 = 'SELECT \'' . $dati['Id_PrBLAttivita'] . '\' as idordinelavoro,\'' . $dati['Consumo'] . '\' as qtaprodotta,\'' . $dati['Cd_ARLotto'] . '\' as xLotto,\'' . $dati['Id_PrBLMateriale'] . '\' as Nr_Collo,\'' . $dati['Cd_ARMisura'] . '\' as cd_armisura ';
+                $nome_file = StampaController::motore_industry_materiale($utente->Cd_PRRisorsa, $id, $param1, $tipologia, $dati['Id_PrBLMateriale']);
+                if ($nome_file != '') {
+                    $nomi_colli = array();
+                    $dati['Copie'] = 1;
+                    while ($dati['Copie'] > 0) {
+                        array_push($nomi_colli, $nome_file);
+                        $dati['Copie'] -= 1;
+                    }
+                }
 
                 return Redirect::to('dettaglio_bolla/' . $id);
 
