@@ -1645,7 +1645,7 @@ class HomeController extends Controller
 
             }
 
-            if (isset($dati['stampa_materia_prima'])) {
+            if (isset($dati['stampa_collo'])) {
                 unset($dati['stampa_collo']);
 
                 $id_collo = $dati['Id_xWPCollo'];
@@ -1752,6 +1752,7 @@ class HomeController extends Controller
 
 
             }
+
             if (isset($dati['stampa_materia_prima'])) {
                 unset($dati['stampa_materia_prima']);
 
