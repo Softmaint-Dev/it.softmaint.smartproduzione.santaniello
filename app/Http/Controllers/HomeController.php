@@ -1755,6 +1755,7 @@ class HomeController extends Controller
 
             if (isset($dati['stampa_materia_prima'])) {
                 unset($dati['stampa_materia_prima']);
+                dd($dati);
 
                 unset($dati['Id_xWPCollo']);
                 unset($dati['Quantita']);
