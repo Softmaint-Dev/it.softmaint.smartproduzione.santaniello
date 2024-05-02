@@ -2182,8 +2182,8 @@
                     <input type="hidden" name="Id_PrBLMateriale" id="Id_PrBLMateriale"
                            value="<?php echo $m->Id_PrBLMateriale ?>">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-                    <input style="float:left;" class="btn btn-primary" type="submit" name="stampa_materia_prima"
-                           value="Stampa Materiale">
+                    <input style="float:left;" class="btn btn-primary" type="submit" name="modifica_materiale"
+                           value="Modifica Materiale">
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -2306,7 +2306,12 @@
                             aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
-
+                    <div class="row">
+                        <div class="col-12">
+                            <label>Vuoi Stampare un etichetta per il materiale ?</label>
+                        </div>
+                    </div>
+<?php /*
                     <div class="row">
                         <div class="col-md-12">
                             <label>Lotto</label>
@@ -2370,7 +2375,7 @@
                             <input id="inserisci_tipo_materiale_<?php echo $m->Id_PrBLMateriale?>" class="form-control"
                                    type="text" name="Tipo" value="2" readonly>
                         </div>
-                    </div>
+                    </div> */ ?>
 
                     <div class="clearfix"></div>
                 </div>
@@ -2380,9 +2385,9 @@
                     <input type="hidden" name="Obbligatorio" value="<?php echo $m->Obbligatorio ?>">
                     <input type="hidden" name="Id_PrBLMateriale" id="Id_PrBLMateriale"
                            value="<?php echo $m->Id_PrBLMateriale ?>">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-                    <input style="float:left;" class="btn btn-primary" type="submit" name="aggiungi_calo_peso"
-                           value="Aggiungi Calo Peso">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <input style="float:left;" class="btn btn-primary" type="submit" name="stampa_materia_prima"
+                           value="Si">
                 </div>
             </div>
             <!-- /.modal-content -->
