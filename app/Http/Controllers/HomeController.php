@@ -1755,7 +1755,6 @@ class HomeController extends Controller
 
             if (isset($dati['stampa_materia_prima'])) {
                 unset($dati['stampa_materia_prima']);
-                dd($dati);
 
                 unset($dati['Id_xWPCollo']);
                 unset($dati['Quantita']);
@@ -1780,6 +1779,7 @@ class HomeController extends Controller
                         $tipologia = 0;
                 } */
                 $param1 = 'SELECT \'' . $dati['Id_PrBLAttivita'] . '\' as idordinelavoro,\'' . $dati['Consumo'] . '\' as qtaprodotta,\'' . $dati['Cd_ARLotto'] . '\' as xLotto,\'' . $dati['Id_PrBLMateriale'] . '\' as Nr_Collo,\'' . $dati['Cd_ARMisura'] . '\' as cd_armisura ';
+                dd($param1);
                 $nome_file = StampaController::motore_industry_materiale($utente->Cd_PRRisorsa, $id, $param1, $tipologia, $dati['Id_PrBLMateriale']);
                 if ($nome_file != '') {
                     $nomi_colli = array();
