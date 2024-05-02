@@ -1778,7 +1778,7 @@ class HomeController extends Controller
                     if ($OLAttivita->Cd_PrAttivita == 'IMBALLAGGIO')
                         $tipologia = 0;
                 } */
-                $param1 = 'SELECT \'' . $dati['Id_PrBLAttivita'] . '\' as idordinelavoro,\'' . $dati['Consumo'] . '\' as qtaprodotta,\'' . $dati['Cd_ARLotto'] . '\' as xLotto,\'' . $dati['Id_PrBLMateriale'] . '\' as Nr_Collo,\'' . $dati['Cd_ARMisura'] . '\' as cd_armisura';
+                $param1 = 'SELECT \'' . $dati['Id_PrBLAttivita'] . '\' as IdOrdineLavoro,\'' . $dati['Consumo'] . '\' as QtaProdotta,\'' . $dati['Cd_ARLotto'] . '\' as xLotto,\'' . $dati['Id_PrBLMateriale'] . '\' as Nr_Collo,\'' . $dati['Cd_ARMisura'] . '\' as Cd_ARMisura';
                 $nome_file = StampaController::motore_industry_materiale($utente->Cd_PRRisorsa, $id, $param1, $tipologia, $dati['Id_PrBLMateriale']);
                 if ($nome_file != '') {
                     $nomi_colli = array();
