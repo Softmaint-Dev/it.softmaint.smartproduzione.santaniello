@@ -196,13 +196,13 @@ class StampaController extends Controller
             }
 
 
-            $report = DB::select('SELECT * from xSPREport where abilitato = 1 and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_prattivita . ' ' . $where_cd_ar);
-            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_ar);
-            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_prattivita);
-            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and tipologia = ' . $tipologia . ' ' . $where_cd_prattivita . ' ' . $where_cd_ar);
-            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and tipologia = ' . $tipologia . ' ' . $where_cd_cf);
-            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and tipologia = ' . $tipologia . ' ' . $where_cd_ar);
-            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and tipologia = ' . $tipologia . '  and cd_ar1 IS NULL and cd_cf IS NULL and cd_prattivita IS NULL');
+            $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_prattivita . ' ' . $where_cd_ar);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_ar);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_prattivita);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_prattivita . ' ' . $where_cd_ar);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_cf);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_ar);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . '  and cd_ar1 IS NULL and cd_cf IS NULL and cd_prattivita IS NULL');
 
         }
 
