@@ -574,7 +574,7 @@
                                                             </td>
                                                             <td>
                                                                 <a style="float:left;margin-left:5px;"
-                                                                   class="btn btn-secondary btn-sm"
+                                                                   class="btn btn-warning btn-sm"
                                                                    onclick="$('#modal_stampa_etichetta_<?php echo $m->Id_PrBLMateriale ?>').modal('show');">
                                                                     Stampa</a>
                                                                 <a style="float:left;margin-left:5px;"
