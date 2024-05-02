@@ -302,8 +302,8 @@ class StampaController extends Controller
             $report = $report[0];
             $nome_file = strtolower(str_replace(' ', '_', $report->codice)) . '_' . $param1;
             $report->query = str_replace('[param1]', $param1, $report->query);
-            dd($report->query);
             $query = DB::select($report->query);
+            dd($query);
 
             if (sizeof($query) > 0) {
                 $query = $query[0];
