@@ -2432,9 +2432,7 @@ class HomeController extends Controller
                                 $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
                                 $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
 
-                                DB::table('PrVrMateriale')->insert($insert_pr_materiale);
-
-                            }
+                            DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                         }
                         session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
 
