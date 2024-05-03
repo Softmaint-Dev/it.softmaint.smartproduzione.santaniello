@@ -590,10 +590,10 @@
                                                                 <a style="float:left;margin-left:5px;"
                                                                    class="btn btn-danger btn-sm"
                                                                    onclick="elimina_materiale(<?php echo $m->Id_PrBLMateriale ?>,'<?php echo $m->Cd_AR ?>')">Elimina</a>
-                                                            </td>
+
 
                                                             <?php } ?>
-
+                                                            </td>
                                                         </tr>
                                                         <?php } ?>
                                                         </tbody>
