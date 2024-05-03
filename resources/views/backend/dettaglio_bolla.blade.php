@@ -544,10 +544,11 @@
                                                         <tbody>
                                                         <?php $i = 0; ?>
                                                         <?php foreach ($materiali as $m) { ?>
-                                                            <?php if ($m->Tipo == 2) { ?>
+
 
                                                         <tr <?php if ($m->Obbligatorio == 1) echo
-                                                        'style="background-color:lightblue;"' ?>>
+                                                        'style="background-color:lightblue;"' ?>
+                                                                <?php if ($m->Tipo == 2) { echo 'style="background-color:red;"' } ?>>
                                                             <td class="no-sort">
                                                                     <?php echo $m->Cd_AR ?><br>
                                                                 <small>
@@ -574,6 +575,7 @@
                                                                     <?php echo $m->Cd_ARLotto ?>
                                                             </td>
                                                             <td>
+                                                                    <?php if ($m->Tipo == 2) { ?>
                                                                 <a style="float:left;margin-left:5px;"
                                                                    class="btn btn-warning btn-sm"
                                                                    onclick="$('#modal_stampa_etichetta_<?php echo $m->Id_PrBLMateriale ?>').modal('show');">
@@ -590,9 +592,9 @@
                                                                    onclick="elimina_materiale(<?php echo $m->Id_PrBLMateriale ?>,'<?php echo $m->Cd_AR ?>')">Elimina</a>
                                                             </td>
 
-                                                        </tr>
+                                                            <?php } ?>
 
-                                                        <?php } ?>
+                                                        </tr>
                                                         <?php } ?>
                                                         </tbody>
                                                     </table>
