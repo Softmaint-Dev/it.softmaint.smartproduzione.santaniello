@@ -2236,7 +2236,7 @@ class HomeController extends Controller
                         $insert_pr_materiale['Tipo'] = $m->Tipo;
                         $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
                         $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
-                        $insert_pr_materiale['Consumo'] = $m->Consumo;
+                        $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
                         $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                         $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
                         $insert_pr_materiale['Sfrido'] = 0;
@@ -2408,12 +2408,11 @@ class HomeController extends Controller
 
                         $materiale = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                         foreach ($materiale as $m) {
-                            if ($m->Tipo != 0) {
                                 $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
                                 $insert_pr_materiale['Tipo'] = $m->Tipo;
                                 $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
                                 $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
-                                $insert_pr_materiale['Consumo'] = $m->Consumo;
+                                $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
                                 $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                                 $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
                                 $insert_pr_materiale['Sfrido'] = 0;

@@ -544,7 +544,7 @@
                                                         <tbody>
                                                         <?php $i = 0; ?>
                                                         <?php foreach ($materiali as $m) { ?>
-                                                            <?php if ($m->Tipo != 2) { ?>
+                                                            <?php if ($m->Tipo == 2) { ?>
 
                                                         <tr <?php if ($m->Obbligatorio == 1) echo
                                                         'style="background-color:lightblue;"' ?>>
