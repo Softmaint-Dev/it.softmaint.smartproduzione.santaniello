@@ -399,7 +399,7 @@
                                                                         href="#tab7" role="tab"
                                                                         aria-controls="custom-content-below-profile"
                                                                         aria-selected="false">Moduli Qualità (<span
-                                                            id="idNumQlt">0</span>)
+                                                                id="idNumQlt">0</span>)
                                                     </a></li>
                                             </ul>
                                             <div class="tab-content" id="custom-content-below-tabContent">
@@ -548,7 +548,7 @@
 
                                                         <tr <?php if ($m->Obbligatorio == 1) echo
                                                         'style="background-color:lightblue;"' ?>
-                                                                <?php if ($m->Tipo == 2) { echo 'style="background-color:red;"' } ?>>
+                                                                <?php if ($m->Tipo != 2) echo 'style="background-color:red;"' ?> >
                                                             <td class="no-sort">
                                                                     <?php echo $m->Cd_AR ?><br>
                                                                 <small>
@@ -592,7 +592,7 @@
                                                                    onclick="elimina_materiale(<?php echo $m->Id_PrBLMateriale ?>,'<?php echo $m->Cd_AR ?>')">Elimina</a>
 
 
-                                                            <?php } ?>
+                                                                <?php } ?>
                                                             </td>
                                                         </tr>
                                                         <?php } ?>
@@ -667,43 +667,43 @@
                                                                                 ------------------------------------------------------
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createGranella', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createGranella', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Granella
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createEfficienza', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createEfficienza', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Efficienza
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createTostatura', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createTostatura', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Tostatura
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createRaffinatrice', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createRaffinatrice', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Raffinatrice
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createSortex', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createSortex', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Sortex
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createFarina', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createFarina', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Farina
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createXrayBR6000', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createXrayBR6000', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 XRay XBR-6000
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createXray400N', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createXray400N', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 XRay 400N
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createMDMBR1200', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createMDMBR1200', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Metal Detector BR1200
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createMDPMO', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                    value="{{ route('createMDPMO', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Metal Detector PMO
                                                                             </option>
                                                                         </select>
@@ -1276,7 +1276,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Fine Attrezzaggio</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <?php /*
@@ -1342,7 +1342,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Collo Non Conforme <span id="testo_nr_collo_non_conforme"></span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1396,7 +1396,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Invia Segnalazione</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1451,7 +1451,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Inizio Fermo Macchina</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1483,7 +1483,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Fine Fermo Macchina</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1568,7 +1568,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Pedana</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -1939,7 +1939,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2012,7 +2012,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Scarto</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2117,7 +2117,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Modifica Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2208,7 +2208,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Calo Peso </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2307,7 +2307,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Stampa Etichetta</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -2416,7 +2416,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Elimina Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2452,7 +2452,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Elimina Modulo di Qualita</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2492,7 +2492,7 @@
                             <?php echo $p->Nr_Pedana ?>
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2628,7 +2628,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Stampe Libere</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2670,7 +2670,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Alert Segnalazione</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">×</span></button>
+                                aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
