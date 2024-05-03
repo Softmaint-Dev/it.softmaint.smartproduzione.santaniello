@@ -3019,8 +3019,8 @@ class HomeController extends Controller
 
 
                     $attivita_bolla->versamenti = DB::select('SELECT * from PrVRAttivitaEx Where Id_PrBLAttivita=' . $id);
-                    $attivita_bolla->materiali = DB::select('SELECT *,(SELECT MG_LottoObbligatorio FROM AR WHERE AR.Cd_AR = PRBLMateriale.Cd_AR) as Obbligatorio from PRBLMateriale Where Cd_AR not in (\'SCLAV\',\'BPN\',\'BPM\',\'BPP\') and Id_PrBLAttivita = ' . $id);
-                    if (!session()->has('\'' . $id . '\'')) {
+                    $attivita_bolla->materiali = DB::select('SELECT *,(SELECT MG_LottoObbligatorio FROM AR WHERE AR.Cd_AR = PRBLMateriale.Cd_AR) as Obbligatorio from PRBLMateriale Where (Cd_AR not in (\'SCLAV\',\'BPN\',\'BPM\',\'BPP\') or Cd_AR is NULL)  and Id_PrBLAttivita = ' . $id);
+                   if (!session()->has('\'' . $id . '\'')) {
                         session(['\'' . $id . '\'' => $attivita_bolla->materiali]);
                         session()->save();
                     }
