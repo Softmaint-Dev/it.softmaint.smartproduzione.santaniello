@@ -544,6 +544,7 @@
                                                         <tbody>
                                                         <?php $i = 0; ?>
                                                         <?php foreach ($materiali as $m) { ?>
+                                                            <?php if ($m->Tipo != 2) { ?>
 
                                                         <tr <?php if ($m->Obbligatorio == 1) echo
                                                         'style="background-color:lightblue;"' ?>>
@@ -591,6 +592,7 @@
 
                                                         </tr>
 
+                                                        <?php } ?>
                                                         <?php } ?>
                                                         </tbody>
                                                     </table>
@@ -2311,7 +2313,7 @@
                             <label>Vuoi Stampare un etichetta per il materiale ?</label>
                         </div>
                     </div>
-<?php /*
+                        <?php /*
                     <div class="row">
                         <div class="col-md-12">
                             <label>Lotto</label>
@@ -2383,10 +2385,12 @@
                 <div class="modal-footer">
                     <input type="hidden" name="Cd_Operatore" value="<?php echo $utente->Cd_Operatore ?>">
                     <input type="hidden" name="Obbligatorio" value="<?php echo $m->Obbligatorio ?>">
-                    <input type="hidden" name="Id_PrBLAttivita" id="Id_PrBLAttivita" value="<?php echo $m->Id_PrBLAttivita ?>">
+                    <input type="hidden" name="Id_PrBLAttivita" id="Id_PrBLAttivita"
+                           value="<?php echo $m->Id_PrBLAttivita ?>">
                     <input type="hidden" name="Consumo" id="Consumo" value="<?php echo $m->Consumo ?>">
                     <input type="hidden" name="Cd_ARLotto" id="Cd_ARLotto" value="<?php echo $m->Cd_ARLotto ?>">
-                    <input type="hidden" name="Id_PrBLMateriale" id="Id_PrBLMateriale" value="<?php echo $m->Id_PrBLMateriale ?>">
+                    <input type="hidden" name="Id_PrBLMateriale" id="Id_PrBLMateriale"
+                           value="<?php echo $m->Id_PrBLMateriale ?>">
                     <input type="hidden" name="Cd_ARMisura" id="Cd_ARMisura" value="<?php echo $m->Cd_ARMisura ?>">
                     <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
                     <input style="float:left;" class="btn btn-primary" type="submit" name="stampa_materia_prima"
