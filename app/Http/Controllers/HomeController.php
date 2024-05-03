@@ -956,7 +956,7 @@ class HomeController extends Controller
                     if (sizeof($OLAttivita) > 0) {
                         $OLAttivita = $OLAttivita[0];
 
-                        $mail = new  PHPMailer(true);
+                        /*$mail = new  PHPMailer(true);
                         $mail->isSMTP();
                         $mail->Host = 'out.postassl.it';
                         $mail->SMTPAuth = true;
@@ -976,7 +976,7 @@ class HomeController extends Controller
                                 Operatore: ' . $utente->Cd_Operatore . '<br>
                                 Messaggio: ' . nl2br($dati['Messaggio']);
 
-                        $mail->send();
+                        $mail->send();*/
                     }
                 }
 
@@ -2612,7 +2612,7 @@ class HomeController extends Controller
                         JOIN PRRisorsa pr ON pr.Cd_PrRisorsa = vr.Cd_PrRisorsa
                         JOIN PRRLAttivita rf ON rf.Id_PrVRAttivita = vr.Id_PrVRAttivita and rf.Id_PrRLAttivita_Sibling = ' . $id_ultima_rilevazione);
 
-
+/*
                     $mail = new  PHPMailer(true);
                     $mail->isSMTP();
                     $mail->Host = 'out.postassl.it';
@@ -2633,7 +2633,7 @@ class HomeController extends Controller
                                 Risorsa: ' . $risorsa . '<br>
                                 Operatore: ' . $utente->Cd_Operatore . '<br>
                                 Messaggio: ' . nl2br($dati['NotePrRLAttivita']);
-                    $mail->send();
+                    $mail->send();*/
 
 
                     return Redirect::to('dettaglio_bolla/' . $id);
