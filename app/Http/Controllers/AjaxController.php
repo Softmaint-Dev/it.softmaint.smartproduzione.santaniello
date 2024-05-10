@@ -86,6 +86,12 @@ class AjaxController extends Controller
             <?php }
 
             $magazzini = DB::select('SELECT distinct Cd_MG from MGMov Where Cd_ARLotto = \'' . $lotto . '\'');
+            if (sizeof($magazzini) == 0) { ?>
+                <script type="text/javascript">
+                    $('#magazzini_lotto').append('<option value="00009" selected>00009</option>');
+                </script>
+            <?php }
+
             foreach ($magazzini as $m) { ?>
                 <script type="text/javascript">
                     $('#magazzini_lotto').append('<option value="<?php echo $m->Cd_MG ?>" <?php echo ($m->Cd_MG == '00009') ? 'selected' : '' ?>><?php echo $m->Cd_MG ?></option>');
@@ -147,6 +153,11 @@ class AjaxController extends Controller
             <?php }
 
             $magazzini = DB::select('SELECT distinct Cd_MG from MGMov Where Cd_ARLotto = \'' . $lotto . '\'');
+            if (sizeof($magazzini) == 0) { ?>
+                <script type="text/javascript">
+                    $('#scarto_magazzini_lotto').append('<option value="00009" selected>00009</option>');
+                </script>
+            <?php }
             foreach ($magazzini as $m) { ?>
                 <script type="text/javascript">
                     $('#scarto_magazzini_lotto').append('<option value="<?php echo $m->Cd_MG ?>" <?php echo ($m->Cd_MG == '00009') ? 'selected' : '' ?>><?php echo $m->Cd_MG ?></option>');
@@ -208,6 +219,11 @@ class AjaxController extends Controller
             <?php }
 
             $magazzini = DB::select('SELECT distinct Cd_MG from MGMov Where Cd_ARLotto = \'' . $lotto . '\'');
+            if (sizeof($magazzini) == 0) { ?>
+                <script type="text/javascript">
+                    $('#magazzini_lotto_<?php echo $Id_PrBLMateriale; ?>').append('<option value="00009" selected>00009</option>');
+                </script>
+            <?php }
             foreach ($magazzini as $m) { ?>
                 <script type="text/javascript">
                     $('#magazzini_lotto_<?php echo $Id_PrBLMateriale; ?>').append('<option value="<?php echo $m->Cd_MG ?>" <?php echo ($m->Cd_MG == '00009') ? 'selected' : '' ?>><?php echo $m->Cd_MG ?></option>');

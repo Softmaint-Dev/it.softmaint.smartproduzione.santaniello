@@ -95,7 +95,7 @@ class SortexController extends Controller
 
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
-            ->createDMS(
+            ->createDMS( $id,
                 DB::raw("0x" . bin2hex($binaryPDF)),
                 'MODULO SORTEX',
                 "sortex.pdf",
@@ -116,11 +116,13 @@ class SortexController extends Controller
     public function editView($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.sortex.sortex_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -130,7 +132,9 @@ class SortexController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\xDmsFolder;
 
 class TostaturaController extends Controller
 {
@@ -85,12 +86,11 @@ class TostaturaController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->loadHtml($html);
         $binaryPDF = $pdf->output();
-        print_r($data);
         $data['DA COSTRUIRE'] = $htmlString;
 
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
-            ->createDMS(
+            ->createDMS($id,
                 DB::raw("0x" . bin2hex($binaryPDF)),
                 'MODULO TOSTATURA',
                 "tostatura.pdf",
@@ -112,11 +112,14 @@ class TostaturaController extends Controller
     public function editView($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.tostatura.tostatura_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -126,7 +129,10 @@ class TostaturaController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\moduli;
 
+use App\Models\xDmsFolder;
 use App\Http\Controllers\Controller;
 use App\Models\DmsDocument;
 use App\Models\PRBLAttivita;
@@ -114,7 +115,7 @@ class XRayController extends Controller
 
 
         return App::make('App\Http\Controllers\moduli\ModuloController')
-            ->createDMS(
+            ->createDMS($id,
                 DB::raw("0x" . bin2hex($pdf->output())),
                 $nameFile,
                 date("Y-m-d H:i:s") . ".pdf",
@@ -129,11 +130,14 @@ class XRayController extends Controller
     public function editView400N($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.xray.xray_400n_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -143,7 +147,10 @@ class XRayController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
@@ -211,11 +218,14 @@ class XRayController extends Controller
     public function editViewBR6000($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.xray.xray_xbr-6000_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -226,7 +236,10 @@ class XRayController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();

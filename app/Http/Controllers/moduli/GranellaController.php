@@ -10,6 +10,7 @@ use App\Models\PRBLAttivita;
 use App\Models\PROLAttivita;
 use App\Models\PROLDoRig;
 use App\Models\PRRLAttivita;
+use App\Models\xDmsFolder;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -38,11 +39,13 @@ class GranellaController extends Controller
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
-        $prolDorig = $prolAttivita->prolDoRig;
-        $dorig = $prolDorig->dorig;
-        $dotes = $dorig->dotes;
-        $cf = $dotes->cf;
-        $dms = $dotes->dms();
+        if ($prolAttivita->prolDoRig != null) {
+            $prolDorig = $prolAttivita->prolDoRig;
+            $dorig = $prolDorig->dorig;
+            $dotes = $dorig->dotes;
+            $cf = $dotes->cf;
+            $dms = $dotes->dms();
+        }
         $data = $request->all();
         $pdf = App::make('dompdf.wrapper');
         $layout = file_get_contents(public_path('pdf/granella.html'));
@@ -53,7 +56,7 @@ class GranellaController extends Controller
             '[VARIETA]' => $data['variety'],
             '[LOTTO]' => $data['xwpCollo'],
             '[CALIBRO]' => $data['calibre'],
-            '[CLIENTE]' => $cf->Descrizione,
+            '[CLIENTE]' => (isset($cf)) ? $cf->Descrizione : '',
             '[TOTAL_KG]' => number_format($prblAttivita->Quantita, 2),
             '[DATE]' => $data['date'],
             '[TIME]' => $data['analysis'],
@@ -81,12 +84,12 @@ class GranellaController extends Controller
         $binaryPDF = $pdf->output();
 
         $data['USER'] = ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome);
-        $data['CLIENTE'] = $cf->Descrizione;
+        $data['CLIENTE'] = (isset($cf)) ? $cf->Descrizione : '';
         $data['TOTAL_KG'] = number_format($prblAttivita->Quantita, 2);
 
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
-            ->createDMS(
+            ->createDMS($id,
                 DB::raw("0x" . bin2hex($binaryPDF)),
                 'MODULO GRANELLA',
                 "granella.pdf",
@@ -107,11 +110,14 @@ class GranellaController extends Controller
     public function editView($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.granella.granella_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -121,13 +127,19 @@ class GranellaController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
 
         $pdf = App::make('dompdf.wrapper');
         $layout = file_get_contents(public_path('pdf/granella.html'));
+        $data['CLIENTE'] = $oldJson->CLIENTE;
+        $data['TOTAL_KG'] = $oldJson->TOTAL_KG;
+        $data['USER'] = $oldJson->USER;
         $refactoring = array(
             '[VARIETA]' => $data['variety'],
             '[LOTTO]' => $data['xwpCollo'],
@@ -167,8 +179,5 @@ class GranellaController extends Controller
         }
 
         return response('errore!!');
-
-        //edit($id, $binaryPDF, $json)
-        //return Redirect::to('dettaglio_bolla/' . $idActivity);
     }
 }

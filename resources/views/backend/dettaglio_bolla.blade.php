@@ -399,7 +399,7 @@
                                                                         href="#tab7" role="tab"
                                                                         aria-controls="custom-content-below-profile"
                                                                         aria-selected="false">Moduli Qualità (<span
-                                                                id="idNumQlt">0</span>)
+                                                            id="idNumQlt">0</span>)
                                                     </a></li>
                                             </ul>
                                             <div class="tab-content" id="custom-content-below-tabContent">
@@ -524,8 +524,10 @@
                                                      aria-labelledby="custom-content-below-profile-tab"
                                                      style="padding:10px;">
 
+                                                    <a onclick="aggiungi_materiali_new()" class="btn btn-success"
+                                                       style="float:right;margin:10px;">Aggiungi Materiale</a>
                                                     <a onclick="aggiungi_materiali()" class="btn btn-success"
-                                                       style="float:right;margin:10px;">Aggiungi</a>
+                                                       style="float:right;margin:10px;">Aggiungi Lotto</a>
                                                     <a onclick="aggiungi_scarto()" class="btn btn-secondary"
                                                        style="float:right;margin:10px;">Calcola Scarto</a>
                                                     <table id="lista_materiali_bolla"
@@ -667,43 +669,43 @@
                                                                                 ------------------------------------------------------
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createGranella', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createGranella', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Granella
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createEfficienza', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createEfficienza', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Efficienza
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createTostatura', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createTostatura', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Tostatura
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createRaffinatrice', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createRaffinatrice', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Raffinatrice
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createSortex', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createSortex', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Sortex
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createFarina', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createFarina', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Farina
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createXrayBR6000', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createXrayBR6000', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 XRay XBR-6000
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createXray400N', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createXray400N', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 XRay 400N
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createMDMBR1200', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createMDMBR1200', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Metal Detector BR1200
                                                                             </option>
                                                                             <option
-                                                                                    value="{{ route('createMDPMO', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createMDPMO', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Metal Detector PMO
                                                                             </option>
                                                                         </select>
@@ -724,8 +726,6 @@
                                                             var value = selectObject.value;
                                                             console.log(value);
                                                             window.location.href = value;
-
-
                                                         }
                                                     </script>
                                                     <script>
@@ -755,6 +755,10 @@
                                                                         thModifica.textContent = "Modifica";
                                                                         headerRow.appendChild(thModifica);
 
+                                                                        const thElimina = document.createElement('th');
+                                                                        thElimina.textContent = "Elimina";
+                                                                        headerRow.appendChild(thElimina);
+
                                                                         data.forEach(item => {
                                                                             const row = table.insertRow();
                                                                             Object.values(item).forEach(value => {
@@ -771,7 +775,10 @@
                                                                                 visualizzaInput.value = 'VISUALIZZA';
                                                                                 visualizzaCell.appendChild(visualizzaInput);
                                                                                 visualizzaInput.onclick = function () {
-                                                                                    window.location.href = '/moduli/show/' + item.Id_DmsDocument;
+                                                                                    //window.location.href = '/moduli/show/' + item.Id_DmsDocument;
+                                                                                    /* SOSTITUISCO LA VECCHIA GESTIONE */
+                                                                                    window.open('/moduli/show/' + item.Id_xDmsFolder);
+                                                                                    // window.location.href = '/moduli/show/' + item.Id_xDmsFolder;
                                                                                 };
 
                                                                                 const modificaCell = row.insertCell();
@@ -782,6 +789,20 @@
                                                                                 modificaCell.appendChild(modificaInput);
                                                                                 modificaInput.onclick = function () {
                                                                                     window.location.href = '/moduli/edit/' + {{$attivita_bolla->Id_PrBLAttivita}} + '/' + item.Id_DmsDocument;
+                                                                                    /* SOSTITUISCO LA VECCHIA GESTIONE */
+                                                                                    window.location.href = '/moduli/edit/' + {{$attivita_bolla->Id_PrBLAttivita}} + '/' + item.Id_xDmsFolder;
+                                                                                };
+
+                                                                                const eliminaCell = row.insertCell();
+                                                                                const eliminaInput = document.createElement('input');
+                                                                                eliminaInput.type = 'button';
+                                                                                eliminaInput.classList.add("btn", "btn-danger");
+                                                                                eliminaInput.value = 'ELIMINA';
+                                                                                eliminaCell.appendChild(eliminaInput);
+                                                                                eliminaInput.onclick = function () {
+                                                                                    if (confirm('Vuoi Eliminare il seguente DMS?') == true) {
+                                                                                        window.location.href = '/moduli/delete/' + {{$attivita_bolla->Id_PrBLAttivita}} + '/' + item.Id_xDmsFolder;
+                                                                                    }
                                                                                 };
                                                                             }
 
@@ -1276,7 +1297,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Fine Attrezzaggio</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <?php /*
@@ -1342,7 +1363,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Collo Non Conforme <span id="testo_nr_collo_non_conforme"></span></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1396,7 +1417,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Invia Segnalazione</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1451,7 +1472,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Inizio Fermo Macchina</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1483,7 +1504,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Fine Fermo Macchina</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -1568,7 +1589,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Pedana</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -1933,13 +1954,96 @@
 
 <form method="post">
 
+    <div class="modal fade" id="modal_aggiungi_materiale_new">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Aggiungi Materiale</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Cd_AR</label>
+                            <input type="text" list="ubicazioni_P" class="form-control" id="articoli_lotto"
+                                   name="Cd_AR" value=""
+                                   placeholder="Inserire un Articolo..." autocomplete="off">
+                            <datalist id="ubicazioni_P">
+                                <option value="">Inserire un Articolo...</option>
+                                @foreach($articoli_mat as $a)
+                                    <option value="{{$a->Cd_AR}}">{{$a->Cd_AR.' - '.$a->Descrizione}}</option>
+                                @endforeach
+                            </datalist>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label>Lotto</label>
+                            <input class="form-control" type="text" name="Cd_ARLotto" placeholder="Lotto Materiale">
+                        </div>
+                        <div class="col-md-6">
+                            <label>Quantità</label>
+                            <input class="form-control" type="number" step="0.01" id="quantita_inserisci_materiale"
+                                   name="Quantita" placeholder="Qta" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>UM</label>
+                            <select name="Cd_ARMisura" class="form-control" id="articoli_um">
+                                <option value="kg">kg</option>
+                                <option value="nr">nr</option>
+                                <option value="pz">pz</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-4">
+                            <label>Magazzino</label>
+                            <select name="Cd_MG" class="form-control" id="magazzini_lotto">
+                                <option value="00001">Magazzino Centrale</option>
+                                <option value="00009">Magazzino Produzione</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Ubicazione</label>
+                            <input class="form-control" type="text" name="Cd_MGUbicazione" value="">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Tipo</label>
+                            <input id="inserisci_tipo_materiale" class="form-control" type="text" name="Tipo" value="2"
+                                   readonly>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="modal-footer">
+                    <input type="hidden" name="Cd_Operatore" value="<?php echo $utente->Cd_Operatore ?>">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+                    <input style="float:left;" class="btn btn-primary" type="submit"
+                           name="aggiungi_materiale_senza_lotto"
+                           value="Aggiungi Materiale">
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</form>
+
+<form method="post">
+
     <div class="modal fade" id="modal_aggiungi_materiale">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2012,7 +2116,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Scarto</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2117,7 +2221,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Modifica Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2208,7 +2312,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Aggiungi Calo Peso </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2307,7 +2411,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Stampa Etichetta</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
@@ -2416,7 +2520,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Elimina Materiale</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2452,7 +2556,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Elimina Modulo di Qualita</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2492,7 +2596,7 @@
                             <?php echo $p->Nr_Pedana ?>
                     </h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2628,7 +2732,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Stampe Libere</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2670,7 +2774,7 @@
                 <div class="modal-header">
                     <h4 class="modal-title">Alert Segnalazione</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">×</span></button>
+                            aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body">
 
@@ -2800,6 +2904,11 @@
     function aggiungi_materiali() {
 
         $('#modal_aggiungi_materiale').modal('show');
+    }
+
+    function aggiungi_materiali_new() {
+
+        $('#modal_aggiungi_materiale_new').modal('show');
     }
 
     function aggiungi_scarto() {

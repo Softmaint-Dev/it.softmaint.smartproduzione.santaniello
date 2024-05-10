@@ -87,6 +87,7 @@ Route::group(['prefix' => 'moduli'], function () {
     Route::get('{id}/dms', [ModuloController::class, 'getDMS']);
     Route::get('show/{id}', [ModuloController::class, 'showDMS']);
     Route::get('edit/{activity}/{id}', [ModuloController::class, 'editDMS']);
+    Route::get('delete/{activity}/{id}', [ModuloController::class, 'deleteDMS']);
 
     Route::group(['prefix' => 'granella'], function () {
         Route::get('/', [GranellaController::class, 'showAll']);

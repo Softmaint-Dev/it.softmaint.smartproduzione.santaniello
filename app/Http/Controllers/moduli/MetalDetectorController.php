@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
+use App\Models\xDmsFolder;
 
 class MetalDetectorController extends Controller
 {
@@ -59,9 +60,13 @@ class MetalDetectorController extends Controller
 
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $prolAttivita = $prblAttivita->prolAttivita;
-        $prolDorig = $prolAttivita->prolDoRig;
-        $dorig = $prolDorig->dorig;
-        $dotes = $dorig->dotes;
+        if ($prolAttivita->prolDoRig != null) {
+            $prolDorig = $prolAttivita->prolDoRig;
+            $dorig = $prolDorig->dorig;
+            $dotes = $dorig->dotes;
+            $cf = $dotes->cf;
+            $dms = $dotes->dms();
+        }
 
         $groupedData = [];
 
@@ -109,7 +114,7 @@ class MetalDetectorController extends Controller
 
 
         return App::make('App\Http\Controllers\moduli\ModuloController')
-            ->createDMS(
+            ->createDMS( $id,
                 DB::raw("0x" . bin2hex($pdf->output())),
                 $nameFile,
                 date("Y-m-d H:i:s") . ".pdf",
@@ -125,11 +130,13 @@ class MetalDetectorController extends Controller
     public function editViewPMO($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.metal_detector.md-pmo_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -139,7 +146,9 @@ class MetalDetectorController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
@@ -205,11 +214,13 @@ class MetalDetectorController extends Controller
     public function editViewMBR1200($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.metal_detector.md-mbr-1200_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -219,7 +230,9 @@ class MetalDetectorController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();

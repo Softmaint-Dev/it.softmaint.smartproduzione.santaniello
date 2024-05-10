@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\moduli;
 
+
+use App\Models\xDmsFolder;
 use App\Http\Controllers\Controller;
 use App\Models\DmsDocument;
 use App\Models\Dorig;
@@ -95,7 +97,7 @@ class FarinaController extends Controller
 
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
-            ->createDMS(
+            ->createDMS($id,
                 DB::raw("0x" . bin2hex($binaryPDF)),
                 'MODULO FARINA',
                 "farina.pdf",
@@ -115,11 +117,14 @@ class FarinaController extends Controller
     public function editView($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.farina.farina_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -129,7 +134,10 @@ class FarinaController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
@@ -168,6 +176,10 @@ class FarinaController extends Controller
 
         $pdf->loadHtml($html);
         $pdf->setPaper('A4', 'landscape');
+
+        $data['CLIENTE'] = $oldJson->CLIENTE;
+        $data['USER'] = $oldJson->USER;
+        $data['TOTAL_KG'] = $oldJson->TOTAL_KG;
 
         $binaryPDF = $pdf->output();
 

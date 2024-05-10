@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\moduli;
 
+use App\Models\xDmsFolder;
 use App\Http\Controllers\Controller;
 use App\Models\DmsDocument;
 use App\Models\PRBLAttivita;
@@ -32,11 +33,13 @@ class RaffinatriceController extends Controller
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
-        $prolDorig = $prolAttivita->prolDoRig;
-        $dorig = $prolDorig->dorig;
-        $dotes = $dorig->dotes;
-        $cf = $dotes->cf;
-        $dms = $dotes->dms();
+        if ($prolAttivita->prolDoRig != null) {
+            $prolDorig = $prolAttivita->prolDoRig;
+            $dorig = $prolDorig->dorig;
+            $dotes = $dorig->dotes;
+            $cf = $dotes->cf;
+            $dms = $dotes->dms();
+        }
 
 
         $pdf = App::make('dompdf.wrapper');
@@ -83,7 +86,7 @@ class RaffinatriceController extends Controller
         $dataFormattata = $dateCarbon->format('Y-m-d H:i:s');
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
-            ->createDMS(
+            ->createDMS($id,
                 DB::raw("0x" . bin2hex($binaryPDF)),
                 'MODULO RAFFINATRICE',
                 "RAFFINATRICE.pdf",
@@ -104,11 +107,13 @@ class RaffinatriceController extends Controller
     public function editView($idActivity, $id)
     {
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         return view('moduli.raffinatrice.raffinatrice_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -118,7 +123,9 @@ class RaffinatriceController extends Controller
 
 
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        $oldJson = json_decode($dms->xJSON);
+        /* SOSTITUISCO LA VECCHIA GESTIONE */
+        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
@@ -134,9 +141,9 @@ class RaffinatriceController extends Controller
             '[PULIZIA_USCITA]' => isset($data['pulizia_uscita']) ? "X" : "",
             '[PULIZIA_USCITA_DESCRIZIONE]' => $data['pulizia_uscita_note'],
             '[NOTE]' => $data['note'],
-            '[GIORNO]' => $oldJson->giorno,
-            '[MESE]' => $oldJson->mese,
-            '[ANNO]' => $oldJson->anno,
+            '[GIORNO]'  => $oldJson->giorno,
+            '[MESE]'    => $oldJson->mese,
+            '[ANNO]'    => $oldJson->anno,
             '[LOTTO MP]' => $data['lotto_mp'],
             '[LOTTO PF]' => $data['lotto_pf'],
         );
@@ -144,7 +151,9 @@ class RaffinatriceController extends Controller
 
         $pdf->loadHtml($html);
         $pdf->setPaper('A4', 'landscape');
-
+          $data['giorno'] = $oldJson->giorno;
+          $data['mese'] = $oldJson->mese;
+          $data['anno'] = $oldJson->anno;
         $binaryPDF = $pdf->output();
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')

@@ -62,19 +62,25 @@
                     </div>
                     <div class="form-check form-switch">
                         <input name="skin" class="form-check-input required" type="checkbox" role="switch"
-                               id="flexSwitchCheckChecked" @if(isset($json->skin)) {{ 'checked' }}@endif>
+                               id="flexSwitchCheckChecked" @if(isset($json->skin))
+                            {{ 'checked' }}
+                                @endif>
                         <label class="form-check-label" for="flexSwitchCheckChecked">SKIN</label>
                     </div>
                     <br/>
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="tastAndSmell" type="checkbox" role="switch"
-                               id="flexSwitchCheckChecked"  @if(isset($json->tastAndSmell)) {{ 'checked' }}@endif>
+                               id="flexSwitchCheckChecked" @if(isset($json->tastAndSmell))
+                            {{ 'checked' }}
+                                @endif>
                         <label class="form-check-label" for="flexSwitchCheckChecked">Taste and smell </label>
                     </div>
                     <br/>
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="colour" type="checkbox" role="switch"
-                               id="flexSwitchCheckChecked" @if(isset($json->colour)) {{ 'checked' }}@endif>
+                               id="flexSwitchCheckChecked" @if(isset($json->colour))
+                            {{ 'checked' }}
+                                @endif>
                         <label class="form-check-label" for="flexSwitchCheckChecked">Colour</label>
                     </div>
                 </div>
@@ -86,7 +92,7 @@
                     <div class="mb-3">
                         <label for="caliber" class="form-label">gr campione / sample</label>
                         <input required type="text" name="sampleCalibratura" class="form-control" id="caliberSample"
-                               aria-describedby="emailHelp">
+                               aria-describedby="emailHelp" value="@if(isset($json->sampleCalibratura)){{ $json->sampleCalibratura }}"@endif>
                     </div>
                     <div class="mb-3">
                         <div class="container mt-5">
