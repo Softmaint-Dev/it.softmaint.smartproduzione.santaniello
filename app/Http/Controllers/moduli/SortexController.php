@@ -29,11 +29,13 @@ class SortexController extends Controller
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
-        $prolDorig = $prolAttivita->prolDoRig;
-        $dorig = $prolDorig->dorig;
-        $dotes = $dorig->dotes;
-        $cf = $dotes->cf;
-        $dms = $dotes->dms();
+        if ($prolAttivita->prolDoRig != null) {
+            $prolDorig = $prolAttivita->prolDoRig;
+            $dorig = $prolDorig->dorig;
+            $dotes = $dorig->dotes;
+            $cf = $dotes->cf;
+            $dms = $dotes->dms();
+        }
 
 
         $data = $request->all();
@@ -95,7 +97,7 @@ class SortexController extends Controller
 
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
-            ->createDMS( $id,
+            ->createDMS($id,
                 DB::raw("0x" . bin2hex($binaryPDF)),
                 'MODULO SORTEX',
                 "sortex.pdf",
