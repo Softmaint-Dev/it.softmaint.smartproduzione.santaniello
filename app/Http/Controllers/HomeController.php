@@ -2178,23 +2178,23 @@ class HomeController extends Controller
                             $ordine = $ordini[0];
                             $xlotto = (isset($dati['xLotto'])) ? $dati['xLotto'] : null;
 
-                            /* $week = date('W', strtotime('today'));
-                             $year = date('Y', strtotime('today'));
-                             $xlotto = $week . $ordine[0]->Cd_AR . $year;
-                            if ($xlotto != '') {
-                                $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
-                                if (sizeof($check) <= 0) {
-                                    $data_scadenza = date('Y-m-d', strtotime('+2 year'));
-                                    DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
-                                }
-                                //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
-                                //if ($attivita->Id_PrOLAttivita_Next == null) {
-                                $consumo_tot = $dati['quantita_contatore'];
+                            $week = date('W', strtotime('today'));
+                            $year = date('Y', strtotime('today'));
+                            //$xlotto = $week . $ordine[0]->Cd_AR . $year;
+                            /* if ($xlotto != '') {
+                                 $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
+                                 if (sizeof($check) <= 0) {
+                                     $data_scadenza = date('Y-m-d', strtotime('+2 year'));
+                                     DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
+                                 }
+                                 //$attivita = DB::SELECT('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita in ( SELECT Id_PrOLAttivita FROM PRBLAttivita WHERE Id_PrBLAttivita =  ' . $attivita_bolla->Id_PrBLAttivita . ')')[0];
+                                 //if ($attivita->Id_PrOLAttivita_Next == null) {
+                                 $consumo_tot = $dati['quantita_contatore'];
 
-                                if ($ordine->Id_PrOLAttivita_Next == null) {
-                                    DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => '00001', 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
-                                }
-                            }*/
+                                 if ($ordine->Id_PrOLAttivita_Next == null) {
+                                     DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => '00001', 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
+                                 }
+                             } */
                         }
                     }
 
@@ -2232,31 +2232,33 @@ class HomeController extends Controller
 
                     $materiale = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                     foreach ($materiale as $m) {
-                        $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
-                        $insert_pr_materiale['Tipo'] = $m->Tipo;
-                        $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
-                        $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
-                        $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
-                        $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
-                        $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                        $insert_pr_materiale['Sfrido'] = 0;
+                        if($m->Tipo != 0) {
+                            $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
+                            $insert_pr_materiale['Tipo'] = $m->Tipo;
+                            $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
+                            $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
+                            $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
+                            $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
+                            $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
+                            $insert_pr_materiale['Sfrido'] = 0;
 
 
-                        if ($m->Tipo == 2) {
-                            $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
-                            if (sizeof($costo) > 0) {
-                                $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                            if ($m->Tipo == 2) {
+                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
+                                if (sizeof($costo) > 0) {
+                                    $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                                }
+                            } else {
+                                if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                             }
-                        } else {
-                            if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
+
+                            $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
+                            $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
+                            $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
+                            $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
+
+                            DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                         }
-
-                        $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
-                        $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
-                        $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
-                        $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
-
-                        DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                     }
                     session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
 
@@ -2290,9 +2292,9 @@ class HomeController extends Controller
                         $ordine = $ordini[0];
                         $xlotto = (isset($dati['xLotto'])) ? $dati['xLotto'] : null;
 
-                        /* $week = date('W', strtotime('today'));
-                         $year = date('Y', strtotime('today'));
-                         $xlotto = $week . $ordine[0]->Cd_AR . $year;
+                        $week = date('W', strtotime('today'));
+                        $year = date('Y', strtotime('today'));
+                        // $xlotto = $week . $ordine[0]->Cd_AR . $year;
                         if ($xlotto != '') {
                             $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
                             if (sizeof($check) <= 0) {
@@ -2306,7 +2308,7 @@ class HomeController extends Controller
                                 DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => (isset($dati['cd_mg'])) ? $dati['cd_mg'] : '00009', 'Cd_MGUbicazione' => ((isset($dati['cd_mg_ubicazione']) && ($dati['cd_mg'] != '00009'))) ? $dati['cd_mg_ubicazione'] : null, 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
                             }
 
-                        } */
+                        }
                         //}
 
                         $durata = DB::SELECT('SELECT * FROM PrRLAttivita where Id_PrVRAttivita = ' . $id_attivita);
@@ -2410,31 +2412,33 @@ class HomeController extends Controller
 
 
                         foreach ($materiale as $m) {
-                            $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
-                            $insert_pr_materiale['Tipo'] = $m->Tipo;
-                            $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
-                            $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
-                            $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
-                            $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
-                            $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                            $insert_pr_materiale['Sfrido'] = 0;
+                            if($m->Tipo != 0) {
+                                $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
+                                $insert_pr_materiale['Tipo'] = $m->Tipo;
+                                $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
+                                $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
+                                $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
+                                $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
+                                $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
+                                $insert_pr_materiale['Sfrido'] = 0;
 
 
-                            if ($m->Tipo == 2) {
-                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
-                                if (sizeof($costo) > 0) {
-                                    $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                                if ($m->Tipo == 2) {
+                                    $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
+                                    if (sizeof($costo) > 0) {
+                                        $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                                    }
+                                } else {
+                                    if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                                 }
-                            } else {
-                                if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
+
+                                $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
+                                $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
+                                $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
+                                $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
+
+                                DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                             }
-
-                            $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
-                            $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
-                            $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
-                            $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
-
-                            DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                         }
                         session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
 
@@ -2495,7 +2499,7 @@ class HomeController extends Controller
                         if (sizeof($ordini) > 0) {
                             $ordine = $ordini[0];
                             $xlotto = (isset($dati['xLotto'])) ? $dati['xLotto'] : null;
-                            /*if ($xlotto != '') {
+                            if ($xlotto != '') {
                                 $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $xlotto . '\' and Cd_AR = \'' . $ordine->Cd_AR . '\'');
                                 if (sizeof($check) <= 0) {
                                     $data_scadenza = date('Y-m-d', strtotime('+2 year'));
@@ -2505,7 +2509,7 @@ class HomeController extends Controller
                                     DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => '00001', 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
                                 }
 
-                            }*/
+                            }
 
                             $durata = DB::SELECT('SELECT * FROM PrRLAttivita where Id_PrVRAttivita = ' . $id_attivita);
                             if (sizeof($durata) > 0)
