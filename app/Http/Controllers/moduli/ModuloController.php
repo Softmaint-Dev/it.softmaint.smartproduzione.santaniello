@@ -148,7 +148,7 @@ class ModuloController extends Controller
         if (!is_dir('upload/' . $dms_for_folder->EntityId)) {
             mkdir('upload/' . $dms_for_folder->EntityId);
         }
-        $response = $client->request('GET', 'http://smartsantaniello.local:8080/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
+        $response = $client->request('GET', 'http://192.168.1.210:8081/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
         $body = $response->getBody();
         file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $body);
 
@@ -222,7 +222,7 @@ class ModuloController extends Controller
         if (!is_dir('upload/' . $dms_for_folder->EntityId)) {
             mkdir('upload/' . $dms_for_folder->EntityId);
         }
-        $response = $client->request('GET', 'http://smartsantaniello.local:8080/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
+        $response = $client->request('GET', 'http://192.168.1.210:8081/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
         $body = $response->getBody();
         file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $body);
 
