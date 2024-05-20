@@ -98,15 +98,23 @@ class HomeController extends Controller
 
         if ($utente->Cd_PRRiparto == 'LAB') {
             $bolle = DB::select('
-            SELECT top 50 Id_PrOL,Id_PrBLAttivita,Articolo,Quantita,QuantitaProdotta,PercProdotta,(SELECT NumeroDoc from dotes where Id_DOTes in (SELECT Id_DOTes from dorig where Id_DORig in (SELECT Id_DORig FROM PROLDorig where Id_PrOL = PrBLAttivitaEx.Id_PrOL)))
-        as NumeroDoc from PrBLAttivitaEx order by TimeIns DESC
+            SELECT top 50 Id_PrOL,Id_PrBLAttivita,Articolo,Quantita,QuantitaProdotta,PercProdotta,
+    STUFF((SELECT \',\' + NumeroDoc FROM dotes WHERE Id_DOTes IN
+        (SELECT Id_DOTes FROM dorig WHERE Id_DORig IN
+            (SELECT Id_DORig FROM PROLDorig WHERE Id_PrOL = PrBLAttivitaEx.Id_PrOL))
+    FOR XML PATH(\'\')), 1, 1, \'\')
+    AS NumeroDoc from PrBLAttivitaEx order by TimeIns DESC
             ');
             return View::make('backend.index', compact('utente', 'bolle'));
         }
 
         $bolle = DB::select('
-            SELECT top 50 Id_PrOL,Id_PrBLAttivita,Articolo,Quantita,QuantitaProdotta,PercProdotta,(SELECT NumeroDoc from dotes where Id_DOTes in (SELECT Id_DOTes from dorig where Id_DORig in (SELECT Id_DORig FROM PROLDorig where Id_PrOL = PrBLAttivitaEx.Id_PrOL)))
-        as NumeroDoc from PrBLAttivitaEx where Prodotta = 0 and Cd_PrRisorsa = \'' . $utente->Cd_PRRisorsa . '\' order by TimeIns DESC
+            SELECT top 50 Id_PrOL,Id_PrBLAttivita,Articolo,Quantita,QuantitaProdotta,PercProdotta,
+    STUFF((SELECT \',\' + NumeroDoc FROM dotes WHERE Id_DOTes IN
+        (SELECT Id_DOTes FROM dorig WHERE Id_DORig IN
+            (SELECT Id_DORig FROM PROLDorig WHERE Id_PrOL = PrBLAttivitaEx.Id_PrOL))
+    FOR XML PATH(\'\')), 1, 1, \'\')
+    AS NumeroDoc from PrBLAttivitaEx where Prodotta = 0 and Cd_PrRisorsa = \'' . $utente->Cd_PRRisorsa . '\' order by TimeIns DESC
             ');
 
 
