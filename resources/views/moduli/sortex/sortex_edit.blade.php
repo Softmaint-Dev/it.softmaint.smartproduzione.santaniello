@@ -51,7 +51,7 @@
             <div class="col-md-4 mb-3">
                 <div class="mb-3">
                     <label for="caliber" class="form-label">LOTTO MP</label>
-                    <input required type="text" name="lotto_mp" name="sampleCalibratura" value="{{$json->lotto_mp}}"
+                    <input required type="text" name="lotto_mp" name="sampleCalibratura" value="{{(isset($json->lotto_mp))?$json->lotto_mp:""}}"
                            class="form-control" id="caliberSample"
                            aria-describedby="emailHelp">
                 </div>
@@ -59,7 +59,7 @@
             <div class="col-md-4 mb-3">
                 <div class="mb-3">
                     <label for="caliber" class="form-label">VARIETA</label>
-                    <input required type="text" name="varieta" name="sampleCalibratura" value="{{$json->varieta}}"
+                    <input required type="text" name="varieta" name="sampleCalibratura" value="{{(isset($json->varieta))?$json->varieta:""}}"
                            class="form-control" id="caliberSample"
                            aria-describedby="emailHelp">
                 </div>
