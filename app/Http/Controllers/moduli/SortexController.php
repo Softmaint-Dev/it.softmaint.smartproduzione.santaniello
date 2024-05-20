@@ -41,7 +41,6 @@ class SortexController extends Controller
 
         $data = $request->all();
 
-        print_r($data);
         $groupedData = [];
 
         foreach ($data as $key => $value) {
