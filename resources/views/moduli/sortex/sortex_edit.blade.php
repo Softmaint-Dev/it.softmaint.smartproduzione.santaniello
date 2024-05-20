@@ -41,7 +41,7 @@
             <div class="col-md-4 mb-3">
                 <label for="data">Seleziona Data*:</label>
                 <div class="input-group date">
-                    <input type="text" class="form-control datepicker" id="data" value="{{$json->data}}" name="data"
+                    <input type="text" class="form-control datepicker" id="data" value="{{($json->data)?$json->data:""}}" name="data"
                            required>
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="far fa-calendar"></i></span>
