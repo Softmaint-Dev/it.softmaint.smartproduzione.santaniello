@@ -113,7 +113,7 @@ class RaffinatriceController extends Controller
 
         return view('moduli.raffinatrice.raffinatrice_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJson),
+            'json' => json_decode($dms->xJSON),
             'id' => $id,
         ]);
     }
@@ -125,7 +125,7 @@ class RaffinatriceController extends Controller
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
-        $oldJson = json_decode($dms->xJson);
+        $oldJson = json_decode($dms->xJSON);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();

@@ -120,7 +120,7 @@ class ModuloController extends Controller
             if ($dms) {
                 $dms->Content = $binaryPDF;
                 //$dms->FileSize = strlen($binaryPDF);
-                $dms->xJson = $json;
+                $dms->xJSON = $json;
 
                 $dms->save();
             }
@@ -135,7 +135,7 @@ class ModuloController extends Controller
             if ($dms) {
                 $dms->Content = $binaryPDF;
                 //$dms->FileSize = strlen($binaryPDF);
-                $dms->xJson = $json;
+                $dms->xJSON = $json;
 
                 $dms->save();
             }

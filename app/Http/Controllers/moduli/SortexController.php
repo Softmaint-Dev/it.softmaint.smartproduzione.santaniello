@@ -124,7 +124,7 @@ class SortexController extends Controller
 
         return view('moduli.sortex.sortex_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJson),
+            'json' => json_decode($dms->xJSON),
             'id' => $id,
         ]);
     }
@@ -136,7 +136,7 @@ class SortexController extends Controller
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
-        $oldJson = json_decode($dms->xJson);
+        $oldJson = json_decode($dms->xJSON);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
