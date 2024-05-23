@@ -79,7 +79,8 @@ class SortexController extends Controller
 
         $refactoring = array(
             '[DA COSTRUIRE]' => $htmlString,
-            '[VARIETA]' => $data ["varieta"],
+            '[VARIETA]' => $data["varieta"],
+            '[LOTTO]' => $data["lotto_mp"],
             '[DATA]' => $data['data']
 
         );
