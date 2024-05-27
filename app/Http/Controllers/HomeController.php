@@ -2240,7 +2240,7 @@ class HomeController extends Controller
 
                     $materiale = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                     foreach ($materiale as $m) {
-                        if($m->Tipo != 0) {
+                        if ($m->Tipo != 0) {
                             $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
                             $insert_pr_materiale['Tipo'] = $m->Tipo;
                             $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
@@ -2420,7 +2420,7 @@ class HomeController extends Controller
 
 
                         foreach ($materiale as $m) {
-                            if($m->Tipo != 0) {
+                            if ($m->Tipo != 0) {
                                 $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
                                 $insert_pr_materiale['Tipo'] = $m->Tipo;
                                 $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
@@ -2842,7 +2842,7 @@ class HomeController extends Controller
                     $insert['FattoreToUM1'] = $umfatt;
                     $insert['Cd_AR'] = $dati['Cd_AR'];
                     $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
-                    $insert['Obbligatorio'] = '1';
+                    $insert['Obbligatorio'] = DB::select('SELECT COALESCE(MG_LottoObbligatorio,0) as ciao FROM AR WHERE AR.Cd_AR = \'' . $dati['Cd_AR'] . '\' ')[0]->ciao;
                     $insert['NotePrBLMateriale'] = '';
                     $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
                     $insert['Cd_MG'] = $dati['Cd_MG'];
@@ -2916,7 +2916,7 @@ class HomeController extends Controller
                     $insert['FattoreToUM1'] = $umfatt;
                     $insert['Cd_AR'] = $dati['Cd_AR'];
                     $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
-                    $insert['Obbligatorio'] = '1';
+                    $insert['Obbligatorio'] = DB::select('SELECT COALESCE(MG_LottoObbligatorio,0) as ciao FROM AR WHERE AR.Cd_AR = \'' . $dati['Cd_AR'] . '\' ')[0]->ciao;
                     $insert['NotePrBLMateriale'] = '';
                     $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
                     $insert['Cd_MG'] = $dati['Cd_MG'];
