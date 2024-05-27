@@ -64,7 +64,7 @@ class xDmsFolder extends Model
     {
         return DB::table('xDmsFolder')
             ->whereNotNull('xDmsFolder.EntityId')
-            ->whereRaw("CONVERT(NVARCHAR(MAX), DmsDocument.EntityId) LIKE CONCAT('%', CONVERT(NVARCHAR(MAX), ?), '%')", [$this->EntityId])
+            ->whereRaw("CONVERT(NVARCHAR(MAX), xDmsFolder.EntityId) LIKE CONCAT('%', CONVERT(NVARCHAR(MAX), ?), '%')", [$this->EntityId])
             ->select("Id_xDmsFolder", "Descrizione", "DocumentDate", "xType")
             ->get();
     }
