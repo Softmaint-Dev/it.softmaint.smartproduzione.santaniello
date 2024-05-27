@@ -26,8 +26,8 @@ class ModuloController extends Controller
         $dotes = $dorig->dotes;
         $dms = $dotes->dms();*/
         /* SOSTITUISCO LA VECCHIA GESTIONE */
-        $dms = xDmsFolder::firstWhere('EntityId', '=', $id)->get();
-        //$dms = $dms->dms();
+        $dms = xDmsFolder::firstWhere('EntityId', '=', $id);
+        $dms = $dms->dms();
         return new JsonResponse($dms);
     }
 
