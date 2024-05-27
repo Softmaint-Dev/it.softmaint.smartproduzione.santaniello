@@ -60,10 +60,10 @@ class xDmsFolder extends Model
         'FilePath',
     ];
 
-    public function dms()
+    public function dms($EntityId)
     {
         return DB::table('xDmsFolder')
-            ->whereNotNull('xDmsFolder.EntityId')
+            ->whereRaw("xDmsFolder.EntityId = ", [$EntityId])
             //->whereRaw("CONVERT(NVARCHAR(MAX), DmsDocument.EntityId) LIKE CONCAT('%', CONVERT(NVARCHAR(MAX), ?), '%')", [$id])
             ->select("Id_xDmsFolder", "Descrizione", "DocumentDate", "xType")
             ->get();
