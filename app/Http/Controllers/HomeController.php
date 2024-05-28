@@ -373,7 +373,7 @@ class HomeController extends Controller
                             $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
                             $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
                             if ($m->Tipo == 2) {
-                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
+                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                                 if (sizeof($costo) > 0) {
                                     $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                                 }
@@ -396,13 +396,13 @@ class HomeController extends Controller
                     $insert_pr_materiale['Cd_MG'] = '00001';
                     $insert_pr_materiale['NotePrVRMateriale'] = 'Versamento Pedana ' . $dati['Nr_Pedana'];
                     $insert_pr_materiale['ValoreUnitario'] = 0;
-                    $costo = DB::select('SELECT top 1 Costo from ARCostoItem Where Cd_AR = \'' . $ol->Cd_AR . '\' and TipoCosto = \'M\' Order By Cd_MGEsercizio DESC');
+                    $costo = DB::select('SELECT top 1 Costo from ARCostoItem Where Cd_AR = \'' . $ol->Cd_AR . '\' and TipoCosto = \'U\' Order By Cd_MGEsercizio DESC');
                     if (sizeof($costo) > 0) {
                         $insert_pr_materiale['ValoreUnitario'] = $costo[0]->Costo;
                     }
 
                     if ($m->Tipo == 2) {
-                        $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
+                        $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                         if (sizeof($costo) > 0) {
                             $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                         }
@@ -637,7 +637,7 @@ class HomeController extends Controller
                             $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
                             $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
                             if ($m->Tipo == 2) {
-                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
+                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                                 if (sizeof($costo) > 0) {
                                     $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                                 }
@@ -660,13 +660,13 @@ class HomeController extends Controller
                     $insert_pr_materiale['Cd_MG'] = '00001';
                     $insert_pr_materiale['NotePrVRMateriale'] = 'Versamento Pedana ' . $dati['Nr_Pedana'];
                     $insert_pr_materiale['ValoreUnitario'] = 0;
-                    $costo = DB::select('SELECT top 1 Costo from ARCostoItem Where Cd_AR = \'' . $ol->Cd_AR . '\' and TipoCosto = \'M\' Order By Cd_MGEsercizio DESC');
+                    $costo = DB::select('SELECT top 1 Costo from ARCostoItem Where Cd_AR = \'' . $ol->Cd_AR . '\' and TipoCosto = \'U\' Order By Cd_MGEsercizio DESC');
                     if (sizeof($costo) > 0) {
                         $insert_pr_materiale['ValoreUnitario'] = $costo[0]->Costo;
                     }
 
                     if ($m->Tipo == 2) {
-                        $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
+                        $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                         if (sizeof($costo) > 0) {
                             $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                         }
@@ -2252,7 +2252,7 @@ class HomeController extends Controller
 
 
                             if ($m->Tipo == 2) {
-                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
+                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                                 if (sizeof($costo) > 0) {
                                     $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                                 }
@@ -2432,7 +2432,7 @@ class HomeController extends Controller
 
 
                                 if ($m->Tipo == 2) {
-                                    $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'M\'');
+                                    $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                                     if (sizeof($costo) > 0) {
                                         $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                                     }
