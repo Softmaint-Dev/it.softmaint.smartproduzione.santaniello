@@ -49,7 +49,7 @@
         <tbody>
         <tr id="referenceRow">
             <td>
-                <span class="counter">1</span>° con. ore <input name="ore1" type="number" required id="ore1"
+                <span class="counter">1</span>° con. ore <input name="ore1" type="text" required id="ore1"
                                                                 class="form-control">
 
                 <div class="mb-3">
@@ -235,7 +235,7 @@
             var newRowHTML = `
                 <tr>
                     <td>
-                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" id="ore${counter}" type="number"
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" id="ore${counter}" type="text"
                             required class="form-control">
                         <div class="mb-3">
                             <label for="xwpCollo" class="form-label">LOTTO</label>
@@ -318,7 +318,7 @@
         var newRowHTML = `
                 <tr>
                     <td>
-                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="number"
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="text"
                             required class="form-control">
                         <div class="mb-3">
                             <label for="xwpCollo" class="form-label">LOTTO</label>

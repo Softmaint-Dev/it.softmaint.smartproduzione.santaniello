@@ -50,7 +50,7 @@
         <tbody>
         <tr id="referenceRow">
             <td>
-                <span class="counter">1</span>° con. ore <input name="ore1" value="{{$json->ore1}}" type="number"
+                <span class="counter">1</span>° con. ore <input name="ore1" value="{{$json->ore1}}" type="text"
                                                                 required
                                                                 class="form-control">
 
@@ -188,7 +188,7 @@
             var newRowHTML = `
                 <tr>
                     <td>
-                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" id="ore${counter}" type="number"
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" id="ore${counter}" type="text"
                             required class="form-control">
                         <div class="mb-3">
                             <label for="xwpCollo" class="form-label">LOTTO</label>
@@ -270,7 +270,7 @@
         var newRowHTML = `
                 <tr>
                     <td>
-                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="number"
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="text"
                             required class="form-control">
                         <div class="mb-3">
                             <label for="xwpCollo" class="form-label">LOTTO</label>
