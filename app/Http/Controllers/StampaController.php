@@ -316,6 +316,7 @@ class StampaController extends Controller
             if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . '  and cd_ar1 IS NULL and cd_cf IS NULL and cd_prattivita IS NULL');
 
         }
+		
 
         $nome_file = '';
         if (sizeof($report) > 0) {
@@ -323,7 +324,6 @@ class StampaController extends Controller
             $nome_file = strtolower(str_replace(' ', '_', $report->codice)) . '_' . $param1;
             $report->query = str_replace('[param1]', $param1, $report->query);
             $query = DB::select($report->query);
-
             if (sizeof($query) > 0) {
                 $query = $query[0];
                 $html = View::make('stampa.modulo', compact('query', 'report'));
