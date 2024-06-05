@@ -64,7 +64,7 @@ foreach ($attivita_bolla->colli as $c){
                 <option value="">Nessuna Pedana</option>
                     <?php foreach ($attivita_bolla->pedane as $p) { ?>
                 <option
-                    value="<?php echo $p->Nr_Pedana ?>" <?php echo ($p->Nr_Pedana == $c->Nr_Pedana) ? 'selected' : '' ?>><?php echo $p->Nr_Pedana ?></option>
+                        value="<?php echo $p->Nr_Pedana ?>" <?php echo ($p->Nr_Pedana == $c->Nr_Pedana) ? 'selected' : '' ?>><?php echo $p->Nr_Pedana ?></option>
                 <?php } ?>
             </select>
         </div>
@@ -198,14 +198,14 @@ foreach ($attivita_bolla->colli as $c){
                                             style="width:100%">
                                             <?php foreach ($articolo->UM as $um){ ?>
                                         <option
-                                            value="<?php echo $um->Cd_ARMisura ?>" <?php echo ($um->TipoARMisura == 'V') ? 'selected' : '' ?>><?php echo $um->Cd_ARMisura ?></option>
+                                                value="<?php echo $um->Cd_ARMisura ?>" <?php echo ($um->TipoARMisura == 'V') ? 'selected' : '' ?>><?php echo $um->Cd_ARMisura ?></option>
                                         <?php } ?>
                                     </select>
                                     <?php } else { ?>
                                     <select name="xCd_ARMisura" class="form-control select2" readonly
                                             style="width:100%">
                                         <option
-                                            value="<?php echo $attivita_bolla->Cd_ARMisura ?>"><?php echo $attivita_bolla->Cd_ARMisura ?></option>
+                                                value="<?php echo $attivita_bolla->Cd_ARMisura ?>"><?php echo $attivita_bolla->Cd_ARMisura ?></option>
                                     </select>
                                     <?php } ?>
 
@@ -215,8 +215,11 @@ foreach ($attivita_bolla->colli as $c){
                                     <div class="form-group">
                                         <label>Magazzino</label>
                                         <select id="cd_mg" name="cd_mg" class="form-control">
-                                            <option seelcted value="00001">00001 - Magazzino Centrale</option>
-                                            <option value="00009">00009 - Magazzino Produzione</option>
+                                            <option value="00001">00001 - Magazzino Centrale</option>
+                                            <option <?php if ($OLAttivita->Cd_PrAttivita != 'IMBALLATRCI') {
+                                                echo 'selected';
+                                            } ?> value="00009">00009 - Magazzino Produzione
+                                            </option>
                                         </select>
                                         <input id="quantita_scarto_vr" type="hidden" step="1" min="0"
                                                class="form-control" name="quantita_scarto_vr"
@@ -242,18 +245,18 @@ foreach ($attivita_bolla->colli as $c){
 
                                 <div class="col-md-4">
                                     <input
-                                        style="width: 100%;display: block;font-size: 70px;margin: 20px auto auto auto;"
-                                        type="submit" name="fine_lavorazione_si" value="SI" class="btn btn-success">
+                                            style="width: 100%;display: block;font-size: 70px;margin: 20px auto auto auto;"
+                                            type="submit" name="fine_lavorazione_si" value="SI" class="btn btn-success">
                                 </div>
                                 <div class="col-md-4">
                                     <input
-                                        style="width: 100%;display: block;font-size: 70px;margin: 20px auto auto auto;"
-                                        type="submit" name="fine_lavorazione_no" value="NO" class="btn btn-primary">
+                                            style="width: 100%;display: block;font-size: 70px;margin: 20px auto auto auto;"
+                                            type="submit" name="fine_lavorazione_no" value="NO" class="btn btn-primary">
                                 </div>
                                 <div class="col-md-4">
                                     <button
-                                        style="width: 100%;display: block;line-height:105px;font-size: 30px;margin: 20px auto auto auto;"
-                                        type="button" class="btn btn-default" data-dismiss="modal">Annulla
+                                            style="width: 100%;display: block;line-height:105px;font-size: 30px;margin: 20px auto auto auto;"
+                                            type="button" class="btn btn-default" data-dismiss="modal">Annulla
                                     </button>
                                 </div>
 
