@@ -243,7 +243,7 @@ class StampaController extends Controller
             mkdir('upload', 0777, true);
         }
 
-        $CF = DB::select('SELECT top 1 CD_CFfrom DORig Where Id_DORig IN (
+        $CF = DB::select('SELECT top 1 CD_CF from DORig Where Id_DORig IN (
                 SELECT Id_DoRig from PROLDoRig Where Id_PrOL IN (
                     SELECT Id_PrOL From PROLAttivita Where Id_PrOLAttivita IN (
                         SELECT Id_PrOLAttivita from PRBLAttivita Where Id_PrBLAttivita = ' . $id_prblattivita . '
