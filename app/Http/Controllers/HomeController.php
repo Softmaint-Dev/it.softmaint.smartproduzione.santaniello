@@ -2007,7 +2007,7 @@ class HomeController extends Controller
                             if (sizeof($ordini) > 0) {
                                 $ordine = $ordini[0];
                                 if (!strpos($dati['xLotto'], '.')) {
-                                    $dati['xLotto'] = $dati['xLotto'] . '.' . $id;
+                                    $dati['xLotto'] = $dati['xLotto'] . '-' . $id;
                                 }
                                 $articolo = DB::select('SELECT * from AR where CD_AR = \'' . $ordine->Cd_AR . '\'')[0];
                                 $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $dati['xLotto'] . '\' and Cd_AR = \'' . $articolo->Cd_AR . '\'');
