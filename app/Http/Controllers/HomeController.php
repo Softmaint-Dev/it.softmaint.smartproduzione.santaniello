@@ -3465,12 +3465,9 @@ class HomeController extends Controller
         }
 
 
-        dd($codice_stampa);
-        $codice_stampa = 'TEST';
+        $nome_file = StampaController::motore_industry_test($utente->Cd_PRRisorsa, $id, $param1, $tipologia, $codice_stampa);
 
-        $nome_file = StampaController::motore_industry($utente->Cd_PRRisorsa, $id, $param1, $tipologia, $codice_stampa);
-
-        return Redirect::to('upload/stampante3/' . $nome_file . '.pdf');
+        return Redirect::to('upload/test/' . $nome_file . '.pdf');
 
 
     }
