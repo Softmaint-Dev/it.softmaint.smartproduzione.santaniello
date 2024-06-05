@@ -234,6 +234,117 @@ class StampaController extends Controller
         return $nome_file;
 
     }
+    public static function motore_industry_test($risorsa, $id_prblattivita, $param1, $tipologia = 0, $codice_stampa = '')
+    {
+
+        $stampante = 'test';
+
+        if (!is_dir('upload/')) {
+            mkdir('upload', 0777, true);
+        }
+
+        $CF = DB::select('SELECT top 1 CD_CF from DORig Where Id_DORig IN (
+                SELECT Id_DoRig from PROLDoRig Where Id_PrOL IN (
+                    SELECT Id_PrOL From PROLAttivita Where Id_PrOLAttivita IN (
+                        SELECT Id_PrOLAttivita from PRBLAttivita Where Id_PrBLAttivita = ' . $id_prblattivita . '
+                    )
+                )
+            )
+        ');
+
+
+        $ar = DB::select('
+            select * From AR Where Cd_AR IN(
+                SELECT Cd_AR from PrOLEx Where Id_PrOL IN (
+                    SELECT Id_PrOL from PROLAttivitaEX Where Id_PrOLAttivita IN (
+                        select Id_PrOLAttivita FROM PrBLAttivitaEx Where Id_PrBLAttivita = ' . $id_prblattivita . '
+                    )
+                )
+            )
+        ');
+
+        $cd_cf = '';
+        $cd_ar = '';
+        $cd_prattivita = '';
+
+        if (sizeof($CF) > 0) $cd_cf = $CF[0]->CD_CF;
+        if (sizeof($ar) > 0) $cd_ar = $ar[0]->Cd_AR;
+
+
+        $attivita_bolle = DB::select('SELECT * from PrBLAttivitaEx Where Id_PrBLAttivita = ' . $id_prblattivita);
+        if (sizeof($attivita_bolle) > 0) {
+            $attivita_bolla = $attivita_bolle[0];
+
+            $OLAttivita = DB::select('SELECT * from PrOLAttivita Where Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
+            if (sizeof($OLAttivita) > 0) {
+                $OLAttivita = $OLAttivita[0];
+
+                $cd_prattivita = $OLAttivita->Cd_PrAttivita;
+            }
+        }
+
+
+        if ($codice_stampa != '') {
+
+            $report = DB::select('SELECT * from xSPREport where codice = \'' . $codice_stampa . '\'');
+
+        } else {
+
+            $where_cd_cf = '';
+            $where_cd_prattivita = '';
+            $where_cd_ar = '';
+
+            if ($cd_cf != '') {
+                $where_cd_cf = ' and cd_cf LIKE  \'%' . $cd_cf . '%\' ';
+            }
+
+            if ($cd_prattivita != '') {
+                $where_cd_prattivita = ' and cd_prattivita LIKE  \'%' . $cd_prattivita . '%\' ';
+            }
+
+            if ($cd_ar != '') {
+                $where_cd_ar = ' and cd_ar1 LIKE \'%' . $cd_ar . '%\' ';
+            }
+
+
+            $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_prattivita . ' ' . $where_cd_ar);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_ar);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_cf . ' ' . $where_cd_prattivita);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_prattivita . ' ' . $where_cd_ar);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_cf);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . ' ' . $where_cd_ar);
+            if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . '  and cd_ar1 IS NULL and cd_cf IS NULL and cd_prattivita IS NULL');
+
+        }
+
+        $nome_file = '';
+        if (sizeof($report) > 0) {
+            $report = $report[0];
+            $nome_file = strtolower(str_replace(' ', '_', $report->codice)) . '_' . $param1;
+            $report->query = str_replace('[param1]', $param1, $report->query);
+            $query = DB::select($report->query);
+
+            if (sizeof($query) > 0) {
+                $query = $query[0];
+                $html = View::make('stampa.modulo', compact('query', 'report'));
+
+                if (sizeof(explode('x', $report->grandezza)) > 1) {
+                    list($base, $altezza) = explode('x', $report->grandezza);
+                    $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [$base, $altezza], 'margin_left' => 0, 'margin_right' => 0, 'margin_top' => 0, 'margin_bottom' => 0, 'margin_header' => 0, 'margin_footer' => 0]); //use this customization
+                } else {
+                    $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => $report->grandezza, 'margin_left' => 0, 'margin_right' => 0, 'margin_top' => 0, 'margin_bottom' => 0, 'margin_header' => 0, 'margin_footer' => 0]); //use this customization
+                }
+                $mpdf->SetTitle($report->codice . ' ' . $param1);
+                $mpdf->WriteHTML($html);
+                $mpdf->Output('upload/' . $stampante . '/' . $nome_file . '.pdf', 'F');
+                //$mpdf->Output('upload/' . $nome_file . '.pdf', 'F');
+            }
+
+        }
+
+        return $nome_file;
+
+    }
 
     public static function motore_industry_materiale($risorsa, $id_prblattivita, $param1, $tipologia = 0, $codice_stampa = '')
     {
