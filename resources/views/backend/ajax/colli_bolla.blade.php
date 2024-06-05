@@ -214,10 +214,9 @@ foreach ($attivita_bolla->colli as $c){
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Magazzino</label>
-                                        <select id="cd_mg" name="cd_mg"
-                                                {{ $OLAttivita->Cd_PrAttivita }} class="form-control">
+                                        <select id="cd_mg" name="cd_mg" class="form-control">
                                             <option value="00001">00001 - Magazzino Centrale</option>
-                                            <option <?php if ($OLAttivita->Cd_PrAttivita != 'imballaggio') {
+                                            <option <?php if ($OLAttivita->Cd_PrAttivita != 'IMBALLAGGIO') {
                                                 echo 'selected';
                                             } ?> value="00009">00009 - Magazzino Produzione
                                             </option>
