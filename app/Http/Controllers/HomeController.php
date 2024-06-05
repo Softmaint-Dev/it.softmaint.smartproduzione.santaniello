@@ -3446,6 +3446,8 @@ class HomeController extends Controller
 
         $id = 0;
 
+        $utente = session('utente');
+
         $colli = DB::select('SELECT * from xWPCollo Where Nr_Collo = \'' . $param1 . '\'');
         if (sizeof($colli) > 0) {
             $id = $colli[0]->Id_PRBLAttivita;
