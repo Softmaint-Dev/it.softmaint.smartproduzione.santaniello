@@ -2006,6 +2006,7 @@ class HomeController extends Controller
                             $ordini = DB::select('SELECT * from PrOLEx Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                             if (sizeof($ordini) > 0) {
                                 $ordine = $ordini[0];
+                                $dati['xLotto'] = $dati['xLotto'] .'.'. $id;
                                 $articolo = DB::select('SELECT * from AR where CD_AR = \'' . $ordine->Cd_AR . '\'')[0];
                                 $check = DB::SELECT('SELECT * FROM ARLotto where Cd_ARLotto = \'' . $dati['xLotto'] . '\' and Cd_AR = \'' . $articolo->Cd_AR . '\'');
                                 if (sizeof($check) <= 0) {
