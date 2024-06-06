@@ -3545,41 +3545,7 @@ class HomeController extends Controller
                                                 )
                                             )');
                 if (sizeof($consumi) > 0) {
-                    $semilavorati = DB::SELECT('SELECT
-                    (SELECT Cd_PrAttivita FROM PROLAttivita WHERE Id_PrOLAttivita = PRVRMateriale.Id_PrOLAttivita) as Attivita,Tipo,Cd_AR,Cd_ARLotto,Cd_ARMisura,SUM(ABS(Consumo)) as Consumo,NotePRVRMateriale
-                    FROM PRVRMateriale
-                    WHERE Id_PRVRAttivita IN (SELECT Id_PRVRAttivita FROM PRVRAttivita
-                        where Id_PRBLAttivita in (select Id_PrBLAttivita from PRBLAttivita
-                            where Id_PrOLAttivita in (
-                                SELECT Id_PrOLAttivita
-                                FROM PRVRMateriale
-
-                                WHERE Cd_ARLotto in (SELECT Cd_ARLotto
-                                    FROM PRVRMateriale
-                                    WHERE Id_PRVRAttivita IN (SELECT Id_PRVRAttivita FROM PRVRAttivita
-                                    where Id_PRBLAttivita in (select Id_PrBLAttivita from PRBLAttivita
-                                    where Id_PrOLAttivita in (SELECT Id_PrOLAttivita FROM PROLAttivita WHERE Id_PrOL =  ' . $id_prol . ')
-                                        )
-                                )
-                            )
-                            AND Tipo = 0
-                            AND Cd_AR IN
-                                (
-                                SELECT Cd_AR
-                                FROM PRVRMateriale
-                                WHERE Id_PRVRAttivita IN (SELECT Id_PRVRAttivita FROM PRVRAttivita
-                                where Id_PRBLAttivita in (select Id_PrBLAttivita from PRBLAttivita
-                                where Id_PrOLAttivita in (SELECT Id_PrOLAttivita FROM PROLAttivita WHERE Id_PrOL = ' . $id_prol . ')
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                    )
-					GROUP BY
-					Tipo,Cd_AR,Cd_ARLotto,Cd_ARMisura,NotePRVRMateriale,Id_PrOLAttivita
-                    ');
-                    return View::make('backend.view_ol', compact('numero_ol', 'consumi', 'semilavorati'));
+                    return View::make('backend.view_ol', compact('numero_ol', 'consumi'));
                 }
             }
         }

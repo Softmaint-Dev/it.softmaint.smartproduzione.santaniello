@@ -42,7 +42,7 @@
                                     <?php if ($c1->Tipo != 3){ ?>
                                     <?php if ($c1->Tipo == 0){ ?>
                                 <li class="tree-node">
-                                    <p>{{number_format($c1->Consumo,2,'.',' ').' '.$c1->Cd_ARMisura.' | '.$c1->Cd_AR}}
+                                    <p style="color: green">{{number_format($c1->Consumo,2,'.',' ').' '.$c1->Cd_ARMisura.' | '.$c1->Cd_AR}}
                                         <strong>@if($c1->Cd_ARLotto != NULL)
                                                 {{' (  '.$c1->Cd_ARLotto.' )'}}
                                             @endif </strong> |</p>
@@ -54,33 +54,27 @@
                                         <strong>@if($c1->Cd_ARLotto != NULL)
                                                 {{' (  '.$c1->Cd_ARLotto.' )'}}
                                             @endif </strong> |</p>
-                                        <?php foreach ($semilavorati as $s){ ?>
-                                        <?php if ($s->Tipo == 0 || $s->Tipo == 3){ ?>
-                                        <?php if ($s->Cd_ARLotto == $c1->Cd_ARLotto && $s->Cd_AR == $c1->Cd_AR){ ?>
-                                    <ul style="color: blue">
 
-                                        <li class="tree-node">
-                                            {{ $s1->Attivita }}
-                                            <ul>
-                                                    <?php foreach ($semilavorati as $s2) { ?>
-                                                    <?php if ($s2->Tipo == 2){ ?>
-                                                <li class="tree-node">
-                                                    <p>
-                                                        - {{number_format($s2->Consumo,2,'.',' ').' '.$s2->Cd_ARMisura.' | '.$s2->Cd_AR}}
-                                                        <strong>@if($s2->Cd_ARLotto != NULL)
-                                                                {{' (  '.$s2->Cd_ARLotto.' )'}}
-                                                            @endif </strong> |</p>
-                                                </li>
-                                                <?php } ?>
-                                                <?php } ?>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                    <div id="ajax_tracciabilita_mod"></div>
+                                    {{--<?php foreach ($semilavorati as $s){ ?>
+                                    <?php if ($s->Cd_ARLotto == $c1->Cd_ARLotto && $s->Cd_AR == $c1->Cd_AR){ ?>
+                                <ul style="color: blue">
+                                        <?php foreach ($semilavorati as $s2) { ?>
+                                        <?php if ($s2->Tipo == 2){ ?>
+                                    <li class="tree-node">
+                                        <p>
+                                            - {{number_format($s2->Consumo,2,'.',' ').' '.$s2->Cd_ARMisura.' | '.$s2->Cd_AR}}
+                                            <strong>@if($s2->Cd_ARLotto != NULL)
+                                                    {{' (  '.$s2->Cd_ARLotto.' )'}}
+                                                @endif </strong> |</p>
+                                    </li>
                                     <?php } ?>
-                                    <?php } ?>
-                                    <?php } ?>
-                                </li>
+                                </ul>
                                 <?php } ?>
+                                <?php } ?>
+                                <?php } ?>--}}
+                                </li>
+                                <?php } ?>--}}
                                 <?php } ?>
                                 <?php } ?>
                                 <?php } ?>
@@ -112,6 +106,13 @@
 
 <!-- Page specific script -->
 <script type="text/javascript">
+    function cerca_semilavoato(lotto, cd_ar) {
+        $.ajax({
+            url: "<?php echo URL::asset('ajax/cerca_semilavoato') ?>/" + lotto + "/" + cd_ar
+        }).done(function (result) {
+            $('#ajax_tracciabilita_mod').innerHTML = result;
+        });
+    }
 
     function stampa() {
         document.getElementById('button_stampa').style.display = 'none';
