@@ -2007,7 +2007,7 @@ class HomeController extends Controller
                             if (sizeof($ordini) > 0) {
                                 $ordine = $ordini[0];
                                 if ($utente->Cd_PRRisorsa != 'IMBALLAGGIO') {
-                                    if (!strpos($dati['xLotto'], '.')) {
+                                    if (!strpos($dati['xLotto'], '-')) {
                                         $dati['xLotto'] = $dati['xLotto'] . '-' . $id;
                                     }
                                 }
