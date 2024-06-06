@@ -66,6 +66,7 @@ Route::any('ajax/chiudi_collo/{Id_PrBLAttivita}/{qta}/{esemplari}/{cd_armisura}/
 Route::any('ajax/cerca_pedana/{Nr_Pedana}', 'AjaxController@cerca_pedana');
 Route::any('ajax/scarica_excel_lotto/{lotto}', 'AjaxController@scarica_excel_lotto');
 Route::any('ajax/cerca_semilavorato/{lotto}/{cd_ar}', 'AjaxController@cerca_semilavorato');
+Route::any('ajax/cerca_script_semilavorato/{lotto}/{cd_ar}', 'AjaxController@cerca_script_semilavorato');
 
 Route::any('stampa/qualita/{Id_xFormQualita}', 'StampaController@qualita');
 Route::any('qualita', 'HomeController@qualita');

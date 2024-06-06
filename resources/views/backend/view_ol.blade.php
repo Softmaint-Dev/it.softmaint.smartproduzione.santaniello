@@ -112,6 +112,13 @@
         }).done(function (result) {
             document.getElementById('ajax_tracciabilita_mod_' + lotto + '_' + cd_ar).innerHTML = result;
         });
+
+        $.ajax({
+            url: "<?php echo URL::asset('ajax/cerca_script_semilavorato') ?>/" + lotto + "/" + cd_ar
+        }).done(function (result) {
+            eval(result);
+        });
+
     }
 
     function stampa() {
