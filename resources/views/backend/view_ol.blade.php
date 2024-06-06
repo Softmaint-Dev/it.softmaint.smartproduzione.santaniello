@@ -24,7 +24,7 @@
             </div>
         </section>--}}
         <!-- Main content -->
-        <section class="content"ssid="stampabile">
+        <section class="content" id="stampabile">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title" id="lotto">Numero OL (<strong> <?php echo $numero_ol; ?> </strong>)</h3>
@@ -59,7 +59,6 @@
                                         <?php if ($s->Cd_ARLotto == $c1->Cd_ARLotto && $s->Cd_AR == $c1->Cd_AR){ ?>
                                     <ul style="color: blue">
                                             <?php foreach ($semilavorati as $s1) { ?>
-                                            <?php if ($s1->Id_PrVRAttivita == $s->Id_PrVRAttivita){ ?>
                                             <?php if ($s1->Tipo == 0 || $s1->Tipo == 3){ ?>
                                         <li class="tree-node">
                                             {{ $s1->Attivita }}
@@ -76,7 +75,7 @@
                                                 <?php } ?>
                                             </ul>
                                         </li>
-                                        <?php } ?>
+
                                         <?php } ?>
                                         <?php } ?>
                                     </ul>
