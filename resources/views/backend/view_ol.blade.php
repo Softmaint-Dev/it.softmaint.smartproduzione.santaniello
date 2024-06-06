@@ -55,7 +55,7 @@
                                                 {{' (  '.$c1->Cd_ARLotto.' )'}}
                                             @endif </strong> |</p>
 
-                                    <div id="ajax_tracciabilita_mod"></div>
+                                    <div id="ajax_tracciabilita_mod_{{$c1->Cd_ARLotto.'_'.$c1->Cd_AR}}"></div>
                                     {{--<?php foreach ($semilavorati as $s){ ?>
                                     <?php if ($s->Cd_ARLotto == $c1->Cd_ARLotto && $s->Cd_AR == $c1->Cd_AR){ ?>
                                 <ul style="color: blue">
@@ -74,7 +74,7 @@
                                 <?php } ?>
                                 <?php } ?>--}}
                                 </li>
-                                <?php } ?>--}}
+                                <?php } ?>
                                 <?php } ?>
                                 <?php } ?>
                                 <?php } ?>
@@ -106,11 +106,11 @@
 
 <!-- Page specific script -->
 <script type="text/javascript">
-    function cerca_semilavoato(lotto, cd_ar) {
+    function cerca_semilavorato(cd_ar, lotto) {
         $.ajax({
-            url: "<?php echo URL::asset('ajax/cerca_semilavoato') ?>/" + lotto + "/" + cd_ar
+            url: "<?php echo URL::asset('ajax/cerca_semilavorato') ?>/" + lotto + "/" + cd_ar
         }).done(function (result) {
-            $('#ajax_tracciabilita_mod').innerHTML = result;
+            document.getElementById('ajax_tracciabilita_mod_' + lotto + '_' + cd_ar).innerHTML = result;
         });
     }
 
@@ -130,6 +130,15 @@
     }*/
 
 
+</script>
+<script type="text/javascript">
+    <?php foreach ($consumi as $c){ ?>
+        <?php if ($c->Cd_ARLotto != ''){ ?>
+        <?php if ($c->Tipo != 0){ ?>
+    cerca_semilavorato('{{$c->Cd_AR}}', '{{$c->Cd_ARLotto}}');
+    <?php } ?>
+    <?php } ?>
+    <?php } ?>
 </script>
 </body>
 </html>

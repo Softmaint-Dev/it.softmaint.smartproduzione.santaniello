@@ -885,20 +885,48 @@ class AjaxController extends Controller
                     ');
         ?>
         <ul style="color: blue"><?php
-        foreach ($semilavorati as $s) {
-            ?>
-            <?php if ($s->Tipo == 2) { ?>
-                <li class="tree-node">
-                    <p>
-                        - <?php echo number_format($s->Consumo, 2, '.', ' ') . ' ' . $s->Cd_ARMisura . ' | ' . $s->Cd_AR; ?>
-                        <strong><?php if ($s->Cd_ARLotto != NULL) {
-                                echo ' ( ' . $s->Cd_ARLotto . ' )';
-                            } ?>
-                        </strong> |</p>
-                </li>
+            foreach ($semilavorati as $s) {
+                ?>
+                <?php if ($s->Tipo == 2) { ?>
+                    <li class="tree-node">
+                        <p>
+                            - <?php echo number_format($s->Consumo, 2, '.', ' ') . ' ' . $s->Cd_ARMisura . ' | ' . $s->Cd_AR; ?>
+                            <strong><?php if ($s->Cd_ARLotto != NULL) {
+                                    echo ' ( ' . $s->Cd_ARLotto . ' )';
+                                } ?>
+                            </strong> |</p>
+                        <div id="ajax_tracciabilita_mod_<?php echo $s->Cd_ARLotto . '_' . $s->Cd_AR; ?>"></div>
+                    </li>
+                <?php } ?>
             <?php } ?>
-        <?php } ?>
         </ul><?php
+        foreach ($semilavorati as $s) {
+
+            $check = DB::SELECT('SELECT
+                    (SELECT Cd_PrAttivita FROM PROLAttivita WHERE Id_PrOLAttivita = PRVRMateriale.Id_PrOLAttivita) as Attivita,Tipo,Cd_AR,Cd_ARLotto,Cd_ARMisura,SUM(ABS(Consumo)) as Consumo,NotePRVRMateriale
+                    FROM PRVRMateriale
+                    WHERE Id_PRVRAttivita IN (SELECT Id_PRVRAttivita FROM PRVRAttivita
+                        where Id_PRBLAttivita in (select Id_PrBLAttivita from PRBLAttivita
+                            where Id_PrOLAttivita in (
+                                SELECT Id_PrOLAttivita
+                                FROM PRVRMateriale
+                                WHERE Cd_ARLotto = \'' . $s->Cd_ARLotto . '\'
+                                AND Tipo = 0
+                                AND Cd_AR = \'' . $s->Cd_AR . '\'
+                            )
+                        )
+                    )
+					GROUP BY
+					Tipo,Cd_AR,Cd_ARLotto,Cd_ARMisura,NotePRVRMateriale,Id_PrOLAttivita
+                    ');
+            if (sizeof($check) > 0) {
+                ?>
+                <script type="text/javascript">
+                    cerca_semilavorato('<?php echo $check[0]->Cd_AR;?>', '<?php echo $check[0]->Cd_ARLotto;?>');
+                </script>
+                <?php
+            }
+        }
     }
 }
 

@@ -2519,7 +2519,8 @@ class HomeController extends Controller
                                     DB::insert('INSERT INTO ARLotto (Cd_AR,Cd_ARLotto,Descrizione,DataScadenza) VALUES (\'' . $ordine->Cd_AR . '\',\'' . $xlotto . '\',\'Lotto ' . $xlotto . ' Articolo ' . $ordine->Cd_AR . '\',\'' . $data_scadenza . '\')');
                                 }
                                 if ($ordine->Id_PrOLAttivita_Next == null) {
-                                    DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => '00001', 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
+                                    DB::table('PrVrMateriale')->insert(['Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita, 'Cd_AR' => $ordine->Cd_AR, 'Cd_ARLotto' => $xlotto, 'Cd_ARMisura' => $ordine->Cd_ARMisura, 'FattoreToUM1' => $ordine->FattoreToUM1, 'Cd_MG' => ($dati['cd_mg']) ? $dati['cd_mg'] :
+                                        '00001', 'Tipo' => 0, 'Id_PRVRAttivita' => $id_attivita, 'Consumo' => -$consumo_tot]);
                                 }
 
                             }
