@@ -58,15 +58,15 @@
                                         <?php if ($s->Tipo == 0 || $s->Tipo == 3){ ?>
                                         <?php if ($s->Cd_ARLotto == $c1->Cd_ARLotto && $s->Cd_AR == $c1->Cd_AR){ ?>
                                     <ul style="color: blue">
-                                            <?php foreach ($semilavorati as $s1) { ?>
-                                            <?php if ($s1->Tipo == 0 || $s1->Tipo == 3){ ?>
+
                                         <li class="tree-node">
                                             {{ $s1->Attivita }}
                                             <ul>
                                                     <?php foreach ($semilavorati as $s2) { ?>
                                                     <?php if ($s2->Tipo == 2){ ?>
                                                 <li class="tree-node">
-                                                    <p>- {{number_format($s2->Consumo,2,'.',' ').' '.$s2->Cd_ARMisura.' | '.$s2->Cd_AR}}
+                                                    <p>
+                                                        - {{number_format($s2->Consumo,2,'.',' ').' '.$s2->Cd_ARMisura.' | '.$s2->Cd_AR}}
                                                         <strong>@if($s2->Cd_ARLotto != NULL)
                                                                 {{' (  '.$s2->Cd_ARLotto.' )'}}
                                                             @endif </strong> |</p>
@@ -75,9 +75,6 @@
                                                 <?php } ?>
                                             </ul>
                                         </li>
-
-                                        <?php } ?>
-                                        <?php } ?>
                                     </ul>
                                     <?php } ?>
                                     <?php } ?>
