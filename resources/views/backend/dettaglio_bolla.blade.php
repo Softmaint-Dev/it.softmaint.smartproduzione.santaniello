@@ -1977,11 +1977,6 @@
                                 @endforeach
                             </datalist>
                         </div>
-
-                        <div class="col-md-12">
-                            <label>Lotto</label>
-                            <input class="form-control" type="text" name="Cd_ARLotto" placeholder="Lotto Materiale">
-                        </div>
                         <div class="col-md-6">
                             <label>Quantità</label>
                             <input class="form-control" type="number" step="0.01" id="quantita_inserisci_materiale"
