@@ -899,6 +899,7 @@ class AjaxController extends Controller
                             )
                         )
                     )
+                    and (Cd_AR != \''.$s->Cd_AR.'\') and (Cd_ARLotto != \''.$s->Cd_ARLotto.'\')
 					GROUP BY
 					Tipo,Cd_AR,Cd_ARLotto,Cd_ARMisura,NotePRVRMateriale,Id_PrOLAttivita
                     ');
