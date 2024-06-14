@@ -31,7 +31,7 @@
         }
     </style>
 </head>
-<?php //dd($json); ?>
+<?php dd($json); ?>
 <body>
 <form action="{{ route('editPostMBR1200', ['idActivity' => $activity->Id_PrBLAttivita, 'id'=>$id]) }}"
       method="POST" onsubmit="return validateForm()" class="container mt-5">

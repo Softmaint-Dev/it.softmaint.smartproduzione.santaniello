@@ -55,6 +55,7 @@ class RaffinatriceController extends Controller
 
         print_r($data);
         $refactoring = array(
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[INTEGRITA]' => isset($data['integrita']) ? "X" : "",
             '[INTEGRITA_DESCRIZIONE]' => $data['integrita_nota'],
             '[PULIZIA_CARICO]' => isset($data['pulizia_carico']) ? "X" : "",
@@ -134,6 +135,7 @@ class RaffinatriceController extends Controller
         $layout = file_get_contents(public_path('pdf/raffinatrice.html'));
 
         $refactoring = array(
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[INTEGRITA]' => isset($data['integrita']) ? "X" : "",
             '[INTEGRITA_DESCRIZIONE]' => $data['integrita_nota'],
             '[PULIZIA_CARICO]' => isset($data['pulizia_carico']) ? "X" : "",

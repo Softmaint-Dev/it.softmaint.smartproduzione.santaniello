@@ -1,30 +1,32 @@
 @include('backend.common.header')
-@include('moduli.components.header') 
+@include('moduli.components.header')
 
 
 
- 
+
 
 <div class="content-wrapper p-3">
 
-    <form action="{{ route('createPostGranella', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST" onsubmit="return validateForm()">
+    <form action="{{ route('createPostGranella', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
+        onsubmit="return validateForm()">
         <div class="container">
             <div class="row">
                 <!-- Prima Colonna -->
                 <div class="col-md-6">
                     <h1> Dati </h1>
                     <div class="mb-3">
-                        <label class="form-label">Varieta / Variery</label>
+                        <label class="form-label">Varietà/Variety</label>
                         <input required type="text" class="form-control" id="variety" name="variety" required>
                     </div>
                     <div class="mb-3">
-                        <label for="calibre" class="form-label">Calibro / Caliber</label>
+                        <label for="calibre" class="form-label">Calibro/Caliber</label>
                         <input required type="text" class="form-control" id="calibre" name="calibre"
                             aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="kg" class="form-label">Kg Totale Ordine / Total Kg Order</label>
-                        <input required type="text" class="form-control" id="kg" name="kg" aria-describedby="emailHelp">
+                        <label for="kg" class="form-label">Kg Totale Ordine/Total Kg Order</label>
+                        <input required type="text" class="form-control" id="kg" name="kg"
+                            aria-describedby="emailHelp">
                     </div>
                     {{-- <div class="mb-3">
                         <label for="customer" class="form-label">Cliente</label>
@@ -37,8 +39,9 @@
                     <input required type="hidden" name="cf" id="cf"> --}}
                     @include('moduli.components.xwpcollo_select', ['attivita' => $attivity])
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Data / Date</label> 
-                        <input type="text" class="form-control datepicker" id="data" name="date" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}" required>
+                        <label for="caliber" class="form-label">Data/Date</label>
+                        <input type="datetime-local" class="form-control" id="data" name="date"
+                            value="{{ \Carbon\Carbon::now()->format('Y-m-d\TH:i') }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="caliber" class="form-label">ANALYSIS TIME</label>
@@ -46,31 +49,32 @@
                             aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">gr campione / sample</label>
+                        <label for="caliber" class="form-label">gr Campione/ gr Sample</label>
                         <input required type="number" name="sample" class="form-control" id="sample"
                             aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Umidità / Moisture</label>
+                        <label for="caliber" class="form-label">Umidità/Moisture</label>
                         <input required type="number" class="form-control" id="moisture" name="moisture"
                             aria-describedby="emailHelp">
                     </div>
                     <div class="form-check form-switch">
                         <input name="skin" class="form-check-input required" type="checkbox" role="switch"
-                        id="flexSwitchCheckChecked" checked>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">SKIN</label>
+                            id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Pellicine/Skin</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="tastAndSmell" type="checkbox" role="switch"
-                        id="flexSwitchCheckChecked" checked>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Taste and smell </label>
+                            id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Sapore e odore/Taste and
+                            smell</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="colour" type="checkbox" role="switch"
-                        id="flexSwitchCheckChecked" checked>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Colour</label>
+                            id="flexSwitchCheckChecked" checked>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Colore/Colour</label>
                     </div>
                 </div>
 
@@ -98,7 +102,8 @@
                                         <td>over size</td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="overSize" name="overSize" required>
+                                                <input type="text" class="form-control" id="overSize"
+                                                    name="overSize" required>
                                             </div>
                                         </td>
                                         <td id="overSizePercentage"></td>
@@ -107,7 +112,8 @@
                                         <td>>5/10></td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="calculation" name="calculation" required>
+                                                <input type="text" class="form-control" id="calculation"
+                                                    name="calculation" required>
                                             </div>
                                         </td>
                                         <td id="calculationPercentage"></td>
@@ -116,7 +122,8 @@
                                         <td>under size</td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="underSize" name="underSize" required>
+                                                <input type="text" class="form-control" id="underSize"
+                                                    name="underSize" required>
                                             </div>
                                         </td>
                                         <td id="underSizePercentage"></td>
@@ -125,23 +132,28 @@
                                         <td>total</td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="total" name="total" required>
+                                                <input type="text" class="form-control" id="total"
+                                                    name="total" required>
                                             </div>
                                         </td>
                                         <td id="totalPercentage"></td>
                                     </tr>
-                                    @csrf  <input required type="hidden" name="calculationPercentage" id="calculationPercentageI">
-                                    @csrf  <input required type="hidden" name="overSizePercentage" id="overSizePercentageI">
-                                    @csrf  <input required type="hidden" name="underSizePercentage"  id="underSizePercentageI">
-                                    @csrf  <input required type="hidden" name="totalPercentage" id="totalPercentageI">
+                                    @csrf <input required type="hidden" name="calculationPercentage"
+                                        id="calculationPercentageI">
+                                    @csrf <input required type="hidden" name="overSizePercentage"
+                                        id="overSizePercentageI">
+                                    @csrf <input required type="hidden" name="underSizePercentage"
+                                        id="underSizePercentageI">
+                                    @csrf <input required type="hidden" name="totalPercentage"
+                                        id="totalPercentageI">
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="form-floating">
-                            <textarea name="observations" class="form-control" placeholder="Leave a comment here"
-                                id="floatingTextarea2" style="height: 300px"></textarea>
+                            <textarea name="observations" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+                                style="height: 300px"></textarea>
                             <label for="floatingTextarea2">osservazioni / observations</label>
                         </div>
                     </div>
@@ -155,7 +167,7 @@
 
     <script>
         function validateForm() {
-                for (var i = 0; i < elementCalculated.length; i++) {
+            for (var i = 0; i < elementCalculated.length; i++) {
                 var currentElement = elementCalculated[i];
 
                 // Ottieni gli elementi associati
@@ -173,12 +185,11 @@
             }
             return true;
         }
-        
+
 
 
         var caliberSample = document.getElementById("caliberSample");
-        var elementCalculated = [
-            {
+        var elementCalculated = [{
                 field: document.getElementById("overSize"),
                 percentage: document.getElementById("overSizePercentage"),
                 idFieldTd: "overSize",
@@ -214,8 +225,7 @@
 
         elementCalculated.forEach(element => {
             element.field.addEventListener('input',
-                () => elementCalculated.forEach(element => percentageOp(element)
-                ));
+                () => elementCalculated.forEach(element => percentageOp(element)));
         });
 
         caliberSample.addEventListener('input', () =>
@@ -230,7 +240,7 @@
             element.percentage.textContent = isFinite(caliber / value) ? (caliber / value).toFixed(2) : 0;
             var tdContent = $('#' + element.idFieldTd).text();
             $('#' + element.idFieldinput).val(tdContent);
- 
+
             var content = $('#' + element.idPercentageTd).text();
             $('#' + element.idPercentageinput).val(content);
         }
@@ -256,13 +266,13 @@
         //         });
         // });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('.selectpicker').selectpicker();
 
         });
 
-        $(document).ready(function () {
-            $('#customer').change(function () {
+        $(document).ready(function() {
+            $('#customer').change(function() {
                 // Aggiorna il valore del campo di input required nascosto
                 var selectedValue = $(this).val();
                 console.log('Valore selezionato:', selectedValue);

@@ -53,11 +53,11 @@ class ModuloController extends Controller
 
     public function editDMS($activity, $id)
     {
-        $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
 
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $activity);
+
+   
         switch (str_replace(' ', '', $dms->xType)) {
             case 'efficienza':
                 return redirect()->route('editEfficienza', ['id' => $id, 'activity' => $activity]);
@@ -89,6 +89,9 @@ class ModuloController extends Controller
             case 'MBR1200':
                 return redirect()->route('editMBR1200', ['id' => $id, 'activity' => $activity]);
                 break;
+                case 'confezionamento':
+                    return redirect()->route('editConfezionamento', ['id' => $id, 'activity' => $activity]);
+                    break;
             case '2':
                 $dms->xType = '1';
                 break;
@@ -142,14 +145,14 @@ class ModuloController extends Controller
             dd($e);
             return true;
         }
-        $client = new Client();
-        $dms_for_folder = xDmsFolder::find($Id_DmsDocument);
-        if (!is_dir('upload/' . $dms_for_folder->EntityId)) {
-            mkdir('upload/' . $dms_for_folder->EntityId);
-        }
-        $response = $client->request('GET', 'http://192.168.1.210:8081/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
-        $body = $response->getBody();
-        file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $body);
+        // $client = new Client();
+        // $dms_for_folder = xDmsFolder::find($Id_DmsDocument);
+        // if (!is_dir('upload/' . $dms_for_folder->EntityId)) {
+        //     mkdir('upload/' . $dms_for_folder->EntityId);
+        // }
+        // $response = $client->request('GET', 'http://192.168.1.210:8081/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
+        // $body = $response->getBody();
+        // file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $body);
 
         return true;
     }
@@ -216,14 +219,14 @@ class ModuloController extends Controller
             print_r($e->getMessage());
             return false;
         }
-        $client = new Client();
-        $dms_for_folder = xDmsFolder::find($dms->Id_xDmsFolder);
-        if (!is_dir('upload/' . $dms_for_folder->EntityId)) {
-            mkdir('upload/' . $dms_for_folder->EntityId);
-        }
-        $response = $client->request('GET', 'http://192.168.1.210:8081/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
-        $body = $response->getBody();
-        file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $body);
+        // $client = new Client();
+        // $dms_for_folder = xDmsFolder::find($dms->Id_xDmsFolder);
+        // if (!is_dir('upload/' . $dms_for_folder->EntityId)) {
+        //     mkdir('upload/' . $dms_for_folder->EntityId);
+        // }
+        // $response = $client->request('GET', 'http://127.0.0.1:8000/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
+        // $body = $response->getBody();
+        // file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $body);
 
         return true;
     }

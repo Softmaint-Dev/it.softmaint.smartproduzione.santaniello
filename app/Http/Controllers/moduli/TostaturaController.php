@@ -76,6 +76,7 @@ class TostaturaController extends Controller
         $layout = file_get_contents(public_path('pdf/tostatura.html'));
 
         $refactoring = array(
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[DA COSTRUIRE]' => $htmlString,
             '[DATA]' => $data["data"]
 
@@ -171,6 +172,7 @@ class TostaturaController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $layout = file_get_contents(public_path('pdf/tostatura.html'));
         $refactoring = array(
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[DA COSTRUIRE]' => $htmlString,
             '[DATA]' => $data["data"]
         );

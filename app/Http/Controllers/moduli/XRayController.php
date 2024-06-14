@@ -101,7 +101,9 @@ class XRayController extends Controller
 
 
         $refactoring = array(
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[BODY]' => $htmlString,
+            '[DATA]' => Carbon::now()->format('d/m/Y H:i'),
         );
 
         $data['BODY'] = $htmlString;
@@ -190,7 +192,9 @@ class XRayController extends Controller
 
         $layout = file_get_contents(public_path('pdf/xray-br6000.html'));
         $refactoring = array(
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[BODY]' => $htmlString,
+            '[DATA]' =>  Carbon::now()->format('d/m/Y H:i'),
         );
 
         $data['BODY'] = $htmlString;
@@ -279,7 +283,9 @@ class XRayController extends Controller
 
         $layout = file_get_contents(public_path('pdf/xray-br6000.html'));
         $refactoring = array(
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[BODY]' => $htmlString,
+            '[DATA]' => Carbon::now()->format('d/m/Y H:i'),
         );
 
         $data['BODY'] = $htmlString;

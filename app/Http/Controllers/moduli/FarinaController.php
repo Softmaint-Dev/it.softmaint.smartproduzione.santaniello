@@ -56,6 +56,7 @@ class FarinaController extends Controller
 
 
         $refactoring = array(
+            
             '[VARIETA]' => $data['variety'],
             '[LOTTO]' => $data['xwpCollo'],
             '[CALIBRO]' => $data['caliber'],

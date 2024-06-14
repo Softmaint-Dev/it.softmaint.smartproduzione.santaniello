@@ -53,6 +53,7 @@ class GranellaController extends Controller
 
 
         $refactoring = array(
+            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[VARIETA]' => $data['variety'],
             '[LOTTO]' => $data['xwpCollo'],
             '[CALIBRO]' => $data['calibre'],

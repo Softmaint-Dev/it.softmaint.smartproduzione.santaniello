@@ -11,6 +11,7 @@ use App\Http\Controllers\moduli\ModuloController;
 use App\Http\Controllers\moduli\RaffinatriceController;
 use App\Http\Controllers\moduli\SortexController;
 use App\Http\Controllers\moduli\TostaturaController;
+use App\Http\Controllers\moduli\ConfezionamentoController;
 use App\Http\Controllers\moduli\XRayController;
 use Illuminate\Support\Facades\Route;
 
@@ -125,6 +126,13 @@ Route::group(['prefix' => 'moduli'], function () {
         Route::post("/create/{id}", [SortexController::class, 'create'])->name("createPostSortex");
         Route::get("/edit/{activity}/{id}", [SortexController::class, 'editView'])->name("editSortex");
         Route::post("/edit/{idActivity}/{id}", [SortexController::class, 'edit'])->name("editPostSortex");
+    });
+    Route::group(['prefix' => 'confezionamento'], function () {
+        Route::get('/', [ConfezionamentoController::class, 'showAll']);
+        Route::get("/create/{id}", [ConfezionamentoController::class, 'createView'])->name("createConfezionamento");
+        Route::post("/create/{id}", [ConfezionamentoController::class, 'create'])->name("createPostConfezionamento");
+        Route::get("/edit/{activity}/{id}", [ConfezionamentoController::class, 'editView'])->name("editConfezionamento");
+        Route::post("/edit/{idActivity}/{id}", [ConfezionamentoController::class, 'edit'])->name("editPostConfezionamento");
     });
     Route::group(['prefix' => 'farina'], function () {
         Route::get('/', [FarinaController::class, 'showAll']);

@@ -708,6 +708,10 @@
                                                                                 value="{{ route('createMDPMO', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Metal Detector PMO
                                                                             </option>
+                                                                            <option
+                                                                            value="{{ route('createConfezionamento', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                Confezionamento
+                                                                            </option>
                                                                         </select>
                                                                     </div>
                                                                 </div>
