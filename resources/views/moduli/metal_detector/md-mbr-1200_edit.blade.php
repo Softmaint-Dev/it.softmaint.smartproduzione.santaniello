@@ -31,7 +31,6 @@
         }
     </style>
 </head>
-<?php dd($json); ?>
 <body>
 <form action="{{ route('editPostMBR1200', ['idActivity' => $activity->Id_PrBLAttivita, 'id'=>$id]) }}"
       method="POST" onsubmit="return validateForm()" class="container mt-5">
@@ -46,7 +45,8 @@
         <tbody>
         <tr id="referenceRow">
             <td>
-                <span class="counter">1</span>° con. ore <input name="ore1" id="ore1" value="{{$json->ore1}}" type="text"
+                <span class="counter">1</span>° con. ore <input name="ore1" id="ore1" value="{{$json->ore1}}"
+                                                                type="text"
                                                                 required
                                                                 class="form-control">
 
