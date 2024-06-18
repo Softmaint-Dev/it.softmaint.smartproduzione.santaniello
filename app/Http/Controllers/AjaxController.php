@@ -921,7 +921,6 @@ class AjaxController extends Controller
                             where Id_PrOLAttivita in (
                                 SELECT Id_PrOLAttivita
                                 FROM PRVRMateriale
-
                                 WHERE Cd_ARLotto = \'' . $lotto . '\'
                             AND Tipo = 0
                             AND Cd_AR = \'' . $cd_ar . '\'
@@ -942,7 +941,7 @@ class AjaxController extends Controller
                         <strong><?php if ($s->Cd_ARLotto != NULL) {
                                 echo ' ( ' . $s->Cd_ARLotto . ' )';
                             } ?>
-                        </strong> |</p>
+                        </strong> |</p> <p style="color: red"><?php echo $s->NotePrVRMateriale;?></p>
                     <div id="ajax_tracciabilita_mod_<?php echo $s->Cd_ARLotto . '_' . $s->Cd_AR; ?>"></div>
                 </li>
             <?php } ?>
