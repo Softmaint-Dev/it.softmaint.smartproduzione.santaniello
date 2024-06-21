@@ -709,7 +709,7 @@
                                                                                 Metal Detector PMO
                                                                             </option>
                                                                             <option
-                                                                                value="{{ route('createConfezionamento', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                            value="{{ route('createConfezionamento', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Confezionamento
                                                                             </option>
                                                                         </select>
@@ -728,7 +728,7 @@
                                                     <script>
                                                         function getComboA(selectObject) {
                                                             var value = selectObject.value;
-                                                            //console.log(value);
+                                                            console.log(value);
                                                             window.location.href = value;
                                                         }
                                                     </script>
@@ -744,7 +744,7 @@
                                                                         table.classList.add('table', 'table-bordered', 'table-striped');
                                                                         const headerRow = table.insertRow();
                                                                         document.getElementById("idNumQlt").innerHTML = data.length;
-                                                                        //console.log(data)
+                                                                        console.log(data)
 
                                                                         Object.keys(data[0]).forEach(key => {
                                                                             const th = document.createElement('th');
@@ -2054,7 +2054,7 @@
                         </div>
                         <div class="col-md-12">
                             <label>Cd_AR</label>
-                            <select name="Cd_AR" class="form-control" id="articoli_lotto">
+                            <select name="Cd_AR" class="form-control" id="articoli_lotto1">
                                 <option value="">Codice Articolo</option>
                             </select>
                         </div>
@@ -2068,7 +2068,7 @@
 
                         <div class="col-md-6">
                             <label>UM</label>
-                            <select name="Cd_ARMisura" class="form-control" id="articoli_um">
+                            <select name="Cd_ARMisura" class="form-control" id="articoli_um1">
                                 <option value="">Inserisci Lotto</option>
                             </select>
                         </div>
@@ -2076,7 +2076,7 @@
 
                         <div class="col-md-4">
                             <label>Magazzino</label>
-                            <select name="Cd_MG" class="form-control" id="magazzini_lotto">
+                            <select name="Cd_MG" class="form-control" id="magazzini_lotto1">
                                 <option value="">Inserire Lotto</option>
                             </select>
                         </div>
@@ -2879,7 +2879,7 @@
 
     function controlla_lotto(lotto) {
         $.get('<?php echo URL::asset('ajax/controlla_lotto') ?>/' + lotto, function (data) {
-            eval(data);
+            $('#ajax_loader').html(data);
         });
     }
 
