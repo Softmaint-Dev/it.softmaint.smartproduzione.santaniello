@@ -709,7 +709,7 @@
                                                                                 Metal Detector PMO
                                                                             </option>
                                                                             <option
-                                                                            value="{{ route('createConfezionamento', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createConfezionamento', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Confezionamento
                                                                             </option>
                                                                         </select>

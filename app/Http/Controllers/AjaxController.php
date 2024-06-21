@@ -941,7 +941,7 @@ class AjaxController extends Controller
                         <strong><?php if ($s->Cd_ARLotto != NULL) {
                                 echo ' ( ' . $s->Cd_ARLotto . ' )';
                             } ?>
-                        </strong> |<a style="color: red"><?php echo $s->NotePRVRMateriale;?></a></p>
+                        </strong> | <a style="color: red"><?php echo $s->NotePRVRMateriale;?></a></p>
                     <div id="ajax_tracciabilita_mod_<?php echo $s->Cd_ARLotto . '_' . $s->Cd_AR; ?>"></div>
                 </li>
             <?php } ?>
