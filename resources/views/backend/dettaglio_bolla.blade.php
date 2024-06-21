@@ -728,7 +728,7 @@
                                                     <script>
                                                         function getComboA(selectObject) {
                                                             var value = selectObject.value;
-                                                            console.log(value);
+                                                            //console.log(value);
                                                             window.location.href = value;
                                                         }
                                                     </script>
@@ -744,7 +744,7 @@
                                                                         table.classList.add('table', 'table-bordered', 'table-striped');
                                                                         const headerRow = table.insertRow();
                                                                         document.getElementById("idNumQlt").innerHTML = data.length;
-                                                                        console.log(data)
+                                                                        //console.log(data)
 
                                                                         Object.keys(data[0]).forEach(key => {
                                                                             const th = document.createElement('th');
@@ -2879,7 +2879,7 @@
 
     function controlla_lotto(lotto) {
         $.get('<?php echo URL::asset('ajax/controlla_lotto') ?>/' + lotto, function (data) {
-            $('#ajax_loader').html(data);
+            eval(data);
         });
     }
 
