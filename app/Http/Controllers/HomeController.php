@@ -2344,7 +2344,7 @@ class HomeController extends Controller
                         update MGMov
                         set MGMov.Valore = (PrVRMateriale.ValoreUnitario * PrVRMateriale.Consumo)
                         from MGMov
-                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Consumo > 0 and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
 
                         //DB::SELECT('EXEC xCalcolaLavoroLorenzo ' . $id_attivita);
                     }
@@ -2545,7 +2545,7 @@ class HomeController extends Controller
                         update MGMov
                         set MGMov.Valore = (PrVRMateriale.ValoreUnitario * PrVRMateriale.Consumo)
                         from MGMov
-                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Consumo > 0 and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
 
                             //DB::SELECT('EXEC xCalcolaLavoroLorenzo ' . $id_attivita);
                         }
