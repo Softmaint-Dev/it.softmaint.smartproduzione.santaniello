@@ -2006,7 +2006,7 @@ class HomeController extends Controller
                             $ordini = DB::select('SELECT * from PrOLEx Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                             if (sizeof($ordini) > 0) {
                                 $ordine = $ordini[0];
-                                if ($utente->Cd_PRRisorsa != 'IMBALLAGGIO') {
+                                if ($utente->Cd_PRRiparto != 'IMB') {
                                     if (!strpos($dati['xLotto'], '-')) {
                                         $dati['xLotto'] = $dati['xLotto'] . '-' . $id;
                                     }
