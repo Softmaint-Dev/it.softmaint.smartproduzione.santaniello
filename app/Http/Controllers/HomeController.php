@@ -2263,10 +2263,10 @@ class HomeController extends Controller
                                 }
 
                                 if (isset($m->Cd_ARLotto)) {
-                                    $semilavorato = DB::select('SELECT pm.ValoreUnitario
+                                    $semilavorato = DB::select('SELECT TOP 1 pm.ValoreUnitario
                                     FROM PrVRAttivita pa
                                     LEFT JOIN PrVRMateriale pm on pm.Id_PrVRAttivita = pa.Id_PrVRAttivita and pm.Tipo = 0
-                                    Where pm.Cd_AR = \'' . $m->Cd_AR . '\' and pm.Cd_ARLotto = \'' . $m->Cd_ARLotto . '\'');
+                                    Where pm.Cd_AR = \'' . $m->Cd_AR . '\' and pm.Cd_ARLotto = \'' . $m->Cd_ARLotto . '\' order by pa.TimeIns Desc');
                                     if (sizeof($semilavorato) > 0) {
                                         $insert_pr_materiale['ValoreUnitario'] = number_format($semilavorato[0]->ValoreUnitario, 4, '.', '');
                                     }
@@ -2452,10 +2452,10 @@ class HomeController extends Controller
                                         $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                                     }
                                     if (isset($m->Cd_ARLotto)) {
-                                        $semilavorato = DB::select('SELECT pm.ValoreUnitario
+                                        $semilavorato = DB::select('SELECT TOP 1 pm.ValoreUnitario
                                     FROM PrVRAttivita pa
                                     LEFT JOIN PrVRMateriale pm on pm.Id_PrVRAttivita = pa.Id_PrVRAttivita and pm.Tipo = 0
-                                    Where pm.Cd_AR = \'' . $m->Cd_AR . '\' and pm.Cd_ARLotto = \'' . $m->Cd_ARLotto . '\'');
+                                    Where pm.Cd_AR = \'' . $m->Cd_AR . '\' and pm.Cd_ARLotto = \'' . $m->Cd_ARLotto . '\'  order by pa.TimeIns Desc');
                                         if (sizeof($semilavorato) > 0) {
                                             $insert_pr_materiale['ValoreUnitario'] = number_format($semilavorato[0]->ValoreUnitario, 4, '.', '');
                                         }
