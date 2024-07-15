@@ -2347,7 +2347,7 @@ class HomeController extends Controller
                                       UPDATE PrVRAttivita set CostoLavorazione = @RESULT where Id_PrVRAttivita = ' . $id_attivita);
 
                         DB::update('DECLARE @result  Numeric(18, 6)
-                                      EXEC @result = [xafn_PRVRCostoUnitario] ' . $OLAttivita[0]->Id_PrOLAttivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
+                                      EXEC @result = [xafn_PRVRCostoUnitario] ' . $id_attivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
                                       UPDATE PrVRMateriale set ValoreUnitario = @result where Tipo = 0 and Id_PrVRAttivita = ' . $id_attivita);
 
                         DB::update('
@@ -2557,7 +2557,7 @@ class HomeController extends Controller
                                       UPDATE PrVRAttivita set CostoLavorazione = @RESULT where Id_PrVRAttivita = ' . $id_attivita);
 
                             DB::update('DECLARE @result  Numeric(18, 6)
-                                      EXEC @result = [xafn_PRVRCostoUnitario] ' . $OLAttivita[0]->Id_PrOLAttivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
+                                      EXEC @result = [xafn_PRVRCostoUnitario] ' . $id_attivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
                                       UPDATE PrVRMateriale set ValoreUnitario = @result where Tipo = 0 and Id_PrVRAttivita = ' . $id_attivita);
 
                             DB::update('
