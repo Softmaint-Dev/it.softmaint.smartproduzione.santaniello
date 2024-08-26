@@ -3130,8 +3130,15 @@ class HomeController extends Controller
                     ');
                     $scarto_attuale = DB::SELECT('SELECT SUM(QtaProdotta) AS QtaProdotta FROM xWPCollo where Id_PrBLAttivita = \'' . $id . '\' and QtaVersata < QtaProdotta')[0]->QtaProdotta;
                     foreach ($materiali as $m) {
-                        if ($m->NotePrBLMateriale == null || $m->NotePrBLMateriale == '' || $m->NotePrBLMateriale == 'null')
-                            $scarto_attuale = $m->Consumo - $scarto_attuale;
+                        if ($m->NotePrBLMateriale == null || $m->NotePrBLMateriale == '' || $m->NotePrBLMateriale == 'null') {
+                            $check_gruppo = DB::select('SELECT isnull(Cd_ARGruppo1,\'\') as Cd_ARGruppo1 FROM AR where Cd_AR = \'' . $m->Cd_AR . '\' ')[0]->Cd_ARGruppo1;
+                            if ($check_gruppo != '010' && $check_gruppo != '011') {
+                                if ($m->Consumo > 0)
+                                    $scarto_attuale = $m->Consumo - $scarto_attuale;
+                                else
+                                    $scarto_attuale = $m->Consumo + $scarto_attuale;
+                            }
+                        }
                     }
                     if ($scarto_attuale == NULL)
                         $scarto_attuale = 0;
