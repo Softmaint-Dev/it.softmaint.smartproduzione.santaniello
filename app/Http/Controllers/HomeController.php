@@ -3138,9 +3138,10 @@ class HomeController extends Controller
 
                     $attivita_bolla->scarto = db::select('SELECT
                         COALESCE(
-                        ((SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and prvrmateriale.Consumo > 0 and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'010\') and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'011\') and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3 AND PRVRMateriale.NotePrVRMateriale not like \'%CALO%PESO%\')
+                        (
+                            (SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and prvrmateriale.Consumo > 0 and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'010\') and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'011\') and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3 AND PRVRMateriale.NotePrVRMateriale not like \'%CALO%PESO%\')
                         -
-                        ((SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and prvrmateriale.Consumo < 0 and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'010\') and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'011\') and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3 AND PRVRMateriale.NotePrVRMateriale not like \'%CALO%PESO%\')
+                        (SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and prvrmateriale.Consumo < 0 and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'010\') and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'011\') and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3 AND PRVRMateriale.NotePrVRMateriale not like \'%CALO%PESO%\')
                         -SUM(PRVRAttivita.Quantita))
                         ,0) + ' . $scarto_attuale . ' as Scarto
                         FROM PRVRAttivita
