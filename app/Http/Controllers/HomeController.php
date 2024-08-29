@@ -377,6 +377,8 @@ class HomeController extends Controller
                                 if (sizeof($costo) > 0) {
                                     $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                                 }
+                                if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                    $insert_pr_materiale['ValoreUnitario'] = 0.01;
                             } else {
                                 if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                             }
@@ -406,6 +408,8 @@ class HomeController extends Controller
                         if (sizeof($costo) > 0) {
                             $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                         }
+                        if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                            $insert_pr_materiale['ValoreUnitario'] = 0.01;
                     } else {
                         if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                     }
@@ -641,6 +645,8 @@ class HomeController extends Controller
                                 if (sizeof($costo) > 0) {
                                     $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                                 }
+                                if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                    $insert_pr_materiale['ValoreUnitario'] = 0.01;
                             } else {
                                 if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                             }
@@ -670,6 +676,8 @@ class HomeController extends Controller
                         if (sizeof($costo) > 0) {
                             $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
                         }
+                        if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                            $insert_pr_materiale['ValoreUnitario'] = 0.01;
                     } else {
                         if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                     }
@@ -2271,6 +2279,8 @@ class HomeController extends Controller
                                         $insert_pr_materiale['ValoreUnitario'] = number_format($semilavorato[0]->ValoreUnitario, 4, '.', '');
                                     }
                                 }
+                                if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                    $insert_pr_materiale['ValoreUnitario'] = 0.01;
                             } else {
                                 if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                             }
@@ -2460,6 +2470,8 @@ class HomeController extends Controller
                                             $insert_pr_materiale['ValoreUnitario'] = number_format($semilavorato[0]->ValoreUnitario, 4, '.', '');
                                         }
                                     }
+                                    if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                        $insert_pr_materiale['ValoreUnitario'] = 0.01;
                                 } else {
                                     if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                                 }
