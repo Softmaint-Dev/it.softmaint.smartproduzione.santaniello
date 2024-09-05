@@ -30,11 +30,14 @@ class TostaturaController extends Controller
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
-        $prolDorig = $prolAttivita->prolDoRig;
-        $dorig = $prolDorig->dorig;
-        $dotes = $dorig->dotes;
-        $cf = $dotes->cf;
-        $dms = $dotes->dms();
+        if ($prolAttivita->prolDoRig != null) {
+            $prolDorig = $prolAttivita->prolDoRig;
+            $dorig = $prolDorig->dorig;
+            $dotes = $dorig->dotes;
+            $cf = $dotes->cf;
+            $dms = $dotes->dms();
+        }
+
 
 
         $data = $request->all();
