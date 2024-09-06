@@ -60,6 +60,7 @@ class MetalDetectorController extends Controller
 
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $prolAttivita = $prblAttivita->prolAttivita;
+        $dotes = $prblAttivita;
         if ($prolAttivita->prolDoRig != null) {
             $prolDorig = $prolAttivita->prolDoRig;
             $dorig = $prolDorig->dorig;
@@ -70,6 +71,7 @@ class MetalDetectorController extends Controller
 
         $groupedData = [];
 
+ 
         foreach ($data as $key => $value) {
             if (preg_match('/^(\D+)(\d+)$/', $key, $matches)) {
                 $prefix = $matches[1];
@@ -91,7 +93,6 @@ class MetalDetectorController extends Controller
             $htmlString .= '<td>' . (filter_var($element["fe"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["nofe"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["stainless"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
-            $htmlString .= '<td>  </td>';
             $htmlString .= '</tr>';
             $htmlString .= '</tbody>';
             $index++;
@@ -156,6 +157,7 @@ class MetalDetectorController extends Controller
 
         $data = $request->all();
 
+ 
         $pdf = App::make('dompdf.wrapper');
         $groupedData = [];
 
@@ -180,8 +182,7 @@ class MetalDetectorController extends Controller
             $htmlString .= '<td>' . (filter_var($element["fe"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["nofe"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["stainless"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
-            $htmlString .= '<td>  </td>';
-            $htmlString .= '</tr>';
+             $htmlString .= '</tr>';
             $htmlString .= '</tbody>';
             $index++;
 
@@ -269,8 +270,7 @@ class MetalDetectorController extends Controller
             $htmlString .= '<td>' . (filter_var($element["fe"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["nofe"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["stainless"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
-            $htmlString .= '<td>  </td>';
-            $htmlString .= '</tr>';
+             $htmlString .= '</tr>';
             $htmlString .= '</tbody>';
             $index++;
 

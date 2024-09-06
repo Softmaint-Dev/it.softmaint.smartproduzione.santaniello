@@ -37,7 +37,7 @@ class XRayController extends Controller
 
     function createPostXBR6000(Request $request, $id)
     {
-        if ($this->createPDF($request, $id, "XRAY BR6000")) {
+        if ($this->createPDF($request, $id, "xray-br6000.html", "XRAY BR6000")) {
             return Redirect::to('dettaglio_bolla/' . $id);
         }
         return response('errore!!');
@@ -48,21 +48,27 @@ class XRayController extends Controller
     {
 
 
-        if ($this->createPDF($request, $id, "XRAY 400N")) {
+        if ($this->createPDF($request, $id, "xray-400n.html", "XRAY 400N")) {
             return Redirect::to('dettaglio_bolla/' . $id);
         }
         return response('errore!!');
     }
 
-    function createPDF(Request $request, $id, $nameFile)
+    function createPDF(Request $request, $id, $nameFile, $type)
     {
         $data = $request->all();
 
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
+        $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
-        $prolDorig = $prolAttivita->prolDoRig;
-        $dorig = $prolDorig->dorig;
-        $dotes = $dorig->dotes;
+        if ($prolAttivita->prolDoRig != null) {
+            $prolDorig = $prolAttivita->prolDoRig;
+            $dorig = $prolDorig->dorig;
+            $dotes = $dorig->dotes;
+            $cf = $dotes->cf;
+            $dms = $dotes->dms();
+        }
+ 
 
         $groupedData = [];
 
@@ -84,12 +90,13 @@ class XRayController extends Controller
 
         foreach ($groupedData as $element) {
             $htmlString .= '<tr>';
-            $htmlString .= '<td>' . $index . ' ' . 'conn. ore ' . $element["ore"] . 'Lotto ' . $element["lotto"] . '</td>';
+            $htmlString .= '<td>' . $index . ' ' . 'conn. ore ' . $element["ore"] . '| Lotto - ' . $element["lotto"] . '</td>';
             $htmlString .= '<td>' . (filter_var($element["fe"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["nofe"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["stainless"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["crystal"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
             $htmlString .= '<td>' . (filter_var($element["ceramic"], FILTER_VALIDATE_BOOLEAN) ? 'X' : '') . '</td>';
+            
             $htmlString .= '</tr>';
             $index++;
 
@@ -97,7 +104,7 @@ class XRayController extends Controller
         $htmlString .= '</tbody>';
 
 
-        $layout = file_get_contents(public_path('pdf/xray-br6000.html'));
+        $layout = file_get_contents(public_path('pdf/' . $nameFile));
 
 
         $refactoring = array(
@@ -124,7 +131,7 @@ class XRayController extends Controller
                 $dotes,
                 date("Y-m-d H:i:s"),
                 json_encode($data),
-                $nameFile
+                $type
             );
 
     }
@@ -190,7 +197,7 @@ class XRayController extends Controller
         }
         $htmlString .= '</tbody>';
 
-        $layout = file_get_contents(public_path('pdf/xray-br6000.html'));
+        $layout = file_get_contents(public_path('pdf/xray-400n.html'));
         $refactoring = array(
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[BODY]' => $htmlString,
@@ -226,6 +233,8 @@ class XRayController extends Controller
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        
+ 
 
         return view('moduli.xray.xray_xbr-6000_edit', [
             'activity' => $activity,

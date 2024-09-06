@@ -15,6 +15,18 @@ use GuzzleHttp\Client;
 
 class ModuloController extends Controller
 {
+
+    private $addressStorage;
+
+    public function __construct() {
+        $this->addressStorage = 'http://127.0.0.1:8000/moduli/show/';
+                                //'http://192.168.1.210:8081/moduli/show/';
+    }
+
+    
+    
+   
+
     public function getDMS($id)
     {
         /*
@@ -116,43 +128,31 @@ class ModuloController extends Controller
     public function edit($Id_DmsDocument, $binaryPDF, $json)
     {
         try {
-            $dms = DmsDocument::find($Id_DmsDocument);
-            /* SOSTITUISCO LA VECCHIA GESTIONE */
-            $dms = xDmsFolder::find($Id_DmsDocument);
-            if ($dms) {
-                $dms->Content = $binaryPDF;
-                //$dms->FileSize = strlen($binaryPDF);
-                $dms->xJSON = $json;
+            $dmsFolder = xDmsFolder::find($Id_DmsDocument);
 
-                $dms->save();
-            }
-        } catch (Exception $e) {
-            dd($e);
-            return false;
-        }
-        try {
-            $dms = xDmsFolder::find($Id_DmsDocument);
-            $dms = DmsDocument::find($dms->Id_DmsDocument);
-            /* SOSTITUISCO LA VECCHIA GESTIONE */
-            if ($dms) {
-                $dms->Content = $binaryPDF;
-                //$dms->FileSize = strlen($binaryPDF);
-                $dms->xJSON = $json;
+            
+            $dms = DmsDocument::find($dmsFolder->Id_DmsDocument);
 
-                $dms->save();
+            if($dmsFolder) {
+                $dmsFolder->Content = $binaryPDF;
+                $dmsFolder->xJSON = $json;
+                $dmsFolder->save();
             }
+           if ($dms) {
+               $dms->Content = $binaryPDF;
+               $dms->xJSON = $json; 
+               $dms->save();
+           }
         } catch (Exception $e) {
-            dd($e);
             return true;
         }
-        $client = new Client();
-        $dms_for_folder = xDmsFolder::find($Id_DmsDocument);
-        if (!is_dir('upload/' . $dms_for_folder->EntityId)) {
-            mkdir('upload/' . $dms_for_folder->EntityId);
+
+ 
+         if (!is_dir('upload/' . $dmsFolder->EntityId)) {
+            mkdir('upload/' . $dmsFolder->EntityId);
         }
-        $response = $client->request('GET', 'http://192.168.1.210:8081/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
-        $body = $response->getBody();
-        file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $body);
+
+        file_put_contents('upload/' . $dmsFolder->EntityId . '/' . $dmsFolder->Descrizione . ' - ' . $dmsFolder->Id_xDmsFolder . '.pdf', $binaryPDF);
 
         return true;
     }
@@ -219,14 +219,13 @@ class ModuloController extends Controller
             print_r($e->getMessage());
             return false;
         }
-        $client = new Client();
+        
         $dms_for_folder = xDmsFolder::find($dms->Id_xDmsFolder);
         if (!is_dir('upload/' . $dms_for_folder->EntityId)) {
             mkdir('upload/' . $dms_for_folder->EntityId);
         }
-        $response = $client->request('GET', 'http://192.168.1.210:8081/moduli/show/' . $dms_for_folder->Id_xDmsFolder);
-        $body = $response->getBody();
-        file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $body);
+
+        file_put_contents('upload/' . $dms_for_folder->EntityId . '/' . $dms_for_folder->Descrizione . ' - ' . $dms_for_folder->Id_xDmsFolder . '.pdf', $binaryPDF);
 
         return true;
     }

@@ -1,11 +1,10 @@
 @include('backend.common.header')
 @include('moduli.components.header')
 
-
 <div class="content-wrapper p-3">
 
-    <form action="{{ route('editPostGranella', ['idActivity' => $activity->Id_PrBLAttivita, 'id' => $id]) }}" method="POST"
-        onsubmit="return validateForm()">
+    <form action="{{ route('editPostGranella', ['idActivity' => $activity->Id_PrBLAttivita, 'id' => $id]) }}"
+        method="POST" onsubmit="return validateForm()">
         <div class="container">
             <div class="row">
                 <!-- Prima Colonna -->
@@ -35,14 +34,25 @@
                     </div>
                     @csrf
                     <input required type="hidden" name="cf" id="cf"> --}}
-                    @include('moduli.components.xwpcollo_select', [
+                    {{-- @include('moduli.components.xwpcollo_select', [
                         'attivita' => $activity,
                         'selected' => $json->xwpCollo,
-                    ])
+                    ]) --}}
+
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Data/Date</label>
-                        <input type="text" class="form-control datepicker" id="data" name="date"
-                            value="{{ $json->date }}" required>
+                        <label for="xwpCollo" class="form-label">Lotto</label>
+                        <input value="{{ $json->xwpCollo }}" required type="text" class="form-control" id="xwpCollo"
+                            name="xwpCollo">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="caliber" class="form-label">Data / Date</label>
+
+
+
+                        <input type="datetime-local" class="form-control" id="data" name="date"
+                            value="{{ \Carbon\Carbon::now()->format('Y-m-d\TH:i') }}" value="{{ $json->date }}"
+                            required>
                     </div>
                     <div class="mb-3">
                         <label for="caliber" class="form-label">ANALYSIS TIME</label>
@@ -50,32 +60,32 @@
                             value="{{ $json->analysis }}" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">gr Campione/ gr Sample</label>
+                        <label for="caliber" class="form-label">gr Campione / gr Sample</label>
                         <input required type="number" name="sample" class="form-control" id="sample"
                             value="{{ $json->sample }}" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Umidità/Moisture</label>
+                        <label for="caliber" class="form-label">Umidità / Moisture</label>
                         <input required type="number" class="form-control" id="moisture" name="moisture"
                             value="{{ $json->moisture }}" aria-describedby="emailHelp">
                     </div>
                     <div class="form-check form-switch">
                         <input name="skin" class="form-check-input required" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->skin)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Pellicine/Skin</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Pellicine / Skin</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="tastAndSmell" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->tastAndSmell)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Sapore e odore/Taste and
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Sapore e odore / Taste and
                             smell</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="colour" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->colour)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Colore/Colour</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Colore / Colour</label>
                     </div>
                 </div>
 
@@ -85,8 +95,8 @@
                     <br />
                     <div class="mb-3">
                         <label for="caliber" class="form-label">gr campione / sample</label>
-                        <input required type="text" name="sampleCalibratura" class="form-control" id="caliberSample"
-                            aria-describedby="emailHelp"
+                        <input required type="text" name="sampleCalibratura" class="form-control"
+                            id="caliberSample" aria-describedby="emailHelp"
                             value="@if (isset($json->sampleCalibratura)) {{ $json->sampleCalibratura }}" @endif>
                     </div>
                     <div class="mb-3">
