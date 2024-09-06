@@ -2745,7 +2745,7 @@ class HomeController extends Controller
                     $insert['Id_PrOLAttivita'] = null;
                     $insert['Id_PrBLMateriale'] = rand(0, 999999);
                     $insert['Tipo'] = $dati['Tipo'];
-                    $insert['Consumo'] = $dati['Quantita'];
+                    $insert['Consumo'] = -$dati['Quantita'];
                     $insert['Cd_ARMisura'] = $dati['Cd_ARMisura'];
                     $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
                     if (sizeof($umfatt) > 0) {
@@ -2771,7 +2771,7 @@ class HomeController extends Controller
 
                     $insert['Id_PrBLMateriale'] = rand(0, 999999);
                     $insert['Cd_AR'] = $dati['articolo_scarto'];
-                    $insert['Consumo'] = $dati['quantita_scarto_sclav'];
+                    $insert['Consumo'] = -$dati['quantita_scarto_sclav'];
                     $insert['Cd_ARLotto'] = NULL;
                     $insert['Obbligatorio'] = DB::select('SELECT COALESCE(MG_LottoObbligatorio,0) as ciao FROM AR WHERE AR.Cd_AR = \'' . $dati['articolo_scarto'] . '\' ')[0]->ciao;
 
