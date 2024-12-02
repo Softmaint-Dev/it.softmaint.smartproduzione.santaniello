@@ -2827,7 +2827,7 @@ class HomeController extends Controller
                         foreach ($materiale_update as $m) {
                             if ($m->Id_PrBLMateriale == $dati['Id_PrBLMateriale']) {
                                 $m->Tipo = $dati['Tipo'];
-                                $m->Consumo = $dati['Quantita_Madre'] - $dati['calo_peso'];
+                                $m->Consumo = $dati['Quantita_Madre']; //- $dati['calo_peso'];
                                 $m->Cd_ARMisura = $dati['Cd_ARMisura'];
                                 $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
                                 if (sizeof($umfatt) > 0) {
@@ -2857,7 +2857,7 @@ class HomeController extends Controller
                         $umfatt = $umfatt[0]->UMFatt;
                     } else $umfatt = 1;
                     $insert['FattoreToUM1'] = $umfatt;
-                    $insert['Cd_AR'] = $dati['Cd_AR'];
+                    $insert['Cd_AR'] = $dati['Cd_AR']; //TODO AGGIUNGI ARTICOLO CALO PESO A SECONDA DELLA MATERIA PRIMA IN INGRESSO
                     $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
                     $insert['Obbligatorio'] = $dati['Obbligatorio'];
                     $insert['NotePrBLMateriale'] = 'CALO PESO';
