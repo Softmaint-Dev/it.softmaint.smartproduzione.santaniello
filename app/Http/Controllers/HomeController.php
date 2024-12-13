@@ -2852,19 +2852,19 @@ class HomeController extends Controller
                     $insert['Id_PrOLAttivita'] = null;
                     $insert['Id_PrBLMateriale'] = rand(0, 999999);
                     $insert['Tipo'] = $dati['Tipo'];
-                    $insert['Consumo'] = $dati['calo_peso'];
+                    $insert['Consumo'] = -$dati['calo_peso'];
                     $insert['Cd_ARMisura'] = $dati['Cd_ARMisura'];
                     $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
                     if (sizeof($umfatt) > 0) {
                         $umfatt = $umfatt[0]->UMFatt;
                     } else $umfatt = 1;
                     $insert['FattoreToUM1'] = $umfatt;
-                    $insert['Cd_AR'] = $dati['Cd_AR']; //TODO AGGIUNGI ARTICOLO CALO PESO A SECONDA DELLA MATERIA PRIMA IN INGRESSO
+                    $insert['Cd_AR'] = $dati['cp']; //TODO AGGIUNGI ARTICOLO CALO PESO A SECONDA DELLA MATERIA PRIMA IN INGRESSO
                     $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
                     $insert['Obbligatorio'] = $dati['Obbligatorio'];
                     $insert['NotePrBLMateriale'] = 'CALO PESO';
-                    $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
-                    $insert['Cd_MG'] = $dati['Cd_MG'];
+                    //$insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
+                    $insert['Cd_MG'] = 'CP';//$dati['Cd_MG'];
                     $insert['Cd_MGUbicazione'] = $dati['Cd_MGUbicazione'];
 
 
@@ -3224,7 +3224,9 @@ class HomeController extends Controller
 
                                 $articoli_mat = DB::SELECT('SELECT Cd_AR,Descrizione from AR WHERE Obsoleto = 0 and Fittizio = 0');
 
-                                return View::make('backend.dettaglio_bolla', compact('articoli_mat', 'mese_lettera', 'materiali', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
+                                $cp = DB::SELECT('SELECT Cd_AR,Descrizione from AR WHERE Descrizione like \'%Calo%peso%\'');
+
+                                return View::make('backend.dettaglio_bolla', compact('articoli_mat','cp', 'mese_lettera', 'materiali', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
 
                             }
                         }
