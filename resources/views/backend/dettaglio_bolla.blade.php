@@ -2329,6 +2329,15 @@
                             <input name="Cd_AR" class="form-control" value="<?php echo $m->Cd_AR?>"
                                    id="cp_articoli_lotto_<?php echo $m->Id_PrBLMateriale?>" readonly>
                         </div>
+                        <div class="col-md-12">
+                            <label>Articolo Calo Peso</label>
+                            <select name="cp" class="form-control" id="cp_ar_articoli_lotto_<?php echo $m->Id_PrBLMateriale?>">
+                                <option value="">Nessun Articolo</option>
+                                <?php foreach($cp as $a){?>
+                                <option value="<?php echo $a->Cd_AR; ?>"><?php echo $a->Cd_AR.' - '.$a->Descrizione; ?></option>
+                                <?php } ?>
+                             </select>
+                        </div>
 
                         <div class="col-md-6">
                             <label>Quantità Madre</label>
