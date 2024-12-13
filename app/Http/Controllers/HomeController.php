@@ -2859,7 +2859,8 @@ class HomeController extends Controller
                         $umfatt = $umfatt[0]->UMFatt;
                     } else $umfatt = 1;
                     $insert['FattoreToUM1'] = $umfatt;
-                    $insert['Cd_AR'] = $dati['cp']; //TODO AGGIUNGI ARTICOLO CALO PESO A SECONDA DELLA MATERIA PRIMA IN INGRESSO
+                    $insert['Cd_AR'] = $dati['cp'];
+                    $insert['Cd_ARLotto'] = null;
                     $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
                     $insert['Obbligatorio'] = $dati['Obbligatorio'];
                     $insert['NotePrBLMateriale'] = 'CALO PESO';
