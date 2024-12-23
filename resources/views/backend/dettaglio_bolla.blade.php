@@ -709,7 +709,7 @@
                                                                                 Metal Detector PMO
                                                                             </option>
                                                                             <option
-                                                                            value="{{ route('createConfezionamento', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
+                                                                                value="{{ route('createConfezionamento', ['id' => $attivita_bolla->Id_PrBLAttivita])}}">
                                                                                 Confezionamento
                                                                             </option>
                                                                         </select>
@@ -2054,7 +2054,7 @@
                         </div>
                         <div class="col-md-12">
                             <label>Cd_AR</label>
-                            <select name="Cd_AR" class="form-control" id="articoli_lotto">
+                            <select name="Cd_AR" class="form-control" id="articoli_lotto1">
                                 <option value="">Codice Articolo</option>
                             </select>
                         </div>
@@ -2068,7 +2068,7 @@
 
                         <div class="col-md-6">
                             <label>UM</label>
-                            <select name="Cd_ARMisura" class="form-control" id="articoli_um">
+                            <select name="Cd_ARMisura" class="form-control" id="articoli_um1">
                                 <option value="">Inserisci Lotto</option>
                             </select>
                         </div>
@@ -2076,7 +2076,7 @@
 
                         <div class="col-md-4">
                             <label>Magazzino</label>
-                            <select name="Cd_MG" class="form-control" id="magazzini_lotto">
+                            <select name="Cd_MG" class="form-control" id="magazzini_lotto1">
                                 <option value="">Inserire Lotto</option>
                             </select>
                         </div>
@@ -2319,7 +2319,7 @@
                         <div class="col-md-12">
                             <label>Lotto</label>
                             <input class="form-control" type="text" name="Cd_ARLotto"
-                                   id="materiale_<?php echo $m->Id_PrBLMateriale; ?>"
+                                   id="cp_materiale_<?php echo $m->Id_PrBLMateriale; ?>"
                                    value="<?php echo $m->Cd_ARLotto; ?>"
                                    placeholder="Lotto Materiale"
                                    readonly>
@@ -2327,14 +2327,23 @@
                         <div class="col-md-12">
                             <label>Cd_AR</label>
                             <input name="Cd_AR" class="form-control" value="<?php echo $m->Cd_AR?>"
-                                   id="articoli_lotto_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                                   id="cp_articoli_lotto_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Articolo Calo Peso</label>
+                            <select name="cp" class="form-control" id="cp_ar_articoli_lotto_<?php echo $m->Id_PrBLMateriale?>">
+                                <option value="">Nessun Articolo</option>
+                                <?php foreach($cp as $a){?>
+                                <option value="<?php echo $a->Cd_AR; ?>"><?php echo $a->Cd_AR.' - '.$a->Descrizione; ?></option>
+                                <?php } ?>
+                             </select>
                         </div>
 
                         <div class="col-md-6">
                             <label>Quantità Madre</label>
                             <input class="form-control" type="number" step="0.01"
                                    value="<?php echo number_format($m->Consumo,2,'.','')?>"
-                                   id="quantita_inserisci_materiale_<?php echo $m->Id_PrBLMateriale?>"
+                                   id="cp_quantita_inserisci_materiale_<?php echo $m->Id_PrBLMateriale?>"
                                    name="Quantita_Madre"
                                    placeholder="Qta" required readonly>
                         </div>
@@ -2343,13 +2352,13 @@
                         <div class="col-md-6">
                             <label>UM</label>
                             <input class="form-control" value="<?php echo $m->Cd_ARMisura?>"
-                                   id="articoli_um_old_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                                   id="cp_articoli_um_old_<?php echo $m->Id_PrBLMateriale?>" readonly>
                         </div>
 
                         <div class="col-md-6">
                             <label>Calo Peso</label>
                             <input class="form-control" type="number" step="0.01"
-                                   id="calo_peso_<?php echo $m->Id_PrBLMateriale?>" name="calo_peso"
+                                   id="cp_calo_peso_<?php echo $m->Id_PrBLMateriale?>" name="calo_peso"
                                    placeholder="Calo Peso" required>
                         </div>
 
@@ -2357,25 +2366,25 @@
                         <div class="col-md-6">
                             <label>UM</label>
                             <input name="Cd_ARMisura" class="form-control" value="<?php echo $m->Cd_ARMisura?>"
-                                   id="articoli_um_<?php echo $m->Id_PrBLMateriale?>">
+                                   id="cp_articoli_um_<?php echo $m->Id_PrBLMateriale?>">
                         </div>
 
 
                         <div class="col-md-4">
                             <label>Magazzino</label>
                             <input name="Cd_MG" class="form-control" value="<?php echo $m->Cd_MG?>"
-                                   id="magazzini_lotto_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                                   id="cp_magazzini_lotto_<?php echo $m->Id_PrBLMateriale?>" readonly>
                         </div>
 
                         <div class="col-md-4">
                             <label>Ubicazione</label>
                             <input name="Cd_MGUbicazione" class="form-control" value="<?php echo $m->Cd_MGUbicazione?>"
-                                   id="Cd_MGUbicazione_<?php echo $m->Id_PrBLMateriale?>" readonly>
+                                   id="cp_Cd_MGUbicazione_<?php echo $m->Id_PrBLMateriale?>" readonly>
                         </div>
 
                         <div class="col-md-4">
                             <label>Tipo</label>
-                            <input id="inserisci_tipo_materiale_<?php echo $m->Id_PrBLMateriale?>" class="form-control"
+                            <input id="cp_inserisci_tipo_materiale_<?php echo $m->Id_PrBLMateriale?>" class="form-control"
                                    type="text" name="Tipo" value="2" readonly>
                         </div>
                     </div>

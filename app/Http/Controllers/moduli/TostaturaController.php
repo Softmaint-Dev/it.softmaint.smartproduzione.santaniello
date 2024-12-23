@@ -30,11 +30,14 @@ class TostaturaController extends Controller
         $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
-        $prolDorig = $prolAttivita->prolDoRig;
-        $dorig = $prolDorig->dorig;
-        $dotes = $dorig->dotes;
-        $cf = $dotes->cf;
-        $dms = $dotes->dms();
+        if ($prolAttivita->prolDoRig != null) {
+            $prolDorig = $prolAttivita->prolDoRig;
+            $dorig = $prolDorig->dorig;
+            $dotes = $dorig->dotes;
+            $cf = $dotes->cf;
+            $dms = $dotes->dms();
+        }
+
 
 
         $data = $request->all();
@@ -122,7 +125,7 @@ class TostaturaController extends Controller
 
         return view('moduli.tostatura.tostatura_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJson),
+            'json' => json_decode($dms->xJSON),
             'id' => $id,
         ]);
     }
@@ -135,7 +138,7 @@ class TostaturaController extends Controller
 
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
-        $oldJson = json_decode($dms->xJson);
+        $oldJson = json_decode($dms->xJSON);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
  

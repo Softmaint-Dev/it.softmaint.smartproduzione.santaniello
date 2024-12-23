@@ -136,7 +136,7 @@ class ConfezionamentoController extends Controller
 
         return view('moduli.confezionamento.confezionamento_edit', [
             'attivity' => $activity,
-            'json' => json_decode($dms->xJson),
+            'json' => json_decode($dms->xJSON),
             'id' => $id,
         ]);
     }
@@ -148,7 +148,7 @@ class ConfezionamentoController extends Controller
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
-        $oldJson = json_decode($dms->xJson);
+        $oldJson = json_decode($dms->xJSON);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();

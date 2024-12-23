@@ -211,7 +211,7 @@ foreach ($attivita_bolla->colli as $c){
                                         <label>Scarto Versamento (<?php echo $attivita_bolla->Cd_ARMisura ?>)</label>
                                         <input id="quantita_scarto_vr" type="number" step="1" min="0"
                                                class="form-control" name="quantita_scarto_vr"
-                                               value="<?php echo $qta_colli_nc ?>" readonly>
+                                               value="0" readonly>
                                         <small>Fattore di
                                             Conversione <?php echo (sizeof($attivita_bolla->colli) > 0) ? $attivita_bolla->colli[0]->Cd_ARMisura : '' ?>
                                             -> <?php echo $attivita_bolla->Cd_ARMisura ?> =<b id="umfatt"></b></small>

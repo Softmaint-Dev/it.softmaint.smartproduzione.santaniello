@@ -57,30 +57,30 @@ class AjaxController extends Controller
     {
         ?>
         <script type="text/javascript">
-            $('#articoli_lotto').html('');
-            $('#magazzini_lotto').html('');
-            $('#articoli_um').html('');
+            $('#articoli_lotto1').html('');
+            $('#magazzini_lotto1').html('');
+            $('#articoli_um1').html('');
         </script>
         <?php
         $articoli = DB::select('SELECT AR.Cd_AR,AR.Descrizione from AR JOIN ARLotto ON AR.Cd_AR = ARLotto.Cd_AR and ARLotto.Cd_ARLotto = \'' . $lotto . '\'');
         if (sizeof($articoli) == 0) { ?>
             <script type="text/javascript">
-                $('#articoli_lotto').append('<option value="">Inserire Lotto</option>');
-                $('#magazzini_lotto').append('<option value="">Magazzini Lotto</option>');
-                $('#articoli_um').append('<option value="">Inserire Lotto</option>');
+                $('#articoli_lotto1').append('<option value="">Inserire Lotto</option>');
+                $('#magazzini_lotto1').append('<option value="">Magazzini Lotto</option>');
+                $('#articoli_um1').append('<option value="">Inserire Lotto</option>');
             </script>
         <?php } else {
 
             $ararmisura = DB::select('SELECT * from ARARMisura Where Cd_AR  = \'' . $articoli[0]->Cd_AR . '\''); ?>
             <script type="text/javascript">
                 <?php foreach ($ararmisura as $misura) { ?>
-                $('#articoli_um').append('<option value="<?php echo $misura->Cd_ARMisura ?>" <?php echo ($misura->DefaultMisura == 1) ? 'selected' : '' ?>><?php echo $misura->Cd_ARMisura ?></option>');
+                $('#articoli_um1').append('<option value="<?php echo $misura->Cd_ARMisura ?>" <?php echo ($misura->DefaultMisura == 1) ? 'selected' : '' ?>><?php echo $misura->Cd_ARMisura ?></option>');
                 <?php } ?>
             </script>
 
             <?php foreach ($articoli as $a) { ?>
                 <script type="text/javascript">
-                    $('#articoli_lotto').append('<option value="<?php echo $a->Cd_AR ?>"><?php echo $a->Cd_AR ?> - <?php echo $a->Descrizione ?></option>');
+                    $('#articoli_lotto1').append('<option value="<?php echo $a->Cd_AR ?>"><?php echo $a->Cd_AR ?> - <?php echo $a->Descrizione ?></option>');
                     $('#inserisci_tipo_materiale').val(2)
                 </script>
             <?php }
@@ -88,13 +88,13 @@ class AjaxController extends Controller
             $magazzini = DB::select('SELECT distinct Cd_MG from MGMov Where Cd_ARLotto = \'' . $lotto . '\'');
             if (sizeof($magazzini) == 0) { ?>
                 <script type="text/javascript">
-                    $('#magazzini_lotto').append('<option value="00009" selected>00009</option>');
+                    $('#magazzini_lotto1').append('<option value="00009" selected>00009</option>');
                 </script>
             <?php }
 
             foreach ($magazzini as $m) { ?>
                 <script type="text/javascript">
-                    $('#magazzini_lotto').append('<option value="<?php echo $m->Cd_MG ?>" <?php echo ($m->Cd_MG == '00009') ? 'selected' : '' ?>><?php echo $m->Cd_MG ?></option>');
+                    $('#magazzini_lotto1').append('<option value="<?php echo $m->Cd_MG ?>" <?php echo ($m->Cd_MG == '00009') ? 'selected' : '' ?>><?php echo $m->Cd_MG ?></option>');
                 </script>
             <?php }
 
@@ -921,7 +921,6 @@ class AjaxController extends Controller
                             where Id_PrOLAttivita in (
                                 SELECT Id_PrOLAttivita
                                 FROM PRVRMateriale
-
                                 WHERE Cd_ARLotto = \'' . $lotto . '\'
                             AND Tipo = 0
                             AND Cd_AR = \'' . $cd_ar . '\'
@@ -942,7 +941,7 @@ class AjaxController extends Controller
                         <strong><?php if ($s->Cd_ARLotto != NULL) {
                                 echo ' ( ' . $s->Cd_ARLotto . ' )';
                             } ?>
-                        </strong> |</p>
+                        </strong> | <a style="color: red"><?php echo $s->NotePRVRMateriale;?></a></p>
                     <div id="ajax_tracciabilita_mod_<?php echo $s->Cd_ARLotto . '_' . $s->Cd_AR; ?>"></div>
                 </li>
             <?php } ?>

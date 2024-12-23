@@ -59,7 +59,7 @@ class GranellaController extends Controller
             '[CALIBRO]' => $data['calibre'],
             '[CLIENTE]' => (isset($cf)) ? $cf->Descrizione : '',
             '[TOTAL_KG]' => number_format($prblAttivita->Quantita, 2),
-            '[DATE]' => $data['date'],
+            '[DATE]' => date('d/m/Y H:i', strtotime($data['date'])),
             '[TIME]' => $data['analysis'],
             '[SAMPLE]' => $data['sample'],
             '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
@@ -70,6 +70,7 @@ class GranellaController extends Controller
             '[OVERSIZE]' => $data['overSize'],
             '[OVERSIZE_PERCENTAGE]' => $data['overSizePercentage'],
             '[CALCULATION]' => $data['calculation'],
+            '[CALCULATION_2]' => $data['calculation_2'], 
             '[CALCULATION_PERCENTAGE]' => $data['calculationPercentage'],
             '[UNDERSIZE]' => $data['underSize'],
             '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
@@ -113,10 +114,12 @@ class GranellaController extends Controller
          $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
 
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        
  
+
         return view('moduli.granella.granella_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJson),
+            'json' => json_decode($dms->xJSON),
             'id' => $id,
         ]);
     }
@@ -129,7 +132,7 @@ class GranellaController extends Controller
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
 
-        $oldJson = json_decode($dms->xJson);
+        $oldJson = json_decode($dms->xJSON);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
@@ -147,7 +150,7 @@ class GranellaController extends Controller
             '[CALIBRO]' => $data['calibre'],
             '[CLIENTE]' => $oldJson->CLIENTE,
             '[TOTAL_KG]' => number_format(floatval($oldJson->TOTAL_KG), 2),
-            '[DATE]' => $data['date'],
+            '[DATE]' => date('d/m/Y H:i', strtotime($data['date'])),     
             '[TIME]' => $data['analysis'],
             '[SAMPLE]' => $data['sample'],
             '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
@@ -158,6 +161,7 @@ class GranellaController extends Controller
             '[OVERSIZE]' => $data['overSize'],
             '[OVERSIZE_PERCENTAGE]' => $data['overSizePercentage'],
             '[CALCULATION]' => $data['calculation'],
+            '[CALCULATION_2]' => $data['calculation_2'], 
             '[CALCULATION_PERCENTAGE]' => $data['calculationPercentage'],
             '[UNDERSIZE]' => $data['underSize'],
             '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],

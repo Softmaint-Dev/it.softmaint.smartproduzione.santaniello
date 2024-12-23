@@ -1,100 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-        <title>Document</title>
         <style>
             body {
-                font-family: "Roboto", sans-serif;
-                padding: 20px;
-                background-color: #f8f9fa;
-            }
-
-            h1 {
-                font-size: 1.75rem;
-                color: #495057;
-                margin-bottom: 20px;
+                font-family: Arial, sans-serif;
+                margin: 20px;
             }
 
             table {
-                margin-bottom: 1.5rem;
-                background-color: white;
-                border: 1px solid #dee2e6;
                 width: 100%;
-                max-width: 100%;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+                border: 1px solid black;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            td,
+            th {
+                border: 1px solid black;
+                padding: 10px;
+                text-align: center;
             }
 
             th {
-                background-color: #343a40;
-                color: white;
-                font-weight: 500;
-                text-align: center;
-                padding: 10px;
-            }
-
-            td {
-                padding: 10px;
-                border: 1px solid #dee2e6;
-            }
-
-            .table-striped tbody tr:nth-of-type(odd) {
                 background-color: #f2f2f2;
             }
 
-            .table-bordered td {
-                vertical-align: middle;
-            }
-
-            .table-borderless td {
-                border: none;
-            }
-
-            /* Header for specific sections */
-            .section-header {
-                font-size: 1.5rem;
-                color: #343a40;
-                margin-top: 40px;
-                margin-bottom: 15px;
-                border-bottom: 2px solid #6c757d;
-                padding-bottom: 5px;
-            }
-
-            .highlight {
-                background-color: #e9ecef;
-                font-weight: 500;
+            .x,
+            .y {
+                width: 100%;
+                max-width: 600px;
+                margin-bottom: 20px;
             }
 
             p {
-                font-size: 0.95rem;
-                font-weight: 500;
-            }
-
-            /* Styling for TOTAL row */
-            .total-row td {
-                font-size: 1.25rem;
-                font-weight: bold;
-                background-color: #e9ecef;
                 text-align: center;
-                border-top: 3px solid #dee2e6;
-            }
-
-            /* Styling for the last observations row */
-            .observations-row td {
-                background-color: #f8f9fa;
-                font-weight: 500;
-                text-align: center;
-                padding: 20px;
-                border: none;
+                margin-bottom: 20px;
             }
         </style>
     </head>
     <body>
-        <h1>Sistema di gestione integrato</h1>
-
-        <table class="table table-bordered table-striped">
+        <table class="a" border="1">
             <tr>
                 <td rowspan="2">
                     <img
@@ -103,99 +48,78 @@
                         alt=""
                     />
                 </td>
-                <td class="highlight">Sistema di gestione integrato</td>
-                <td class="highlight">M_IO 10_2</td>
+                <td>Sistema di gestione integrato</td>
+                <td>M_IO 17_3</td>
             </tr>
             <tr>
-                <td>CQ Granella</td>
+                <td style="width: 50%">Monitoraggio efficienza X. Ray</td>
                 <td>Rev. 0 del 22.05.2023</td>
             </tr>
+            <!-- Aggiungi altre righe se necessario -->
         </table>
-
-        <table class="table table-bordered" style="width: 50%">
-            <tr>
-                <td class="highlight">Varietà / Variety</td>
-                <td>[VARIETA]</td>
-            </tr>
-            <tr>
-                <td class="highlight">Lotto / Batch</td>
-                <td>[LOTTO]</td>
-            </tr>
-        </table>
-
-        <table class="table table-bordered" style="width: 90%">
-            <tr>
-                <td class="highlight">Data / Date</td>
-                <td>[DATE]</td>
-            </tr>
-            <tr>
-                <td class="highlight">Analysis Time</td>
-                <td>[TIME]</td>
-            </tr>
-            <tr>
-                <td class="highlight">gr campione / Sample</td>
-                <td>[SAMPLE]</td>
-            </tr>
-            <tr>
-                <td class="highlight">Umidità / Moisture</td>
-                <td>[UMIDITA]</td>
-            </tr>
-        </table>
-
-        <h2 class="section-header">Calibratura</h2>
-
-        <table class="table table-bordered" style="width: 90%">
-            <tr>
-                <td class="highlight">gr campione / Sample</td>
-                <td>[SAMPLE_CALIBRATURA]</td>
-            </tr>
-        </table>
-
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Descrizione</th>
-                    <th>Conformità</th>
-                    <th>TARGET</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Skin</td>
-                    <td>[SKIN]</td>
-                    <td rowspan="3">Max 5%</td>
-                </tr>
-                <tr>
-                    <td>Taste And smell</td>
-                    <td>[TASTE]</td>
-                </tr>
-                <tr>
-                    <td>Colour</td>
-                    <td>[COLOUR]</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <table class="table table-bordered total-row">
-            <tr>
-                <td>TOTAL</td>
-                <td>[TOTAL]</td>
-            </tr>
-        </table>
-
-        <table class="table table-bordered" style="width: 90%">
-            <thead>
-                <tr>
-                    <th>Osservazioni / Observations</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="observations-row">
-                    <td colspan="2">[OBSERVATIONS]</td>
-                </tr>
-            </tbody>
-        </table>
-
+        <br />
+        <div>
+            <table border="1" class="table" id="myTable">
+                <thead>
+                    <tr>
+                        <th style="width: 120px">DATA</th>
+                        <th>PR FINITO</th>
+                        <th>KG PR FINITO</th>
+                        <th>LT DI PRODUZIONE</th>
+                        <th>LT PACKAGING</th>
+                        <th style="width: 50px">VR AVVIO</th>
+                        <th style="width: 50px">VR DURANTE</th>
+                        <th style="width: 50px">VR FINE</th>
+                        <th style="width: 50px">VR IDONEITA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    [DA COSTRUIRE]
+                </tbody>
+            </table>
+        </div>
+        <br /><br />
+        <!-- <p>
+            L’addetto al confezionamento apponendo una X su C o NC attesta la
+            conformità o meno ai requisiti sotto indicati * Linee pulite e
+            pronte all’uso (assenza di materiale estraneo) – Assenza di prodotti
+            ed imballaggi utilizzati nel precedente confezionamento siano stai
+            rimossi ovvero presenza solo di imballaggi di immediato utilizzo –
+            Corrispondenza tra etichetta e prodotto da confezionare – Corretta
+            codifica, registrazione e stampa della data (TMC), lotto, quantità,
+            codice a barre - Conformità saldatura e tenuta delle confezioni -
+            Conformità etichetta imballo secondario. ** Corrispondenza tra
+            etichetta e prodotto da confezionare - Corretta codifica,
+            registrazione e stampa della data (TMC), lotto, quantità, codice a
+            barre - Conformità saldatura e tenuta delle confezioni confezioni -
+            Conformità etichetta imballo secondario. ***Corretta codifica,
+            registrazione e stampa della (TMC), lotto quantità, codice a barre –
+            confezioni - Conformità etichetta imballo secondario. In tutti e tre
+            i controlli il RQ verifica la corretta funzionalità del metal
+            detector/x-ray secondo quanto definito in SO_08 **** Integrità
+            pallet, assenza segni d’infestazione, assenza materiale estraneo,
+            pallet asciutto secondo quanto definito in SO_09
+        </p> -->
+        <br />
+        <div>
+            <table border="1" class="table" id="myTable">
+                <thead>
+                    <tr>
+                        <th>Redatto da</th>
+                        <th>Verificato</th>
+                        <th>Approvato da</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>RSG</th>
+                        <th>PQM</th>
+                        <th>DA</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <br />
         <p>Compilato da [USER]</p>
     </body>
 </html>

@@ -122,7 +122,7 @@ class ModuloController extends Controller
             if ($dms) {
                 $dms->Content = $binaryPDF;
                 //$dms->FileSize = strlen($binaryPDF);
-                $dms->xJson = $json;
+                $dms->xJSON = $json;
 
                 $dms->save();
             }
@@ -137,7 +137,7 @@ class ModuloController extends Controller
             if ($dms) {
                 $dms->Content = $binaryPDF;
                 //$dms->FileSize = strlen($binaryPDF);
-                $dms->xJson = $json;
+                $dms->xJSON = $json;
 
                 $dms->save();
             }
@@ -181,7 +181,7 @@ class ModuloController extends Controller
             $dms->ComputerName = "";
             $dms->FilePath = "";
             $dms->Note = $dotes->Id_DoTes . '';
-            $dms->xJson = $json;
+            $dms->xJSON = $json;
             $dms->xType = $type;
             $dms->save();
         } catch (Exception $e) {
@@ -210,7 +210,7 @@ class ModuloController extends Controller
             $dms->ComputerName = "";
             $dms->FilePath = "";
             $dms->Note = $dotes->Id_DoTes . '';
-            $dms->xJson = $json;
+            $dms->xJSON = $json;
             $dms->xType = $type;
             $dms->save();
 

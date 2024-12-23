@@ -373,9 +373,15 @@ class HomeController extends Controller
                             $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
                             $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
                             if ($m->Tipo == 2) {
-                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+                                $costo = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                                 if (sizeof($costo) > 0) {
-                                    $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                                    $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->Costo, 4, '.', '');
+                                }
+                                if (isset($insert_pr_materiale['ValoreUnitario'])) {
+                                    if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                        $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                                } else {
+                                    $insert_pr_materiale['ValoreUnitario'] = 0.01;
                                 }
                             } else {
                                 if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
@@ -402,9 +408,15 @@ class HomeController extends Controller
                     }
 
                     if ($m->Tipo == 2) {
-                        $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+                        $costo = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                         if (sizeof($costo) > 0) {
-                            $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                            $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->Costo, 4, '.', '');
+                        }
+                        if (isset($insert_pr_materiale['ValoreUnitario'])) {
+                            if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                        } else {
+                            $insert_pr_materiale['ValoreUnitario'] = 0.01;
                         }
                     } else {
                         if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
@@ -637,9 +649,15 @@ class HomeController extends Controller
                             $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
                             $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
                             if ($m->Tipo == 2) {
-                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+                                $costo = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                                 if (sizeof($costo) > 0) {
-                                    $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                                    $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->Costo, 4, '.', '');
+                                }
+                                if (isset($insert_pr_materiale['ValoreUnitario'])) {
+                                    if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                        $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                                } else {
+                                    $insert_pr_materiale['ValoreUnitario'] = 0.01;
                                 }
                             } else {
                                 if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
@@ -666,9 +684,15 @@ class HomeController extends Controller
                     }
 
                     if ($m->Tipo == 2) {
-                        $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+                        $costo = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                         if (sizeof($costo) > 0) {
-                            $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                            $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->Costo, 4, '.', '');
+                        }
+                        if (isset($insert_pr_materiale['ValoreUnitario'])) {
+                            if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                        } else {
+                            $insert_pr_materiale['ValoreUnitario'] = 0.01;
                         }
                     } else {
                         if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
@@ -2006,7 +2030,7 @@ class HomeController extends Controller
                             $ordini = DB::select('SELECT * from PrOLEx Where Id_PrOL = ' . $attivita_bolla->Id_PrOL);
                             if (sizeof($ordini) > 0) {
                                 $ordine = $ordini[0];
-                                if ($utente->Cd_PRRisorsa != 'IMBALLAGGIO') {
+                                if ($utente->Cd_PRRiparto != 'IMB') {
                                     if (!strpos($dati['xLotto'], '-')) {
                                         $dati['xLotto'] = $dati['xLotto'] . '-' . $id;
                                     }
@@ -2245,33 +2269,50 @@ class HomeController extends Controller
 
                     $materiale = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                     foreach ($materiale as $m) {
-                        if ($m->Tipo != 0) {
-                            $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
-                            $insert_pr_materiale['Tipo'] = $m->Tipo;
-                            $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
-                            $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
-                            $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
-                            $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
-                            $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                            $insert_pr_materiale['Sfrido'] = 0;
+                        if (($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'] > 0)
+                            if ($m->Tipo != 0) {
+                                $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
+                                $insert_pr_materiale['Tipo'] = $m->Tipo;
+                                $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
+                                $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
+                                $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
+                                $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
+                                $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
+                                $insert_pr_materiale['Sfrido'] = 0;
 
 
-                            if ($m->Tipo == 2) {
-                                $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
-                                if (sizeof($costo) > 0) {
-                                    $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                                if ($m->Tipo == 2) {
+                                    $costo = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+                                    if (sizeof($costo) > 0) {
+                                        $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->Costo, 4, '.', '');
+                                    }
+
+                                    if (isset($m->Cd_ARLotto)) {
+                                        $semilavorato = DB::select('SELECT TOP 1 pm.ValoreUnitario
+                                    FROM PrVRAttivita pa
+                                    LEFT JOIN PrVRMateriale pm on pm.Id_PrVRAttivita = pa.Id_PrVRAttivita and pm.Tipo = 0
+                                    Where pm.Cd_AR = \'' . $m->Cd_AR . '\' and pm.Cd_ARLotto = \'' . $m->Cd_ARLotto . '\' order by pa.TimeIns Desc');
+                                        if (sizeof($semilavorato) > 0) {
+                                            $insert_pr_materiale['ValoreUnitario'] = number_format($semilavorato[0]->ValoreUnitario, 4, '.', '');
+                                        }
+                                    }
+                                    if (isset($insert_pr_materiale['ValoreUnitario'])) {
+                                        if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                            $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                                    } else {
+                                        $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                                    }
+                                } else {
+                                    if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                                 }
-                            } else {
-                                if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
+
+                                $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
+                                $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
+                                $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
+                                $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
+
+                                DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                             }
-
-                            $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
-                            $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
-                            $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
-                            $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
-
-                            DB::table('PrVrMateriale')->insert($insert_pr_materiale);
-                        }
                     }
                     session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
 
@@ -2337,14 +2378,14 @@ class HomeController extends Controller
                                       UPDATE PrVRAttivita set CostoLavorazione = @RESULT where Id_PrVRAttivita = ' . $id_attivita);
 
                         DB::update('DECLARE @result  Numeric(18, 6)
-                                      EXEC @result = [afn_PRVRCostoUnitario] ' . $OLAttivita[0]->Id_PrOLAttivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
+                                      EXEC @result = [xafn_PRVRCostoUnitario] ' . $id_attivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
                                       UPDATE PrVRMateriale set ValoreUnitario = @result where Tipo = 0 and Id_PrVRAttivita = ' . $id_attivita);
 
                         DB::update('
                         update MGMov
                         set MGMov.Valore = (PrVRMateriale.ValoreUnitario * PrVRMateriale.Consumo)
                         from MGMov
-                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Consumo > 0 and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
 
                         //DB::SELECT('EXEC xCalcolaLavoroLorenzo ' . $id_attivita);
                     }
@@ -2425,7 +2466,8 @@ class HomeController extends Controller
 
 
                         foreach ($materiale as $m) {
-                            if ($m->Tipo != 0) {
+                            if (($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'] > 0)
+                                if ($m->Tipo != 0) {
                                 $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
                                 $insert_pr_materiale['Tipo'] = $m->Tipo;
                                 $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
@@ -2437,9 +2479,24 @@ class HomeController extends Controller
 
 
                                 if ($m->Tipo == 2) {
-                                    $costo = DB::select('SELECT * from ARCostoDBItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+                                    $costo = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
                                     if (sizeof($costo) > 0) {
-                                        $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->CostoDb, 4, '.', '');
+                                        $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->Costo, 4, '.', '');
+                                    }
+                                    if (isset($m->Cd_ARLotto)) {
+                                        $semilavorato = DB::select('SELECT TOP 1 pm.ValoreUnitario
+                                    FROM PrVRAttivita pa
+                                    LEFT JOIN PrVRMateriale pm on pm.Id_PrVRAttivita = pa.Id_PrVRAttivita and pm.Tipo = 0
+                                    Where pm.Cd_AR = \'' . $m->Cd_AR . '\' and pm.Cd_ARLotto = \'' . $m->Cd_ARLotto . '\'  order by pa.TimeIns Desc');
+                                        if (sizeof($semilavorato) > 0) {
+                                            $insert_pr_materiale['ValoreUnitario'] = number_format($semilavorato[0]->ValoreUnitario, 4, '.', '');
+                                        }
+                                    }
+                                    if (isset($insert_pr_materiale['ValoreUnitario'])) {
+                                        if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                            $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                                    } else {
+                                        $insert_pr_materiale['ValoreUnitario'] = 0.01;
                                     }
                                 } else {
                                     if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
@@ -2538,14 +2595,14 @@ class HomeController extends Controller
                                       UPDATE PrVRAttivita set CostoLavorazione = @RESULT where Id_PrVRAttivita = ' . $id_attivita);
 
                             DB::update('DECLARE @result  Numeric(18, 6)
-                                      EXEC @result = [afn_PRVRCostoUnitario] ' . $OLAttivita[0]->Id_PrOLAttivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
+                                      EXEC @result = [xafn_PRVRCostoUnitario] ' . $id_attivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
                                       UPDATE PrVRMateriale set ValoreUnitario = @result where Tipo = 0 and Id_PrVRAttivita = ' . $id_attivita);
 
                             DB::update('
                         update MGMov
                         set MGMov.Valore = (PrVRMateriale.ValoreUnitario * PrVRMateriale.Consumo)
                         from MGMov
-                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Consumo > 0 and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
 
                             //DB::SELECT('EXEC xCalcolaLavoroLorenzo ' . $id_attivita);
                         }
@@ -2690,7 +2747,7 @@ class HomeController extends Controller
                     $insert['Id_PrOLAttivita'] = null;
                     $insert['Id_PrBLMateriale'] = rand(0, 999999);
                     $insert['Tipo'] = $dati['Tipo'];
-                    $insert['Consumo'] = $dati['Quantita'];
+                    $insert['Consumo'] = -$dati['Quantita'];
                     $insert['Cd_ARMisura'] = $dati['Cd_ARMisura'];
                     $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
                     if (sizeof($umfatt) > 0) {
@@ -2716,7 +2773,7 @@ class HomeController extends Controller
 
                     $insert['Id_PrBLMateriale'] = rand(0, 999999);
                     $insert['Cd_AR'] = $dati['articolo_scarto'];
-                    $insert['Consumo'] = $dati['quantita_scarto_sclav'];
+                    $insert['Consumo'] = -$dati['quantita_scarto_sclav'];
                     $insert['Cd_ARLotto'] = NULL;
                     $insert['Obbligatorio'] = DB::select('SELECT COALESCE(MG_LottoObbligatorio,0) as ciao FROM AR WHERE AR.Cd_AR = \'' . $dati['articolo_scarto'] . '\' ')[0]->ciao;
 
@@ -2772,7 +2829,7 @@ class HomeController extends Controller
                         foreach ($materiale_update as $m) {
                             if ($m->Id_PrBLMateriale == $dati['Id_PrBLMateriale']) {
                                 $m->Tipo = $dati['Tipo'];
-                                $m->Consumo = $dati['Quantita_Madre'] - $dati['calo_peso'];
+                                $m->Consumo = $dati['Quantita_Madre']; //- $dati['calo_peso'];
                                 $m->Cd_ARMisura = $dati['Cd_ARMisura'];
                                 $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
                                 if (sizeof($umfatt) > 0) {
@@ -2795,19 +2852,20 @@ class HomeController extends Controller
                     $insert['Id_PrOLAttivita'] = null;
                     $insert['Id_PrBLMateriale'] = rand(0, 999999);
                     $insert['Tipo'] = $dati['Tipo'];
-                    $insert['Consumo'] = $dati['calo_peso'];
+                    $insert['Consumo'] = -$dati['calo_peso'];
                     $insert['Cd_ARMisura'] = $dati['Cd_ARMisura'];
                     $umfatt = DB::select('SELECT UMFatt from ARARMisura Where Cd_AR = \'' . $dati['Cd_AR'] . '\' and Cd_ARMisura = \'' . $dati['Cd_ARMisura'] . '\'');
                     if (sizeof($umfatt) > 0) {
                         $umfatt = $umfatt[0]->UMFatt;
                     } else $umfatt = 1;
                     $insert['FattoreToUM1'] = $umfatt;
-                    $insert['Cd_AR'] = $dati['Cd_AR'];
+                    $insert['Cd_AR'] = $dati['cp'];
+                    $insert['Cd_ARLotto'] = null;
                     $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
                     $insert['Obbligatorio'] = $dati['Obbligatorio'];
                     $insert['NotePrBLMateriale'] = 'CALO PESO';
-                    $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
-                    $insert['Cd_MG'] = $dati['Cd_MG'];
+                    //$insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
+                    $insert['Cd_MG'] = 'CP';//$dati['Cd_MG'];
                     $insert['Cd_MGUbicazione'] = $dati['Cd_MGUbicazione'];
 
 
@@ -3111,17 +3169,26 @@ class HomeController extends Controller
                     ');
                     $scarto_attuale = DB::SELECT('SELECT SUM(QtaProdotta) AS QtaProdotta FROM xWPCollo where Id_PrBLAttivita = \'' . $id . '\' and QtaVersata < QtaProdotta')[0]->QtaProdotta;
                     foreach ($materiali as $m) {
-                        if ($m->NotePrBLMateriale == null || $m->NotePrBLMateriale == '' || $m->NotePrBLMateriale == 'null')
-                            $scarto_attuale = $m->Consumo - $scarto_attuale;
+                        if ($m->NotePrBLMateriale == null || $m->NotePrBLMateriale == '' || $m->NotePrBLMateriale == 'null') {
+                            $check_gruppo = DB::select('SELECT isnull(Cd_ARGruppo1,\'\') as Cd_ARGruppo1 FROM AR where Cd_AR = \'' . $m->Cd_AR . '\' ')[0]->Cd_ARGruppo1;
+                            if ($check_gruppo != '010' && $check_gruppo != '011') {
+                                if ($m->Consumo > 0)
+                                    $scarto_attuale = $m->Consumo - $scarto_attuale;
+                                else
+                                    $scarto_attuale = $m->Consumo + $scarto_attuale;
+                            }
+                        }
                     }
                     if ($scarto_attuale == NULL)
                         $scarto_attuale = 0;
 
                     $attivita_bolla->scarto = db::select('SELECT
                         COALESCE(
-                        ((SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and Prvrmateriale.Consumo > 0 and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3 AND PRVRMateriale.NotePrVRMateriale not like \'%CALO%PESO%\')
+                        (
+                            (SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and prvrmateriale.Consumo > 0 and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'010\') and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'011\') and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3 AND PRVRMateriale.NotePrVRMateriale not like \'%CALO%PESO%\')
                         -
-                        SUM(PRVRAttivita.Quantita))
+                        (SELECT SUM(PRVRMateriale.Consumo) FROM PRVRMateriale WHERE PRVRMateriale.Id_PRVRAttivita in (SELECT Id_PRvrattivita from prvrattivita where id_prblattivita = ' . $id . ') and prvrmateriale.Consumo < 0 and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'010\') and ((SELECT Cd_ARGruppo1 from ar where ar.cd_AR = prvrmateriale.cd_ar) != \'011\') and PRVRMateriale.Tipo != 0 and  PRVRMateriale.Tipo != 3 AND PRVRMateriale.NotePrVRMateriale not like \'%CALO%PESO%\')
+                        -SUM(PRVRAttivita.Quantita))
                         ,0) + ' . $scarto_attuale . ' as Scarto
                         FROM PRVRAttivita
                         WHERE PRVRAttivita.Id_PRBLAttivita = ' . $id . ' AND PRVRAttivita.Quantita > 0 AND PRVRAttivita.Attrezzaggio = 0
@@ -3158,7 +3225,9 @@ class HomeController extends Controller
 
                                 $articoli_mat = DB::SELECT('SELECT Cd_AR,Descrizione from AR WHERE Obsoleto = 0 and Fittizio = 0');
 
-                                return View::make('backend.dettaglio_bolla', compact('articoli_mat', 'mese_lettera', 'materiali', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
+                                $cp = DB::SELECT('SELECT Cd_AR,Descrizione from AR WHERE Descrizione like \'%Calo%peso%\'');
+
+                                return View::make('backend.dettaglio_bolla', compact('articoli_mat','cp', 'mese_lettera', 'materiali', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
 
                             }
                         }

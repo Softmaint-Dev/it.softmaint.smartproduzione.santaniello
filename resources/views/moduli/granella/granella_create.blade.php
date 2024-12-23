@@ -113,7 +113,8 @@
                                         <td id="overSizePercentage"></td>
                                     </tr>
                                     <tr>
-                                        <td>>5/10></td>
+                                        <td> <input type="text" class="form-control" id="calculation_2"
+                                            name="calculation_2" required></td>
                                         <td>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="calculation"
