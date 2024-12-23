@@ -33,181 +33,181 @@
 </head>
 
 <body>
-<form action="{{ route('createPostXBR6000', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
-      class="container mt-5">
-    <table class="table table-bordered" id="myTable">
-        <thead class="table-dark">
-        <tr>
-            <th scope="col">Linea X-RAY XBR-6000</th>
-            <th>FE 1,5 mm</th>
-            <th>NON FE 1,5 mm</th>
-            <th>STAINLESS 1,8mm</th>
-            <th>CRYSTAL GLASS 3,0 mm</th>
-            <th>CERAMIC 8,0 mm</th>
-        </thead>
-        <tbody>
-        <tr id="referenceRow">
-            <td>
-                <span class="counter">1</span>° con. ore <input name="ore1" type="text" required
-                                                                class="form-control">
+    <form action="{{ route('createPostXBR6000', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
+        class="container mt-5">
+        <table class="table table-bordered" id="myTable">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Linea X-RAY XBR-6000</th>
+                    <th>FE 1,5 mm</th>
+                    <th>NON FE 1,5 mm</th>
+                    <th>STAINLESS 1,8mm</th>
+                    <th>CRYSTAL GLASS 3,0 mm</th>
+                    <th>CERAMIC 8,0 mm</th>
+            </thead>
+            <tbody>
+                <tr id="referenceRow">
+                    <td>
+                        <input name="data1" type="date" required class="form-control" value="{{ date('Y-m-d') }}">
 
-                <div class="mb-3">
-                    <label for="xwpCollo" class="form-label">LOTTO</label>
-                    <select class="form-select selectpicker" data-live-search="true" id="xwpCollo"
-                            name="lotto1" required>
-                        <option value="" disabled selected>Seleziona un lotto</option>
-                    </select>
-                </div>
-                @csrf
-                <input required type="hidden" name="xwp1" class="xwp form-control" id="xwp1">
-            </td>
-            <td>
-                <div class="form-check d-flex justify-content-center">
-                    <input type="hidden" name="fe1" value="false">
-                    <input name="fe1" type="checkbox" id="fe1" class="custom-checkbox form-check-input"
-                           value="true">
-                </div>
-            </td>
-            <td>
-                <div class="form-check d-flex justify-content-center">
-                    <input type="hidden" name="nofe1" value="false">
-                    <input name="nofe1" type="checkbox" id="nofe1"
-                           class="custom-checkbox form-check-input" value="true">
-                </div>
-            </td>
-            <td>
-                <div class="form-check d-flex justify-content-center">
-                    <input type="hidden" name="stainless1" value="false">
-                    <input name="stainless1" type="checkbox" id="stainless1"
-                           class="custom-checkbox form-check-input" value="true">
-                </div>
-            </td>
-            <td>
-                <div class="form-check d-flex justify-content-center">
-                    <input type="hidden" name="crystal1" value="false">
-                    <input name="crystal1" type="checkbox" id="crystal1"
-                           class="custom-checkbox form-check-input" value="true">
-                </div>
-            </td>
-            <td>
-                <div class="form-check d-flex justify-content-center">
-                    <input type="hidden" name="ceramic1" value="false">
-                    <input name="ceramic1" type="checkbox" id="ceramic1"
-                           class="custom-checkbox form-check-input" value="true">
-                </div>
-            </td>
+                    </td>
+                    <td>
+                        <span class="counter">1</span>° con. ore <input name="ore1" type="text" required
+                            class="form-control">
+                        <div class="mb-3">
 
-        </tr>
+                            <div class="mb-3">
+                                <label for="kg" class="form-label">LOTTO</label>
+                                <input required type="text" class="form-control" id="xwpCollo" name="lotto1" />
+                            </div>
+                        </div>
+                        @csrf
+                        <input required type="hidden" name="xwp1" class="xwp form-control" id="xwp1">
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="fe1" value="false">
+                            <input name="fe1" type="checkbox" id="fe1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="nofe1" value="false">
+                            <input name="nofe1" type="checkbox" id="nofe1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="stainless1" value="false">
+                            <input name="stainless1" type="checkbox" id="stainless1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="crystal1" value="false">
+                            <input name="crystal1" type="checkbox" id="crystal1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="ceramic1" value="false">
+                            <input name="ceramic1" type="checkbox" id="ceramic1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+
+                </tr>
 
 
-        </tbody>
-    </table>
-    <button type="button" class="btn btn-primary mt-3" id="aggiungiBtn" onclick="aggiungiRiga()">Aggiungi Riga</button>
-    <input type="submit" class="btn btn-success mt-3" value="SALVA">
-</form>
-<div class="modal fade" id="confermaEliminazioneModal" tabindex="-1" role="dialog"
-     aria-labelledby="confermaEliminazioneModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confermaEliminazioneModalLabel">Conferma Eliminazione</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Sei sicuro di voler eliminare questa riga?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="button" class="btn btn-danger" onclick="eliminaRiga()">Elimina</button>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary mt-3" id="aggiungiBtn" onclick="aggiungiRiga()">Aggiungi
+            Riga</button>
+        <input type="submit" class="btn btn-success mt-3" value="SALVA">
+    </form>
+    <div class="modal fade" id="confermaEliminazioneModal" tabindex="-1" role="dialog"
+        aria-labelledby="confermaEliminazioneModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confermaEliminazioneModalLabel">Conferma Eliminazione</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Sei sicuro di voler eliminare questa riga?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-danger" onclick="eliminaRiga()">Elimina</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function eliminaRiga(button) {
+            // var row = button.closest('tr');
+            // row.remove();
+
+            $('#confermaEliminazioneModal').modal('hide');
+
+            // Rimuovi la riga salvata
+            rigaDaEliminare.remove();
+        }
+
+        function confermaEliminazione(button) {
+            // Apri il modale di conferma
+            $('#confermaEliminazioneModal').modal('show');
+
+            // Salva la riga corrispondente
+            rigaDaEliminare = button.closest('tr');
+        }
 
 
-    function eliminaRiga(button) {
-        // var row = button.closest('tr');
-        // row.remove();
+        var counter = 1;
 
-        $('#confermaEliminazioneModal').modal('hide');
+        let options = [];
 
-        // Rimuovi la riga salvata
-        rigaDaEliminare.remove();
-    }
+        document.addEventListener('DOMContentLoaded', function() {
 
-    function confermaEliminazione(button) {
-        // Apri il modale di conferma
-        $('#confermaEliminazioneModal').modal('show');
-
-        // Salva la riga corrispondente
-        rigaDaEliminare = button.closest('tr');
-    }
-
-
-    var counter = 1;
-
-    let options = [];
-
-    document.addEventListener('DOMContentLoaded', function () {
-
-        axios.get('/XWPCollo/{{$attivity->Id_PrBLAttivita}}')
-            .then(function (response) {
-                var xwpCollo = document.getElementById('xwpCollo');
-                response.data.forEach(function (collo) {
-                    var option = document.createElement('option');
-                    option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
-                    option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
-                    xwpCollo.add(option);
+            axios.get('/XWPCollo/{{ $attivity->Id_PrBLAttivita }}')
+                .then(function(response) {
+                    var xwpCollo = document.getElementById('xwpCollo');
+                    response.data.forEach(function(collo) {
+                        var option = document.createElement('option');
+                        option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
+                        option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
+                        xwpCollo.add(option);
+                    });
+                    options = response.data;
+                    // $(xwpCollo).selectpicker('refresh');
+                })
+                .catch(function(error) {
+                    console.error('Errore nella richiesta Axios', error);
                 });
-                options = response.data;
-                // $(xwpCollo).selectpicker('refresh');
-            })
-            .catch(function (error) {
-                console.error('Errore nella richiesta Axios', error);
-            });
-    });
-
-    $(document).ready(function () {
-        $('#xwpCollo').change(function () {
-            var selectedValue = $(this).val();
-            console.log('Valore selezionato:', selectedValue);
-
-            if (selectedValue === 'NESSUN LOTTO') {
-                alert('Seleziona un lotto valido.');
-                $(this).val('');
-                $('#xwp').val('');
-            } else {
-                $('#xwp').val(selectedValue);
-            }
         });
-    });
 
-    function aggiungiRiga() {
-        counter++;
+        $(document).ready(function() {
+            $('#xwpCollo').change(function() {
+                var selectedValue = $(this).val();
+                console.log('Valore selezionato:', selectedValue);
 
-        var newRowHTML = `
+                if (selectedValue === 'NESSUN LOTTO') {
+                    alert('Seleziona un lotto valido.');
+                    $(this).val('');
+                    $('#xwp').val('');
+                } else {
+                    $('#xwp').val(selectedValue);
+                }
+            });
+        });
+
+        function aggiungiRiga() {
+            counter++;
+
+            var newRowHTML = `
                 <tr>
+                     <td>
+                        <input name="data${counter}" type="date" required class="form-control" value="{{ date('Y-m-d') }}">
+
+                    </td>
                     <td>
-                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="text"
-                            required class="form-control">
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="text" required class="form-control">
                         <div class="mb-3">
-                            <label for="xwpCollo" class="form-label">LOTTO</label>
-                            <select class="form-select selectpicker" data-live-search="true"
-                                name="lotto${counter}" required>
-                                <option value="" disabled selected>Seleziona un lotto</option>
-                                ${getAjaxOptions()}
-                            </select>
+                            <label for="kg" class="form-label">LOTTO</label>
+                            <input required type="text" class="form-control" id="xwpCollo" name="lotto${counter}" />
                         </div>
-                        @csrf
-        <input required type="hidden" name="xwp${counter}" class="xwp form-control" id="xwp${counter}">
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
@@ -248,20 +248,21 @@
                 </tr>
             `;
 
-        $('#myTable tbody').append(newRowHTML);
-    }
+            $('#myTable tbody').append(newRowHTML);
+        }
 
-    function getAjaxOptions() {
-        // Funzione per ottenere le opzioni da Ajax e restituire una stringa HTML
-        var ajaxOptions = '';
+        function getAjaxOptions() {
+            // Funzione per ottenere le opzioni da Ajax e restituire una stringa HTML
+            var ajaxOptions = '';
 
-        options.forEach(function (collo) {
-            ajaxOptions += `<option value="${collo.Cd_AR} - ${collo.xLotto}">${collo.Cd_AR} - ${collo.xLotto}</option>`;
-        });
+            options.forEach(function(collo) {
+                ajaxOptions +=
+                    `<option value="${collo.Cd_AR} - ${collo.xLotto}">${collo.Cd_AR} - ${collo.xLotto}</option>`;
+            });
 
-        return ajaxOptions;
-    }
-</script>
+            return ajaxOptions;
+        }
+    </script>
 </body>
 
 </html>

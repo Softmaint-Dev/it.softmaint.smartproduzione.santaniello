@@ -110,15 +110,13 @@ class GranellaController extends Controller
 
     public function editView($idActivity, $id)
     {
-        $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        /* SOSTITUISCO LA VECCHIA GESTIONE */
-        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
 
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
-
+ 
         return view('moduli.granella.granella_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -131,10 +129,12 @@ class GranellaController extends Controller
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
 
-        $oldJson = json_decode($dms->xJSON);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
+
+ 
 
         $pdf = App::make('dompdf.wrapper');
         $layout = file_get_contents(public_path('pdf/granella.html'));

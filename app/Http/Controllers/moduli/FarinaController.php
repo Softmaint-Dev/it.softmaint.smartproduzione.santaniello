@@ -55,8 +55,8 @@ class FarinaController extends Controller
         $layout = file_get_contents(public_path('pdf/farina.html'));
 
 
+
         $refactoring = array(
-            
             '[VARIETA]' => $data['variety'],
             '[LOTTO]' => $data['xwpCollo'],
             '[CALIBRO]' => $data['caliber'],
@@ -66,10 +66,10 @@ class FarinaController extends Controller
             '[TIME]' => $data['analysisTime'],
             '[SAMPLE]' => $data['sample'],
             '[UMIDITA]' => $data['moisture'],
-            '[COLOR_NATURAL]' => $data['colorNatural'],
-            '[COLOR_ROASTED]' => $data['colorRoasted'],
-            '[TAS_NATURAL]' => $data['tasNatural'],
-            '[TAS_ROASTED]' => $data['tasRoasted'],
+            '[COLOR_NATURAL]' => isset($data['colorNatural'] ) ? "X" : "",
+            '[COLOR_ROASTED]' => isset($data['colorRoasted'] ) ? "" : "",
+            '[TAS_NATURAL]' => isset($data['tasNatural']) ? "X" : "",
+            '[TAS_ROASTED]' => isset($data['tasRoasted']) ? "" : "",
             '[ANALISYS_%]' => $data['analisys_calibratura'],
             '[VALUE_1]' => $data['value1'],
             '[VALUE_2]' => $data['value2'],
@@ -125,7 +125,7 @@ class FarinaController extends Controller
 
         return view('moduli.farina.farina_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -138,7 +138,7 @@ class FarinaController extends Controller
 
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
-        $oldJson = json_decode($dms->xJSON);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();

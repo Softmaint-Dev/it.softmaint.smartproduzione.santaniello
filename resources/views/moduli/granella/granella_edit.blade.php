@@ -4,8 +4,8 @@
 
 <div class="content-wrapper p-3">
 
-    <form action="{{ route('editPostGranella', ['idActivity' => $activity->Id_PrBLAttivita, 'id' => $id]) }}" method="POST"
-        onsubmit="return validateForm()">
+    <form action="{{ route('editPostGranella', ['idActivity' => $activity->Id_PrBLAttivita, 'id' => $id]) }}"
+        method="POST" onsubmit="return validateForm()">
         <div class="container">
             <div class="row">
                 <!-- Prima Colonna -->
@@ -35,10 +35,11 @@
                     </div>
                     @csrf
                     <input required type="hidden" name="cf" id="cf"> --}}
-                    @include('moduli.components.xwpcollo_select', [
-                        'attivita' => $activity,
-                        'selected' => $json->xwpCollo,
-                    ])
+                    <div class="mb-3">
+                        <label for="kg" class="form-label">LOTTO</label>
+                        <input required value="{{ $json->xwpCollo }}" type="text" class="form-control" id="xwpCollo"
+                            name="xwpCollo" />
+                    </div>
                     <div class="mb-3">
                         <label for="caliber" class="form-label">Data/Date</label>
                         <input type="text" class="form-control datepicker" id="data" name="date"
@@ -85,8 +86,8 @@
                     <br />
                     <div class="mb-3">
                         <label for="caliber" class="form-label">gr campione / sample</label>
-                        <input required type="text" name="sampleCalibratura" class="form-control" id="caliberSample"
-                            aria-describedby="emailHelp"
+                        <input required type="text" name="sampleCalibratura" class="form-control"
+                            id="caliberSample" aria-describedby="emailHelp"
                             value="@if (isset($json->sampleCalibratura)) {{ $json->sampleCalibratura }}" @endif>
                     </div>
                     <div class="mb-3">

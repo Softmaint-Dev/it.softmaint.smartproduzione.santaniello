@@ -12,8 +12,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Bootstrap Selectpicker CSS -->
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 
 <!-- Bootstrap JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -27,7 +26,8 @@
 
 <div class="content-wrapper p-3">
 
-    <form action="{{ route('createPostFarina', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST" onsubmit="return validateForm()">
+    <form action="{{ route('createPostFarina', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
+        onsubmit="return validateForm()">
         <div class="container">
             <div class="row">
                 <!-- Prima Colonna -->
@@ -35,9 +35,13 @@
                     <h1> Dati </h1>
                     @include('moduli.farina.components.variety')
                     @include('moduli.farina.components.caliber')
-                    @include('moduli.components.xwpcollo_select',
+                    {{-- @include('moduli.components.xwpcollo_select',
                         ['attivita' => $attivity]
-                    )
+                    ) --}}
+                    <div class="mb-3">
+                        <label for="xwpCollo">LOTTO</label>
+                        <input type="text" name="xwpCollo" id="xwpCollo" required class="form-control">
+                    </div>
                     @include('moduli.farina.components.simple_date')
 
                     @include('moduli.farina.components.analysis_time', ['name' => 'analysisTime']),
@@ -50,7 +54,7 @@
                 <div class="col-md-4">
                     @include('moduli.farina.components.target')
                 </div>
-                 <div class="col-md-4">
+                <div class="col-md-4">
                     @include('moduli.farina.components.caliber_op')
                     @include('moduli.farina.components.observations')
                     <div class="mb-3">
@@ -65,7 +69,7 @@
 
     <script>
         function validateForm() {
-                for (var i = 0; i < elementCalculated.length; i++) {
+            for (var i = 0; i < elementCalculated.length; i++) {
                 var currentElement = elementCalculated[i];
 
                 // Ottieni gli elementi associati

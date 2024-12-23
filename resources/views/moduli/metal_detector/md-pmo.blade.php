@@ -34,57 +34,57 @@
 </head>
 
 <body>
-    <form action="{{ route('createMDPMO', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
-        class="container mt-5">
+    <form action="{{ route('createMDPMO', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST" class="container mt-5">
         <table class="table table-bordered" id="myTable">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">Linea Pentec MD-PMO</th>
-                    <th>FE 2,5 mm</th>
-                    <th>NON FE 2,5 mm</th>
-                    <th>STAINLESS 3.5mm</th>
-                 </thead>
-                <tbody>
-                    <tr id="referenceRow">
-                        <td>
-                            <span class="counter">1</span>° con. ore <input name="ore1" type="text" required
-                                class="form-control">
+                    <th>FE 3,0 mm</th>
+                    <th>NON FE 3,5 mm</th>
+                    <th>STAINLESS 4,0 mm</th>
+            </thead>
+            <tbody>
+                <tr id="referenceRow">
+                    <td>
+                        <span class="counter">1</span>° con. ore <input name="ore1" type="text" required
+                            class="form-control">
 
-                            <div class="mb-3">
-                                <label for="xwpCollo" class="form-label">LOTTO</label>
-                                <select class="form-select selectpicker" data-live-search="true" id="xwpCollo"
-                                    name="lotto1" required>
-                                    <option value="" disabled selected>Seleziona un lotto</option>
-                                </select>
-                            </div>
-                            @csrf
-                            <input required type="hidden" name="xwp1" class="xwp form-control" id="xwp1">
-                        </td>
-                        <td>
-                            <div class="form-check d-flex justify-content-center">
-                                <input type="hidden" name="fe1" value="false">
-                                <input name="fe1" type="checkbox" id="fe1" class="custom-checkbox form-check-input"
-                                    value="true">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-check d-flex justify-content-center">
-                                <input type="hidden" name="nofe1" value="false">
-                                <input name="nofe1" type="checkbox" id="nofe1"
-                                    class="custom-checkbox form-check-input" value="true">
-                             </div>
-                        </td>
-                        <td>
-                            <div class="form-check d-flex justify-content-center">
-                                <input type="hidden" name="stainless1" value="false">
-                                <input name="stainless1" type="checkbox" id="stainless1"
-                                    class="custom-checkbox form-check-input" value="true">
-                             </div>
-                        </td>
-                    </tr>
-                </tbody>
+                        <div class="mb-3">
+                            <label for="xwpCollo" class="form-label">LOTTO</label>
+                            <select class="form-select selectpicker" data-live-search="true" id="xwpCollo"
+                                name="lotto1" required>
+                                <option value="" disabled selected>Seleziona un lotto</option>
+                            </select>
+                        </div>
+                        @csrf
+                        <input required type="hidden" name="xwp1" class="xwp form-control" id="xwp1">
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="fe1" value="false">
+                            <input name="fe1" type="checkbox" id="fe1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="nofe1" value="false">
+                            <input name="nofe1" type="checkbox" id="nofe1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="stainless1" value="false">
+                            <input name="stainless1" type="checkbox" id="stainless1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
-        <button type="button" class="btn btn-primary mt-3" id="aggiungiBtn" onclick="aggiungiRiga()">Aggiungi Riga</button>
+        <button type="button" class="btn btn-primary mt-3" id="aggiungiBtn" onclick="aggiungiRiga()">Aggiungi
+            Riga</button>
         <input type="submit" class="btn btn-success mt-3" value="SALVA">
     </form>
 
@@ -96,12 +96,12 @@
 
         let options = [];
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
 
-            axios.get('/XWPCollo/{{$attivity->Id_PrBLAttivita}}')
-                .then(function (response) {
+            axios.get('/XWPCollo/{{ $attivity->Id_PrBLAttivita }}')
+                .then(function(response) {
                     var xwpCollo = document.getElementById('xwpCollo');
-                    response.data.forEach(function (collo) {
+                    response.data.forEach(function(collo) {
                         var option = document.createElement('option');
                         option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
                         option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
@@ -110,13 +110,13 @@
                     options = response.data;
                     // $(xwpCollo).selectpicker('refresh');
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.error('Errore nella richiesta Axios', error);
                 });
         });
 
-        $(document).ready(function () {
-            $('#xwpCollo').change(function () {
+        $(document).ready(function() {
+            $('#xwpCollo').change(function() {
                 var selectedValue = $(this).val();
                 console.log('Valore selezionato:', selectedValue);
 
@@ -180,8 +180,9 @@
             // Funzione per ottenere le opzioni da Ajax e restituire una stringa HTML
             var ajaxOptions = '';
 
-            options.forEach(function (collo) {
-                ajaxOptions += `<option value="${collo.Cd_AR} - ${collo.xLotto}">${collo.Cd_AR} - ${collo.xLotto}</option>`;
+            options.forEach(function(collo) {
+                ajaxOptions +=
+                    `<option value="${collo.Cd_AR} - ${collo.xLotto}">${collo.Cd_AR} - ${collo.xLotto}</option>`;
             });
 
             return ajaxOptions;

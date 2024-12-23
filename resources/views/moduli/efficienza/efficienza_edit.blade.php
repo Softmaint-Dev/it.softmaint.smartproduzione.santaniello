@@ -25,9 +25,8 @@
 @include('moduli.components.header')
 
 
-<form class="mt-5" action="{{ route('editPostEfficienza', ['idActivity' => $activity->Id_PrBLAttivita, 'id'=>$id]) }}"
-      method="POST"
-      onsubmit="return validateForm()">
+<form class="mt-5" action="{{ route('editPostEfficienza', ['idActivity' => $activity->Id_PrBLAttivita, 'id' => $id]) }}"
+    method="POST" onsubmit="return validateForm()">
     <div class="container mt-5">
         <h2>Testata</h2>
         <div class="form-row">
@@ -35,7 +34,7 @@
                 <label for="data">Seleziona Data*:</label>
                 <div class="input-group date">
                     <input type="text" class="form-control datepicker" id="data" name="data" readonly required
-                           value="{{ $json->data }}">
+                        value="{{ $json->data }}">
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="far fa-calendar"></i></span>
                     </div>
@@ -45,8 +44,8 @@
             <div class="col-md-4 mb-3">
                 <label for="oraInizio">Seleziona Ora Inizio*:</label>
                 <div class="input-group">
-                    <input type="text" class="form-control timepicker" id="oraInizio" name="oraInizio" readonly required
-                           value="{{ $json->oraInizio }}">
+                    <input type="text" class="form-control timepicker" id="oraInizio" name="oraInizio" readonly
+                        required value="{{ $json->oraInizio }}">
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="far fa-clock"></i></span>
                     </div>
@@ -55,8 +54,8 @@
             <div class="col-md-4 mb-3">
                 <label for="oraFine">Seleziona Ora Fine*:</label>
                 <div class="input-group">
-                    <input type="text" class="form-control timepicker" id="oraFine" name="oraFine" readonly required
-                           value="{{ $json->oraFine }}">
+                    <input type="text" class="form-control timepicker" id="oraFine" name="oraFine" readonly
+                        required value="{{ $json->oraFine }}">
                     <div class="input-group-append">
                         <span class="input-group-text"><i class="far fa-clock"></i></span>
                     </div>
@@ -65,9 +64,10 @@
         </div>
     </div>
 
-    <div class="container">
-        @include('moduli.components.xwpcollo_select', ['attivita' => $activity, 'selected' => $json->xwpCollo])
 
+    <div class="container">
+        <label for="xwpCollo">LOTTO</label>
+        <input type="text" name="xwpCollo" id="xwpCollo" value={{ $json->xwpCollo }} required class="form-control">
     </div>
 
     <div class="container mt-5">
@@ -75,82 +75,85 @@
 
         <table class="table">
             <thead class="thead-light">
-            <tr>
-                <th>Funzionamento SEA HYPERSORT</th>
-                <th>Conforme</th>
-                <th>Descrizione</th>
-            </tr>
+                <tr>
+                    <th>Funzionamento SEA HYPERSORT</th>
+                    <th>Conforme</th>
+                    <th>Descrizione</th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Assenza di allarmi o visivi</td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input name="allarme" class="form-check-input required" type="checkbox" role="switch"
-                               id="flexSwitchCheckChecked"
-                               @if (isset($json->allarme) && $json->allarme == "on") checked @endif>
-                    </div>
-                </td>
-                <td><textarea name="allarme_nota" class="form-control" rows="3">{{$json->allarme_nota}}</textarea></td>
-            </tr>
-            <tr>
-                <td>“Ricetta” corretta su display</td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input name="ricetta" class="form-check-input required" type="checkbox" role="switch"
-                               id="flexSwitchCheckChecked"
-                               @if (isset($json->ricetta) && $json->ricetta == "on") checked @endif>
-                    </div>
-                </td>
-                <td><textarea name="ricetta_nota" class="form-control" rows="3">{{$json->ricetta_nota}}</textarea></td>
-            </tr>
-            <tr>
-                <td>Assenza acqua in filtro dell’aria</td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input name="filtro_acqua" class="form-check-input" type="checkbox" role="switch"
-                               id="flexSwitchCheckChecked"
-                               @if (isset($json->filtro_acqua) && $json->filtro_acqua == "on") checked @endif>
+                <tr>
+                    <td>Assenza di allarmi o visivi</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input name="allarme" class="form-check-input required" type="checkbox" role="switch"
+                                id="flexSwitchCheckChecked" @if (isset($json->allarme) && $json->allarme == 'on') checked @endif>
+                        </div>
+                    </td>
+                    <td>
+                        <textarea name="allarme_nota" class="form-control" rows="3">{{ $json->allarme_nota }}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>“Ricetta” corretta su display</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input name="ricetta" class="form-check-input required" type="checkbox" role="switch"
+                                id="flexSwitchCheckChecked" @if (isset($json->ricetta) && $json->ricetta == 'on') checked @endif>
+                        </div>
+                    </td>
+                    <td>
+                        <textarea name="ricetta_nota" class="form-control" rows="3">{{ $json->ricetta_nota }}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Assenza acqua in filtro dell’aria</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input name="filtro_acqua" class="form-check-input" type="checkbox" role="switch"
+                                id="flexSwitchCheckChecked" @if (isset($json->filtro_acqua) && $json->filtro_acqua == 'on') checked @endif>
 
-                    </div>
-                </td>
-                <td><textarea class="form-control" name="filtro_acqua_note"
-                              rows="3">{{$json->filtro_acqua_note}}</textarea></td>
-            </tr>
-            <tr>
-                <td>Controllo Elettrovalvole a buon fine</td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input name="elettrovalvole" class="form-check-input required" type="checkbox" role="switch"
-                               id="flexSwitchCheckChecked"
-                               @if (isset($json->elettrovalvole) && $json->elettrovalvole == "on") checked @endif>
-                    </div>
-                </td>
-                <td><textarea class="form-control" name="elettrovalvole_note"
-                              rows="3">{{$json->elettrovalvole_note}}</textarea></td>
-            </tr>
-            <tr>
-                <td>Controllo avvenuta calibrazione</td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input name="calibrazione" class="form-check-input required" type="checkbox" role="switch"
-                               id="flexSwitchCheckChecked"
-                               @if (isset($json->calibrazione) && $json->calibrazione == "on") checked @endif>
-                    </div>
-                </td>
-                <td><textarea class="form-control" name="calibrazione_note"
-                              rows="3">{{$json->calibrazione_note}}</textarea></td>
-            </tr>
+                        </div>
+                    </td>
+                    <td>
+                        <textarea class="form-control" name="filtro_acqua_note" rows="3">{{ $json->filtro_acqua_note }}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Controllo Elettrovalvole a buon fine</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input name="elettrovalvole" class="form-check-input required" type="checkbox"
+                                role="switch" id="flexSwitchCheckChecked"
+                                @if (isset($json->elettrovalvole) && $json->elettrovalvole == 'on') checked @endif>
+                        </div>
+                    </td>
+                    <td>
+                        <textarea class="form-control" name="elettrovalvole_note" rows="3">{{ $json->elettrovalvole_note }}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Controllo avvenuta calibrazione</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            <input name="calibrazione" class="form-check-input required" type="checkbox" role="switch"
+                                id="flexSwitchCheckChecked" @if (isset($json->calibrazione) && $json->calibrazione == 'on') checked @endif>
+                        </div>
+                    </td>
+                    <td>
+                        <textarea class="form-control" name="calibrazione_note" rows="3">{{ $json->calibrazione_note }}</textarea>
+                    </td>
+                </tr>
             </tbody>
         </table>
 
         <div class="container mt-5">
             <h2>NOTE E INDICAZIONI PER RISOLUZIONE EVENTUALI NC RILEVATE</h2>
-            <textarea class="form-control" name="note" rows="3">{{$json->note}}</textarea>
+            <textarea class="form-control" name="note" rows="3">{{ $json->note }}</textarea>
         </div>
 
         <div class="container mt-5">
-            <input id="salv" required type="submit" class="btn btn-primary btn-block" value="MODIFICA"/>
+            <input id="salv" required type="submit" class="btn btn-primary btn-block" value="MODIFICA" />
         </div>
 
 
@@ -193,7 +196,8 @@
         </script>
 </form>
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">

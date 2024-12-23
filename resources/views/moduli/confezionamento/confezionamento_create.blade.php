@@ -12,7 +12,7 @@
         }
 
         .container {
-            max-width: 1200px;
+
             margin: 20px auto;
         }
 
@@ -33,123 +33,125 @@
 </head>
 
 <body>
-<form action="{{ route('createConfezionamento', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
-    class="container mt-3">
-    <table class="table table-bordered" id="myTable">
-      <thead class="table-dark">
-      <tr>
-        <th style="width: 150px;">DATA</th>
-        <th>PRODOTTO FINITO</th>
-        <th>KG PRODOTTO FINITO</th>
-        <th>LOTTO DI PRODUZIONE</th>
-        <th>LOTTO PACKAGING</th>
-        <th>VERIFICHE AVVIO CONFEZIONAMENTO</th>
-        <th>VERIFICHE DURANTE CONFEZIONAMENTO</th>
-        <th>VERIFICHE FINE CONFEZIONAMENTO</th>
-        <th>VERIFICA IDONEITA’ PALLET ****</th>
-      </thead>
-      <tbody>
-      <tr id="referenceRow">
-        <td>
-            <input required type="text" class="form-control" id="data1" name="data1" required>
-        </td>
-        <td>
-            <input required type="text" class="form-control" id="finito1" name="finito1" required>
+    <form action="{{ route('createConfezionamento', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
+        class="container mt-3">
+        <table class="table table-bordered" id="myTable">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 150px;">DATA</th>
+                    <th>PRODOTTO FINITO</th>
+                    <th>KG PRODOTTO FINITO</th>
+                    <th>LOTTO DI PRODUZIONE</th>
+                    <th>LOTTO PACKAGING</th>
+                    <th>VERIFICHE AVVIO CONFEZIONAMENTO</th>
+                    <th>VERIFICHE DURANTE CONFEZIONAMENTO</th>
+                    <th>VERIFICHE FINE CONFEZIONAMENTO</th>
+                    <th>VERIFICA IDONEITA’ PALLET ****</th>
+            </thead>
+            <tbody>
+                <tr id="referenceRow">
+                    <td>
+                        <input required type="datetime-local" class="form-control" id="data1" name="data1">
+                    </td>
+                    <td>
+                        <input required type="text" class="form-control" id="finito1" name="finito1" required>
 
-        </td>
-        <td>
-            <input required type="text" class="form-control" id="kgfinito1" name="kgfinito1" required>
+                    </td>
+                    <td>
+                        <input required type="text" class="form-control" id="kgfinito1" name="kgfinito1" required>
 
-        </td>
-        <td>
-            <input required type="text" class="form-control" id="produzione1" name="produzione1" required>
+                    </td>
+                    <td>
+                        <input required type="text" class="form-control" id="produzione1" name="produzione1"
+                            required>
 
-        </td>
-        <td>
-            <input required type="text" class="form-control" id="packaging1" name="packaging1" required>
+                    </td>
+                    <td>
+                        <input required type="text" class="form-control" id="packaging1" name="packaging1" required>
 
-        </td>
-        <td>
-            <div class="form-check d-flex justify-content-center">
-              <input type="hidden" name="avvio1" value="false">
-              <input name="avvio1" type="checkbox" id="avvio1" class="custom-checkbox form-check-input"
-                   value="true">
-            </div>
-        </td>
-        <td>
-            <div class="form-check d-flex justify-content-center">
-              <input type="hidden" name="durante1" value="false">
-              <input name="durante1" type="checkbox" id="durante1" class="custom-checkbox form-check-input"
-                   value="true">
-            </div>
-        </td>
-        <td>
-            <div class="form-check d-flex justify-content-center">
-              <input type="hidden" name="fine1" value="false">
-              <input name="fine1" type="checkbox" id="fine1" class="custom-checkbox form-check-input"
-                   value="true">
-            </div>
-        </td>
-        <td>
-            <div class="form-check d-flex justify-content-center">
-              <input type="hidden" name="pallet1" value="false">
-              <input name="pallet1" type="checkbox" id="pallet1" class="custom-checkbox form-check-input"
-                   value="true">
-            </div>
-        </td>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="avvio1" value="false">
+                            <input name="avvio1" type="checkbox" id="avvio1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="durante1" value="false">
+                            <input name="durante1" type="checkbox" id="durante1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="fine1" value="false">
+                            <input name="fine1" type="checkbox" id="fine1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="pallet1" value="false">
+                            <input name="pallet1" type="checkbox" id="pallet1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
 
-      </tr>
-      </tbody>
-    </table>
-    <button type="button" class="btn btn-primary mt-3" id="aggiungiBtn" onclick="aggiungiRiga()">Aggiungi Riga</button>
-    <input type="submit" class="btn btn-success mt-3" value="SALVA">
-</form>
+                </tr>
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-primary mt-3" id="aggiungiBtn" onclick="aggiungiRiga()">Aggiungi
+            Riga</button>
+        <input type="submit" class="btn btn-success mt-3" value="SALVA">
+    </form>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    var counter = 1;
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        var counter = 1;
 
-    let options = [];
+        let options = [];
 
-    document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
 
-        axios.get('/XWPCollo/{{$attivity->Id_PrBLAttivita}}')
-            .then(function (response) {
-                var xwpCollo = document.getElementById('xwpCollo');
-                response.data.forEach(function (collo) {
-                    var option = document.createElement('option');
-                    option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
-                    option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
-                    xwpCollo.add(option);
+            axios.get('/XWPCollo/{{ $attivity->Id_PrBLAttivita }}')
+                .then(function(response) {
+                    var xwpCollo = document.getElementById('xwpCollo');
+                    response.data.forEach(function(collo) {
+                        var option = document.createElement('option');
+                        option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
+                        option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
+                        xwpCollo.add(option);
+                    });
+                    options = response.data;
+                    // $(xwpCollo).selectpicker('refresh');
+                })
+                .catch(function(error) {
+                    console.error('Errore nella richiesta Axios', error);
                 });
-                options = response.data;
-                // $(xwpCollo).selectpicker('refresh');
-            })
-            .catch(function (error) {
-                console.error('Errore nella richiesta Axios', error);
-            });
-    });
-
-    $(document).ready(function () {
-        $('#xwpCollo').change(function () {
-            var selectedValue = $(this).val();
-            console.log('Valore selezionato:', selectedValue);
-
-            if (selectedValue === 'NESSUN LOTTO') {
-                alert('Seleziona un lotto valido.');
-                $(this).val('');
-                $('#xwp').val('');
-            } else {
-                $('#xwp').val(selectedValue);
-            }
         });
-    });
 
-    function aggiungiRiga() {
-        counter++;
-        var newRowHTML = `
+        $(document).ready(function() {
+            $('#xwpCollo').change(function() {
+                var selectedValue = $(this).val();
+                console.log('Valore selezionato:', selectedValue);
+
+                if (selectedValue === 'NESSUN LOTTO') {
+                    alert('Seleziona un lotto valido.');
+                    $(this).val('');
+                    $('#xwp').val('');
+                } else {
+                    $('#xwp').val(selectedValue);
+                }
+            });
+        });
+
+        function aggiungiRiga() {
+            counter++;
+            var newRowHTML = `
         <tr id="referenceRow">
         <td>
             <input required type="text" class="form-control" id="data${counter}" name="data${counter}" required>
@@ -200,7 +202,7 @@
         </td>
       </tr>
         `;
-        // var newRowHTML = `
+            // var newRowHTML = `
         //         <tr>
         //             <td>
         //                 <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" id="ore${counter}" type="text"
@@ -242,20 +244,21 @@
         //         </tr>
         //     `;
 
-        $('#myTable tbody').append(newRowHTML);
-    }
+            $('#myTable tbody').append(newRowHTML);
+        }
 
-    function getAjaxOptions() {
-        // Funzione per ottenere le opzioni da Ajax e restituire una stringa HTML
-        var ajaxOptions = '';
+        function getAjaxOptions() {
+            // Funzione per ottenere le opzioni da Ajax e restituire una stringa HTML
+            var ajaxOptions = '';
 
-        options.forEach(function (collo) {
-            ajaxOptions += `<option value="${collo.Cd_AR} - ${collo.xLotto}">${collo.Cd_AR} - ${collo.xLotto}</option>`;
-        });
+            options.forEach(function(collo) {
+                ajaxOptions +=
+                    `<option value="${collo.Cd_AR} - ${collo.xLotto}">${collo.Cd_AR} - ${collo.xLotto}</option>`;
+            });
 
-        return ajaxOptions;
-    }
-</script>
+            return ajaxOptions;
+        }
+    </script>
 </body>
 
 </html>

@@ -24,18 +24,41 @@
                     </tr>
                     <tr>
                         <td>color / colore</td>
-                        <td><input type="text" name="colorNatural" id="colorNatural" class="form-control"></td>
-                        <td><input type="text" name="colorRoasted" id="colorRoasted" class="form-control"></td>
+                        <td>
+                            {{-- <input type="text" name="colorNatural" id="colorNatural" class="form-control"> --}}
+                            <input name="colorNatural" class="form-check-input required" type="checkbox" role="switch"
+                                id="colorNatural">
+                        </td>
+                        <td>
+                            <input name="colorRoasted" class="form-check-input required" type="checkbox" role="switch"
+                                id="colorRoasted">
+                            {{-- <input type="text" name="colorRoasted" id="colorRoasted" class="form-control"> --}}
+                        </td>
                     </tr>
                     <tr>
                         <td>taste and smell</td>
-                        <td><input type="text" name="tasNatural" id="tasNatural" class="form-control"></td>
-                        <td><input type="text" name="tasRoasted" id="tasRoasted" class="form-control"></td>
+                        <td>
+                            <input name="tasNatural" class="form-check-input required" type="checkbox" role="switch"
+                                id="tasNatural">
+                            {{-- <input type="text" name="tasNatural" id="tasNatural" class="form-control"> --}}
+                        </td>
+                        <td>
+                            <input name="tasRoasted" class="form-check-input required" type="checkbox" role="switch"
+                                id="tasRoasted">
+                            {{-- <input type="text" name="tasRoasted" id="tasRoasted" class="form-control"> --}}
+                        </td>
                     </tr>
                     <tr>
                         <td>total</td>
-                        <td><input type="text" name="totalNatural" id="totalNatural" class="form-control"></td>
-                        <td><input type="text" name="totalRoasted" id="totalRoasted" class="form-control"></td>
+                        <td>
+
+                            <input type="text" name="totalNatural" id="totalNatural" class="form-control">
+                        </td>
+                        <td>
+                            <input name="totalRoasted" class="form-check-input required" type="checkbox" role="switch"
+                                id="totalRoasted">
+                            <input type="text" name="totalRoasted" id="totalRoasted" class="form-control">
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -37,7 +37,11 @@
                     </div>
                     @csrf
                     <input required type="hidden" name="cf" id="cf"> --}}
-                    @include('moduli.components.xwpcollo_select', ['attivita' => $attivity])
+                    {{-- @include('moduli.components.xwpcollo_select', ['attivita' => $attivity]) --}}
+                    <div class="mb-3">
+                        <label for="kg" class="form-label">LOTTO</label>
+                        <input required type="text" class="form-control" id="xwpCollo" name="xwpCollo" />
+                    </div>
                     <div class="mb-3">
                         <label for="caliber" class="form-label">Data/Date</label>
                         <input type="datetime-local" class="form-control" id="data" name="date"
