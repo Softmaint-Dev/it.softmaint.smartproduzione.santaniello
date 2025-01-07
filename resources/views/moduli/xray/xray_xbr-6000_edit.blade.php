@@ -49,6 +49,12 @@
 <body>
     <form action="{{ route('createPostXBR6000', ['id' => $activity->Id_PrBLAttivita]) }}" method="POST"
         class="container mt-5">
+
+        <div class="mb-3">
+            <label for="lotto" class="form-label">DATA</label>
+            <input value={{ $json->data }} type="text" name="data" name="sampleCalibratura" class="form-control"
+                id="data" aria-describedby="emailHelp">
+        </div>
         <table class="table table-bordered" id="myTable">
             <thead class="table-dark">
                 <tr>

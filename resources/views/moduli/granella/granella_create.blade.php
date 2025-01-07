@@ -26,6 +26,12 @@
                         <label for="xwpCollo" class="form-label">Lotto</label>
                         <input required type="text" class="form-control" id="xwpCollo" name="xwpCollo">
                     </div>
+
+                    <div class="mb-3">
+                        <label for="cf" class="form-label">Cliente / Customer</label>
+                        <input required type="text" class="form-control" id="cf" name="cf">
+                    </div>
+
                     <div class="mb-3">
                         <label for="caliber" class="form-label">Data / Date</label>
                         <input type="datetime-local" class="form-control" id="data" name="date"
@@ -69,7 +75,8 @@
                     <br />
                     <div class="mb-3">
                         <label for="caliber" class="form-label">Gr Campione / Sample</label>
-                        <input required type="text" name="sampleCalibratura" class="form-control" id="caliberSample">
+                        <input required type="text" name="sampleCalibratura" class="form-control"
+                            id="caliberSample">
                     </div>
                     <div class="mb-3">
                         <div class="container mt-5">

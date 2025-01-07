@@ -40,6 +40,7 @@
                         <input required type="text" class="form-control" id="caliber" name="caliber">
                     </div>
 
+
                     <div class="mb-3">
                         <label for="wpCollo" class="form-label">Lotto Produzione / Production Batch</label>
                         <input required type="text" class="form-control" id="wpCollo" name="wpCollo">

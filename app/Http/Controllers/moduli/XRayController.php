@@ -110,7 +110,7 @@ class XRayController extends Controller
         $refactoring = array(
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[BODY]' => $htmlString,
-            '[DATA]' => Carbon::now()->format('d/m/Y H:i'),
+            '[DATA]' =>  $data["data"],
         );
 
         $data['BODY'] = $htmlString;
@@ -200,8 +200,8 @@ class XRayController extends Controller
         $layout = file_get_contents(public_path('pdf/xray-400n.html'));
         $refactoring = array(
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
-            '[BODY]' => $htmlString,
-            '[DATA]' =>  Carbon::now()->format('d/m/Y H:i'),
+            '[BODY]' => $htmlString, 
+            '[DATA]' =>   $data["data"],
         );
 
         $data['BODY'] = $htmlString;
@@ -272,6 +272,7 @@ class XRayController extends Controller
         }
 
 
+
         $htmlString = '<tbody>';
 
         $index = 1;
@@ -294,7 +295,7 @@ class XRayController extends Controller
         $refactoring = array(
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[BODY]' => $htmlString,
-            '[DATA]' => Carbon::now()->format('d/m/Y H:i'),
+            '[DATA]' =>  $data["data"],
         );
 
         $data['BODY'] = $htmlString;

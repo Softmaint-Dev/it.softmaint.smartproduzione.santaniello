@@ -45,6 +45,14 @@
                             name="xwpCollo">
                     </div>
 
+
+                    <div class="mb-3">
+                        <label for="cf" class="form-label">Cliente / Customer</label>
+                        <input required value="{{ $json->cf }}" type="text" class="form-control" id="cf"
+                            name="cf">
+                    </div>
+
+
                     <div class="mb-3">
                         <label for="caliber" class="form-label">Data / Date</label>
 

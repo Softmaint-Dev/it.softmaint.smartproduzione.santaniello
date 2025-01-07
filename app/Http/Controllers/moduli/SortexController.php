@@ -143,6 +143,7 @@ class SortexController extends Controller
 
         $data = $request->all();
 
+
         print_r($data);
         $groupedData = [];
 
@@ -182,7 +183,9 @@ class SortexController extends Controller
         $refactoring = array(
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[DA COSTRUIRE]' => $htmlString,
-            '[DATA]' => $data["data"]
+            '[DATA]' => $data["data"],
+            '[VARIETA]' => $data["varieta"],
+            '[LOTTO]' => $data["lotto_mp"],
         );
         $html = str_replace(array_keys($refactoring), $refactoring, $layout);
         $pdf = App::make('dompdf.wrapper');

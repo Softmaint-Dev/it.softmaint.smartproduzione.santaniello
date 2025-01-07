@@ -35,6 +35,11 @@
 <body>
     <form action="{{ route('editPostMBR1200', ['idActivity' => $activity->Id_PrBLAttivita, 'id' => $id]) }}"
         method="POST" onsubmit="return validateForm()" class="container mt-5">
+        <div class="mb-3">
+            <label for="lotto" class="form-label">DATA</label>
+            <input value={{ $json->data }} type="text" name="data" name="sampleCalibratura" class="form-control"
+                id="data" aria-describedby="emailHelp">
+        </div>
         <table class="table table-bordered" id="myTable">
             <thead class="table-dark">
                 <tr>

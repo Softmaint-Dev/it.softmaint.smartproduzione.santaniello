@@ -75,6 +75,7 @@ class GranellaController extends Controller
             '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
             '[TOTAL]' => $data['total'],
             '[OBSERVATIONS]' => $data['observations'],
+            '[CF]' => $data['cf'],
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome)
         );
 
@@ -160,6 +161,7 @@ class GranellaController extends Controller
             '[CALCULATION]' => $data['calculation'],
             '[CALCULATION_PERCENTAGE]' => $data['calculationPercentage'],
             '[UNDERSIZE]' => $data['underSize'],
+            '[CF]' => $data['cf'],
             '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
             '[TOTAL]' => $data['total'],
             '[OBSERVATIONS]' => $data['observations'],
