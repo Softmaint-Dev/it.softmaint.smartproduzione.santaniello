@@ -43,7 +43,7 @@
         <table class="table table-bordered" id="myTable">
             <thead class="table-dark">
                 <tr>
-                    <th scope="col">Linea <b> X-RAY Serie EL - 400/N </b></th>
+                    <th scope="col">Linea X-RAY XBR-400N</th>
                     <th>FE 1,5 mm</th>
                     <th>NON FE 1,5 mm</th>
                     <th>STAINLESS 1,8mm</th>
@@ -57,10 +57,16 @@
                             class="form-control">
 
                         <div class="mb-3">
-                            <label for="lotto1" class="form-label">LOTTO</label>
-                            <input name="lotto1" class="form-control" type="text" id="lotto1">
-                        </div>
+                            <label for="xwpCollo" class="form-label">LOTTO</label>
+                            {{-- <select class="form-select selectpicker" data-live-search="true" id="xwpCollo"
+                                name="lotto1" required>
+                                <option value="" disabled selected>Seleziona un lotto</option>
+                            </select> --}}
+                            <input required type="text" class="form-control" id="xwpCollo" name="lotto1" />
 
+                        </div>
+                        @csrf
+                        <input required type="hidden" name="xwp1" class="xwp form-control" id="xwp1">
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
@@ -162,10 +168,8 @@
                         <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="number"
                             required class="form-control">
                         <div class="mb-3">
-                         <div class="mb-3">
-                            <label for="lotto${counter}" class="form-label">LOTTO</label>
-                            <input name="lotto${counter}" class="form-control" type="text" id="lotto${counter}">
-                        </div>
+                            <label for="xwpCollo" class="form-label">LOTTO</label>
+                            <input required type="text" class="form-control" id="xwpCollo" name="lotto${counter}" />
                         </div>
                         @csrf
         <input required type="hidden" name="xwp${counter}" class="xwp form-control" id="xwp${counter}">

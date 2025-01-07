@@ -40,7 +40,7 @@ class EfficienzaController extends Controller
 
         return view('moduli.efficienza.efficienza_edit', [
             'activity' => $activity,
-            'json' => json_decode($dms->xJSON),
+            'json' => json_decode($dms->xJson),
             'id' => $id,
         ]);
     }
@@ -52,7 +52,7 @@ class EfficienzaController extends Controller
         $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
         /* SOSTITUISCO LA VECCHIA GESTIONE */
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
-        $oldJson = json_decode($dms->xJSON);
+        $oldJson = json_decode($dms->xJson);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();

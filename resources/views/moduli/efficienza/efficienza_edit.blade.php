@@ -64,13 +64,10 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="mb-3">
-            <label for="xwpCollo" class="form-label">Lotto</label>
-            <input value="{{ $json->xwpCollo }}" required type="text" class="form-control" id="xwpCollo"
-                name="xwpCollo">
-        </div>
 
+    <div class="container">
+        <label for="xwpCollo">LOTTO</label>
+        <input type="text" name="xwpCollo" id="xwpCollo" value={{ $json->xwpCollo }} required class="form-control">
     </div>
 
     <div class="container mt-5">

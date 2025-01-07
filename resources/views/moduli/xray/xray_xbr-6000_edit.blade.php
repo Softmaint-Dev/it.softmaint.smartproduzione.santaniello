@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Tabella XBR-6000</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Tabella Bootstrap Laravel</title>
     <style>
         body {
             background-color: #f8f9fa;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 800px;
             margin: 50px auto;
         }
 
@@ -29,22 +29,10 @@
         .custom-checkbox {
             transform: scale(1.5);
         }
-
-        .modal-header,
-        .modal-footer {
-            display: flex;
-            justify-content: center;
-        }
-
-        .btn-sm i {
-            margin-right: 5px;
-        }
-
-        .counter {
-            font-weight: bold;
-        }
     </style>
 </head>
+
+
 
 <body>
     <form action="{{ route('createPostXBR6000', ['id' => $activity->Id_PrBLAttivita]) }}" method="POST"
@@ -61,200 +49,345 @@
                     <th scope="col">Linea X-RAY XBR-6000</th>
                     <th>FE 1,5 mm</th>
                     <th>NON FE 1,5 mm</th>
-                    <th>STAINLESS 1,8 mm</th>
+                    <th>STAINLESS 1,8mm</th>
                     <th>CRYSTAL GLASS 3,0 mm</th>
                     <th>CERAMIC 8,0 mm</th>
-                    <th>Azioni</th>
-                </tr>
+                    <th>D</th>
             </thead>
-            <tbody id="tableBody">
-                <!-- Righe dinamiche generate dal JSON -->
+            <tbody>
+                <tr id="referenceRow">
+                    <td>
+                        <span class="counter">1</span>° con. ore <input name="ore1" type="text" required
+                            id="ore1" class="form-control">
+
+                        <div class="mb-3">
+                            <label for="xwpCollo" class="form-label">LOTTO</label>
+                            <select class="form-select selectpicker" data-live-search="true" id="xwpCollo"
+                                name="lotto1" required>
+                                <option value="" disabled selected>Seleziona un lotto</option>
+                            </select>
+                        </div>
+                        @csrf
+                        <input required type="hidden" name="xwp1" class="xwp form-control" id="xwp1">
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="fe1" value="false">
+                            <input name="fe1" type="checkbox" id="fe1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="nofe1" value="false">
+                            <input name="nofe1" type="checkbox" id="nofe1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="stainless1" value="false">
+                            <input name="stainless1" type="checkbox" id="stainless1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="crystal1" value="false">
+                            <input name="crystal1" type="checkbox" id="crystal1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="ceramic1" value="false">
+                            <input name="ceramic1" type="checkbox" id="ceramic1"
+                                class="custom-checkbox form-check-input" value="true">
+                        </div>
+                    </td>
+
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="confermaEliminazione(this)">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+
+
             </tbody>
         </table>
-
         <button type="button" class="btn btn-primary mt-3" id="aggiungiBtn" onclick="aggiungiRiga()">Aggiungi
             Riga</button>
         <input type="submit" class="btn btn-success mt-3" value="SALVA">
     </form>
-
-    <!-- Modal per conferma eliminazione -->
-    <div class="modal fade" id="confermaEliminazioneModal" tabindex="-1"
+    <div class="modal fade" id="confermaEliminazioneModal" tabindex="-1" role="dialog"
         aria-labelledby="confermaEliminazioneModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="confermaEliminazioneModalLabel">Conferma Eliminazione</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     Sei sicuro di voler eliminare questa riga?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
                     <button type="button" class="btn btn-danger" onclick="eliminaRiga()">Elimina</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    {{-- @foreach ($json as $ciao => $j)
+    <input type="hidden" id="{{'x'.$ciao}}" value="{{$j}}">
+@endforeach --}}
 
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        var counter = 1;
-        var rigaDaEliminare = null;
+        function eliminaRiga(button) {
+            // var row = button.closest('tr');
+            // row.remove();
 
-        // Recupera il JSON passato da Laravel
-        var data = @json($json);
+            $('#confermaEliminazioneModal').modal('hide');
 
-        // Funzione per confermare l'eliminazione
+            // Rimuovi la riga salvata
+            rigaDaEliminare.remove();
+        }
+
         function confermaEliminazione(button) {
+            // Apri il modale di conferma
+            $('#confermaEliminazioneModal').modal('show');
+
+            // Salva la riga corrispondente
             rigaDaEliminare = button.closest('tr');
-            var modal = new bootstrap.Modal(document.getElementById('confermaEliminazioneModal'));
-            modal.show();
         }
 
-        // Funzione per eliminare una riga
-        function eliminaRiga() {
-            if (rigaDaEliminare) {
-                rigaDaEliminare.remove();
+
+        var counter = 1;
+
+        let options = [];
+
+        <?php
+        $array = $json;
+        $risultati = [];
+        foreach ($array as $valore => $val) {
+            if (strpos($valore, 'lotto') !== false) {
+                $risultati[] = $valore;
             }
-            var modal = bootstrap.Modal.getInstance(document.getElementById('confermaEliminazioneModal'));
-            modal.hide();
         }
+        $size = sizeof($risultati);
+        ?>
 
-        // Funzione per aggiungere una nuova riga alla tabella
-        function aggiungiRiga() {
-            counter++;
-            let newRow = `
+        document.addEventListener('DOMContentLoaded', function() {
+
+            alert("Hello")
+
+            document.getElementById(`ceramic1`).checked = (document.getElementById(`xceramic1`)
+                .value === "true") ? true : false;
+            document.getElementById(`crystal1`).checked = (document.getElementById(`xcrystal1`)
+                .value === "true") ? true : false;
+            document.getElementById(`stainless1`).checked = (document.getElementById(`xstainless1`)
+                .value === "true") ? true : false;
+            document.getElementById(`nofe1`).checked = (document.getElementById(`xnofe1`).value ===
+                "true") ? true : false;
+            document.getElementById(`fe1`).checked = (document.getElementById(`xfe1`).value ===
+                "true") ? true : false;
+            document.getElementById(`ore1`).value = document.getElementById(`xore1`).value;
+
+
+            element = document.getElementById(`xwpCollo`);
+            for (val in element) {
+                if (element[val])
+                    if (element[val].value === document.getElementById(`xlotto1`).value)
+                        element[val].selected = true;
+            }
+
+
+
+        });
+
+        $(document).ready(function() {
+            $('#xwpCollo').change(function() {
+                var selectedValue = $(this).val();
+                console.log('Valore selezionato:', selectedValue);
+
+                if (selectedValue === 'NESSUN LOTTO') {
+                    alert('Seleziona un lotto valido.');
+                    $(this).val('');
+                    $('#xwp').val('');
+                } else {
+                    $('#xwp').val(selectedValue);
+                }
+            });
+        });
+
+
+        function init(size) {
+            counter = 2;
+            while (counter <= size) {
+                var newRowHTML = `
                 <tr>
                     <td>
-                        <span class="counter">${counter}</span>° con. ore
-                        <input name="ore${counter}" type="text" required class="form-control">
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" id="ore${counter}" type="text"
+                            required class="form-control">
                         <div class="mb-3">
-                            <label for="lotto${counter}" class="form-label">LOTTO</label>
-                            <input required type="text" class="form-control" id="lotto${counter}" name="lotto${counter}">
+                            <label for="xwpCollo" class="form-label">LOTTO</label>
+                            <select class="form-select selectpicker" data-live-search="true"
+                                name="lotto${counter}" id="lotto${counter}" required>
+                                <option value="" disabled selected>Seleziona un lotto</option>
+                                ${getAjaxOptions()}
+                            </select>
                         </div>
+                        @csrf
+            <input required type="hidden" name="xwp${counter}" class="xwp form-control" id="xwp${counter}">
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="fe${counter}" value="false">
-                            <input name="fe${counter}" type="checkbox" class="custom-checkbox form-check-input" value="true">
-                        </div>
+                            <input name="fe${counter}" type="checkbox" id="fe${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="nofe${counter}" value="false">
-                            <input name="nofe${counter}" type="checkbox" class="custom-checkbox form-check-input" value="true">
-                        </div>
+                            <input name="nofe${counter}" type="checkbox" id="nofe${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="stainless${counter}" value="false">
-                            <input name="stainless${counter}" type="checkbox" class="custom-checkbox form-check-input" value="true">
-                        </div>
+                            <input name="stainless${counter}" type="checkbox" id="stainless${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="crystal${counter}" value="false">
-                            <input name="crystal${counter}" type="checkbox" class="custom-checkbox form-check-input" value="true">
-                        </div>
+                            <input name="crystal${counter}" type="checkbox" id="crystal${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="ceramic${counter}" value="false">
-                            <input name="ceramic${counter}" type="checkbox" class="custom-checkbox form-check-input" value="true">
-                        </div>
+                            <input name="ceramic${counter}" type="checkbox" id="ceramic${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
                     </td>
                     <td>
                         <button type="button" class="btn btn-danger btn-sm" onclick="confermaEliminazione(this)">
-                            <i class="fas fa-trash"></i> Elimina
+                            <i class="fas fa-trash"></i>
                         </button>
                     </td>
                 </tr>
             `;
-            document.querySelector('#myTable tbody').insertAdjacentHTML('beforeend', newRow);
-        }
 
-        // Funzione per aggiungere righe dal JSON passato
-        function aggiungiRigheDaJson(jsonData) {
-            let maxCounter = 0;
+                $('#myTable tbody').append(newRowHTML);
 
-            // Trova il numero massimo di set di dati numerati (es. ore1, ore2, ore3, ecc.)
-            for (let key in jsonData) {
-                let match = key.match(/\d+$/); // Cerca i numeri alla fine delle chiavi
-                if (match) {
-                    maxCounter = Math.max(maxCounter, parseInt(match[0]));
+                document.getElementById(`ceramic${counter}`).checked = (document.getElementById(`xceramic${counter}`)
+                    .value === "true") ? true : false;
+                document.getElementById(`crystal${counter}`).checked = (document.getElementById(`xcrystal${counter}`)
+                    .value === "true") ? true : false;
+                document.getElementById(`stainless${counter}`).checked = (document.getElementById(`xstainless${counter}`)
+                    .value === "true") ? true : false;
+                document.getElementById(`nofe${counter}`).checked = (document.getElementById(`xnofe${counter}`).value ===
+                    "true") ? true : false;
+                document.getElementById(`fe${counter}`).checked = (document.getElementById(`xfe${counter}`).value ===
+                    "true") ? true : false;
+
+                document.getElementById(`ore${counter}`).value = document.getElementById(`xore${counter}`).value;
+
+                element = document.getElementById(`lotto${counter}`);
+                for (val in element) {
+                    if (element[val])
+                        if (element[val].value === document.getElementById(`xlotto${counter}`).value)
+                            element[val].selected = true;
                 }
-            }
 
-            // Itera e crea le righe
-            for (let i = 1; i <= maxCounter; i++) {
-                let ore = jsonData[`ore${i}`] || '';
-                let lotto = jsonData[`lotto${i}`] || '';
-                let fe = jsonData[`fe${i}`] === "true" ? "checked" : "";
-                let nofe = jsonData[`nofe${i}`] === "true" ? "checked" : "";
-                let stainless = jsonData[`stainless${i}`] === "true" ? "checked" : "";
-                let crystal = jsonData[`crystal${i}`] === "true" ? "checked" : "";
-                let ceramic = jsonData[`ceramic${i}`] === "true" ? "checked" : "";
-
-                let newRow = `
-                    <tr>
-                        <td>
-                            <span class="counter">${i}</span>° con. ore
-                            <input name="ore${i}" type="text" value="${ore}" required class="form-control">
-                            <div class="mb-3">
-                                <label for="lotto${i}" class="form-label">LOTTO</label>
-                                <input required type="text" class="form-control" id="lotto${i}" name="lotto${i}" value="${lotto}">
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-check d-flex justify-content-center">
-                                <input type="hidden" name="fe${i}" value="false">
-                                <input name="fe${i}" type="checkbox" class="custom-checkbox form-check-input" value="true" ${fe}>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-check d-flex justify-content-center">
-                                <input type="hidden" name="nofe${i}" value="false">
-                                <input name="nofe${i}" type="checkbox" class="custom-checkbox form-check-input" value="true" ${nofe}>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-check d-flex justify-content-center">
-                                <input type="hidden" name="stainless${i}" value="false">
-                                <input name="stainless${i}" type="checkbox" class="custom-checkbox form-check-input" value="true" ${stainless}>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-check d-flex justify-content-center">
-                                <input type="hidden" name="crystal${i}" value="false">
-                                <input name="crystal${i}" type="checkbox" class="custom-checkbox form-check-input" value="true" ${crystal}>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="form-check d-flex justify-content-center">
-                                <input type="hidden" name="ceramic${i}" value="false">
-                                <input name="ceramic${i}" type="checkbox" class="custom-checkbox form-check-input" value="true" ${ceramic}>
-                            </div>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm" onclick="confermaEliminazione(this)">
-                                <i class="fas fa-trash"></i> Elimina
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                document.querySelector('#myTable tbody').insertAdjacentHTML('beforeend', newRow);
+                counter++;
             }
-            counter = maxCounter;
         }
 
-        // Carica le righe dal JSON al caricamento della pagina
-        window.onload = function() {
-            aggiungiRigheDaJson(data);
-        };
+        function aggiungiRiga() {
+            counter++;
+
+            var newRowHTML = `
+                <tr>
+                    <td>
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="text"
+                            required class="form-control">
+                        <div class="mb-3">
+                            <label for="xwpCollo" class="form-label">LOTTO</label>
+                            <select class="form-select selectpicker" data-live-search="true"
+                                name="lotto${counter}" required>
+                                <option value="" disabled selected>Seleziona un lotto</option>
+                                ${getAjaxOptions()}
+                            </select>
+                        </div>
+                        @csrf
+        <input required type="hidden" name="xwp${counter}" class="xwp form-control" id="xwp${counter}">
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="fe${counter}" value="false">
+                            <input name="fe${counter}" type="checkbox" id="fe${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="nofe${counter}" value="false">
+                            <input name="nofe${counter}" type="checkbox" id="nofe${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="stainless${counter}" value="false">
+                            <input name="stainless${counter}" type="checkbox" id="stainless${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="crystal${counter}" value="false">
+                            <input name="crystal${counter}" type="checkbox" id="crystal${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-flex justify-content-center">
+                            <input type="hidden" name="ceramic${counter}" value="false">
+                            <input name="ceramic${counter}" type="checkbox" id="ceramic${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
+                    </td>
+
+                </tr>
+            `;
+
+            $('#myTable tbody').append(newRowHTML);
+        }
+
+        function getAjaxOptions() {
+            // Funzione per ottenere le opzioni da Ajax e restituire una stringa HTML
+            var ajaxOptions = '';
+
+            options.forEach(function(collo) {
+                ajaxOptions +=
+                    `<option value="${collo.Cd_AR} - ${collo.xLotto}">${collo.Cd_AR} - ${collo.xLotto}</option>`;
+            });
+
+            return ajaxOptions;
+        }
     </script>
 </body>
 

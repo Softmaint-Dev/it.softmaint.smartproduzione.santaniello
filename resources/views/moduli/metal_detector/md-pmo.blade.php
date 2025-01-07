@@ -22,6 +22,7 @@
             vertical-align: middle;
         }
 
+
         .form-label {
             font-weight: bold;
         }
@@ -34,30 +35,38 @@
 
 <body>
     <form action="{{ route('createMDPMO', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST" class="container mt-5">
+<<<<<<< HEAD
         <div class="mb-3">
             <label for="lotto" class="form-label">DATA</label>
             <input type="text" name="data" name="sampleCalibratura" class="form-control" id="data"
                 aria-describedby="emailHelp">
         </div>
         @csrf
+=======
+>>>>>>> b29d68102e059e6c442c09971184ee9425ffe6ce
         <table class="table table-bordered" id="myTable">
             <thead class="table-dark">
                 <tr>
                     <th scope="col">Linea Pentec MD-PMO</th>
-                    <th>FE 2,5 mm</th>
-                    <th>NON FE 2,5 mm</th>
-                    <th>STAINLESS 3.5mm</th>
-                </tr>
+                    <th>FE 3,0 mm</th>
+                    <th>NON FE 3,5 mm</th>
+                    <th>STAINLESS 4,0 mm</th>
             </thead>
             <tbody>
                 <tr id="referenceRow">
                     <td>
-                        <span class="counter">1</span>° con. ore
-                        <input name="ore1" type="text" required class="form-control">
+                        <span class="counter">1</span>° con. ore <input name="ore1" type="text" required
+                            class="form-control">
+
                         <div class="mb-3">
-                            <label for="lotto1" class="form-label">LOTTO</label>
-                            <input type="text" name="lotto1" class="form-control" id="lotto1">
+                            <label for="xwpCollo" class="form-label">LOTTO</label>
+                            <select class="form-select selectpicker" data-live-search="true" id="xwpCollo"
+                                name="lotto1" required>
+                                <option value="" disabled selected>Seleziona un lotto</option>
+                            </select>
                         </div>
+                        @csrf
+                        <input required type="hidden" name="xwp1" class="xwp form-control" id="xwp1">
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
@@ -93,9 +102,11 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         var counter = 1;
+
         let options = [];
 
         document.addEventListener('DOMContentLoaded', function() {
+
             axios.get('/XWPCollo/{{ $attivity->Id_PrBLAttivita }}')
                 .then(function(response) {
                     var xwpCollo = document.getElementById('xwpCollo');
@@ -106,6 +117,7 @@
                         xwpCollo.add(option);
                     });
                     options = response.data;
+                    // $(xwpCollo).selectpicker('refresh');
                 })
                 .catch(function(error) {
                     console.error('Errore nella richiesta Axios', error);
@@ -133,11 +145,15 @@
             var newRowHTML = `
                 <tr>
                     <td>
-                        <span class="counter">${counter}</span>° con. ore
-                        <input name="ore${counter}" type="text" required class="form-control">
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="text"
+                            required class="form-control">
                         <div class="mb-3">
-                            <label for="lotto${counter}" class="form-label">LOTTO</label>
-                            <input type="text" name="lotto${counter}" class="form-control" id="lotto${counter}">
+                            <label for="xwpCollo" class="form-label">LOTTO</label>
+                            <select class="form-select selectpicker" data-live-search="true"
+                                name="lotto${counter}" required>
+                                <option value="" disabled selected>Seleziona un lotto</option>
+                                ${getAjaxOptions()}
+                            </select>
                         </div>
                         @csrf
                         <input required type="hidden" name="xwp${counter}" class="xwp form-control" id="xwp${counter}">
@@ -145,20 +161,23 @@
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="fe${counter}" value="false">
-                            <input name="fe${counter}" type="checkbox" id="fe${counter}" class="custom-checkbox form-check-input" value="true">
-                        </div>
+                            <input name="fe${counter}" type="checkbox" id="fe${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="nofe${counter}" value="false">
-                            <input name="nofe${counter}" type="checkbox" id="nofe${counter}" class="custom-checkbox form-check-input" value="true">
-                        </div>
+                            <input name="nofe${counter}" type="checkbox" id="nofe${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
                             <input type="hidden" name="stainless${counter}" value="false">
-                            <input name="stainless${counter}" type="checkbox" id="stainless${counter}" class="custom-checkbox form-check-input" value="true">
-                        </div>
+                            <input name="stainless${counter}" type="checkbox" id="stainless${counter}"
+                                class="custom-checkbox form-check-input" value="true">
+                         </div>
                     </td>
                 </tr>
             `;
@@ -167,11 +186,14 @@
         }
 
         function getAjaxOptions() {
+            // Funzione per ottenere le opzioni da Ajax e restituire una stringa HTML
             var ajaxOptions = '';
+
             options.forEach(function(collo) {
                 ajaxOptions +=
                     `<option value="${collo.Cd_AR} - ${collo.xLotto}">${collo.Cd_AR} - ${collo.xLotto}</option>`;
             });
+
             return ajaxOptions;
         }
     </script>

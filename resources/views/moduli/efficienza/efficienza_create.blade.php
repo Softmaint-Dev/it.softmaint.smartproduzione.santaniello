@@ -66,10 +66,9 @@
      </div>
 
      <div class="container">
-         <div class="mb-3">
-             <label for="xwpCollo" class="form-label">Lotto</label>
-             <input required type="text" class="form-control" id="xwpCollo" name="xwpCollo">
-         </div>
+         {{-- @include('moduli.components.xwpcollo_select', ['attivita' => $attivity, 'selected' => null]) --}}
+         <label for="xwpCollo">LOTTO</label>
+         <input type="text" name="xwpCollo" id="xwpCollo" required class="form-control">
 
      </div>
 

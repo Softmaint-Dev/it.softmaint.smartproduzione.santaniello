@@ -151,7 +151,8 @@
             var newRowHTML = `
         <tr id="referenceRow">
         <td>
-            <input required type="text" class="form-control" id="data${counter}" name="data${counter}" required>
+            <input required type="datetime-local" class="form-control" id="data${counter}" name="data${counter}" required>
+ 
         </td>
         <td>
             <input required type="text" class="form-control" id="finito${counter}" name="finito${counter}" required>
@@ -272,7 +273,7 @@
                     var newRowHTML = `
 <tr id="referenceRow">
 <td>
-<input required type="text" class="form-control" value=${item.data} id="data${counter}" name="data${counter}" required>
+<input required type="datetime-local" class="form-control" value=${item.data} id="data${counter}" name="data${counter}" required>
 </td>
 <td>
 <input required type="text" class="form-control" value=${item.finito} id="finito${counter}" name="finito${counter}" required>

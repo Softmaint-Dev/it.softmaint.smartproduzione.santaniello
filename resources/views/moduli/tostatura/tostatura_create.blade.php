@@ -145,11 +145,31 @@
 
 
 
+                 // newRow.insertCell(0).innerHTML = `
+        //     <td>
+        //         <select style="width:200px " data-live-search="true" id="lotto${(tbody.rows.length)}" name="lotto${(tbody.rows.length)}" required>
+        //             <option value="" disabled selected>Seleziona un lotto</option> </select> 
+        //     </td>
+        // `;
+                 // var xwpCollo = document.getElementById(`lotto${(tbody.rows.length)}`);
+                 //         lotti.forEach(function (collo) {
+                 //             var option = document.createElement('option');
+                 //             option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
+                 //             option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
+                 //             xwpCollo.add(option);
+                 //         });
+                 //         console.log(lotti);
+                 //         $(xwpCollo).selectpicker('refresh');
+
+                @php
+
+                @endphp
                  newRow.insertCell(0).innerHTML = `
             <td>
-                <input required type="text" class="form-control" id="lotto${(tbody.rows.length)}" name="lotto${(tbody.rows.length)}">
+                <input type="text" name="lotto${(tbody.rows.length)}"  id="lotto${(tbody.rows.length)}" required class="form-control">
             </td>
         `;
+
                  newRow.insertCell(1).appendChild(rigaStyle("cesta"))
                  newRow.insertCell(2).appendChild(rigaStyle("ricetta"))
                  newRow.insertCell(3).appendChild(rigaStyle("rhin"))

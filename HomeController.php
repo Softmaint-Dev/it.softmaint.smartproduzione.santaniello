@@ -975,7 +975,7 @@ class HomeController extends Controller
                         $insert['Id_PrBLAttivita'] = $attivita_bolla->Id_PrBLAttivita;
                         $insert['Cd_PrRisorsa'] = $utente->Cd_PRRisorsa;
                         $insert['Quantita'] = $quantita;
-                        $insert['Quantita_Scar'] = $quantita_scarto;
+                        $insert['Quantita_Scar'] = 0;
                         $insert['FattoreMks'] = $attivita_bolla->FattoreMks;
                         $insert['Data'] = date('Ymd');
                         //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
@@ -995,7 +995,7 @@ class HomeController extends Controller
                     $insert['Id_PrBLAttivita'] = $attivita_bolla->Id_PrBLAttivita;
                     $insert['Cd_PrRisorsa'] = $utente->Cd_PRRisorsa;
                     $insert['Quantita'] = $quantita;
-                    $insert['Quantita_Scar'] = $quantita_scarto;
+                    $insert['Quantita_Scar'] = 0;
                     $insert['FattoreMks'] = $attivita_bolla->FattoreMks;
                     $insert['Data'] = date('Ymd');
                     //$insert['Cd_MG'] = $attivita_bolla->Cd_MG;
@@ -2276,9 +2276,9 @@ class HomeController extends Controller
                         $insert['Id_PrBLAttivita'] = $attivita_bolla->Id_PrBLAttivita;
                         $insert['Cd_PrRisorsa'] = $utente->Cd_PRRisorsa;
                         $insert['Quantita'] = $quantita;
-                        if ($dati['quantita_scarto_vr'] > 0) {
-                            $insert['Quantita_Scar'] = abs($dati['quantita_scarto_vr']);
-                        }
+                        //if ($dati['quantita_scarto_vr'] > 0) {
+                            $insert['Quantita_Scar'] = 0;//abs($dati['quantita_scarto_vr']);
+                        //}
 
                         $consumo_tot = $dati['quantita_contatore'];
 

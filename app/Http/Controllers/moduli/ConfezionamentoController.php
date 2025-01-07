@@ -136,7 +136,7 @@ class ConfezionamentoController extends Controller
 
         return view('moduli.confezionamento.confezionamento_edit', [
             'attivity' => $activity,
-            'json' => json_decode($dms->xJson),
+            'json' => json_decode($dms->xJSON),
             'id' => $id,
         ]);
     }

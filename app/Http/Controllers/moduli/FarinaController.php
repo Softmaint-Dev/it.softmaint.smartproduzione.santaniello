@@ -37,73 +37,52 @@ class FarinaController extends Controller
     function create(Request $request, $id)
     {
 
-        $prblAttivita = PRBLAttivita::firstWhere('id_prblattivita', $id);
+
+        $prblAttivita = PRBLAttivita::with(['materiale.ar', 'materiale.arlotto'])->firstWhere('id_prblattivita', $id);
+        $prblMateriale = $prblAttivita->materiale;
+        $ar = $prblMateriale[0]->ar;
         $dotes = $prblAttivita;
         $prolAttivita = $prblAttivita->prolAttivita;
-
-        if ($prolAttivita->prolDoRig != null) {
-            $prolDorig = $prolAttivita->prolDoRig;
-            $dorig = $prolDorig->dorig;
-            $dotes = $dorig->dotes;
-            $cf = $dotes->cf;
-            $dms = $dotes->dms();
-        }
-        $utente = $request->session()->get("utente");
+        $prolDorig = $prolAttivita->prolDoRig;
+        $dorig = $prolDorig->dorig;
+        $dotes = $dorig->dotes;
+        $cf = $dotes->cf;
+        $dms = $dotes->dms();
         $data = $request->all();
+        $qty = number_format($prblAttivita->Quantita, 2, '.', '');
 
 
- 
         $layout = file_get_contents(public_path('pdf/farina.html'));
 
 
+
         $refactoring = array(
-            '[ID_variety]' => $data['variety'],
-            '[ID_caliber]' => $data['caliber'],
-            '[ID_wpCollo]' => $data['wpCollo'],
-            '[ID_cf]' => $data['cf'],
-            '[ID_kg]' => $data['kg'],
-            '[ID_date]' => $data['date'],
-            '[ID_time]' => $data['time'],
-            '[ID_grCampione]' => $data['grCampione'],
-            '[ID_moisture]' => $data['moisture'],
-            '[ID_colore]'   => $data['colore'],
-            '[ID_sapore]' => $data['sapore'],
-            '[ID_farina]'   => $data['farina'],
-            '[ID_granella]' => $data['granella'],
-            '[ID_colorePercentage]' => $data['colorePercentage'],
-            '[ID_saporePercentage]'   => $data['saporePercentage'],
-            '[ID_totalPercentage]' => $data['totalPercentage'],
-            '[ID_farinaPercentage]'   => $data['farinaPercentage'],
-            '[ID_granellaPercentage]' => $data['granellaPercentage'],
-            '[ID_totalMealPercentage]' => $data['totalMealPercentage'],
+            '[VARIETA]' => $data['variety'],
+            '[LOTTO]' => $data['xwpCollo'],
+            '[CALIBRO]' => $data['caliber'],
+            '[CLIENTE]' => $cf->Descrizione,
+            '[TOTAL_KG]' => number_format($prblAttivita->Quantita, 2),
+            '[DATE]' => $data['simpleDate'],
+            '[TIME]' => $data['analysisTime'],
+            '[SAMPLE]' => $data['sample'],
+            '[UMIDITA]' => $data['moisture'],
+            '[COLOR_NATURAL]' => isset($data['colorNatural'] ) ? "X" : "",
+            '[COLOR_ROASTED]' => isset($data['colorRoasted'] ) ? "" : "",
+            '[TAS_NATURAL]' => isset($data['tasNatural']) ? "X" : "",
+            '[TAS_ROASTED]' => isset($data['tasRoasted']) ? "" : "",
+            '[ANALISYS_%]' => $data['analisys_calibratura'],
+            '[VALUE_1]' => $data['value1'],
+            '[VALUE_2]' => $data['value2'],
+            '[VALUE_3]' => $data['value3'],
+            '[VALUE_TOT]' => $data['valueTot'],
+            '[VALUE_1_PERCENTAGE]' => $data['value1Percentage'],
+            '[VALUE_2_PERCENTAGE]' => $data['value2Percentage'],
+            '[VALUE_3_PERCENTAGE]' => $data['value3Percentage'],
+            '[VALUE_TOT_PERCENTAGE]' => $data['valueTotPercentage'],
+            '[OBSERVATIONS]' => $data['observations'],
+            '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome)
         );
-            // '[VARIETA]' => $data['variety'],
-            // '[LOTTO]' => $data['xwpCollo'],
-            // '[CALIBRO]' => $data['caliber'],
-            // '[CLIENTE]' => $cf->Descrizione,
-            // '[TOTAL_KG]' => number_format($prblAttivita->Quantita, 2),
-            // '[DATE]' => $data['simpleDate'],
-            // '[TIME]' => $data['analysisTime'],
-            // '[SAMPLE]' => $data['sample'],
-            // '[UMIDITA]' => $data['moisture'],
-            // '[COLOR_NATURAL]' => $data['colorNatural'],
-            // '[COLOR_ROASTED]' => $data['colorRoasted'],
-            // '[TAS_NATURAL]' => $data['tasNatural'],
-            // '[TAS_ROASTED]' => $data['tasRoasted'],
-            // '[ANALISYS_%]' => $data['analisys_calibratura'],
-            // '[VALUE_1]' => $data['value1'],
-            // '[VALUE_2]' => $data['value2'],
-            // '[VALUE_3]' => $data['value3'],
-            // '[VALUE_TOT]' => $data['valueTot'],
-            // '[VALUE_1_PERCENTAGE]' => $data['value1Percentage'],
-            // '[VALUE_2_PERCENTAGE]' => $data['value2Percentage'],
-            // '[VALUE_3_PERCENTAGE]' => $data['value3Percentage'],
-            // '[VALUE_TOT_PERCENTAGE]' => $data['valueTotPercentage'],
-            // '[OBSERVATIONS]' => $data['observations'],
-            // '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
-            // '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome)
-      
 
         $html = str_replace(array_keys($refactoring), $refactoring, $layout);
 
@@ -113,9 +92,9 @@ class FarinaController extends Controller
 
         $binaryPDF = $pdf->output();
 
-        // $data['USER'] = ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome);
-        // $data['TOTAL_KG'] = number_format($prblAttivita->Quantita, 2);
-        // $data['CLIENTE'] = $cf->Descrizione;
+        $data['USER'] = ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome);
+        $data['TOTAL_KG'] = number_format($prblAttivita->Quantita, 2);
+        $data['CLIENTE'] = $cf->Descrizione;
 
 
         $complete = App::make('App\Http\Controllers\moduli\ModuloController')
@@ -168,33 +147,40 @@ class FarinaController extends Controller
         $layout = file_get_contents(public_path('pdf/farina.html'));
 
         $refactoring = array(
-            '[ID_variety]' => $data['variety'],
-            '[ID_caliber]' => $data['caliber'],
-            '[ID_wpCollo]' => $data['wpCollo'],
-            '[ID_cf]' => $data['cf'],
-            '[ID_kg]' => $data['kg'],
-            '[ID_date]' => $data['date'],
-            '[ID_time]' => $data['time'],
-            '[ID_grCampione]' => $data['grCampione'],
-            '[ID_moisture]' => $data['moisture'],
-            '[ID_colore]'   => $data['colore'],
-            '[ID_sapore]' => $data['sapore'],
-            '[ID_farina]'   => $data['farina'],
-            '[ID_granella]' => $data['granella'],
-            '[ID_colorePercentage]' => $data['colorePercentage'],
-            '[ID_saporePercentage]'   => $data['saporePercentage'],
-            '[ID_totalPercentage]' => $data['totalPercentage'],
-            '[ID_farinaPercentage]'   => $data['farinaPercentage'],
-            '[ID_granellaPercentage]' => $data['granellaPercentage'],
-            '[ID_totalMealPercentage]' => $data['totalMealPercentage'],
-            '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome)
+            '[VARIETA]' => $data['variety'],
+            '[LOTTO]' => $data['xwpCollo'],
+            '[CALIBRO]' => $data['caliber'],
+            '[CLIENTE]' => $oldJson->CLIENTE,
+            '[TOTAL_KG]' => number_format(floatval($oldJson->TOTAL_KG), 2),
+            '[DATE]' => $data['simpleDate'],
+            '[TIME]' => $data['analysisTime'],
+            '[SAMPLE]' => $data['sample'],
+            '[UMIDITA]' => $data['moisture'],
+            '[COLOR_NATURAL]' => $data['colorNatural'],
+            '[COLOR_ROASTED]' => $data['colorRoasted'],
+            '[TAS_NATURAL]' => $data['tasNatural'],
+            '[TAS_ROASTED]' => $data['tasRoasted'],
+            '[ANALISYS_%]' => $data['analisys_calibratura'],
+            '[VALUE_1]' => $data['value1'],
+            '[VALUE_2]' => $data['value2'],
+            '[VALUE_3]' => $data['value3'],
+            '[VALUE_TOT]' => $data['valueTot'],
+            '[VALUE_1_PERCENTAGE]' => $data['value1Percentage'],
+            '[VALUE_2_PERCENTAGE]' => $data['value2Percentage'],
+            '[VALUE_3_PERCENTAGE]' => $data['value3Percentage'],
+            '[VALUE_TOT_PERCENTAGE]' => $data['valueTotPercentage'],
+            '[OBSERVATIONS]' => $data['observations'],
+            '[SAMPLE_CALIBRATURA]' => $data['sampleCalibratura'],
+            '[USER]' => $oldJson->USER,
         );
         $html = str_replace(array_keys($refactoring), $refactoring, $layout);
 
         $pdf->loadHtml($html);
         $pdf->setPaper('A4', 'landscape');
 
-
+        $data['CLIENTE'] = $oldJson->CLIENTE;
+        $data['USER'] = $oldJson->USER;
+        $data['TOTAL_KG'] = $oldJson->TOTAL_KG;
 
         $binaryPDF = $pdf->output();
 
