@@ -70,11 +70,13 @@ class GranellaController extends Controller
             '[OVERSIZE]' => $data['overSize'],
             '[OVERSIZE_PERCENTAGE]' => $data['overSizePercentage'],
             '[CALCULATION]' => $data['calculation'],
+            '[CALCULATION_2]' => $data['calculation_2'], 
             '[CALCULATION_PERCENTAGE]' => $data['calculationPercentage'],
             '[UNDERSIZE]' => $data['underSize'],
             '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
             '[TOTAL]' => $data['total'],
             '[OBSERVATIONS]' => $data['observations'],
+            '[CF]' => $data['cf'],
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome)
         );
 
@@ -110,11 +112,11 @@ class GranellaController extends Controller
 
     public function editView($idActivity, $id)
     {
-        $dms = DmsDocument::firstWhere('Id_DmsDocument', $id);
-        /* SOSTITUISCO LA VECCHIA GESTIONE */
-        $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
+         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
 
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+        
+ 
 
         return view('moduli.granella.granella_edit', [
             'activity' => $activity,
@@ -135,6 +137,8 @@ class GranellaController extends Controller
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
         $data = $request->all();
+
+ 
 
         $pdf = App::make('dompdf.wrapper');
         $layout = file_get_contents(public_path('pdf/granella.html'));
@@ -158,8 +162,10 @@ class GranellaController extends Controller
             '[OVERSIZE]' => $data['overSize'],
             '[OVERSIZE_PERCENTAGE]' => $data['overSizePercentage'],
             '[CALCULATION]' => $data['calculation'],
+            '[CALCULATION_2]' => $data['calculation_2'], 
             '[CALCULATION_PERCENTAGE]' => $data['calculationPercentage'],
             '[UNDERSIZE]' => $data['underSize'],
+            '[CF]' => $data['cf'],
             '[UNDERSIZE_PERCENTAGE]' => $data['underSizePercentage'],
             '[TOTAL]' => $data['total'],
             '[OBSERVATIONS]' => $data['observations'],

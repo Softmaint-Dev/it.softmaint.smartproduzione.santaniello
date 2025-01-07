@@ -1,5 +1,7 @@
 @include('backend.common.header')
 @include('moduli.components.header')
+ 
+ 
 
 <div class="content-wrapper p-3">
 
@@ -34,25 +36,27 @@
                     </div>
                     @csrf
                     <input required type="hidden" name="cf" id="cf"> --}}
-                    {{-- @include('moduli.components.xwpcollo_select', [
-                        'attivita' => $activity,
-                        'selected' => $json->xwpCollo,
-                    ]) --}}
+                    <div class="mb-3">
+                        <label for="kg" class="form-label">LOTTO</label>
+                        <input required value="{{ $json->xwpCollo }}" type="text" class="form-control" id="xwpCollo"
+                            name="xwpCollo" />
+                    </div>
+<<<<<<< HEAD
+
 
                     <div class="mb-3">
-                        <label for="xwpCollo" class="form-label">Lotto</label>
-                        <input value="{{ $json->xwpCollo }}" required type="text" class="form-control" id="xwpCollo"
-                            name="xwpCollo">
+                        <label for="cf" class="form-label">Cliente / Customer</label>
+                        <input required value="{{ $json->cf }}" type="text" class="form-control" id="cf"
+                            name="cf">
                     </div>
 
+
+=======
+>>>>>>> b29d68102e059e6c442c09971184ee9425ffe6ce
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Data / Date</label>
-
-
-
-                        <input type="datetime-local" class="form-control" id="data" name="date"
-                            value="{{ \Carbon\Carbon::now()->format('Y-m-d\TH:i') }}" value="{{ $json->date }}"
-                            required>
+                        <label for="caliber" class="form-label">Data/Date</label>
+                        <input type="text" class="form-control datepicker" id="data" name="date"
+                            value="{{ $json->date }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="caliber" class="form-label">ANALYSIS TIME</label>
@@ -60,32 +64,32 @@
                             value="{{ $json->analysis }}" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">gr Campione / gr Sample</label>
+                        <label for="caliber" class="form-label">gr Campione/ gr Sample</label>
                         <input required type="number" name="sample" class="form-control" id="sample"
                             value="{{ $json->sample }}" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Umidità / Moisture</label>
+                        <label for="caliber" class="form-label">Umidità/Moisture</label>
                         <input required type="number" class="form-control" id="moisture" name="moisture"
                             value="{{ $json->moisture }}" aria-describedby="emailHelp">
                     </div>
                     <div class="form-check form-switch">
                         <input name="skin" class="form-check-input required" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->skin)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Pellicine / Skin</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Pellicine/Skin</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="tastAndSmell" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->tastAndSmell)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Sapore e odore / Taste and
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Sapore e odore/Taste and
                             smell</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="colour" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->colour)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Colore / Colour</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Colore/Colour</label>
                     </div>
                 </div>
 
@@ -121,7 +125,12 @@
                                         <td id="overSizePercentage"></td>
                                     </tr>
                                     <tr>
-                                        <td>>5/10></td>
+                                        <td> 
+                                            <input type="text" class="form-control" id="calculation_2"
+                                            name="calculation_2" 
+                                            value="{{ $json->calculation_2 }}"
+                                            required>
+                                        </td>
                                         <td>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="calculation"

@@ -35,9 +35,15 @@
 <body>
     <form action="{{ route('createPostXBR6000', ['id' => $attivity->Id_PrBLAttivita]) }}" method="POST"
         class="container mt-5">
+        <div class="mb-3">
+            <label for="lotto" class="form-label">DATA</label>
+            <input type="text" name="data" name="sampleCalibratura" class="form-control" id="data"
+                aria-describedby="emailHelp">
+        </div>
         <table class="table table-bordered" id="myTable">
             <thead class="table-dark">
                 <tr>
+                    <th scope="col">Data</th>
                     <th scope="col">Linea X-RAY XBR-6000</th>
                     <th>FE 1,5 mm</th>
                     <th>NON FE 1,5 mm</th>
@@ -48,14 +54,21 @@
             <tbody>
                 <tr id="referenceRow">
                     <td>
+                        <input name="data1" type="date" required class="form-control" value="{{ date('Y-m-d') }}">
+
+                    </td>
+                    <td>
                         <span class="counter">1</span>° con. ore <input name="ore1" type="text" required
                             class="form-control">
-
                         <div class="mb-3">
-                            <label for="lotto" class="form-label">LOTTO</label>
-                            <input type="text" name="lotto1" name="sampleCalibratura" class="form-control"
-                                id="lotto1" aria-describedby="emailHelp">
+
+                            <div class="mb-3">
+                                <label for="kg" class="form-label">LOTTO</label>
+                                <input required type="text" class="form-control" id="xwpCollo" name="lotto1" />
+                            </div>
                         </div>
+                        @csrf
+                        <input required type="hidden" name="xwp1" class="xwp form-control" id="xwp1">
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">
@@ -190,16 +203,16 @@
 
             var newRowHTML = `
                 <tr>
+                     <td>
+                        <input name="data${counter}" type="date" required class="form-control" value="{{ date('Y-m-d') }}">
+
+                    </td>
                     <td>
-                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="text"
-                            required class="form-control">
+                        <span class="counter">${counter}</span>° con. ore <input name="ore${counter}" type="text" required class="form-control">
                         <div class="mb-3">
-                            <label for="xwpCollo" class="form-label">LOTTO</label>
-                                <input required type="text" class="form-control" id="lotto${(counter)}" name="lotto${(counter)}">
-            
-                             
+                            <label for="kg" class="form-label">LOTTO</label>
+                            <input required type="text" class="form-control" id="xwpCollo" name="lotto${counter}" />
                         </div>
-                      
                     </td>
                     <td>
                         <div class="form-check d-flex justify-content-center">

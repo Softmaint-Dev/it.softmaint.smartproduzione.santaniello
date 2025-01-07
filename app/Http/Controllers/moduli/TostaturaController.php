@@ -121,6 +121,8 @@ class TostaturaController extends Controller
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
+    
+
         return view('moduli.tostatura.tostatura_edit', [
             'activity' => $activity,
             'json' => json_decode($dms->xJSON),
@@ -138,6 +140,8 @@ class TostaturaController extends Controller
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $oldJson = json_decode($dms->xJSON);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
+
+ 
 
         $data = $request->all();
         $groupedData = [];
