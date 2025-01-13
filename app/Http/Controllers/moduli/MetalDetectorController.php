@@ -103,7 +103,7 @@ class MetalDetectorController extends Controller
 
         $refactoring = array(
             '[BODY]' => $htmlString,
-            '[DATA]' =>  Carbon::now()->format('d/m/Y H:i'),
+            '[DATA]' =>  $data["data"],
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
 
         );
@@ -192,7 +192,7 @@ class MetalDetectorController extends Controller
 
         $refactoring = array(
             '[BODY]' => $htmlString,
-            '[DATA]' =>  Carbon::now()->format('d/m/Y H:i'),
+            '[DATA]' => $data["data"],
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
 
         );
@@ -279,7 +279,7 @@ class MetalDetectorController extends Controller
         $layout = file_get_contents(public_path('pdf/md-mbr1200.html'));
 
         $refactoring = array(
-            '[BODY]' => $htmlString,            '[DATA]' =>  Carbon::now()->format('d/m/Y H:i'),
+            '[BODY]' => $htmlString,        '[DATA]' =>  $data["data"],
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
 
         );

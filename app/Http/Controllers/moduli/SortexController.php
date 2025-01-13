@@ -41,6 +41,8 @@ class SortexController extends Controller
 
         $data = $request->all();
 
+ 
+
         $groupedData = [];
 
         foreach ($data as $key => $value) {
@@ -82,7 +84,9 @@ class SortexController extends Controller
             '[DA COSTRUIRE]' => $htmlString,
             '[VARIETA]' => $data["varieta"],
             '[LOTTO]' => $data["lotto_mp"],
-            '[DATA]' => $data['data']
+            '[DATA]' => $data['data'],
+            '[VARIETA]' => $data['varieta'],
+            '[LOTTO]' => $data['lotto_mp'],
 
         );
         $data['DA COSTRUIRE'] = $htmlString;
@@ -124,6 +128,8 @@ class SortexController extends Controller
         $dms = xDmsFolder::firstWhere('Id_xDmsFolder', $id);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
+ 
+
         return view('moduli.sortex.sortex_edit', [
             'activity' => $activity,
             'json' => json_decode($dms->xJSON),
@@ -141,7 +147,10 @@ class SortexController extends Controller
         $oldJson = json_decode($dms->xJSON);
         $activity = PRBLAttivita::firstWhere('Id_PrBLAttivita', $idActivity);
 
+
+
         $data = $request->all();
+
 
         print_r($data);
         $groupedData = [];
@@ -182,7 +191,9 @@ class SortexController extends Controller
         $refactoring = array(
             '[USER]' => ($request->session()->get("utente")->Nome) . " " . ($request->session()->get("utente")->Cognome),
             '[DA COSTRUIRE]' => $htmlString,
-            '[DATA]' => $data["data"]
+            '[DATA]' => $data["data"],
+            '[VARIETA]' => $data["varieta"],
+            '[LOTTO]' => $data["lotto_mp"],
         );
         $html = str_replace(array_keys($refactoring), $refactoring, $layout);
         $pdf = App::make('dompdf.wrapper');

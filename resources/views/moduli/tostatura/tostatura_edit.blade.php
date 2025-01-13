@@ -29,6 +29,7 @@
 
 @include('moduli.components.header')
 
+
 <form action="{{ route('editPostTostatura', ['idActivity' => $activity->Id_PrBLAttivita, 'id' => $id]) }}" method="POST"
     onsubmit="return validateForm()">
     <div class="container mt-5">
@@ -178,6 +179,8 @@
                     });
             })
 
+
+
             function init(size) {
                 var x = 1;
                 while (x <= size) {
@@ -186,21 +189,10 @@
                     //             newRow.insertCell(0).innerHTML = `
 
             //     <td>
-            //         <select style="width:200px " data-live-search="true" id="lotto` + x + `" name="lotto` + x + `" required>
-            //             <option value="" disabled>Seleziona un lotto</option> </select>
+            //         <input type="text" name="lotto${x}" id="lotto${x}" value="${$json->lotto_mp}" required class="form-control">
             //     </td>
             // `;
-                    //             var xwpCollo = document.getElementById(`lotto` + x);
-                    //             lotti.forEach(function(collo) {
-                    //                 var option = document.createElement('option');
-                    //                 option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
-                    //                 option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
-                    //                 if (`${collo.Cd_AR} - ${collo.xLotto}` === document.getElementById(`xlotto` + x).value) {
-                    //                     option.selected = true;
-                    //                 }
-                    //                 xwpCollo.add(option);
-                    //             });
-                    //             $(xwpCollo).selectpicker('refresh');
+
                     newRow.insertCell(0).appendChild(rigaEditStyle("lotto", x))
                     newRow.insertCell(1).appendChild(rigaEditStyle("cesta", x))
                     newRow.insertCell(2).appendChild(rigaEditStyle("ricetta", x))
@@ -224,21 +216,7 @@
                 var newRow = tbody.insertRow();
 
 
-                newRow.insertCell(0).innerHTML = `
-              <td>
-                <input required type="text" class="form-control" id="lotto${(tbody.rows.length)}" name="lotto${(tbody.rows.length)}">
-            </td>
-        `;
-                var xwpCollo = document.getElementById(`lotto${(tbody.rows.length)}`);
-                lotti.forEach(function(collo) {
-                    var option = document.createElement('option');
-                    option.text = `${collo.Cd_AR} - ${collo.xLotto}`;
-                    option.value = `${collo.Cd_AR} - ${collo.xLotto}`;
-                    xwpCollo.add(option);
-                });
-                console.log(lotti);
-                $(xwpCollo).selectpicker('refresh');
-
+                newRow.insertCell(0).appendChild(rigaStyle("lotto"))
                 newRow.insertCell(1).appendChild(rigaStyle("cesta"))
                 newRow.insertCell(2).appendChild(rigaStyle("ricetta"))
                 newRow.insertCell(3).appendChild(rigaStyle("rhin"))
