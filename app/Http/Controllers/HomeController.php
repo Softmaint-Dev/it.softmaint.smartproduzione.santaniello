@@ -2269,6 +2269,9 @@ class HomeController extends Controller
 
                     $materiale = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                     foreach ($materiale as $m) {
+                        if ($m->NotePrBLMateriale == 'CALO PESO')
+                            $m->Tipo = 2;
+
                         if (($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'] > 0)
                             if ($m->Tipo != 0) {
                                 $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
@@ -2466,49 +2469,52 @@ class HomeController extends Controller
 
 
                         foreach ($materiale as $m) {
+                            if ($m->NotePrBLMateriale == 'CALO PESO')
+                                $m->Tipo = 2;
+
                             if (($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'] > 0)
                                 if ($m->Tipo != 0) {
-                                $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
-                                $insert_pr_materiale['Tipo'] = $m->Tipo;
-                                $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
-                                $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
-                                $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
-                                $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
-                                $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
-                                $insert_pr_materiale['Sfrido'] = 0;
+                                    $insert_pr_materiale['Id_PRVRAttivita'] = $id_attivita;
+                                    $insert_pr_materiale['Tipo'] = $m->Tipo;
+                                    $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
+                                    $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
+                                    $insert_pr_materiale['Consumo'] = ($m->Tipo == 2) ? $m->Consumo : $dati['quantita_totale'];
+                                    $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
+                                    $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
+                                    $insert_pr_materiale['Sfrido'] = 0;
 
 
-                                if ($m->Tipo == 2) {
-                                    $costo = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
-                                    if (sizeof($costo) > 0) {
-                                        $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->Costo, 4, '.', '');
-                                    }
-                                    if (isset($m->Cd_ARLotto)) {
-                                        $semilavorato = DB::select('SELECT TOP 1 pm.ValoreUnitario
+                                    if ($m->Tipo == 2) {
+                                        $costo = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+                                        if (sizeof($costo) > 0) {
+                                            $insert_pr_materiale['ValoreUnitario'] = number_format($costo[0]->Costo, 4, '.', '');
+                                        }
+                                        if (isset($m->Cd_ARLotto)) {
+                                            $semilavorato = DB::select('SELECT TOP 1 pm.ValoreUnitario
                                     FROM PrVRAttivita pa
                                     LEFT JOIN PrVRMateriale pm on pm.Id_PrVRAttivita = pa.Id_PrVRAttivita and pm.Tipo = 0
                                     Where pm.Cd_AR = \'' . $m->Cd_AR . '\' and pm.Cd_ARLotto = \'' . $m->Cd_ARLotto . '\'  order by pa.TimeIns Desc');
-                                        if (sizeof($semilavorato) > 0) {
-                                            $insert_pr_materiale['ValoreUnitario'] = number_format($semilavorato[0]->ValoreUnitario, 4, '.', '');
+                                            if (sizeof($semilavorato) > 0) {
+                                                $insert_pr_materiale['ValoreUnitario'] = number_format($semilavorato[0]->ValoreUnitario, 4, '.', '');
+                                            }
                                         }
-                                    }
-                                    if (isset($insert_pr_materiale['ValoreUnitario'])) {
-                                        if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                        if (isset($insert_pr_materiale['ValoreUnitario'])) {
+                                            if ($insert_pr_materiale['ValoreUnitario'] == null || $insert_pr_materiale['ValoreUnitario'] <= 0)
+                                                $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                                        } else {
                                             $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                                        }
                                     } else {
-                                        $insert_pr_materiale['ValoreUnitario'] = 0.01;
+                                        if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
                                     }
-                                } else {
-                                    if (isset($insert_pr_materiale['ValoreUnitario'])) unset($insert_pr_materiale['ValoreUnitario']);
+
+                                    $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
+                                    $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
+                                    $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
+                                    $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
+
+                                    DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                                 }
-
-                                $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
-                                $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
-                                $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
-                                $insert_pr_materiale['NotePrVRMateriale'] = $m->NotePrBLMateriale;
-
-                                DB::table('PrVrMateriale')->insert($insert_pr_materiale);
-                            }
                         }
                         session()->remove('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
 
@@ -3227,7 +3233,7 @@ class HomeController extends Controller
 
                                 $cp = DB::SELECT('SELECT Cd_AR,Descrizione from AR WHERE Descrizione like \'%Calo%peso%\'');
 
-                                return View::make('backend.dettaglio_bolla', compact('articoli_mat','cp', 'mese_lettera', 'materiali', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
+                                return View::make('backend.dettaglio_bolla', compact('articoli_mat', 'cp', 'mese_lettera', 'materiali', 'attivita_bolla', 'LottiObbligatorio', 'bolla', 'nr_dotes', 'utente', 'risorse', 'ultima_rilevazione', 'stato_attuale', 'causali_scarto', 'causali_fermo', 'anomalie_fermo', 'operatori', 'articolo', 'ordine', 'attivita', 'mandrini', 'crea_pedana', 'OLAttivita', 'pallet', 'stampe_libere', 'contatori', 'colli_da_versare'));
 
                             }
                         }
