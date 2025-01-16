@@ -3155,7 +3155,7 @@ class HomeController extends Controller
                     $materiali = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                     $LottiObbligatorio = 0;
                     foreach ($materiali as $m) {
-                        if ($m->Obbligatorio == 1)
+                        if ($m->Obbligatorio == 1 && $m->NotePrVRMateriale != 'CALO PESO')
                             if ($m->Cd_ARLotto == null || $m->Cd_ARLotto == '' || $m->Cd_ARLotto == 'null')
                                 $LottiObbligatorio = 1;
                     }
