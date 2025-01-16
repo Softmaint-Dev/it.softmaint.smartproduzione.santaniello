@@ -2866,8 +2866,8 @@ class HomeController extends Controller
                     } else $umfatt = 1;
                     $insert['FattoreToUM1'] = $umfatt;
                     $insert['Cd_AR'] = $dati['cp'];
-                    $insert['Cd_ARLotto'] = null;
-                    $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
+                    $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
+                   EC $insert['Descrizione'] = DB::SELECT('SELT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
                     $insert['Obbligatorio'] = $dati['Obbligatorio'];
                     $insert['NotePrBLMateriale'] = 'CALO PESO';
                     //$insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
@@ -3155,7 +3155,7 @@ class HomeController extends Controller
                     $materiali = session('\'' . $attivita_bolla->Id_PrBLAttivita . '\'');
                     $LottiObbligatorio = 0;
                     foreach ($materiali as $m) {
-                        if ($m->Obbligatorio == 1 && $m->NotePrVRMateriale != 'CALO PESO')
+                        if ($m->Obbligatorio == 1 && $m->NotePrBLMateriale != 'CALO PESO')
                             if ($m->Cd_ARLotto == null || $m->Cd_ARLotto == '' || $m->Cd_ARLotto == 'null')
                                 $LottiObbligatorio = 1;
                     }
