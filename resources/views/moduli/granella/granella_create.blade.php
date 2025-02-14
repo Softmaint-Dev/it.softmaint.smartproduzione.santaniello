@@ -8,15 +8,15 @@
                 <div class="col-md-6">
                     <h1>Dati</h1>
                     <div class="mb-3">
-                        <label class="form-label">Varietà/Variety</label>
+                        <label class="form-label">Varietà / Variety</label>
                         <input required type="text" class="form-control" id="variety" name="variety">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Calibro/Caliber</label>
+                        <label class="form-label">Calibro / Caliber</label>
                         <input required type="text" class="form-control" id="calibre" name="calibre">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Kg Totale Ordine/Total Kg Order</label>
+                        <label class="form-label">Kg Totale Ordine / Total Kg Order</label>
                         <input required type="text" class="form-control" id="kg" name="kg">
                     </div>
                     <div class="mb-3">
@@ -24,7 +24,7 @@
                         <input required type="text" class="form-control" id="xwpCollo" name="xwpCollo">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Data/Date</label>
+                        <label class="form-label">Data / Date</label>
                         <input type="datetime-local" class="form-control" id="data" name="date" value="{{ now()->format('Y-m-d\TH:i') }}" required>
                     </div>
                     <div class="mb-3">
@@ -32,24 +32,24 @@
                         <input required type="number" class="form-control" id="analysis" name="analysis">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">gr Campione/ gr Sample</label>
+                        <label class="form-label">gr Campione / gr Sample</label>
                         <input required type="number" class="form-control" id="sample" name="sample">
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Umidità/Moisture</label>
+                        <label class="form-label">Umidità / Moisture</label>
                         <input required type="number" class="form-control" id="moisture" name="moisture">
                     </div>
                     <div class="form-check form-switch mb-2">
                         <input name="skin" class="form-check-input" type="checkbox" id="skin" checked>
-                        <label class="form-check-label" for="skin">Pellicine/Skin</label>
+                        <label class="form-check-label" for="skin">Pellicine / Skin</label>
                     </div>
                     <div class="form-check form-switch mb-2">
                         <input name="tastAndSmell" class="form-check-input" type="checkbox" id="tastAndSmell" checked>
-                        <label class="form-check-label" for="tastAndSmell">Sapore e odore/Taste and smell</label>
+                        <label class="form-check-label" for="tastAndSmell">Sapore e odore / Taste and smell</label>
                     </div>
                     <div class="form-check form-switch mb-2">
                         <input name="colour" class="form-check-input" type="checkbox" id="colour" checked>
-                        <label class="form-check-label" for="colour">Colore/Colour</label>
+                        <label class="form-check-label" for="colour">Colore / Colour</label>
                     </div>
                 </div>
                 <div class="col-md-6">
