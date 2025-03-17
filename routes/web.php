@@ -46,6 +46,8 @@ Route::any('stampa_libera/{id}/{codice_stampa}', 'HomeController@stampa_libera')
 Route::any('tracciabilita', 'HomeController@tracciabilita');
 Route::any('view_ol/{id_prol}', 'HomeController@view_ol');
 
+Route::any('stampa_pers/{stampante}/{pdf}', 'AjaxController@stampa_pers');
+
 Route::any('ajax/lista_versamenti/{Id_PrBLAttivita}', 'AjaxController@lista_versamenti');
 Route::any('ajax/check_bolla/{Id_PrBLAttivita}', 'AjaxController@check_bolla');
 Route::any('ajax/modifica_pedana_imballaggio/{Id_xWPPD}', 'AjaxController@modifica_pedana_imballaggio');
