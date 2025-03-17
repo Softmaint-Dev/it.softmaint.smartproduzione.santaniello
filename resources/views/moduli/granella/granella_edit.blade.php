@@ -1,8 +1,7 @@
 @include('backend.common.header')
 @include('moduli.components.header')
- 
- 
 
+ 
 <div class="content-wrapper p-3">
 
     <form action="{{ route('editPostGranella', ['idActivity' => $activity->Id_PrBLAttivita, 'id' => $id]) }}"
@@ -13,17 +12,17 @@
                 <div class="col-md-6">
                     <h1> Dati </h1>
                     <div class="mb-3">
-                        <label class="form-label">Varietà/Variety</label>
+                        <label class="form-label">Varietà / Variety</label>
                         <input required type="text" class="form-control" id="variety" name="variety"
                             value="{{ $json->variety }}" required>
                     </div>
                     <div class="mb-3">
-                        <label for="calibre" class="form-label">Calibro/Caliber</label>
+                        <label for="calibre" class="form-label">Calibro / Caliber</label>
                         <input required type="text" class="form-control" id="calibre" name="calibre"
                             value="{{ $json->calibre }}" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="kg" class="form-label">Kg Totale Ordine/Total Kg Order</label>
+                        <label for="kg" class="form-label">Kg Totale Ordine / Total Kg Order</label>
                         <input required type="text" class="form-control" id="kg" name="kg"
                             aria-describedby="emailHelp" value="{{ $json->kg }}">
                     </div>
@@ -54,7 +53,7 @@
 =======
 >>>>>>> b29d68102e059e6c442c09971184ee9425ffe6ce
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Data/Date</label>
+                        <label for="caliber" class="form-label">Data / Date</label>
                         <input type="text" class="form-control datepicker" id="data" name="date"
                             value="{{ $json->date }}" required>
                     </div>
@@ -64,32 +63,32 @@
                             value="{{ $json->analysis }}" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">gr Campione/ gr Sample</label>
+                        <label for="caliber" class="form-label">gr Campione / gr Sample</label>
                         <input required type="number" name="sample" class="form-control" id="sample"
                             value="{{ $json->sample }}" aria-describedby="emailHelp">
                     </div>
                     <div class="mb-3">
-                        <label for="caliber" class="form-label">Umidità/Moisture</label>
+                        <label for="caliber" class="form-label">Umidità / Moisture</label>
                         <input required type="number" class="form-control" id="moisture" name="moisture"
                             value="{{ $json->moisture }}" aria-describedby="emailHelp">
                     </div>
                     <div class="form-check form-switch">
                         <input name="skin" class="form-check-input required" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->skin)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Pellicine/Skin</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Pellicine / Skin</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="tastAndSmell" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->tastAndSmell)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Sapore e odore/Taste and
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Sapore e odore / Taste and
                             smell</label>
                     </div>
                     <br />
                     <div class="form-check form-switch">
                         <input class="form-check-input required" name="colour" type="checkbox" role="switch"
                             id="flexSwitchCheckChecked" @if (isset($json->colour)) {{ 'checked' }} @endif>
-                        <label class="form-check-label" for="flexSwitchCheckChecked">Colore/Colour</label>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Colore / Colour</label>
                     </div>
                 </div>
 
@@ -98,12 +97,18 @@
                     <h1> Calibratura </h1>
                     <br />
                     <div class="mb-3">
+                        <label class="form-label">gr campione / sample</label>
+                        <input required type="text" name="sampleCalibratura" class="form-control"
+                        id="caliberSample" aria-describedby="emailHelp"
+                        value="@if (isset($json->sampleCalibratura)) {{ $json->sampleCalibratura }}" @endif>
+                    </div>
+                    {{-- <div class="mb-3">
                         <label for="caliber" class="form-label">gr campione / sample</label>
                         <input required type="text" name="sampleCalibratura" class="form-control"
                             id="caliberSample" aria-describedby="emailHelp"
                             value="@if (isset($json->sampleCalibratura)) {{ $json->sampleCalibratura }}" @endif>
-                    </div>
-                    <div class="mb-3">
+                    </div> --}}
+                    {{-- <div class="mb-3">
                         <div class="container mt-5">
                             <table class="table">
                                 <thead>
@@ -170,7 +175,38 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Titolo</th>
+                                <th scope="col">gr</th>
+                                <th scope="col">Percentuale / Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calibraturaTable">
+                            <tr>
+                                <td>over size</td>
+                                <td><input type="text" class="form-control" id="overSize" name="overSize" required></td>
+                                <td id="overSizePercentage"></td>
+                            </tr>
+                            <tr>
+                                <td><input type='text' class='form-control' id='calculation_title' name='calculation_title'></td>
+                                <td><input type="text" class="form-control" id="calculation" name="calculation" required></td>
+                                <td id="calculationPercentage"></td>
+                            </tr>
+                            <tr>
+                                <td>under size</td>
+                                <td><input type="text" class="form-control" id="underSize" name="underSize" required></td>
+                                <td id="underSizePercentage"></td>
+                            </tr>
+                            <tr>
+                                <td>total</td>
+                                <td><input type="text" class="form-control" id="total" name="total" required></td>
+                                <td id="totalPercentage"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <div class="mb-3">
                         <div class="form-floating">
                             <textarea name="observations" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
@@ -300,6 +336,20 @@
             });
         });
 
+        function calculatePercentages() {
+            const sampleValue = parseFloat(document.getElementById("caliberSample").value) || 0;
+            document.querySelectorAll('#calibraturaTable tr').forEach(row => {
+                const input = row.querySelector('td:nth-child(2) input');
+                const percentageCell = row.querySelector('td:nth-child(3)');
+                if (input && percentageCell) {
+                    const value = parseFloat(input.value) || 0;
+                    const percentage = sampleValue ? ((value / sampleValue) * 100).toFixed(2) : 0;
+                    percentageCell.textContent = percentage + '%';
+                }
+            });
+        }
+        document.getElementById("caliberSample").addEventListener('input', calculatePercentages);
+        document.querySelectorAll('#calibraturaTable input').forEach(input => input.addEventListener('input', calculatePercentages));
         // document.getElementById('customer').addEventListener('input required', function () {
         //     // Ottieni il valore digitato nel campo di ricerca
         //     var searchTerm = this.value;

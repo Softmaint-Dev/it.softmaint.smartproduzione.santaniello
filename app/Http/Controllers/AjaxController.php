@@ -18,6 +18,10 @@ use App\Exports\ExcelExport;
  */
 class AjaxController extends Controller
 {
+    public function stampa_pers($stampante, $pdf)
+    {
+        return View::make('stampa_pers', compact('pdf', 'stampante'));
+    }
     public function cambia_armisura($Id_PrBLAttivita, $cd_armisura)
     {
         $colli = DB::select('SELECT * from xWPCollo where Id_PrBLAttivita = ' . $Id_PrBLAttivita);
