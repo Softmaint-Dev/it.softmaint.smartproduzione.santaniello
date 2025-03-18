@@ -2866,7 +2866,7 @@ class HomeController extends Controller
                     } else $umfatt = 1;
                     $insert['FattoreToUM1'] = $umfatt;
                     $insert['Cd_AR'] = $dati['cp'];
-                    //$insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
+                    $insert['Cd_ARLotto'] =null;
                     $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
                     $insert['Obbligatorio'] = $dati['Obbligatorio'];
                     $insert['NotePrBLMateriale'] = 'CALO PESO';
