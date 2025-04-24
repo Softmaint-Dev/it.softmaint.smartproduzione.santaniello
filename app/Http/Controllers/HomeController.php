@@ -2914,7 +2914,6 @@ class HomeController extends Controller
                     $insert['Descrizione'] = DB::SELECT('SELECT Descrizione from AR where Cd_AR = \'' . $dati['Cd_AR'] . '\'')[0]->Descrizione;
                     $insert['Obbligatorio'] = DB::select('SELECT COALESCE(MG_LottoObbligatorio,0) as ciao FROM AR WHERE AR.Cd_AR = \'' . $dati['Cd_AR'] . '\' ')[0]->ciao;
                     $insert['NotePrBLMateriale'] = '';
-                    $insert['Cd_ARLotto'] = $dati['Cd_ARLotto'];
                     $insert['Cd_MG'] = $dati['Cd_MG'];
                     $insert['Cd_MGUbicazione'] = $dati['Cd_MGUbicazione'];
 
