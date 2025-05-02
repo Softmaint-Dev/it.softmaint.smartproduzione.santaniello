@@ -36,7 +36,14 @@ class AjaxController extends Controller
             $mail->SMTPAuth = true;
             $mail->Username = 'lorenzo.cassese@promedya.it';
             $mail->Password = 'vianovaPromedya25!';
-            $mail->SMTPSecure = 'ssl';
+            $mail->SMTPSecure = 'tls';
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
             $mail->Port = 587;
             $mail->setFrom('lorenzo.cassese@promedya.it', 'Segnalazione Produzione');
             $mail->addAddress('hd.sviluppo@promedya.it');
@@ -69,7 +76,14 @@ class AjaxController extends Controller
             $mail->SMTPAuth = true;
             $mail->Username = 'lorenzo.cassese@promedya.it';
             $mail->Password = 'vianovaPromedya25!';
-            $mail->SMTPSecure = 'ssl';
+            $mail->SMTPSecure = 'tls';
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                )
+            );
             $mail->Port = 587;
             $mail->setFrom('lorenzo.cassese@promedya.it', 'Segnalazione Produzione');
             $mail->addAddress('hd.sviluppo@promedya.it');
