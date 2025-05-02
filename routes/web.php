@@ -15,6 +15,9 @@ use App\Http\Controllers\moduli\ConfezionamentoController;
 use App\Http\Controllers\moduli\XRayController;
 use Illuminate\Support\Facades\Route;
 
+Route::any('api/invia_mail/{id-prrlattivita}', 'AjaxController@invia_mail');
+Route::any('api/invia_mail_2/{id-prrlattivita}', 'AjaxController@invia_mail_2');
+
 Route::any('', 'HomeController@index');
 Route::any('login', 'HomeController@login');
 Route::any('statistiche', 'HomeController@statistiche');
