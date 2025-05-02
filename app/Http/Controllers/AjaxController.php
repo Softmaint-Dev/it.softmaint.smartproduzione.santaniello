@@ -32,12 +32,12 @@ class AjaxController extends Controller
 
             $mail = new  PHPMailer(true);
             $mail->isSMTP();
-            $mail->Host = 'authsmtp.securemail.pro';
+            $mail->Host = 'imap.vianova.it';
             $mail->SMTPAuth = true;
-            $mail->Username = 'smtp@promedya.it';
-            $mail->Password = 'Nz3KxM.CbLeZSmpJ';
+            $mail->Username = 'lorenzo.cassese@promedya.it  ';
+            $mail->Password = 'vianovaPromedya25!';
             $mail->SMTPSecure = 'ssl';
-            $mail->Port = 465;
+            $mail->Port = 993;
             $mail->setFrom('smtp@promedya.it', 'Segnalazione Produzione');
             $mail->addAddress('hd.sviluppo@promedya.it');
             $mail->IsHTML(true);
@@ -67,12 +67,12 @@ class AjaxController extends Controller
 
             $mail = new  PHPMailer(true);
             $mail->isSMTP();
-            $mail->Host = 'authsmtp.securemail.pro';
+            $mail->Host = 'imap.vianova.it';
             $mail->SMTPAuth = true;
-            $mail->Username = 'smtp@promedya.it';
-            $mail->Password = 'Nz3KxM.CbLeZSmpJ';
+            $mail->Username = 'lorenzo.cassese@promedya.it  ';
+            $mail->Password = 'vianovaPromedya25!';
             $mail->SMTPSecure = 'ssl';
-            $mail->Port = 465;
+            $mail->Port = 993;
             $mail->setFrom('smtp@promedya.it', 'Segnalazione Produzione');
             $mail->addAddress('hd.sviluppo@promedya.it');
             $mail->IsHTML(true);
