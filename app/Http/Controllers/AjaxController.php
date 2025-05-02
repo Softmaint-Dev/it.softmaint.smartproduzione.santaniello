@@ -33,17 +33,15 @@ class AjaxController extends Controller
             $mail = new  PHPMailer(true);
             $mail->isSMTP();
             $mail->Host = 'smtp.vianova.it';
-            $mail->SMTPAuth = false;
-            $mail->Username = 'lorenzo.cassese@promedya.it';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'no.reply@promedya.it';
             $mail->Password = 'vianovaPromedya25!';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
-            $mail->setFrom('lorenzo.cassese@promedya.it', 'Segnalazione Produzione');
+            $mail->setFrom('no.reply@promedya.it', 'Segnalazione Produzione');
             $mail->addAddress('hd.sviluppo@promedya.it');
             $mail->IsHTML(true);
-
             $mail->Subject = 'Smart Produzione - Santo Santaniello - Nuova Segnalazione Bolla ' . $check_attivita->Id_PrBLAttivita;
-
             $mail->Body = '
                                 Id OL: ' . $check_attivita->Id_PrOL . '<br>
                                 Risorsa: ' . $check_attivita->Cd_PrRisorsa . '<br>
@@ -68,12 +66,12 @@ class AjaxController extends Controller
             $mail = new  PHPMailer(true);
             $mail->isSMTP();
             $mail->Host = 'smtp.vianova.it';
-            $mail->SMTPAuth = false;
-            $mail->Username = 'lorenzo.cassese@promedya.it';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'no.reply@promedya.it';
             $mail->Password = 'vianovaPromedya25!';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
-            $mail->setFrom('lorenzo.cassese@promedya.it', 'Segnalazione Produzione');
+            $mail->setFrom('no.reply@promedya.it', 'Segnalazione Produzione');
             $mail->addAddress('hd.sviluppo@promedya.it');
             $mail->IsHTML(true);
 
