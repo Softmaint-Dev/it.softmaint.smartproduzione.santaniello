@@ -34,7 +34,7 @@ class AjaxController extends Controller
             $mail->isSMTP();
             $mail->Host = 'smtp.vianova.it';
             $mail->SMTPAuth = true;
-            $mail->Username = 'lorenzo.cassese@promedya.it  ';
+            $mail->Username = 'lorenzo.cassese@promedya.it';
             $mail->Password = 'vianovaPromedya25!';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
@@ -69,7 +69,7 @@ class AjaxController extends Controller
             $mail->isSMTP();
             $mail->Host = 'smtp.vianova.it';
             $mail->SMTPAuth = true;
-            $mail->Username = 'lorenzo.cassese@promedya.it  ';
+            $mail->Username = 'lorenzo.cassese@promedya.it';
             $mail->Password = 'vianovaPromedya25!';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
