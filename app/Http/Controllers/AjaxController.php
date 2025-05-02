@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ExcelExport;
+use PHPMailer\PHPMailer\PHPMailer;
 
 
 /**
@@ -18,10 +19,81 @@ use App\Exports\ExcelExport;
  */
 class AjaxController extends Controller
 {
+    public function invia_mail($id_prrlattivita)
+    {
+        $check_attivita = DB::select('
+                SELECT * from PRRLAttivita
+                LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PrRLAttivita.Id_PRBLattivita
+                LEFT JOIN PROLAttivita ON PROLAttivita.Id_PrOLAttivita = PRBLAttivita.Id_PROLattivita
+                LEFT JOIN PROL ON PROL.Id_PrOL = PROLAttivita.Id_PrOL
+                Where Id_PrRLAttivita = ' . $id_prrlattivita);
+        if (sizeof($check_attivita) > 0) {
+            $check_attivita = $check_attivita[0];
+
+            $mail = new  PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host = 'authsmtp.securemail.pro';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'smtp@promedya.it';
+            $mail->Password = 'Nz3KxM.CbLeZSmpJ';
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465;
+            $mail->setFrom('smtp@promedya.it', 'Segnalazione Produzione');
+            $mail->addAddress('hd.sviluppo@promedya.it');
+            $mail->IsHTML(true);
+
+            $mail->Subject = 'Smart Produzione - Santo Santaniello - Nuova Segnalazione Bolla ' . $check_attivita->Id_PrBLAttivita;
+
+            $mail->Body = '
+                                Id OL: ' . $check_attivita->Id_PrOL . '<br>
+                                Risorsa: ' . $check_attivita->Cd_PrRisorsa . '<br>
+                                Operatore: ' . $check_attivita->Cd_Operatore . '<br>
+                                Messaggio:  La seguente Attività è aperta da più di 2 ore.';
+
+            $mail->send();
+        }
+    }
+
+    public function invia_mail_2($id_prrlattivita)
+    {
+        $check_attivita = DB::select('
+                SELECT * from PRRLAttivita
+                LEFT JOIN PRBLAttivita ON PRBLAttivita.Id_PrBLAttivita = PrRLAttivita.Id_PRBLattivita
+                LEFT JOIN PROLAttivita ON PROLAttivita.Id_PrOLAttivita = PRBLAttivita.Id_PROLattivita
+                LEFT JOIN PROL ON PROL.Id_PrOL = PROLAttivita.Id_PrOL
+                Where Id_PrRLAttivita = ' . $id_prrlattivita);
+        if (sizeof($check_attivita) > 0) {
+            $check_attivita = $check_attivita[0];
+
+            $mail = new  PHPMailer(true);
+            $mail->isSMTP();
+            $mail->Host = 'authsmtp.securemail.pro';
+            $mail->SMTPAuth = true;
+            $mail->Username = 'smtp@promedya.it';
+            $mail->Password = 'Nz3KxM.CbLeZSmpJ';
+            $mail->SMTPSecure = 'ssl';
+            $mail->Port = 465;
+            $mail->setFrom('smtp@promedya.it', 'Segnalazione Produzione');
+            $mail->addAddress('hd.sviluppo@promedya.it');
+            $mail->IsHTML(true);
+
+            $mail->Subject = 'Smart Produzione - Santo Santaniello - Nuova Segnalazione Bolla ' . $check_attivita->Id_PrBLAttivita;
+
+            $mail->Body = '
+                                Id OL: ' . $check_attivita->Id_PrOL . '<br>
+                                Risorsa: ' . $check_attivita->Cd_PrRisorsa . '<br>
+                                Operatore: ' . $check_attivita->Cd_Operatore . '<br>
+                                Messaggio:  La seguente Attività è aperta da molte ore.';
+
+            $mail->send();
+        }
+    }
+
     public function stampa_pers($stampante, $pdf)
     {
         return View::make('stampa_pers', compact('pdf', 'stampante'));
     }
+
     public function cambia_armisura($Id_PrBLAttivita, $cd_armisura)
     {
         $colli = DB::select('SELECT * from xWPCollo where Id_PrBLAttivita = ' . $Id_PrBLAttivita);
@@ -903,7 +975,7 @@ class AjaxController extends Controller
                             )
                         )
                     )
-                    and (Cd_AR != \''.$s->Cd_AR.'\') and (Cd_ARLotto != \''.$s->Cd_ARLotto.'\')
+                    and (Cd_AR != \'' . $s->Cd_AR . '\') and (Cd_ARLotto != \'' . $s->Cd_ARLotto . '\')
 					GROUP BY
 					Tipo,Cd_AR,Cd_ARLotto,Cd_ARMisura,NotePRVRMateriale,Id_PrOLAttivita
                     ');
@@ -945,7 +1017,7 @@ class AjaxController extends Controller
                         <strong><?php if ($s->Cd_ARLotto != NULL) {
                                 echo ' ( ' . $s->Cd_ARLotto . ' )';
                             } ?>
-                        </strong> | <a style="color: red"><?php echo $s->NotePRVRMateriale;?></a></p>
+                        </strong> | <a style="color: red"><?php echo $s->NotePRVRMateriale; ?></a></p>
                     <div id="ajax_tracciabilita_mod_<?php echo $s->Cd_ARLotto . '_' . $s->Cd_AR; ?>"></div>
                 </li>
             <?php } ?>
