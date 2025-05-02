@@ -34,11 +34,11 @@ class AjaxController extends Controller
             $mail->isSMTP();
             $mail->Host = 'smtp.vianova.it';
             $mail->SMTPAuth = true;
-            $mail->Username = 'no.reply@promedya.it';
+            $mail->Username = 'no-reply@promedya.it';
             $mail->Password = 'vianovaPromedya25!';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
-            $mail->setFrom('no.reply@promedya.it', 'Segnalazione Produzione');
+            $mail->setFrom('no-reply@promedya.it', 'Segnalazione Produzione');
             $mail->addAddress('hd.sviluppo@promedya.it');
             $mail->IsHTML(true);
             $mail->Subject = 'Smart Produzione - Santo Santaniello - Nuova Segnalazione Bolla ' . $check_attivita->Id_PrBLAttivita;
@@ -67,11 +67,11 @@ class AjaxController extends Controller
             $mail->isSMTP();
             $mail->Host = 'smtp.vianova.it';
             $mail->SMTPAuth = true;
-            $mail->Username = 'no.reply@promedya.it';
+            $mail->Username = 'no-reply@promedya.it';
             $mail->Password = 'vianovaPromedya25!';
             $mail->SMTPSecure = 'ssl';
             $mail->Port = 465;
-            $mail->setFrom('no.reply@promedya.it', 'Segnalazione Produzione');
+            $mail->setFrom('no-reply@promedya.it', 'Segnalazione Produzione');
             $mail->addAddress('hd.sviluppo@promedya.it');
             $mail->IsHTML(true);
 
