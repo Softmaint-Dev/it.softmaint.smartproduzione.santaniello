@@ -316,7 +316,7 @@ class StampaController extends Controller
             if (sizeof($report) == 0) $report = DB::select('SELECT * from xSPREport where abilitato = 1 and codice != \'standard_collo_piccolo_materiali\' and tipologia = ' . $tipologia . '  and cd_ar1 IS NULL and cd_cf IS NULL and cd_prattivita IS NULL');
 
         }
-		
+
 
         $nome_file = '';
         if (sizeof($report) > 0) {
@@ -449,6 +449,7 @@ class StampaController extends Controller
         if (isset($query->Nr_Collo)) $string = str_replace('{nr_collo}', $query->Nr_Collo, $string);
         if (isset($query->Nr_Collo)) $string = str_replace('{code_39(nr_collo)}', '<barcode code="' . $query->Nr_Collo . '" type="C39"/>', $string);
         if (isset($query->Cd_AR)) $string = str_replace('{code_39(Cd_AR)}', '<barcode code="' . $query->Cd_AR . '" type="C39"/>', $string);
+        if (isset($query->Cd_ARLotto)) $string = str_replace('{code_39(Cd_ARLotto)}', '<barcode code="' . $query->Cd_ARLotto . '" type="C39"/>', $string);
         if (isset($query->QtaProdotta)) $string = str_replace('{qtaprodotta}', number_format($query->QtaProdotta, 0, '.', ''), $string);
         if (isset($query->Cd_ARMisura)) $string = str_replace('{cd_armisura}', $query->Cd_ARMisura, $string);
         if (isset($query->Nr_Pedana)) $string = str_replace('{nr_pedana}', $query->Nr_Pedana, $string);
