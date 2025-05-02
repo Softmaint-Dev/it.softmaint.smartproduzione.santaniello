@@ -450,6 +450,7 @@ class StampaController extends Controller
         if (isset($query->Nr_Collo)) $string = str_replace('{code_39(nr_collo)}', '<barcode code="' . $query->Nr_Collo . '" type="C39"/>', $string);
         if (isset($query->Cd_AR)) $string = str_replace('{code_39(Cd_AR)}', '<barcode code="' . $query->Cd_AR . '" type="C39"/>', $string);
         if (isset($query->Cd_ARLotto)) $string = str_replace('{code_39(Cd_ARLotto)}', '<barcode code="' . $query->Cd_ARLotto . '" type="C39"/>', $string);
+        if (isset($query->xLotto)) $string = str_replace('{code_39(xLotto)}', '<barcode code="' . $query->xLotto . '" type="C39"/>', $string);
         if (isset($query->QtaProdotta)) $string = str_replace('{qtaprodotta}', number_format($query->QtaProdotta, 0, '.', ''), $string);
         if (isset($query->Cd_ARMisura)) $string = str_replace('{cd_armisura}', $query->Cd_ARMisura, $string);
         if (isset($query->Nr_Pedana)) $string = str_replace('{nr_pedana}', $query->Nr_Pedana, $string);
