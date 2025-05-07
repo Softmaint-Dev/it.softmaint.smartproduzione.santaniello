@@ -35,6 +35,7 @@ Route::any('valeria/tracciabilita', 'HomeController@login2');
 Route::any('lista_attivita/{cd_attivita}', 'HomeController@lista_attivita');
 Route::any('lista_bolle_attive/{cd_attivita}', 'HomeController@lista_bolle_attive');
 Route::any('dettaglio_bolla/{id}', 'HomeController@dettaglio_bolla')->name('dettaglio_bolla');
+Route::any('dettaglio_bolla_semplice/{id}', 'HomeController@dettaglio_bolla_semplice')->name('dettaglio_bolla_semplice');
 Route::any('odl', 'HomeController@odl');
 Route::any('dettaglio_odl', 'HomeController@dettaglio_odl');
 Route::any('dettaglio_odl/{id_attivita}', 'HomeController@dettaglio_odl');
