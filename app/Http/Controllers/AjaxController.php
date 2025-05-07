@@ -46,7 +46,7 @@ class AjaxController extends Controller
             );
             $mail->Port = 587;
             $mail->setFrom('lorenzo.cassese@promedya.it', 'Segnalazione Produzione');
-            $mail->addAddress('hd.sviluppo@promedya.it');
+            //$mail->addAddress('hd.sviluppo@promedya.it');
             $mail->addAddress('olimpia.ferraro@santaniellonuts.com');
             $mail->addAddress('enrica.marino@santaniellonuts.com');
             $mail->IsHTML(true);
@@ -88,7 +88,7 @@ class AjaxController extends Controller
             );
             $mail->Port = 587;
             $mail->setFrom('lorenzo.cassese@promedya.it', 'Segnalazione Produzione');
-            $mail->addAddress('hd.sviluppo@promedya.it');;
+            //$mail->addAddress('hd.sviluppo@promedya.it');;
             $mail->addAddress('olimpia.ferraro@santaniellonuts.com');
             $mail->addAddress('enrica.marino@santaniellonuts.com');
             $mail->IsHTML(true);

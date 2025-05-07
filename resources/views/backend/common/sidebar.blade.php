@@ -83,33 +83,6 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas  fa-cubes"></i>
-                        <p>
-                            Imballaggio
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?php echo URL::asset('imballaggio') ?>" class="nav-link">
-                                <i class="nav-icon fas fa-cubes"></i>
-                                <p>Gestione Pedane</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="<?php echo URL::asset('imballaggio_bolle_da_chiudere') ?>" class="nav-link">
-                                <i class="nav-icon fas fa-cubes"></i>
-                                <p>Gestione Bolle</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-
-                <li class="nav-item">
                     <a href="<?php echo URL::asset('lista_attivita') ?>" class="nav-link">
                         <i class="nav-icon fab fa-buffer"></i>
                         <p>Attività</p>

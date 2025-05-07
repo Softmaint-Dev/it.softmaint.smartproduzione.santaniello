@@ -73,8 +73,14 @@
                                     </td>
                                     <td><span class="badge bg-<?php echo $color ?>"><?php echo $percent ?>%</span></td>
                                     <td>
+
+                                            <?php if ($utente->Cd_PRRiparto == 'IMB') { ?>
+                                        <a style="width:100%;margin-bottom: 1%;"
+                                           href="<?php /*$utente->Cd_PRRiparto != 'IMB'*/ if(1 != 1) $redirect = 'dettaglio_bolla';else $redirect = 'dettaglio_bolla_semplice'; echo URL::asset($redirect.'/'.$b->Id_PrBLAttivita) ?>"
+                                           class="btn btn-primary btn-sm">Dettagli SEMPLICE</a>
+                                        <?php } ?>
                                         <a style="width:100%;"
-                                           href="<?php echo URL::asset('dettaglio_bolla/'.$b->Id_PrBLAttivita) ?>"
+                                           href="<?php /*$utente->Cd_PRRiparto != 'IMB'*/ if(1 == 1) $redirect = 'dettaglio_bolla';else $redirect = 'dettaglio_bolla_semplice'; echo URL::asset($redirect.'/'.$b->Id_PrBLAttivita) ?>"
                                            class="btn btn-success btn-sm">Dettagli</a>
                                     </td>
                                 </tr>
