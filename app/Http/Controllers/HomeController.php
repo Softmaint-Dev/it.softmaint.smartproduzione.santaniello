@@ -928,10 +928,16 @@ class HomeController extends Controller
                     $id_attivita = DB::table('PRVRAttivita')->insertGetId($insert);
 
                     $materiali = DB::select('SELECT * from PRBLMateriale Where Id_PrBLAttivita = ' . $id);
+					$articoli = '';
+					foreach($materiali as $m){
+						$articoli = $articoli.' \''.$m->Cd_AR.'\',';
+					}
+					$articoli = substr($articoli,0,strlen($articoli)-1);
+					
+					$valore = DB::select('SELECT Cd_AR,Costo from ARCostoItem Where Cd_AR in ('.$articoli.') and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+						
                     foreach ($materiali as $m) {
 						
-						$valore = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
- 
                         if ($m->Tipo != 0) {
                             $insert_pr_materiale['Id_PrVRAttivita'] = $id_attivita;
                             $insert_pr_materiale['Tipo'] = $m->Tipo;
@@ -944,15 +950,17 @@ class HomeController extends Controller
                             $insert_pr_materiale['Sfrido'] = 0;
                             $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
                             $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
-							                                  if (sizeof($valore) > 0) {
-                                        $insert_pr_materiale['ValoreUnitario'] = number_format($valore[0]->Costo, 4, '.', '');
-                                    } else{
-                            $insert_pr_materiale['ValoreUnitario'] = 0.01;
-									}
-									DB::table('PrVrMateriale')->insert($insert_pr_materiale);
-                        }
+							$insert_pr_materiale['ValoreUnitario'] = null;
+							foreach($valore as $v) {
+								if($v->Cd_AR == $m->Cd_AR)
+									$insert_pr_materiale['ValoreUnitario'] = number_format($valore[0]->Costo, 4, '.', '');
+							}
+							if($insert_pr_materiale['ValoreUnitario'] == null) $insert_pr_materiale['ValoreUnitario']= 0.01;
+						}
+							DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                     }
-                    $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.Cd_ARMisura,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOLAttivita.Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
+                    
+                    $ordini = DB::select('SELECT Prol.Id_PrOL,PROL.Cd_AR,PrOLAttivita.Cd_ARMisura,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOLAttivita.Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                     if (sizeof($ordini) > 0) {
                         $ordine = $ordini[0];
                         $xlotto = DB::SELECT('SELECT DORig.Cd_ARLotto FROM PrOLDorig LEFT JOIN DORig on DORig.Id_DORig = PrOLDorig.Id_DORig where Id_PrOL = \'' . $ordine->Id_PrOL . '\'');

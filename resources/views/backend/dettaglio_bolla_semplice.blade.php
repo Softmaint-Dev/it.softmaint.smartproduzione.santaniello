@@ -65,7 +65,7 @@
 </script>
 <form method="post">
     <div class="modal fade" id="modal_versamento_ultimo">
-        <div class="modal-dialog" style="height: 70%;margin-left: 30rem;">
+        <div class="modal-dialog" style="height: 70%;margin-left: 10rem;">
             <div class="modal-content" style="width: 200%;height: 100%">
                 <div class="modal-header">
                     <h4 class="modal-title">Inserire Quantità Prodotta</h4>
@@ -79,7 +79,7 @@
                         <input type="number" step="0.01" class="form-control" id="quantita_prodotta"
                                min="0"
                                max="99999"
-                               name="quantita_prodotta" value="0"
+                               name="quantita_prodotta" value=""
                                style="height: 100%; font-size: 7rem;text-align: center"
                                placeholder="Quantità Prodotta">
                     </div>
@@ -114,7 +114,7 @@
 </form>
 <form method="post">
     <div class="modal fade" id="modal_versamento">
-        <div class="modal-dialog" style="height: 70%;margin-left: 30rem;">
+        <div class="modal-dialog" style="height: 70%;margin-left: 10rem;">
             <div class="modal-content" style="width: 200%;height: 100%">
                 <div class="modal-header">
                     <h4 class="modal-title">Inserire Quantità Prodotta</h4>
@@ -127,8 +127,8 @@
                     <div style="flex:2">
                         <input type="number" step="0.01" class="form-control" id="quantita_prodotta"
                                min="0"
-                               max="9999"
-                               name="quantita_prodotta" value="0"
+                               max="99999"
+                               name="quantita_prodotta" value=""
                                style="height: 100%; font-size: 7rem;text-align: center"
                                placeholder="Quantità Prodotta">
                     </div>
@@ -156,8 +156,13 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-    3
-</form>
+ </form>
+<script type="text/javascript">
+	
+    $('form').submit(function () {
+        $('#ajax_loader').fadeIn();
+    });
+</script>
 <style>
     #search {
         width: 90%;
