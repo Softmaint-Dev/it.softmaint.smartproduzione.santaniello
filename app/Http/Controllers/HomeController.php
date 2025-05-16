@@ -3320,19 +3320,31 @@ class HomeController extends Controller
                         )
                     ');
                     $scarto_attuale = DB::SELECT('SELECT SUM(QtaProdotta) AS QtaProdotta FROM xWPCollo where Id_PrBLAttivita = \'' . $id . '\' and QtaVersata < QtaProdotta')[0]->QtaProdotta;
+					
+					//print_r('Scarto=>'.$scarto_attuale.'<br>');
                     foreach ($materiali as $m) {
                         if ($m->NotePrBLMateriale == null || $m->NotePrBLMateriale == '' || $m->NotePrBLMateriale == 'null') {
                             $check_gruppo = DB::select('SELECT isnull(Cd_ARGruppo1,\'\') as Cd_ARGruppo1 FROM AR where Cd_AR = \'' . $m->Cd_AR . '\' ')[0]->Cd_ARGruppo1;
                             if ($check_gruppo != '010' && $check_gruppo != '011') {
-                                if ($m->Consumo > 0)
-                                    $scarto_attuale = $m->Consumo - $scarto_attuale;
-                                else
-                                    $scarto_attuale = $m->Consumo + $scarto_attuale;
+                                if ($m->Consumo > 0){
+								$scarto_attuale = $scarto_attuale - $m->Consumo;
+									//print_r('meno'.$m->Cd_AR.' - '.$m->Cd_ARLotto.' - '.$m->Consumo.'<br>');
+									//print_r('Scarto=>'.$scarto_attuale.'<br>');
+								}
+                                else{
+                                    $scarto_attuale = $scarto_attuale + $m->Consumo;	 
+									//print_r('piu'.$m->Cd_AR.'-'.$m->Cd_ARLotto.'-'.$m->Consumo.'<br>');
+									//print_r('Scarto=>'.$scarto_attuale.'<br>');
+								}
                             }
                         }
                     }
+					//print_r($scarto_attuale);
+					//exit();
                     if ($scarto_attuale == NULL)
                         $scarto_attuale = 0;
+					else
+						$scarto_attuale = $scarto_attuale * -1;
 
                     $attivita_bolla->scarto = db::select('SELECT
                         COALESCE(
