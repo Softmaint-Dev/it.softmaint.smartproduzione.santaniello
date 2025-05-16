@@ -943,6 +943,28 @@ class HomeController extends Controller
                             DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                         }
                     }
+                    $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.Cd_ARMisura,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOLAttivita.Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
+                    if (sizeof($ordini) > 0) {
+                        $ordine = $ordini[0];
+                        $xlotto = DB::SELECT('SELECT DORig.Cd_ARLotto FROM PrOLDorig LEFT JOIN DORig on DORig.Id_DORig = PrOLDorig.Id_DORig where Id_PrOL = \'' . $ordine->Id_PrOL . '\'');
+                        if (sizeof($xlotto) > 0) {
+                            $xlotto = $xlotto[0]->Cd_ARLotto;
+                        } else {
+                            $xlotto = null;
+                        }
+                        DB::table('PrVrMateriale')->insert([
+                            'Id_PrOLAttivita' => $attivita_bolla->Id_PrOLAttivita,
+                            'Cd_AR' => $ordine->Cd_AR,
+                            'Cd_ARLotto' => $xlotto,
+                            'Cd_ARMisura' => $ordine->Cd_ARMisura,
+                            'FattoreToUM1' => $ordine->FattoreToUM1,
+                            'Cd_MG' => '00001',
+                            'Cd_MGUbicazione' => null,
+                            'Tipo' => 0,
+                            'Id_PRVRAttivita' => $id_attivita,
+                            'Consumo' => -$dati['quantita_prodotta'],
+                        ]);
+                    }
                 }
                 return Redirect::to('');
             }
