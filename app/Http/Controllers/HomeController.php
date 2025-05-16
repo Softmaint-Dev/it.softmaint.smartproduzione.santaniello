@@ -929,18 +929,27 @@ class HomeController extends Controller
 
                     $materiali = DB::select('SELECT * from PRBLMateriale Where Id_PrBLAttivita = ' . $id);
                     foreach ($materiali as $m) {
+						
+						$valore = DB::select('SELECT * from ARCostoItem Where Cd_AR = \'' . $m->Cd_AR . '\'and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
+ 
                         if ($m->Tipo != 0) {
                             $insert_pr_materiale['Id_PrVRAttivita'] = $id_attivita;
                             $insert_pr_materiale['Tipo'] = $m->Tipo;
                             $insert_pr_materiale['Id_PrOLAttivita'] = $m->Id_PrOLAttivita;
                             $insert_pr_materiale['Cd_AR'] = $m->Cd_AR;
+                            $insert_pr_materiale['Cd_ARLotto'] = $m->Cd_ARLotto;
                             $insert_pr_materiale['Consumo'] = (($m->Consumo / $attivita_bolla->QuantitaUM1) * $dati['quantita_prodotta']);
                             $insert_pr_materiale['Cd_ARMisura'] = $m->Cd_ARMisura;
                             $insert_pr_materiale['FattoreToUM1'] = $m->FattoreToUM1;
                             $insert_pr_materiale['Sfrido'] = 0;
                             $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
                             $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
-                            DB::table('PrVrMateriale')->insert($insert_pr_materiale);
+							                                  if (sizeof($valore) > 0) {
+                                        $insert_pr_materiale['ValoreUnitario'] = number_format($valore[0]->Costo, 4, '.', '');
+                                    } else{
+                            $insert_pr_materiale['ValoreUnitario'] = 0.01;
+									}
+									DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                         }
                     }
                     $ordini = DB::select('SELECT PROL.*,PrOLAttivita.Id_PrOLAttivita_Next,PrOLAttivita.Cd_ARMisura,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOLAttivita.Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
@@ -965,6 +974,30 @@ class HomeController extends Controller
                             'Consumo' => -$dati['quantita_prodotta'],
                         ]);
                     }
+
+                        $durata = DB::SELECT('SELECT * FROM PrRLAttivita where Id_PrVRAttivita = ' . $id_attivita);
+                        if (sizeof($durata) > 0)
+                            $durata = $durata[0]->DurataMks;
+                        else
+                            $durata = 1;
+
+					
+					   $OLAttivita = DB::select('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita = (SELECT Id_PrOLAttivita from PrBLAttivita WHERE Id_PrBLAttivita = ' . $attivita_bolla->Id_PrBLAttivita . ')');
+
+                        DB::update('DECLARE @RESULT Numeric(18, 6);
+                                      EXEC @RESULT = [dbo].[afn_PRVRCostoLavorazione] \'' . $OLAttivita[0]->Cd_PrRisorsa . '\', ' . $durata . ', null,\'' . $ordine->Cd_AR . '\', \'' . $OLAttivita[0]->Quantita . '\', NULL
+                                      UPDATE PrVRAttivita set CostoLavorazione = @RESULT where Id_PrVRAttivita = ' . $id_attivita);
+
+                        DB::update('DECLARE @result  Numeric(18, 6)
+                                      EXEC @result = [xafn_PRVRCostoUnitario] ' . $id_attivita . ', \'' . $ordine->Cd_AR . '\', Null, \'U\', Null
+                                      UPDATE PrVRMateriale set ValoreUnitario = @result where Tipo = 0 and Id_PrVRAttivita = ' . $id_attivita);
+
+                        DB::update('
+                        update MGMov
+                        set MGMov.Valore = (PrVRMateriale.ValoreUnitario * PrVRMateriale.Consumo)
+                        from MGMov
+                        JOIN PrVRMateriale ON PrVRMateriale.Id_PrVRMateriale = MGMov.Id_PrVRMateriale and PrVRMateriale.Consumo > 0 and PrVRMateriale.Tipo != 0 and PrVRMateriale.Id_PrVRAttivita = ' . $id_attivita);
+
                 }
                 return Redirect::to('');
             }

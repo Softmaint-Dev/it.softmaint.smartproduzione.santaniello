@@ -78,7 +78,7 @@
                     <div style="flex:4">
                         <input type="number" step="0.01" class="form-control" id="quantita_prodotta"
                                min="0"
-                               max="9999"
+                               max="99999"
                                name="quantita_prodotta" value="0"
                                style="height: 100%; font-size: 7rem;text-align: center"
                                placeholder="Quantità Prodotta">
