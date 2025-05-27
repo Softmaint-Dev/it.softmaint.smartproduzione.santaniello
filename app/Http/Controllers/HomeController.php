@@ -950,11 +950,12 @@ class HomeController extends Controller
                             $insert_pr_materiale['Cd_MG'] = $m->Cd_MG;
                             $insert_pr_materiale['Cd_MGUbicazione'] = $m->Cd_MGUbicazione;
 							$insert_pr_materiale['ValoreUnitario'] = null;
-							foreach($valore as $v) {
-								if($v->Cd_AR == $m->Cd_AR)
-									$insert_pr_materiale['ValoreUnitario'] = number_format($valore[0]->Costo, 4, '.', '');
+                            foreach ($valore as $v) {
+                                if ($v->Cd_AR == $m->Cd_AR)
+                                    $insert_pr_materiale['ValoreUnitario'] = number_format($v->Costo, 4, '.', '');
 							}
 							if($insert_pr_materiale['ValoreUnitario'] == null) $insert_pr_materiale['ValoreUnitario']= 0.01;
+                            if($m->Cd_AR == 'FILMES') dd($insert_pr_materiale);
                             DB::table('PrVrMateriale')->insert($insert_pr_materiale);
 						}
                     }
