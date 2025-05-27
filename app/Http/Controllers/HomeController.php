@@ -955,7 +955,6 @@ class HomeController extends Controller
                                     $insert_pr_materiale['ValoreUnitario'] = number_format($v->Costo, 4, '.', '');
 							}
 							if($insert_pr_materiale['ValoreUnitario'] == null) $insert_pr_materiale['ValoreUnitario']= 0.01;
-                            if($m->Cd_AR == 'FILMES') dd($insert_pr_materiale);
                             DB::table('PrVrMateriale')->insert($insert_pr_materiale);
 						}
                     }
