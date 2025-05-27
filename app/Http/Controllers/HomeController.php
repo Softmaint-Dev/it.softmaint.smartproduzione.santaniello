@@ -905,7 +905,6 @@ class HomeController extends Controller
         }
         if (session()->has('utente')) {
             $utente = session('utente');
-            $risorsa = session('risorsa');
             $dati = $request->all();
             if (isset($dati['crea_versamento'])) {
                 $attivita_bolla = DB::SELECT('SELECT * from PrBLAttivitaEx Where Id_PrBLAttivita = ' . $id);
@@ -933,11 +932,11 @@ class HomeController extends Controller
 						$articoli = $articoli.' \''.$m->Cd_AR.'\',';
 					}
 					$articoli = substr($articoli,0,strlen($articoli)-1);
-					
+
 					$valore = DB::select('SELECT Cd_AR,Costo from ARCostoItem Where Cd_AR in ('.$articoli.') and Cd_MGEsercizio = YEAR(GETDATE()) and TipoCosto = \'U\'');
-						
+
                     foreach ($materiali as $m) {
-						
+
                         if ($m->Tipo != 0) {
                             $insert_pr_materiale['Id_PrVRAttivita'] = $id_attivita;
                             $insert_pr_materiale['Tipo'] = $m->Tipo;
@@ -956,10 +955,10 @@ class HomeController extends Controller
 									$insert_pr_materiale['ValoreUnitario'] = number_format($valore[0]->Costo, 4, '.', '');
 							}
 							if($insert_pr_materiale['ValoreUnitario'] == null) $insert_pr_materiale['ValoreUnitario']= 0.01;
+                            DB::table('PrVrMateriale')->insert($insert_pr_materiale);
 						}
-							DB::table('PrVrMateriale')->insert($insert_pr_materiale);
                     }
-                    
+
                     $ordini = DB::select('SELECT Prol.Id_PrOL,PROL.Cd_AR,PrOLAttivita.Cd_ARMisura,PrOLAttivita.FattoreToUM1 from PrOL left join PrOLAttivita on PrOLAttivita.Id_PrOL = PrOL.Id_PrOL Where PrOLAttivita.Id_PrOLAttivita = ' . $attivita_bolla->Id_PrOLAttivita);
                     if (sizeof($ordini) > 0) {
                         $ordine = $ordini[0];
@@ -989,7 +988,7 @@ class HomeController extends Controller
                         else
                             $durata = 1;
 
-					
+
 					   $OLAttivita = DB::select('SELECT * FROM PrOLAttivita WHERE Id_PrOLAttivita = (SELECT Id_PrOLAttivita from PrBLAttivita WHERE Id_PrBLAttivita = ' . $attivita_bolla->Id_PrBLAttivita . ')');
 
                         DB::update('DECLARE @RESULT Numeric(18, 6);
@@ -3320,7 +3319,7 @@ class HomeController extends Controller
                         )
                     ');
                     $scarto_attuale = DB::SELECT('SELECT SUM(QtaProdotta) AS QtaProdotta FROM xWPCollo where Id_PrBLAttivita = \'' . $id . '\' and QtaVersata < QtaProdotta')[0]->QtaProdotta;
-					
+
 					//print_r('Scarto=>'.$scarto_attuale.'<br>');
                     foreach ($materiali as $m) {
                         if ($m->NotePrBLMateriale == null || $m->NotePrBLMateriale == '' || $m->NotePrBLMateriale == 'null') {
@@ -3332,7 +3331,7 @@ class HomeController extends Controller
 									//print_r('Scarto=>'.$scarto_attuale.'<br>');
 								}
                                 else{
-                                    $scarto_attuale = $scarto_attuale + $m->Consumo;	 
+                                    $scarto_attuale = $scarto_attuale + $m->Consumo;
 									//print_r('piu'.$m->Cd_AR.'-'.$m->Cd_ARLotto.'-'.$m->Consumo.'<br>');
 									//print_r('Scarto=>'.$scarto_attuale.'<br>');
 								}
